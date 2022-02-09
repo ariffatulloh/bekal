@@ -1,5 +1,6 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'PayloadResponseProfile.dart';
@@ -26,12 +27,12 @@ class _$PayloadResponseProfileTearOff {
       {required String fullName,
       required String email,
       required bool isVerify,
-      required String password}) {
+      required Profile profile}) {
     return _PayloadResponseProfile(
       fullName: fullName,
       email: email,
       isVerify: isVerify,
-      password: password,
+      profile: profile,
     );
   }
 
@@ -48,7 +49,7 @@ mixin _$PayloadResponseProfile {
   String get fullName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   bool get isVerify => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
+  Profile get profile => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -61,7 +62,7 @@ abstract class $PayloadResponseProfileCopyWith<$Res> {
   factory $PayloadResponseProfileCopyWith(PayloadResponseProfile value,
           $Res Function(PayloadResponseProfile) then) =
       _$PayloadResponseProfileCopyWithImpl<$Res>;
-  $Res call({String fullName, String email, bool isVerify, String password});
+  $Res call({String fullName, String email, bool isVerify, Profile profile});
 }
 
 /// @nodoc
@@ -78,7 +79,7 @@ class _$PayloadResponseProfileCopyWithImpl<$Res>
     Object? fullName = freezed,
     Object? email = freezed,
     Object? isVerify = freezed,
-    Object? password = freezed,
+    Object? profile = freezed,
   }) {
     return _then(_value.copyWith(
       fullName: fullName == freezed
@@ -93,10 +94,10 @@ class _$PayloadResponseProfileCopyWithImpl<$Res>
           ? _value.isVerify
           : isVerify // ignore: cast_nullable_to_non_nullable
               as bool,
-      password: password == freezed
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      profile: profile == freezed
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as Profile,
     ));
   }
 }
@@ -108,7 +109,7 @@ abstract class _$PayloadResponseProfileCopyWith<$Res>
           $Res Function(_PayloadResponseProfile) then) =
       __$PayloadResponseProfileCopyWithImpl<$Res>;
   @override
-  $Res call({String fullName, String email, bool isVerify, String password});
+  $Res call({String fullName, String email, bool isVerify, Profile profile});
 }
 
 /// @nodoc
@@ -127,7 +128,7 @@ class __$PayloadResponseProfileCopyWithImpl<$Res>
     Object? fullName = freezed,
     Object? email = freezed,
     Object? isVerify = freezed,
-    Object? password = freezed,
+    Object? profile = freezed,
   }) {
     return _then(_PayloadResponseProfile(
       fullName: fullName == freezed
@@ -142,10 +143,10 @@ class __$PayloadResponseProfileCopyWithImpl<$Res>
           ? _value.isVerify
           : isVerify // ignore: cast_nullable_to_non_nullable
               as bool,
-      password: password == freezed
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
+      profile: profile == freezed
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as Profile,
     ));
   }
 }
@@ -157,7 +158,7 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
       {required this.fullName,
       required this.email,
       required this.isVerify,
-      required this.password});
+      required this.profile});
 
   factory _$_PayloadResponseProfile.fromJson(Map<String, dynamic> json) =>
       _$$_PayloadResponseProfileFromJson(json);
@@ -169,11 +170,11 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
   @override
   final bool isVerify;
   @override
-  final String password;
+  final Profile profile;
 
   @override
   String toString() {
-    return 'PayloadResponseProfile(fullName: $fullName, email: $email, isVerify: $isVerify, password: $password)';
+    return 'PayloadResponseProfile(fullName: $fullName, email: $email, isVerify: $isVerify, profile: $profile)';
   }
 
   @override
@@ -184,7 +185,7 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.isVerify, isVerify) &&
-            const DeepCollectionEquality().equals(other.password, password));
+            const DeepCollectionEquality().equals(other.profile, profile));
   }
 
   @override
@@ -193,7 +194,7 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
       const DeepCollectionEquality().hash(fullName),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(isVerify),
-      const DeepCollectionEquality().hash(password));
+      const DeepCollectionEquality().hash(profile));
 
   @JsonKey(ignore: true)
   @override
@@ -212,7 +213,7 @@ abstract class _PayloadResponseProfile implements PayloadResponseProfile {
       {required String fullName,
       required String email,
       required bool isVerify,
-      required String password}) = _$_PayloadResponseProfile;
+      required Profile profile}) = _$_PayloadResponseProfile;
 
   factory _PayloadResponseProfile.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseProfile.fromJson;
@@ -224,7 +225,7 @@ abstract class _PayloadResponseProfile implements PayloadResponseProfile {
   @override
   bool get isVerify;
   @override
-  String get password;
+  Profile get profile;
   @override
   @JsonKey(ignore: true)
   _$PayloadResponseProfileCopyWith<_PayloadResponseProfile> get copyWith =>

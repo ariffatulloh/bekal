@@ -7,6 +7,7 @@ import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit_state.d
 import 'package:bekal/page/main_content/ui/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:sizer/sizer.dart';
@@ -69,6 +70,7 @@ class PageUiControll extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return BlocProvider<ControllerPageCubit>(
       create: (context) => ControllerPageCubit(),
       child: AppView(),

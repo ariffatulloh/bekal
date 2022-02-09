@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'api_profile_service.dart';
+import 'ApiProfileService.dart';
 
 class ApiProfileServiceClient {
   late Dio _dio;

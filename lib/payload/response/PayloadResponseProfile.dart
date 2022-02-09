@@ -9,7 +9,7 @@ class PayloadResponseProfile with _$PayloadResponseProfile {
       {required String fullName,
       required String email,
       required bool isVerify,
-      required String password}) = _PayloadResponseProfile;
+      required Profile profile}) = _PayloadResponseProfile;
 
   factory PayloadResponseProfile.fromJson(Object? json) =>
       _$PayloadResponseProfileFromJson(json as Map<String, dynamic>);
@@ -19,4 +19,17 @@ class PayloadResponseProfile with _$PayloadResponseProfile {
 //     PayloadResponseLogin(token: json['token'] as String);
 //
 // Map<String, dynamic> toJson() => <String, dynamic>{'token': this.token};
+}
+
+@JsonSerializable()
+class Profile {
+  String? image;
+  String? address;
+  String? phoneNumber;
+  Profile({
+    this.phoneNumber,
+    this.address,
+  });
+  factory Profile.fromJson(Map<String, dynamic> json) =>
+      _$ProfileFromJson(json);
 }

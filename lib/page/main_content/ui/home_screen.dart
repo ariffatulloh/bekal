@@ -1,7 +1,13 @@
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
+import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
+import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyListProduct.dart';
+import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
+import 'package:bekal/payload/PayloadResponseApi.dart';
+import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -53,8 +59,8 @@ class HomeScreenState extends State<HomeScreen> {
               icon: Icons.shopping_basket,
             ),
           ],
-          color: const Color.fromRGBO(243, 146, 0, .8),
-          buttonBackgroundColor: const Color.fromRGBO(243, 146, 0, .8),
+          color: const Color.fromRGBO(255, 255, 255, 1),
+          buttonBackgroundColor: const Color.fromRGBO(255, 255, 255, 1),
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOutCirc,
           animationDuration: const Duration(milliseconds: 700),
@@ -74,8 +80,8 @@ class HomeScreenState extends State<HomeScreen> {
         Positioned(
           child: Icon(
             icon,
-            size: 4.h,
-            color: Colors.white,
+            size: 3.h,
+            color: Color(0xfff39200),
           ),
           // top: 2,
         ),
@@ -102,239 +108,111 @@ class HomeScreenState extends State<HomeScreen> {
       case 0:
         return HomeWidget();
       case 2:
-        return ProfileWidget(context);
+        return ProfileScreen();
     }
   }
 
   HomeWidget() {
     return Container(
-      width: 100.w,
-      height: 100.h,
-      color: Colors.black12,
-      alignment: Alignment.center,
-      child: SingleChildScrollView(
-        padding: EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 7.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Produk Terpopuler",
-              style: TextStyle(
-                  fontFamily: 'ghotic',
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black45),
-            ),
-            SizedBox(
-              height: 3.w,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Row(
-                children: [
-                  ItemHome(
-                    imageProduk: AssetImage('assets/1.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: false,
-                    nameProduk: "singal kaltara",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/1.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "singal kaltara",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/4.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "batik kaltara",
-                    priceProduk: 3000000,
-                    counterSell: 9999,
-                    counterViews: 3000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/5.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "baju batik kaltara v1",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/3.jpg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: false,
-                    nameProduk: "singal kaltara versi new 2021 ",
-                    priceProduk: 500000,
-                    counterSell: 99,
-                    counterViews: 200,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/6.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "baju batik kaltara versi original pengantin",
-                    priceProduk: 500000,
-                    counterSell: 99,
-                    counterViews: 200,
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              "Produk Terlaris",
-              style: TextStyle(
-                  fontFamily: 'ghotic',
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black45),
-            ),
-            SizedBox(
-              height: 3.w,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ItemHome(
-                    imageProduk: AssetImage('assets/1.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "singal kaltara",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/4.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: false,
-                    nameProduk: "batik kaltara",
-                    priceProduk: 3000000,
-                    counterSell: 9999,
-                    counterViews: 3000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/6.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "baju batik kaltara versi original pengantin",
-                    priceProduk: 500000,
-                    counterSell: 99,
-                    counterViews: 200,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/5.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "baju batik kaltara v1",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/1.jpeg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "singal kaltara",
-                    priceProduk: 300000,
-                    counterSell: 999,
-                    counterViews: 2000,
-                  ),
-                  ItemHome(
-                    imageProduk: AssetImage('assets/3.jpg'),
-                    logoToko: AssetImage('assets/hectic_logo.png'),
-                    available: true,
-                    nameProduk: "singal kaltara versi new 2021 ",
-                    priceProduk: 500000,
-                    counterSell: 99,
-                    counterViews: 200,
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              "Semua Produk",
-              style: TextStyle(
-                  fontFamily: 'ghotic',
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black45),
-            ),
-            SizedBox(
-              height: 3.w,
-            ),
-            Wrap(
-              children: [
-                ItemHome(
-                  imageProduk: AssetImage('assets/1.jpeg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: false,
-                  nameProduk: "singal kaltara",
-                  priceProduk: 300000,
-                  counterSell: 999,
-                  counterViews: 2000,
-                ),
-                ItemHome(
-                  imageProduk: AssetImage('assets/4.jpeg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: true,
-                  nameProduk: "batik kaltara",
-                  priceProduk: 3000000,
-                  counterSell: 9999,
-                  counterViews: 3000,
-                ),
-                ItemHome(
-                  imageProduk: AssetImage('assets/6.jpeg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: true,
-                  nameProduk: "baju batik kaltara versi original pengantin",
-                  priceProduk: 500000,
-                  counterSell: 99,
-                  counterViews: 200,
-                ),
-                ItemHome(
-                  imageProduk: AssetImage('assets/5.jpeg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: false,
-                  nameProduk: "baju batik kaltara v1",
-                  priceProduk: 300000,
-                  counterSell: 999,
-                  counterViews: 2000,
-                ),
-                ItemHome(
-                  imageProduk: AssetImage('assets/1.jpeg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: true,
-                  nameProduk: "singal kaltara",
-                  priceProduk: 300000,
-                  counterSell: 999,
-                  counterViews: 2000,
-                ),
-                ItemHome(
-                  imageProduk: AssetImage('assets/3.jpg'),
-                  logoToko: AssetImage('assets/hectic_logo.png'),
-                  available: true,
-                  nameProduk: "singal kaltara versi new 2021 ",
-                  priceProduk: 500000,
-                  counterSell: 99,
-                  counterViews: 200,
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+        width: 100.w,
+        height: 100.h,
+        color: Colors.black12,
+        alignment: Alignment.center,
+        child: FutureBuilder(
+          future: HomeScreenCubit().getHomeSeeAllProduct(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              PayloadResponseApi data = snapshot.data as PayloadResponseApi;
+              if (data.errorMessage.isEmpty) {
+                List<PayloadResponseHomeSeeAllProduct> list = data.data;
+
+                return Container(
+                  height: 100.h,
+                  // color: Colors.black12,
+                  alignment: Alignment.center,
+                  child: ListView.builder(
+                      // scrollDirection: Axis.horizontal,
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var dataObject = list.elementAt(index);
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${dataObject.titleTab}",
+                              style: TextStyle(
+                                  fontFamily: 'ghotic',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black45),
+                            ),
+                            SizedBox(
+                              height: 3.w,
+                            ),
+                            Container(
+                              height: dataObject.titleTab
+                                      .toLowerCase()
+                                      .contains("semua")
+                                  ? 100.h
+                                  : 37.h,
+                              // padding: EdgeInsets.symmetric(vertical: 2.h),
+                              // width: 100,
+                              child: MasonryGridView.count(
+                                  physics: dataObject.titleTab
+                                          .toLowerCase()
+                                          .contains("semua")
+                                      ? NeverScrollableScrollPhysics()
+                                      : AlwaysScrollableScrollPhysics(),
+                                  scrollDirection: dataObject.titleTab
+                                          .toLowerCase()
+                                          .contains("semua")
+                                      ? Axis.vertical
+                                      : Axis.horizontal,
+                                  shrinkWrap: true,
+                                  crossAxisCount: dataObject.titleTab
+                                          .toLowerCase()
+                                          .contains("semua")
+                                      ? 2
+                                      : 1,
+                                  mainAxisSpacing: 1.h,
+                                  crossAxisSpacing: dataObject.titleTab
+                                          .toLowerCase()
+                                          .contains("semua")
+                                      ? 3.w
+                                      : 0,
+                                  itemCount: dataObject
+                                      .viewListStoreProductResponse.length,
+                                  itemBuilder: (context, index) {
+                                    var object = dataObject
+                                        .viewListStoreProductResponse[index];
+                                    return ItemProduct(
+                                      counterViews:
+                                          int.parse(object.priceProduct),
+                                      counterSell:
+                                          int.parse(object.stockProduct),
+                                      available:
+                                          double.parse(object.stockProduct) > 0
+                                              ? true
+                                              : false,
+                                      priceProduk:
+                                          double.parse(object.priceProduct),
+                                      nameProduk: object.nameProduct,
+                                      imageProduk: object.uriThumbnail,
+                                      logoToko: object.store.uriStoreImage,
+                                    );
+                                  }),
+                            ),
+                          ],
+                        );
+                      }),
+                );
+              }
+            }
+//here you should check snapshot.connectionState
+            return Expanded(child: Container());
+          },
+        ));
   }
 
   ProfileWidget(BuildContext context) {
