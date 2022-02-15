@@ -230,6 +230,58 @@ class _ApiProfileService implements ApiProfileService {
   }
 
   @override
+  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createProduct(
+      authorization,
+      imgThumbnail,
+      files,
+      nameStore,
+      addressStore,
+      phoneNumber,
+      detailAddressStore,
+      status,
+      idstore) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'Authorization': authorization};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (imgThumbnail != null) {
+      _data.files.add(MapEntry(
+          'imgThumbnail',
+          MultipartFile.fromFileSync(imgThumbnail.path,
+              filename: imgThumbnail.path.split(Platform.pathSeparator).last)));
+    }
+    if (files != null) {
+      _data.files.addAll(files.map((i) => MapEntry(
+          'files',
+          MultipartFile.fromFileSync(
+            i.path,
+            filename: i.path.split(Platform.pathSeparator).last,
+          ))));
+    }
+    _data.fields.add(MapEntry('deskripsiProduct', nameStore));
+    _data.fields.add(MapEntry('priceProduct', addressStore));
+    _data.fields.add(MapEntry('stockProduct', phoneNumber));
+    _data.fields.add(MapEntry('nameProduct', detailAddressStore));
+    status.forEach((i) {
+      _data.fields.add(MapEntry('storeCatProd', i));
+    });
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PayloadResponseApi<PayloadResponseCreateStore>>(
+            Options(method: 'POST', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'outlet/${idstore}/create/product',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PayloadResponseApi<PayloadResponseCreateStore>.fromJson(
+      _result.data!,
+      (json) =>
+          PayloadResponseCreateStore.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
   Future<PayloadResponseApi<List<PayloadResponseStoreCategory>>> getCategory(
       authorization, idstore) async {
     const _extra = <String, dynamic>{};
@@ -277,6 +329,29 @@ class _ApiProfileService implements ApiProfileService {
                     PayloadResponseStoreProduct.fromJson(
                         i as Map<String, dynamic>))
                 .toList());
+    return value;
+  }
+
+  @override
+  Future<PayloadResponseApi<PayloadResponseStoreProduct>> getDetailProduct(
+      authorization, idProduct, idStore) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': authorization};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PayloadResponseApi<PayloadResponseStoreProduct>>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(
+                    _dio.options, 'home/see/product/${idProduct}/${idStore}',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PayloadResponseApi<PayloadResponseStoreProduct>.fromJson(
+      _result.data!,
+      (json) =>
+          PayloadResponseStoreProduct.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

@@ -202,7 +202,8 @@ class _DashboardMyStores extends State<DashboardMyStores> {
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (context) {
-                                return CreateProduct();
+                                return CreateProduct(
+                                    idStore: widget.data.storeId!);
                               });
                         }),
                     NeumorphicButton(

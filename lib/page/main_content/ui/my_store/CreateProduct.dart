@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:bekal/page/main_content/cubit/cubit_my_store/CreateProductMyStoreCubit.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/WidgetTextField.dart';
+import 'package:bekal/payload/request/PayloadRequestCreateProduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -10,7 +12,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:sizer/sizer.dart';
 
 class CreateProduct extends StatefulWidget {
-  CreateProduct();
+  int idStore = -1;
+  CreateProduct({required this.idStore});
   @override
   _CreateProduct createState() => _CreateProduct();
 }
@@ -20,7 +23,7 @@ class _CreateProduct extends State<CreateProduct> {
   List<File> _listImageGallery = [];
   File? imageThumbnail;
   int imageGallerySelected = 0;
-  String nameStoreField = "";
+  String nameProductField = "";
   bool buttonSaveVisible = false;
   String priceProductField = "";
   String stockProductField = "";
@@ -41,8 +44,10 @@ class _CreateProduct extends State<CreateProduct> {
       setState(() {
         if (image != null) {
           if (sizeInMb > 2) {
-            imageError =
-                "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+            if (isThumbnail) {
+              imageError =
+                  "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+            }
           } else {
             // _image = File(image.path);
             setState(() {
@@ -50,6 +55,7 @@ class _CreateProduct extends State<CreateProduct> {
                 _listImageGallery.add(File(image.path));
               }
               if (isThumbnail) {
+                imageError = "";
                 imageThumbnail = File(image.path);
               }
             });
@@ -67,8 +73,10 @@ class _CreateProduct extends State<CreateProduct> {
       setState(() {
         if (image != null) {
           if (sizeInMb > 2) {
-            imageError =
-                "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+            if (isThumbnail) {
+              imageError =
+                  "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+            }
           } else {
             // _image = File(image.path);
             setState(() {
@@ -76,6 +84,7 @@ class _CreateProduct extends State<CreateProduct> {
                 _listImageGallery.add(File(image.path));
               }
               if (isThumbnail) {
+                imageError = "";
                 imageThumbnail = File(image.path);
               }
             });
@@ -353,17 +362,17 @@ class _CreateProduct extends State<CreateProduct> {
                                             icon: Icons.person,
                                             messageError:
                                                 "Silahkan Masukan Nama Produk",
-                                            isError: nameStoreField.isEmpty,
+                                            isError: nameProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
                                               setState(() {
-                                                nameStoreField = value!;
+                                                nameProductField = value!;
                                                 buttonSaveVisible = true;
                                               });
                                             },
                                             onSaved: (String? value) {
                                               setState(() {
-                                                nameStoreField = value!;
+                                                nameProductField = value!;
                                                 buttonSaveVisible = true;
                                               });
                                             },
@@ -604,15 +613,20 @@ class _CreateProduct extends State<CreateProduct> {
                                             keyboardtype:
                                                 TextInputType.multiline),
                                       ]),
+                                      SizedBox(
+                                        height: 1.h,
+                                      )
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                            nameStoreField.isNotEmpty &&
+                            nameProductField.isNotEmpty &&
                                     priceProductField.isNotEmpty &&
                                     descProductField.isNotEmpty &&
-                                    stockProductField.isNotEmpty
+                                    stockProductField.isNotEmpty &&
+                                    _listImageGallery.length > 0 &&
+                                    imageThumbnail != null
                                 ? Align(
                                     alignment: Alignment.topRight,
                                     child: NeumorphicButton(
@@ -623,7 +637,8 @@ class _CreateProduct extends State<CreateProduct> {
                                           right: 12.sp),
                                       style: NeumorphicStyle(
                                           shape: NeumorphicShape.convex,
-                                          color: Colors.transparent,
+                                          color:
+                                              Color.fromRGBO(243, 174, 0, 1.0),
                                           boxShape:
                                               NeumorphicBoxShape.stadium(),
                                           depth: .2.h,
@@ -634,23 +649,41 @@ class _CreateProduct extends State<CreateProduct> {
                                           "Buat",
                                           style: TextStyle(
                                               fontSize: 10.sp,
-                                              color: Colors.black),
+                                              color: Colors.white),
                                         ),
                                       ]),
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           _formKey.currentState!.save();
-                                          print(priceProductField
-                                              .toLowerCase()
-                                              .replaceAll('rp', '')
-                                              .replaceAll('.', ''));
-                                          print(descProductField);
-                                          // var param = PayloadRequestCreateStore(
-                                          //     nameStore: nameStoreField,
-                                          //     addressStore: addressStoreField,
-                                          //     phoneNumber: phoneNumberField,
-                                          //     detailAddressStore: detailAddressStoreField,
-                                          //     status: "true");
+                                          // print(priceProductField
+                                          //     .toLowerCase()
+                                          //     .replaceAll('rp', '')
+                                          //     .replaceAll('.', ''));
+                                          // print(descProductField);
+                                          var param =
+                                              PayloadRequestCreateProduct(
+                                                  deskripsiProduct:
+                                                      descProductField,
+                                                  priceProduct:
+                                                      priceProductField
+                                                          .toLowerCase()
+                                                          .replaceAll('rp', '')
+                                                          .replaceAll('.', ''),
+                                                  stockProduct:
+                                                      stockProductField,
+                                                  nameProduct: nameProductField,
+                                                  storeCatProd: ["celana"]);
+                                          CreateProductMyStoreCubit()
+                                              .createProduct(
+                                                  imgThumbnail: imageThumbnail!,
+                                                  files: _listImageGallery,
+                                                  idStore: widget.idStore,
+                                                  payloadRequestCreateProduct:
+                                                      param);
+                                          Future.delayed(
+                                              Duration(milliseconds: 1), () {
+                                            Navigator.of(context).pop();
+                                          });
                                           // print("saved true");
                                           //
                                           // // var param = PayloadRequestUpdateEmail(

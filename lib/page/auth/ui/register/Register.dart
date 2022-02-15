@@ -368,7 +368,7 @@ Widget _logoWidget() {
         depth: .2.h,
         intensity: .7),
     child: Image.asset(
-      'assets/logokabel.png',
+      'assets/logokabelv2.png',
       width: 20.h,
       height: 10.h,
       fit: BoxFit.contain,

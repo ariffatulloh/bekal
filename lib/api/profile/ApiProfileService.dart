@@ -71,6 +71,17 @@ abstract class ApiProfileService {
     @Part(name: "detailAddressStore") String detailAddressStore,
     @Part(name: "status") String status,
   );
+  @POST('outlet/{idstore}/create/product')
+  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createProduct(
+      @Header("Authorization") String authorization,
+      @Part(name: "imgThumbnail") File? imgThumbnail,
+      @Part(name: "files") List<File>? files,
+      @Part(name: "deskripsiProduct") String nameStore,
+      @Part(name: "priceProduct") String addressStore,
+      @Part(name: "stockProduct") String phoneNumber,
+      @Part(name: "nameProduct") String detailAddressStore,
+      @Part(name: "storeCatProd") List<String> status,
+      @Path() int idstore);
 
   @GET('outlet/{idstore}/categorys')
   Future<PayloadResponseApi<List<PayloadResponseStoreCategory>>> getCategory(
@@ -82,6 +93,11 @@ abstract class ApiProfileService {
       @Path() String storeName,
       @Path() String categoryName);
 
+  @GET('home/see/product/{idProduct}/{idStore}')
+  Future<PayloadResponseApi<PayloadResponseStoreProduct>> getDetailProduct(
+      @Header("Authorization") String authorization,
+      @Path() int idProduct,
+      @Path() int idStore);
   @GET('home/see/all/products')
   Future<PayloadResponseApi<List<PayloadResponseHomeSeeAllProduct>>>
       getHomeSeeAllProduct(

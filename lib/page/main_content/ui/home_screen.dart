@@ -1,14 +1,17 @@
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
+import 'package:bekal/page/main_content/ui/ViewProduct.dart';
 import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyListProduct.dart';
 import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
+import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -150,59 +153,209 @@ class HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               height: 3.w,
                             ),
-                            Container(
-                              height: dataObject.titleTab
-                                      .toLowerCase()
-                                      .contains("semua")
-                                  ? 100.h
-                                  : 37.h,
-                              // padding: EdgeInsets.symmetric(vertical: 2.h),
-                              // width: 100,
-                              child: MasonryGridView.count(
-                                  physics: dataObject.titleTab
-                                          .toLowerCase()
-                                          .contains("semua")
-                                      ? NeverScrollableScrollPhysics()
-                                      : AlwaysScrollableScrollPhysics(),
-                                  scrollDirection: dataObject.titleTab
-                                          .toLowerCase()
-                                          .contains("semua")
-                                      ? Axis.vertical
-                                      : Axis.horizontal,
-                                  shrinkWrap: true,
-                                  crossAxisCount: dataObject.titleTab
-                                          .toLowerCase()
-                                          .contains("semua")
-                                      ? 2
-                                      : 1,
-                                  mainAxisSpacing: 1.h,
-                                  crossAxisSpacing: dataObject.titleTab
-                                          .toLowerCase()
-                                          .contains("semua")
-                                      ? 3.w
-                                      : 0,
-                                  itemCount: dataObject
-                                      .viewListStoreProductResponse.length,
-                                  itemBuilder: (context, index) {
-                                    var object = dataObject
-                                        .viewListStoreProductResponse[index];
-                                    return ItemProduct(
-                                      counterViews:
-                                          int.parse(object.priceProduct),
-                                      counterSell:
-                                          int.parse(object.stockProduct),
-                                      available:
-                                          double.parse(object.stockProduct) > 0
-                                              ? true
-                                              : false,
-                                      priceProduk:
-                                          double.parse(object.priceProduct),
-                                      nameProduk: object.nameProduct,
-                                      imageProduk: object.uriThumbnail,
-                                      logoToko: object.store.uriStoreImage,
-                                    );
-                                  }),
-                            ),
+                            // Expanded(
+                            //     child: ),
+                            dataObject.titleTab.toLowerCase().contains("semua")
+                                ? Container(
+                                    // height: 100.h,
+                                    child: MasonryGridView.count(
+                                        physics: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? NeverScrollableScrollPhysics()
+                                            : AlwaysScrollableScrollPhysics(),
+                                        scrollDirection: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? Axis.vertical
+                                            : Axis.horizontal,
+                                        shrinkWrap: true,
+                                        crossAxisCount: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? 2
+                                            : 1,
+                                        mainAxisSpacing: 1.h,
+                                        crossAxisSpacing: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? 3.w
+                                            : 0,
+                                        itemCount: dataObject
+                                            .viewListStoreProductResponse
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          var object = dataObject
+                                                  .viewListStoreProductResponse[
+                                              index];
+                                          return ItemProduct(
+                                            onClick: () {
+                                              showMaterialModalBottomSheet(
+                                                  duration: Duration(
+                                                      milliseconds: 1400),
+                                                  animationCurve:
+                                                      Curves.easeInOut,
+                                                  enableDrag: true,
+                                                  isDismissible: false,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return FutureBuilder(
+                                                        future: HomeScreenCubit()
+                                                            .getHomeSeeDetailProduct(
+                                                                idProduct: object
+                                                                    .storeProdId,
+                                                                idStore: object
+                                                                    .store
+                                                                    .storeID),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          PayloadResponseStoreProduct?
+                                                              dataDetailProduct;
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .done) {
+                                                            PayloadResponseApi
+                                                                dataApiDetailProduct =
+                                                                snapshot.data
+                                                                    as PayloadResponseApi;
+                                                            if (dataApiDetailProduct
+                                                                .errorMessage
+                                                                .isEmpty) {
+                                                              dataDetailProduct =
+                                                                  dataApiDetailProduct
+                                                                      .data;
+                                                            }
+                                                          }
+                                                          return ViewProduct(
+                                                              dataDetailProduct:
+                                                                  dataDetailProduct,
+                                                              idProduct: object
+                                                                  .storeProdId);
+                                                        });
+                                                  });
+                                            },
+                                            counterViews:
+                                                int.parse(object.priceProduct),
+                                            counterSell:
+                                                int.parse(object.stockProduct),
+                                            available: double.parse(
+                                                        object.stockProduct) >
+                                                    0
+                                                ? true
+                                                : false,
+                                            priceProduk: double.parse(
+                                                object.priceProduct),
+                                            nameProduk: object.nameProduct,
+                                            imageProduk: object.uriThumbnail,
+                                            logoToko:
+                                                object.store.uriStoreImage,
+                                          );
+                                        }),
+                                    // padding: EdgeInsets.symmetric(vertical: 2.h),
+                                    // width: 100,
+                                  )
+                                : Container(
+                                    height: 39.h,
+                                    child: MasonryGridView.count(
+                                        physics: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? NeverScrollableScrollPhysics()
+                                            : AlwaysScrollableScrollPhysics(),
+                                        scrollDirection: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? Axis.vertical
+                                            : Axis.horizontal,
+                                        shrinkWrap: true,
+                                        crossAxisCount: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? 2
+                                            : 1,
+                                        mainAxisSpacing: 1.h,
+                                        crossAxisSpacing: dataObject.titleTab
+                                                .toLowerCase()
+                                                .contains("semua")
+                                            ? 3.w
+                                            : 0,
+                                        itemCount: dataObject
+                                            .viewListStoreProductResponse
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          var object = dataObject
+                                                  .viewListStoreProductResponse[
+                                              index];
+                                          return ItemProduct(
+                                            onClick: () {
+                                              showMaterialModalBottomSheet(
+                                                  duration: Duration(
+                                                      milliseconds: 1400),
+                                                  animationCurve:
+                                                      Curves.easeInOut,
+                                                  enableDrag: true,
+                                                  isDismissible: false,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return FutureBuilder(
+                                                        future: HomeScreenCubit()
+                                                            .getHomeSeeDetailProduct(
+                                                                idProduct: object
+                                                                    .storeProdId,
+                                                                idStore: object
+                                                                    .store
+                                                                    .storeID),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          PayloadResponseStoreProduct?
+                                                              dataDetailProduct;
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .done) {
+                                                            PayloadResponseApi
+                                                                dataApiDetailProduct =
+                                                                snapshot.data
+                                                                    as PayloadResponseApi;
+                                                            if (dataApiDetailProduct
+                                                                .errorMessage
+                                                                .isEmpty) {
+                                                              dataDetailProduct =
+                                                                  dataApiDetailProduct
+                                                                      .data;
+                                                            }
+                                                          }
+                                                          return ViewProduct(
+                                                              dataDetailProduct:
+                                                                  dataDetailProduct,
+                                                              idProduct: object
+                                                                  .storeProdId);
+                                                        });
+                                                  });
+                                            },
+                                            counterViews:
+                                                int.parse(object.priceProduct),
+                                            counterSell:
+                                                int.parse(object.stockProduct),
+                                            available: double.parse(
+                                                        object.stockProduct) >
+                                                    0
+                                                ? true
+                                                : false,
+                                            priceProduk: double.parse(
+                                                object.priceProduct),
+                                            nameProduk: object.nameProduct,
+                                            imageProduk: object.uriThumbnail,
+                                            logoToko:
+                                                object.store.uriStoreImage,
+                                          );
+                                        }),
+                                  )
                           ],
                         );
                       }),

@@ -31,6 +31,7 @@ class BodyListProduct extends StatelessWidget {
             itemBuilder: (context, index) {
               var object = data[index];
               return ItemProduct(
+                onClick: () {},
                 counterViews: 0,
                 counterSell: 0,
                 available: false,
@@ -55,8 +56,9 @@ class ItemProduct extends StatelessWidget {
     required this.available,
     this.counterSell,
     this.counterViews,
+    required this.onClick,
   }) : super(key: key);
-
+  final Function()? onClick;
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
   final String imageProduk;
   final String nameProduk;
@@ -68,7 +70,9 @@ class ItemProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Neumorphic(
+    return NeumorphicButton(
+        padding: EdgeInsets.all(0.2.w.h),
+        onPressed: onClick,
         margin: EdgeInsets.only(bottom: 2.h, top: 1.h),
         style: NeumorphicStyle(
             color: Colors.white,

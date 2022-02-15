@@ -74,7 +74,7 @@ class SplashScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Image.asset(
-                      "assets/logokabel.png",
+                      "assets/logokabelv2.png",
                       height: 90,
                     ),
                   ),

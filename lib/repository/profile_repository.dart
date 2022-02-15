@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bekal/api/profile/ApiProfileService.dart';
 import 'package:bekal/api/profile/ApiProfileServiceClient.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
+import 'package:bekal/payload/request/PayloadRequestCreateProduct.dart';
 import 'package:bekal/payload/request/PayloadRequestCreateStore.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdateEmail.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdatePassword.dart';
@@ -82,6 +83,23 @@ class ProfileRepository {
         payloadRequestCreateStore.status,
       );
 
+  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createProduct(
+          String authorization,
+          File? imgThumbnail,
+          List<File>? files,
+          int idStore,
+          PayloadRequestCreateProduct payloadRequestCreateProduct) =>
+      _service.createProduct(
+          "Bearer $authorization",
+          imgThumbnail,
+          files,
+          payloadRequestCreateProduct.deskripsiProduct,
+          payloadRequestCreateProduct.priceProduct,
+          payloadRequestCreateProduct.stockProduct,
+          payloadRequestCreateProduct.nameProduct,
+          payloadRequestCreateProduct.storeCatProd,
+          idStore);
+
   Future<PayloadResponseApi<PayloadResponseCreateStore?>> updateStore(
     String authorization,
     int idstore,
@@ -111,6 +129,13 @@ class ProfileRepository {
     String categoryName,
   ) =>
       _service.getProducts("Bearer $authorization", storeName, categoryName);
+
+  Future<PayloadResponseApi<PayloadResponseStoreProduct>> getDetailProduct(
+    String authorization,
+    int idProduct,
+    int idStore,
+  ) =>
+      _service.getDetailProduct("Bearer $authorization", idProduct, idStore);
 
   Future<PayloadResponseApi<List<PayloadResponseHomeSeeAllProduct>>>
       getHomeSeeAllProduct(
