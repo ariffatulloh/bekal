@@ -1,10 +1,16 @@
 import 'dart:math' as math;
+import 'dart:math';
 
+import 'package:bekal/database/cartDAO.dart';
+import 'package:bekal/database/db.dart';
+import 'package:bekal/database/db_locator.dart';
+import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_view/photo_view.dart';
@@ -197,7 +203,6 @@ class _ViewProduct extends State<ViewProduct> {
                                       child: Align(
                                         alignment: Alignment.centerRight,
                                         child: NeumorphicButton(
-                                          // margin: EdgeInsets.all(10),
                                           padding: EdgeInsets.only(
                                               top: 6.sp,
                                               bottom: 6.sp,
@@ -214,14 +219,45 @@ class _ViewProduct extends State<ViewProduct> {
                                           child: Wrap(
                                             children: [
                                               Text(
-                                                "Beli Sekarang",
+                                                "Masukkan Keranjang",
                                                 style: TextStyle(
                                                     fontSize: 10.sp,
                                                     color: Colors.white),
                                               ),
                                             ],
                                           ),
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            int id = Random().nextInt(100);
+
+                                            CartEntityData cartEntity =
+                                                CartEntityData(
+                                                    id: 51,
+                                                    productId: 1,
+                                                    userId: 1,
+                                                    productPrice: 20000,
+                                                    productName: "Baju Gamis",
+                                                    quantity: 2,
+                                                    thumbnail:
+                                                        "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg");
+
+                                            // await new CartDAO(AppDB())
+                                            //     .insertData(cartEntity);
+                                            await CartDAO(dbInstance.get())
+                                                .updateData(cartEntity);
+
+                                            var data =
+                                                await CartDAO(dbInstance.get())
+                                                    .getData();
+
+                                            data.forEach((e) {
+                                              print(e);
+                                            });
+
+                                            Toaster(context).showSuccessToast(
+                                                "Produk berhasil ditambahkan ke keranjang",
+                                                gravity: ToastGravity.TOP);
+                                            Navigator.of(context).pop();
+                                          },
                                         ),
                                       ),
                                     ),
@@ -286,4 +322,66 @@ class _ViewProduct extends State<ViewProduct> {
       )
     ]);
   }
+}
+
+notifError(BuildContext context, String description) {
+  return Positioned(
+    right: 0,
+    child: Wrap(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * .9,
+          child: Stack(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(top: 30, left: 0),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent.withOpacity(.8),
+                  shape: BoxShape.rectangle,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20)),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10.0,
+                      offset: Offset(0.0, 10.0),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  // To make the card compact
+                  children: <Widget>[
+                    Neumorphic(
+                      padding: const EdgeInsets.all(5),
+                      style: const NeumorphicStyle(
+                          boxShape: NeumorphicBoxShape.circle(), depth: 0),
+                      child: const Icon(
+                        Icons.error,
+                        color: Colors.deepOrange,
+                        size: 25,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      description,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontFamily: 'ghotic',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }

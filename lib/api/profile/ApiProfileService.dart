@@ -19,7 +19,6 @@ import 'package:retrofit/retrofit.dart';
 
 part 'ApiProfileService.g.dart';
 
-// @JsonSerializable()
 @RestApi(baseUrl: 'http://rifias.live/api/my/')
 abstract class ApiProfileService {
   factory ApiProfileService(Dio dio, {String baseUrl}) = _ApiProfileService;

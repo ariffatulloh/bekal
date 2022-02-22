@@ -1,6 +1,7 @@
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/ViewProduct.dart';
+import 'package:bekal/page/main_content/ui/cart/cart_screen.dart';
 import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyListProduct.dart';
 import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
@@ -58,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
               icon: Icons.chat,
             ),
             itemBottomNavBar(
-              countNotif: 0,
+              countNotif: 4,
               icon: Icons.shopping_basket,
             ),
           ],
@@ -112,6 +113,8 @@ class HomeScreenState extends State<HomeScreen> {
         return HomeWidget();
       case 2:
         return ProfileScreen();
+      case 4:
+        return const CartScreen();
     }
   }
 

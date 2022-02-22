@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/model/ModelItemListMenuMyProfile.dart';
+import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahAlamat.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahDataPribadi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahEmail.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahPassword.dart';
@@ -55,6 +56,11 @@ class ListMenuMyProfile extends StatelessWidget {
         text: "Keluar",
         icon: Icons.logout,
         widget: Container(),
+      ),
+      ModelItemListMenuMyProfile(
+        text: "Alamat\nRumah",
+        icon: Icons.maps_home_work,
+        widget: DialogUbahAlamat(),
       ),
     ];
     return MasonryGridView.count(
@@ -282,32 +288,42 @@ DialogBottomSheet({
                         height: 2.h,
                       ),
                       Expanded(
-                          child: case2(
-                              condition: dataObject.widget.toString(),
-                              selection: {
-                                DialogUbahDataPribadi().toString():
-                                    DialogUbahDataPribadi(),
-                                DialogUbahEmail().toString(): DialogUbahEmail(
-                                  onDismiss: (dismiss) {
-                                    print("dismiss dialog");
-                                    Navigator.of(context).pop();
-                                    context
-                                        .read<ControllerPageCubit>()
-                                        .goto("LOGIN");
-                                  },
-                                ),
-                                DialogUbahPassword().toString():
-                                    DialogUbahPassword(
-                                  onDismiss: (dismiss) {
-                                    print("dismiss dialog");
-                                    Navigator.of(context).pop();
-                                    context
-                                        .read<ControllerPageCubit>()
-                                        .goto("LOGIN");
-                                  },
-                                ),
+                        child: case2(
+                          condition: dataObject.widget.toString(),
+                          selection: {
+                            DialogUbahDataPribadi().toString():
+                                DialogUbahDataPribadi(),
+                            DialogUbahEmail().toString(): DialogUbahEmail(
+                              onDismiss: (dismiss) {
+                                print("dismiss dialog");
+                                Navigator.of(context).pop();
+                                context
+                                    .read<ControllerPageCubit>()
+                                    .goto("LOGIN");
                               },
-                              defaultValue: Container()))
+                            ),
+                            DialogUbahPassword().toString(): DialogUbahPassword(
+                              onDismiss: (dismiss) {
+                                print("dismiss dialog");
+                                Navigator.of(context).pop();
+                                context
+                                    .read<ControllerPageCubit>()
+                                    .goto("LOGIN");
+                              },
+                            ),
+                            DialogUbahAlamat().toString(): DialogUbahAlamat(
+                              onDismiss: (dismiss) {
+                                print("dismiss dialog");
+                                Navigator.of(context).pop();
+                                context
+                                    .read<ControllerPageCubit>()
+                                    .goto("LOGIN");
+                              },
+                            ),
+                          },
+                          defaultValue: Container(),
+                        ),
+                      )
                     ],
                   )),
             )

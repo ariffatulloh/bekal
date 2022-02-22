@@ -1,3 +1,4 @@
+import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/controll_all_page/ui/page_ui_controll.dart';
 import 'package:bekal/xd_ipro.dart';
 import 'package:flutter/material.dart';
@@ -207,8 +208,9 @@ class MyApp extends StatelessWidget {
 //   }
 // }
 
-void main() {
+void main() async {
   // runApp(MyApp());
+  await setupLocator();
   BlocOverrides.runZoned(
     () => runApp(RunApps()),
     blocObserver: AppBlocObserver(),
