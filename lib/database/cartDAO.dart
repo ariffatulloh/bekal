@@ -36,16 +36,35 @@ class CartDAO extends DatabaseAccessor<AppDB>
   }
 
   @override
-  Stream<List<CartEntityData>> getData() {
+  SingleSelectable<CartEntityData> getDataProductId(int id) {
+    return select(cartEntity)..where((data) => data.productId.equals(id));
+  }
+
+  @override
+  Future<CartEntityData?> getDataByProductName(String name) {
+    return (select(cartEntity)..where((data) => data.productName.equals(name)))
+        .getSingleOrNull();
+  }
+
+  @override
+  Future<List<CartEntityData>> getData() {
+    return select(cartEntity).get();
+  }
+
+  @override
+  Stream<List<CartEntityData>> watchData() {
     return select(cartEntity).watch();
   }
 }
 
 abstract class ICart {
+  Future<CartEntityData?> getDataByProductName(String name);
   SingleSelectable<CartEntityData> getDataById(int id);
+  SingleSelectable<CartEntityData> getDataProductId(int id);
   Future<int> insertData(CartEntityData cartEntity);
   Future<bool> updateData(CartEntityData cartEntity);
   Future<void> deleteData(CartEntityData cartEntity);
   Future<void> deleteDataById(int id);
-  Stream<List<CartEntityData>> getData();
+  Future<List<CartEntityData>> getData();
+  Stream<List<CartEntityData>> watchData();
 }

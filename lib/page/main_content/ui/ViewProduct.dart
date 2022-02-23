@@ -6,7 +6,6 @@ import 'package:bekal/database/db.dart';
 import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -227,31 +226,52 @@ class _ViewProduct extends State<ViewProduct> {
                                             ],
                                           ),
                                           onPressed: () async {
-                                            int id = Random().nextInt(100);
+                                            var cek =
+                                                await CartDAO(dbInstance.get())
+                                                    .getDataByProductName(
+                                                        data.nameProduct);
+                                            if (cek != null) {
+                                              CartEntityData cartEntity =
+                                                  CartEntityData(
+                                                      id: cek.id,
+                                                      productId: cek.productId,
+                                                      userId: cek.userId,
+                                                      productPrice:
+                                                          cek.productPrice,
+                                                      productName:
+                                                          cek.productName,
+                                                      quantity:
+                                                          cek.quantity + 1,
+                                                      thumbnail: cek.thumbnail);
 
-                                            CartEntityData cartEntity =
-                                                CartEntityData(
-                                                    id: 51,
-                                                    productId: 1,
-                                                    userId: 1,
-                                                    productPrice: 20000,
-                                                    productName: "Baju Gamis",
-                                                    quantity: 2,
-                                                    thumbnail:
-                                                        "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg");
+                                              await new CartDAO(
+                                                      dbInstance.get())
+                                                  .updateData(cartEntity);
+                                            } else {
+                                              int id = Random().nextInt(100);
+                                              CartEntityData cartEntity =
+                                                  CartEntityData(
+                                                      id: id,
+                                                      productId: 1,
+                                                      userId: 1,
+                                                      productPrice: int.parse(
+                                                          data.priceProduct),
+                                                      productName:
+                                                          data.nameProduct,
+                                                      quantity: 1,
+                                                      thumbnail:
+                                                          data.uriThumbnail);
 
-                                            // await new CartDAO(AppDB())
-                                            //     .insertData(cartEntity);
-                                            await CartDAO(dbInstance.get())
-                                                .updateData(cartEntity);
+                                              await new CartDAO(
+                                                      dbInstance.get())
+                                                  .insertData(cartEntity);
+                                            }
 
-                                            var data =
+                                            var cek2 =
                                                 await CartDAO(dbInstance.get())
                                                     .getData();
 
-                                            data.forEach((e) {
-                                              print(e);
-                                            });
+                                            cek2.forEach((v) => {print(v)});
 
                                             Toaster(context).showSuccessToast(
                                                 "Produk berhasil ditambahkan ke keranjang",

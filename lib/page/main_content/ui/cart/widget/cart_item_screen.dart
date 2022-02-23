@@ -1,3 +1,6 @@
+import 'package:bekal/database/cartDAO.dart';
+import 'package:bekal/database/db.dart';
+import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/main_content/ui/cart/model/cart_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +9,14 @@ import 'package:sizer/sizer.dart';
 
 class CartItemScreen extends StatefulWidget {
   final CartItem item;
-  final Function onChange;
-  final Function onDelete;
   final int index;
-  const CartItemScreen(
-      {Key? key,
-      required this.index,
-      required this.item,
-      required this.onChange,
-      required this.onDelete})
-      : super(key: key);
+  final Function onChange;
+  const CartItemScreen({
+    Key? key,
+    required this.index,
+    required this.onChange,
+    required this.item,
+  }) : super(key: key);
 
   @override
   _CartItemScreenState createState() => _CartItemScreenState();
@@ -93,8 +94,10 @@ class _CartItemScreenState extends State<CartItemScreen> {
                         Row(
                           children: [
                             InkWell(
-                              onTap: () {
-                                widget.onDelete(widget.index);
+                              onTap: () async {
+                                await new CartDAO(dbInstance.get())
+                                    .deleteDataById(item.cartId);
+                                widget.onChange();
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -115,12 +118,27 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      if (item.quantity > 1)
+                                    onTap: () async {
+                                      if (item.quantity > 1) {
+                                        CartEntityData cartEntity =
+                                            CartEntityData(
+                                                id: item.cartId,
+                                                productId: item.productId,
+                                                userId: item.userId,
+                                                productPrice:
+                                                    item.price.toInt(),
+                                                productName: item.productName,
+                                                quantity: item.quantity - 1,
+                                                thumbnail: item.thumbnail);
+
+                                        await new CartDAO(dbInstance.get())
+                                            .updateData(cartEntity);
+
                                         setState(() {
                                           item.quantity--;
-                                          widget.onChange(widget.index, item);
+                                          widget.onChange();
                                         });
+                                      }
                                     },
                                     child: Icon(
                                       Icons.remove,
@@ -143,10 +161,23 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {
+                                    onTap: () async {
+                                      CartEntityData cartEntity =
+                                          CartEntityData(
+                                              id: item.cartId,
+                                              productId: item.productId,
+                                              userId: item.userId,
+                                              productPrice: item.price.toInt(),
+                                              productName: item.productName,
+                                              quantity: item.quantity + 1,
+                                              thumbnail: item.thumbnail);
+
+                                      await new CartDAO(dbInstance.get())
+                                          .updateData(cartEntity);
+
                                       setState(() {
                                         item.quantity++;
-                                        widget.onChange(widget.index, item);
+                                        widget.onChange();
                                       });
                                     },
                                     child: Icon(

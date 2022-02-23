@@ -1,3 +1,6 @@
+import 'package:bekal/database/cartDAO.dart';
+import 'package:bekal/database/db.dart';
+import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/main_content/ui/cart/cart_checkout.dart';
 import 'package:bekal/page/main_content/ui/cart/model/cart_item.dart';
 import 'package:bekal/page/main_content/ui/cart/widget/cart_item_screen.dart';
@@ -13,37 +16,12 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  List<CartItem> cartList = [
-    CartItem(
-        productId: 1,
-        productName: "Baju Batik Trusmi",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-    CartItem(
-        productId: 2,
-        productName: "Baju Batik Jogja",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-    CartItem(
-        productId: 3,
-        productName: "Baju Batik Solo",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-  ];
-
   double grandPrice = 0.0;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!
-        .addPostFrameCallback((_) => _calculateGrandPrice());
+    _calculateGrandPrice();
   }
 
   @override
@@ -53,19 +31,35 @@ class _CartScreenState extends State<CartScreen> {
     return Stack(
       children: [
         Container(
-          padding: EdgeInsets.fromLTRB(2.w, 0.h, 2.w, 13.h),
+          padding: EdgeInsets.fromLTRB(2.w, 2.h, 2.w, 13.h),
           width: 100.w,
           height: 100.h,
-          child: ListView.builder(
-              itemCount: cartList.length,
-              itemBuilder: (context, index) {
-                return CartItemScreen(
-                    key: Key("item-${index}"),
-                    index: index,
-                    item: cartList[index],
-                    onChange: _updateItem,
-                    onDelete: _deleteItem);
-              }),
+          child: StreamBuilder(
+            stream: CartDAO(dbInstance.get()).watchData(),
+            builder: (context, AsyncSnapshot<List<CartEntityData>> snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data == null ? 0 : snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  CartItem item = CartItem(
+                      cartId: snapshot.data![index].id,
+                      userId: snapshot.data![index].userId,
+                      productId: snapshot.data![index].productId,
+                      productName: snapshot.data![index].productName,
+                      thumbnail: snapshot.data![index].thumbnail,
+                      price: snapshot.data![index].productPrice.toDouble(),
+                      quantity: snapshot.data![index].quantity);
+
+                  grandPrice += snapshot.data![index].productPrice.toDouble();
+
+                  return CartItemScreen(
+                      key: Key("item-${index}"),
+                      index: index,
+                      item: item,
+                      onChange: _calculateGrandPrice);
+                },
+              );
+            },
+          ),
         ),
         Positioned(
             bottom: 0.h,
@@ -126,24 +120,11 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  _updateItem(int index, CartItem item) {
-    setState(() {
-      cartList[index] = item;
-      _calculateGrandPrice();
-    });
-  }
-
-  _deleteItem(int position) {
-    setState(() {
-      cartList.removeAt(position);
-      _calculateGrandPrice();
-    });
-  }
-
-  _calculateGrandPrice() {
+  _calculateGrandPrice() async {
     double calGrandPrice = 0;
-    cartList.forEach((e) {
-      calGrandPrice += e.price * e.quantity;
+    var dataKeranjang = await CartDAO(dbInstance.get()).getData();
+    dataKeranjang.forEach((e) {
+      calGrandPrice += e.productPrice * e.quantity;
     });
 
     setState(() {

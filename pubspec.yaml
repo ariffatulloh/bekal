@@ -43,7 +43,7 @@ dependencies:
   simple_animations:
   pin_code_fields:
   lottie:
-  curved_navigation_bar:
+  curved_navigation_bar: ^1.0.3
   sizer: ^2.0.15
   money2:
   intl:

@@ -1,3 +1,5 @@
+import 'package:bekal/database/cartDAO.dart';
+import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/main_content/ui/cart/model/cart_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,30 +15,14 @@ class Checkout extends StatefulWidget {
 
 class _CheckoutState extends State<Checkout> {
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
+  List<CartItem> cartList = [];
 
-  List<CartItem> cartList = [
-    CartItem(
-        productId: 1,
-        productName: "Baju Batik Trusmi",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-    CartItem(
-        productId: 2,
-        productName: "Baju Batik Jogja",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-    CartItem(
-        productId: 3,
-        productName: "Baju Batik Solo",
-        thumbnail:
-            "https://tempatwisata.b-cdn.net/wp-content/uploads/2021/05/Batik-trusmii.jpg",
-        price: 250000,
-        quantity: 1),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +130,28 @@ class _CheckoutState extends State<Checkout> {
         ),
       ),
     );
+  }
+
+  _getData() async {
+    var dataKeranjang = await CartDAO(dbInstance.get()).getData();
+    List<CartItem> ci = [];
+
+    dataKeranjang.forEach((e) {
+      ci.add(new CartItem(
+          cartId: e.id,
+          userId: e.userId,
+          productId: e.productId,
+          productName: e.productName,
+          thumbnail: e.thumbnail,
+          price: e.productPrice.toDouble(),
+          quantity: e.quantity));
+    });
+
+    setState(() {
+      cartList = ci;
+    });
+
+    _calculateGrandPrice();
   }
 
   _calculateGrandPrice() {

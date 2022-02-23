@@ -8,4 +8,7 @@ class CartEntity extends Table {
   IntColumn get quantity => integer()();
   TextColumn get productName => text()();
   TextColumn get thumbnail => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

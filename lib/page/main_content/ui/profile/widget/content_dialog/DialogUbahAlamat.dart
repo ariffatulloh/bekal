@@ -1,3 +1,5 @@
+import 'package:bekal/page/common/input_field.dart';
+import 'package:bekal/page/common/master_dropdown.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit_state.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/LoadingContent.dart';
@@ -28,12 +30,12 @@ class DialogUbahAlamat extends StatelessWidget {
         return Stack(
           children: [
             cubitDataPribadiState is LoadDataPribadiStateSukses
-                ? FormUbahPassword(
+                ? FormUbahAlamat(
                     cubitContext: cubitDataPribadiContext,
                     data: cubitDataPribadiState.data!,
                     onDismiss: onDismiss)
                 : LoadingContent(
-                    child: FormUbahPassword(
+                    child: FormUbahAlamat(
                         cubitContext: cubitDataPribadiContext,
                         data: null,
                         onDismiss: onDismiss)),
@@ -44,29 +46,29 @@ class DialogUbahAlamat extends StatelessWidget {
   }
 }
 
-class FormUbahPassword extends StatefulWidget {
+class FormUbahAlamat extends StatefulWidget {
   final BuildContext cubitContext;
   final PayloadResponseProfile? data;
   final ValueChanged<bool>? onDismiss;
 
-  FormUbahPassword({required this.cubitContext, this.data, this.onDismiss});
+  FormUbahAlamat({required this.cubitContext, this.data, this.onDismiss});
 
   @override
-  _FormUbahPassword createState() => _FormUbahPassword(data: data);
+  _FormUbahAlamat createState() => _FormUbahAlamat(data: data);
 }
 
-class _FormUbahPassword extends State<FormUbahPassword> {
+class _FormUbahAlamat extends State<FormUbahAlamat> {
   PayloadResponseProfile? data;
   String existingPasswordField = "";
   String newPasswordField = "";
   String rePasswordField = "";
-  bool showButtonSave = false;
+  bool showButtonSave = true;
   String existingPasswordFieldError = "";
   String newPasswordFieldError = "";
   String rePasswordFieldError = "";
   dynamic cubitContext;
   final _formKey = GlobalKey<FormState>();
-  _FormUbahPassword({this.data});
+  _FormUbahAlamat({this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -74,103 +76,63 @@ class _FormUbahPassword extends State<FormUbahPassword> {
     if (data != null) {}
 
     return Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Form(
+      backgroundColor: Colors.transparent,
+      body: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Form(
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                WidgetTextField(
-                    // initialValue: existingPasswordField,
-                    title: "Password Lama",
-                    obSecure: true,
-                    icon: Icons.person,
-                    messageError: existingPasswordFieldError.isNotEmpty
-                        ? existingPasswordFieldError
-                        : "Silahkan Masukan Password Lama Anda",
-                    isError: existingPasswordField.isEmpty ||
-                        existingPasswordFieldError.isNotEmpty,
-                    // isError: existingPasswordField.isEmpty,
-                    onChanged: (String? value) {
-                      setState(() {
-                        existingPasswordField = value!;
-                        existingPasswordFieldError = "";
-                      });
-                    },
-                    onSaved: (String? value) {
-                      setState(() {
-                        existingPasswordField = value!;
-                      });
-                    },
-                    keyboardtype: TextInputType.text),
+                inputLabel("Alamat Pengiriman", required: true),
+                TextInput(
+                  maxLines: 2,
+                  keyboardType: TextInputType.text,
+                  borderRadius: 20.0,
+                ),
                 SizedBox(
                   height: 1.h,
                 ),
-                WidgetTextField(
-                    // initialValue: newPasswordField,
-                    title: "Password Baru",
-                    obSecure: true,
-                    icon: Icons.person,
-                    messageError: newPasswordFieldError.isNotEmpty
-                        ? rePasswordFieldError
-                        : "Silahkan Masukan Password Baru",
-                    isError: newPasswordField.isEmpty ||
-                        newPasswordFieldError.isNotEmpty,
-                    // isError: existingPasswordField.isEmpty,
-                    onChanged: (String? value) {
-                      setState(() {
-                        newPasswordField = value!;
-                        if (newPasswordField != rePasswordField) {
-                          showButtonSave = false;
-                        } else {
-                          showButtonSave = true;
-                        }
-                      });
-                    },
-                    onSaved: (String? value) {
-                      setState(() {
-                        newPasswordField = value!;
-                        // if(newPasswordField!=rePasswordField){
-                        //   newPasswordChange = false;
-                        // }
-                        // newPasswordChange = true;
-                      });
-                    },
-                    keyboardtype: TextInputType.text),
-                SizedBox(
-                  height: 1.h,
+                MasterDropdown(
+                  url: "DmsMasterData/FollowUpMethods",
+                  label: "Provinsi",
+                  borderRadius: 20.0,
+                  onItemSelected: (value) {
+                    setState(() {});
+                  },
                 ),
-                WidgetTextField(
-                    initialValue: rePasswordField,
-                    title: "Korfirmasi Ulang Password Baru",
-                    obSecure: true,
-                    icon: Icons.person,
-                    messageError: rePasswordFieldError.isNotEmpty
-                        ? rePasswordFieldError
-                        : "Silahkan Korfirmasi Ulang Password Baru",
-                    isError: rePasswordField.isEmpty ||
-                        rePasswordField != newPasswordField ||
-                        rePasswordFieldError.isNotEmpty,
-                    // isError: existingPasswordField.isEmpty,
-                    onChanged: (String? value) {
-                      setState(() {
-                        rePasswordField = value!;
-                        if (newPasswordField != rePasswordField) {
-                          showButtonSave = false;
-                        } else {
-                          showButtonSave = true;
-                        }
-                      });
-                    },
-                    onSaved: (String? value) {
-                      setState(() {
-                        rePasswordField = value!;
-                        // rePasswordChange = true;
-                      });
-                    },
-                    keyboardtype: TextInputType.text),
+                MasterDropdown(
+                  url: "DmsMasterData/FollowUpMethods",
+                  label: "Kabupaten/Kota",
+                  borderRadius: 20.0,
+                  onItemSelected: (value) {
+                    setState(() {});
+                  },
+                ),
+                MasterDropdown(
+                  url: "DmsMasterData/FollowUpMethods",
+                  label: "Kecamatan",
+                  borderRadius: 20.0,
+                  onItemSelected: (value) {
+                    setState(() {});
+                  },
+                ),
+                MasterDropdown(
+                  url: "DmsMasterData/FollowUpMethods",
+                  label: "Desa/Kelurahan",
+                  borderRadius: 20.0,
+                  onItemSelected: (value) {
+                    setState(() {});
+                  },
+                ),
+                inputLabel("Kode Pos", required: true),
+                TextInput(
+                  keyboardType: TextInputType.number,
+                  borderRadius: 20.0,
+                ),
                 SizedBox(
-                  height: 1.h,
+                  height: 2.h,
                 ),
                 showButtonSave
                     ? Align(
@@ -234,9 +196,33 @@ class _FormUbahPassword extends State<FormUbahPassword> {
                           },
                         ))
                     : Container(),
+                SizedBox(
+                  height: 2.h,
+                ),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
+
+  Widget inputLabel(String text, {bool required = false}) => Padding(
+        padding: EdgeInsets.only(top: 15, bottom: 8),
+        child: RichText(
+          text: TextSpan(
+              text: text,
+              style: TextStyle(
+                  fontSize: 10.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                if (required)
+                  TextSpan(
+                    text: "*",
+                    style: TextStyle(fontSize: 14, color: Colors.red),
+                  )
+              ]),
+        ),
+      );
 }
