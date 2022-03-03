@@ -495,183 +495,186 @@ class _CourierDialogState extends State<CourierDialog> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5.w),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(5.w),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                ),
-                child:
-                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    height: 7.5.h,
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
+                  child:
+                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                    Container(
+                      width: double.infinity,
+                      height: 7.5.h,
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Pilihan Pengiriman",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    SizedBox(height: 16),
+                    Column(
                       children: [
-                        Text(
-                          "Pilihan Pengiriman",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 13.sp,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Column(
-                    children: [
-                      if (isGettingCourier)
-                        Container(
-                          padding: EdgeInsets.all(5.w),
-                          child: CircularProgressIndicator(),
-                        ),
-                      if (!isGettingCourier)
-                        Column(
-                          children: List<Widget>.generate(courier.length, (i) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    widget.onSelected(
-                                      widget.indexShipper,
-                                      new Shipping(
-                                          shippingId: (courier[i]["rate"]
-                                                  ["id"] as double)
-                                              .toInt(),
-                                          shippingName:
-                                              "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
-                                          shippingPrice: courier[i]
-                                              ["final_price"]),
-                                    );
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          color: Colors.black12,
-                                          width: .5,
-                                        ),
-                                      ),
-                                    ),
-                                    padding: EdgeInsets.only(
-                                        left: 5.w, right: 5.w, top: 2.5.w),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: 50,
-                                          height: 50,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(3)),
-                                            child: CachedNetworkImage(
-                                              fit: BoxFit.contain,
-                                              imageUrl: courier[i]["logistic"]
-                                                  ["logo_url"],
-                                              placeholder: (context, url) =>
-                                                  Center(
-                                                child: SizedBox(
-                                                  width: 40.0,
-                                                  height: 40.0,
-                                                  child:
-                                                      new CircularProgressIndicator(
-                                                    color: Colors.orange,
-                                                  ),
-                                                ),
-                                              ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            ),
+                        if (isGettingCourier)
+                          Container(
+                            padding: EdgeInsets.all(5.w),
+                            child: CircularProgressIndicator(),
+                          ),
+                        if (!isGettingCourier)
+                          Column(
+                            children:
+                                List<Widget>.generate(courier.length, (i) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      widget.onSelected(
+                                        widget.indexShipper,
+                                        new Shipping(
+                                            shippingId: (courier[i]["rate"]
+                                                    ["id"] as double)
+                                                .toInt(),
+                                            shippingName:
+                                                "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
+                                            shippingPrice: courier[i]
+                                                ["final_price"]),
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Colors.black12,
+                                            width: .5,
                                           ),
                                         ),
-                                        SizedBox(width: 3.w),
-                                        Container(
-                                          child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
-                                                  style: TextStyle(
-                                                      fontFamily: 'ghotic',
-                                                      fontSize: 11.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                      ),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 5.w, top: 2.5.w),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 50,
+                                            height: 50,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(3)),
+                                              child: CachedNetworkImage(
+                                                fit: BoxFit.contain,
+                                                imageUrl: courier[i]["logistic"]
+                                                    ["logo_url"],
+                                                placeholder: (context, url) =>
+                                                    Center(
+                                                  child: SizedBox(
+                                                    width: 40.0,
+                                                    height: 40.0,
+                                                    child:
+                                                        new CircularProgressIndicator(
+                                                      color: Colors.orange,
+                                                    ),
+                                                  ),
                                                 ),
-                                                SizedBox(height: 5),
-                                                Text(
-                                                  currencyFormatter.format(
-                                                      courier[i]
-                                                          ["final_price"]),
-                                                  style: TextStyle(
-                                                      fontFamily: 'ghotic',
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )
-                                              ]),
-                                        ),
-                                      ],
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 3.w),
+                                          Container(
+                                            child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
+                                                    style: TextStyle(
+                                                        fontFamily: 'ghotic',
+                                                        fontSize: 11.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  SizedBox(height: 5),
+                                                  Text(
+                                                    currencyFormatter.format(
+                                                        courier[i]
+                                                            ["final_price"]),
+                                                    style: TextStyle(
+                                                        fontFamily: 'ghotic',
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                ]),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            );
-                          }),
-                        ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: InkWell(
-                          onTap: () => {Navigator.of(context).pop()},
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5.w, vertical: 3.h),
-                            child: Text(
-                              "Tutup",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.red),
+                                  )
+                                ],
+                              );
+                            }),
+                          ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: InkWell(
+                            onTap: () => {Navigator.of(context).pop()},
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 3.h),
+                              child: Text(
+                                "Tutup",
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  )
-                ]),
+                        )
+                      ],
+                    )
+                  ]),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
