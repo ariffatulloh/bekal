@@ -19,7 +19,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'ApiProfileService.g.dart';
 
-@RestApi(baseUrl: 'http://rifias.live/api/my/')
+@RestApi(baseUrl: 'http://51.79.251.50:3000/api/my/')
 abstract class ApiProfileService {
   factory ApiProfileService(Dio dio, {String baseUrl}) = _ApiProfileService;
 

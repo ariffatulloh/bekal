@@ -6,7 +6,6 @@ class LoadingContent extends StatelessWidget {
   LoadingContent({required this.child});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Shimmer.fromColors(
         child: child,
         enabled: true,

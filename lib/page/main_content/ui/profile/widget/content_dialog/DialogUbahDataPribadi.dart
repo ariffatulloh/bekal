@@ -80,18 +80,13 @@ class _FormDataPribadi extends State<FormDataPribadi> {
   @override
   Widget build(BuildContext context) {
     cubitContext = widget.cubitContext;
-    // if (_image == null) {
-    //   _image = AssetImage('assets/images/propic_sample.jpg');
-    // }
+
     if (data != null) {
       if (!fullNameChange) {
         fullNameField = data!.fullName;
       }
       if (!phoneNumberChange) {
         phoneNumberField = data!.profile.phoneNumber!;
-      }
-      if (!addressChange) {
-        addressField = data!.profile.address!;
       }
     }
 

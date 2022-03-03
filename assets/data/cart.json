@@ -1,0 +1,91 @@
+{
+    "code": 200,
+    "status": "OK",
+    "data": [
+        {
+            "store_id": 17,
+            "store_name": "Toko ABC",
+            "item": [
+                {
+                    "cart_id": 2,
+                    "cart_qty": 2,
+                    "store_id": 17,
+                    "product": {
+                        "storeProdId": 1,
+                        "nameProduct": "gosk",
+                        "stockProduct": "",
+                        "priceProduct": "122",
+                        "deskripsiProduct": "122",
+                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/1",
+                        "heightProduct": 1,
+                        "weightProduct": 1,
+                        "widthProduct": 1,
+                        "lengthProduct": 1
+                    },
+                    "product_total": 244
+                },
+                {
+                    "cart_id": 3,
+                    "cart_qty": 3,
+                    "store_id": 17,
+                    "product": {
+                        "storeProdId": 2,
+                        "nameProduct": "newer",
+                        "stockProduct": "",
+                        "priceProduct": "122",
+                        "deskripsiProduct": "122",
+                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/2",
+                        "heightProduct": 1,
+                        "weightProduct": 1,
+                        "widthProduct": 1,
+                        "lengthProduct": 1
+                    },
+                    "product_total": 366
+                }
+            ]
+        },
+        {
+            "store_id": 18,
+            "store_name": "Toko JKL",
+            "item": [
+                {
+                    "cart_id": 4,
+                    "cart_qty": 1,
+                    "store_id": 18,
+                    "product": {
+                        "storeProdId": 6,
+                        "nameProduct": "tggh",
+                        "stockProduct": "",
+                        "priceProduct": "88666",
+                        "deskripsiProduct": "xfghhhh",
+                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/6",
+                        "heightProduct": 1,
+                        "weightProduct": 1,
+                        "widthProduct": 1,
+                        "lengthProduct": 1
+                    },
+                    "product_total": 88666
+                },
+                {
+                    "cart_id": 5,
+                    "cart_qty": 1,
+                    "store_id": 18,
+                    "product": {
+                        "storeProdId": 7,
+                        "nameProduct": "baju batik test",
+                        "stockProduct": "",
+                        "priceProduct": "120000",
+                        "deskripsiProduct": "baju batik baru nihh",
+                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/7",
+                        "heightProduct": 1,
+                        "weightProduct": 1,
+                        "widthProduct": 1,
+                        "lengthProduct": 1
+                    },
+                    "product_total": 120000
+                }
+            ]
+        }
+    ],
+    "errorMessage": ""
+}

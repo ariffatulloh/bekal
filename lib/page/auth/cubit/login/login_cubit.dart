@@ -67,6 +67,7 @@ class LoginCubit extends Cubit<LoginCubitState> {
       if (kDebugMode) {
         print("catch");
       }
+
       try {
         emit(FailedLogin(message: "Silahkan Check Koneksi Internet Anda"));
         await Future.delayed(const Duration(seconds: 3));
@@ -87,7 +88,7 @@ class LoginCubit extends Cubit<LoginCubitState> {
     }
 
     profileRepository.getProfile(token).then((value) async {
-      // print("this ${value}");
+      print("this ${value}");
       PayloadResponseProfile? data = value.data;
       if (data != null) {
         if (kDebugMode) {
@@ -119,7 +120,9 @@ class LoginCubit extends Cubit<LoginCubitState> {
     }).catchError((e) async {
       if (kDebugMode) {
         print("catch");
+        print(e);
       }
+
       try {
         emit(FailedLogin(message: "Silahkan Check Koneksi Internet Anda"));
         await Future.delayed(const Duration(seconds: 3));

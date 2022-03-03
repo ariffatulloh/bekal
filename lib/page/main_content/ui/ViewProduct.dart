@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 
+import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/database/cartDAO.dart';
 import 'package:bekal/database/db.dart';
 import 'package:bekal/database/db_locator.dart';
@@ -26,6 +27,10 @@ class ViewProduct extends StatefulWidget {
 class _ViewProduct extends State<ViewProduct> {
   int galleryImageSelected = 0;
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
+  bool isSaving = false;
+
+  DioClient _dio = new DioClient();
+
   @override
   Widget build(BuildContext context) {
     PayloadResponseStoreProduct data = widget.dataDetailProduct!;
@@ -209,16 +214,34 @@ class _ViewProduct extends State<ViewProduct> {
                                               right: 12.sp),
                                           style: NeumorphicStyle(
                                               shape: NeumorphicShape.convex,
-                                              color: Color.fromRGBO(
-                                                  243, 146, 0, 1),
+                                              color: isSaving
+                                                  ? Colors.grey.withOpacity(.5)
+                                                  : Color.fromRGBO(
+                                                      243, 146, 0, 1),
                                               boxShape:
                                                   NeumorphicBoxShape.stadium(),
                                               depth: .2.h,
                                               intensity: .8),
                                           child: Wrap(
                                             children: [
+                                              if (isSaving)
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 3.w),
+                                                  child: SizedBox(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      color: Colors.orange,
+                                                      strokeWidth: 2,
+                                                    ),
+                                                    height: 2.h,
+                                                    width: 2.h,
+                                                  ),
+                                                ),
                                               Text(
-                                                "Masukkan Keranjang",
+                                                isSaving
+                                                    ? "Processing"
+                                                    : "Masukkan Keranjang",
                                                 style: TextStyle(
                                                     fontSize: 10.sp,
                                                     color: Colors.white),
@@ -226,57 +249,37 @@ class _ViewProduct extends State<ViewProduct> {
                                             ],
                                           ),
                                           onPressed: () async {
-                                            var cek =
-                                                await CartDAO(dbInstance.get())
-                                                    .getDataByProductName(
-                                                        data.nameProduct);
-                                            if (cek != null) {
-                                              CartEntityData cartEntity =
-                                                  CartEntityData(
-                                                      id: cek.id,
-                                                      productId: cek.productId,
-                                                      userId: cek.userId,
-                                                      productPrice:
-                                                          cek.productPrice,
-                                                      productName:
-                                                          cek.productName,
-                                                      quantity:
-                                                          cek.quantity + 1,
-                                                      thumbnail: cek.thumbnail);
+                                            setState(() {
+                                              isSaving = true;
+                                            });
+                                            try {
+                                              var payload = {
+                                                "store_product_id":
+                                                    data.storeProdId,
+                                                "product_qty": 1
+                                              };
 
-                                              await new CartDAO(
-                                                      dbInstance.get())
-                                                  .updateData(cartEntity);
-                                            } else {
-                                              int id = Random().nextInt(100);
-                                              CartEntityData cartEntity =
-                                                  CartEntityData(
-                                                      id: id,
-                                                      productId: 1,
-                                                      userId: 1,
-                                                      productPrice: int.parse(
-                                                          data.priceProduct),
-                                                      productName:
-                                                          data.nameProduct,
-                                                      quantity: 1,
-                                                      thumbnail:
-                                                          data.uriThumbnail);
+                                              DioResponse res =
+                                                  await _dio.postAsync(
+                                                      "/order/cart/add",
+                                                      payload);
 
-                                              await new CartDAO(
-                                                      dbInstance.get())
-                                                  .insertData(cartEntity);
+                                              if (res.results["code"] == 200) {
+                                                Toaster(context).showSuccessToast(
+                                                    "Produk berhasil ditambahkan ke keranjang",
+                                                    gravity:
+                                                        ToastGravity.CENTER);
+                                                Navigator.of(context).pop();
+                                              }
+                                            } catch (e) {
+                                              Toaster(context).showErrorToast(
+                                                  "Terjadi kesalahan saat menyimpan data",
+                                                  gravity: ToastGravity.CENTER);
                                             }
 
-                                            var cek2 =
-                                                await CartDAO(dbInstance.get())
-                                                    .getData();
-
-                                            cek2.forEach((v) => {print(v)});
-
-                                            Toaster(context).showSuccessToast(
-                                                "Produk berhasil ditambahkan ke keranjang",
-                                                gravity: ToastGravity.TOP);
-                                            Navigator.of(context).pop();
+                                            setState(() {
+                                              isSaving = false;
+                                            });
                                           },
                                         ),
                                       ),

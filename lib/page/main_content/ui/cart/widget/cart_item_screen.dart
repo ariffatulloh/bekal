@@ -1,20 +1,19 @@
-import 'package:bekal/database/cartDAO.dart';
-import 'package:bekal/database/db.dart';
-import 'package:bekal/database/db_locator.dart';
-import 'package:bekal/page/main_content/ui/cart/model/cart_item.dart';
+import 'package:bekal/page/main_content/ui/cart/model/cart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class CartItemScreen extends StatefulWidget {
-  final CartItem item;
+  final Cart item;
   final int index;
-  final Function onChange;
+  final Function(int prodId, int qty) onChange;
+  final Function(int cartId) onDelete;
   const CartItemScreen({
     Key? key,
     required this.index,
     required this.onChange,
+    required this.onDelete,
     required this.item,
   }) : super(key: key);
 
@@ -24,12 +23,10 @@ class CartItemScreen extends StatefulWidget {
 
 class _CartItemScreenState extends State<CartItemScreen> {
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
-  late CartItem item;
 
   @override
   void initState() {
     super.initState();
-    item = widget.item;
   }
 
   @override
@@ -39,7 +36,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
       child: Card(
         child: Container(
           height: 23.w,
-          width: 96.w,
+          width: 92.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -53,7 +50,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
                   ),
                   child: CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: item.thumbnail,
+                      imageUrl: widget.item.product.uriThumbnail ?? "",
                       placeholder: (context, url) => Center(
                             child: SizedBox(
                               width: 40.0,
@@ -67,7 +64,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
               ),
               SizedBox(width: 1.w),
               Container(
-                width: 69.w,
+                width: 63.w,
                 padding: EdgeInsets.all(2.w),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -75,7 +72,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
                   children: [
                     Expanded(
                       child: Text(
-                        item.productName,
+                        widget.item.product.nameProduct,
                         style: TextStyle(fontFamily: 'ghotic', fontSize: 15),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -85,7 +82,8 @@ class _CartItemScreenState extends State<CartItemScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          currencyFormatter.format(item.price),
+                          currencyFormatter.format(int.parse(
+                              widget.item.product.priceProduct ?? "0")),
                           style: TextStyle(
                               fontFamily: 'ghotic',
                               fontSize: 14,
@@ -95,9 +93,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await new CartDAO(dbInstance.get())
-                                    .deleteDataById(item.cartId);
-                                widget.onChange();
+                                widget.onDelete(widget.item.cart_id);
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -119,30 +115,18 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      if (item.quantity > 1) {
-                                        CartEntityData cartEntity =
-                                            CartEntityData(
-                                                id: item.cartId,
-                                                productId: item.productId,
-                                                userId: item.userId,
-                                                productPrice:
-                                                    item.price.toInt(),
-                                                productName: item.productName,
-                                                quantity: item.quantity - 1,
-                                                thumbnail: item.thumbnail);
-
-                                        await new CartDAO(dbInstance.get())
-                                            .updateData(cartEntity);
-
+                                      if (widget.item.cart_qty > 1) {
                                         setState(() {
-                                          item.quantity--;
-                                          widget.onChange();
+                                          widget.item.cart_qty--;
+                                          widget.onChange(
+                                              widget.item.product.storeProdId,
+                                              widget.item.cart_qty);
                                         });
                                       }
                                     },
                                     child: Icon(
                                       Icons.remove,
-                                      color: item.quantity > 1
+                                      color: widget.item.cart_qty > 1
                                           ? Colors.green
                                           : Colors.grey,
                                       size: 16,
@@ -153,7 +137,7 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 3, vertical: 2),
                                     child: Text(
-                                      "${item.quantity}",
+                                      "${widget.item.cart_qty}",
                                       style: TextStyle(
                                           fontFamily: 'ghotic',
                                           color: Colors.black,
@@ -162,22 +146,11 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      CartEntityData cartEntity =
-                                          CartEntityData(
-                                              id: item.cartId,
-                                              productId: item.productId,
-                                              userId: item.userId,
-                                              productPrice: item.price.toInt(),
-                                              productName: item.productName,
-                                              quantity: item.quantity + 1,
-                                              thumbnail: item.thumbnail);
-
-                                      await new CartDAO(dbInstance.get())
-                                          .updateData(cartEntity);
-
                                       setState(() {
-                                        item.quantity++;
-                                        widget.onChange();
+                                        widget.item.cart_qty++;
+                                        widget.onChange(
+                                            widget.item.product.storeProdId,
+                                            widget.item.cart_qty);
                                       });
                                     },
                                     child: Icon(

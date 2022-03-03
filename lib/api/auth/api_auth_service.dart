@@ -8,7 +8,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_auth_service.g.dart';
 
-@RestApi(baseUrl: 'http://rifias.live/auth/')
+@RestApi(baseUrl: 'http://51.79.251.50:3000/auth/')
 abstract class ApiAuthService {
   factory ApiAuthService(Dio dio, {String baseUrl}) = _ApiAuthService;
 

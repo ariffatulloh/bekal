@@ -1,6 +1,3 @@
-import 'package:bekal/database/cartDAO.dart';
-import 'package:bekal/database/db.dart';
-import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/ViewProduct.dart';

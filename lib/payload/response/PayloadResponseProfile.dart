@@ -24,7 +24,7 @@ class PayloadResponseProfile with _$PayloadResponseProfile {
 @JsonSerializable()
 class Profile {
   String? image;
-  String? address;
+  Address? address;
   String? phoneNumber;
   Profile({
     this.phoneNumber,
@@ -32,4 +32,38 @@ class Profile {
   });
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
+}
+
+@JsonSerializable()
+class Address {
+  String? address;
+  int area_id;
+  String? area_name;
+  int city_id;
+  String? city_name;
+  int country_id;
+  String? country_name;
+  String? direction;
+  String? postcode;
+  int province_id;
+  String? province_name;
+  int suburb_id;
+  String? suburb_name;
+  Address({
+    this.address,
+    this.area_id = 0,
+    this.area_name,
+    this.city_id = 0,
+    this.city_name,
+    this.country_id = 0,
+    this.country_name,
+    this.direction,
+    this.postcode,
+    this.province_id = 0,
+    this.province_name,
+    this.suburb_id = 0,
+    this.suburb_name,
+  });
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
 }

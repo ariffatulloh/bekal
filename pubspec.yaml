@@ -53,6 +53,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.0
   path_provider: ^2.0.0
   path: ^1.8.0
+  loading_overlay: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -90,6 +91,8 @@ flutter:
    - assets/splash1.gif
    - assets/splash2.json
    - assets/images/propic_sample.jpg
+   - assets/data/cart.json
+   - assets/data/courier.json
    
   fonts:
     - family: ghotic

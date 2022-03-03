@@ -10,7 +10,7 @@ part of 'ApiProfileService.dart';
 
 class _ApiProfileService implements ApiProfileService {
   _ApiProfileService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://rifias.live/api/my/';
+    baseUrl ??= 'http://51.79.251.50:3000/api/my/';
   }
 
   final Dio _dio;

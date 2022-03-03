@@ -81,8 +81,9 @@ class _MasterDropdownState extends State<MasterDropdown> {
     List dataRes = [];
     try {
       DioResponse res = await _dio.getAsync(widget.url);
-      if (res.results["statusCode"] == 200) {
-        dataRes = res.results["data"];
+
+      if (res.results["code"] == 200) {
+        dataRes = res.results["data"]["rows"];
       }
     } catch (e) {}
 

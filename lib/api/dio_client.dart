@@ -2,14 +2,13 @@ import 'dart:io';
 
 import 'package:bekal/api/logger.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'https://api.sunmotor.co.id',
+      baseUrl: 'http://51.79.251.50:3000',
       connectTimeout: 30000,
       receiveTimeout: 30000,
     ),
@@ -21,7 +20,7 @@ class DioClient {
     try {
       String token = await SecureStorage().getToken() ?? "";
 
-      Response response = await _dio.get('/api/$request',
+      Response response = await _dio.get(request,
           queryParameters: params,
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
@@ -42,12 +41,10 @@ class DioClient {
     try {
       String token = await SecureStorage().getToken() ?? "";
 
-      Response response = await _dio.post('/api/$request',
+      Response response = await _dio.post(request,
           data: data,
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
-
-      print(response.data);
 
       return DioResponse.success(response.data);
     } catch (e) {
@@ -73,7 +70,7 @@ class DioClient {
           data: data,
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
-      print(response.data);
+
       return DioResponse.success(response.data);
     } on DioError catch (error) {
       if (error.response != null)
@@ -91,20 +88,21 @@ class DioClient {
     try {
       String token = await SecureStorage().getToken() ?? "";
 
-      Response response = await _dio.delete('/api/$request',
+      Response response = await _dio.delete(request,
           queryParameters: params,
           options: Options(
               headers: {HttpHeaders.authorizationHeader: "Bearer $token"}));
       return DioResponse.success(response.data);
-    } on DioError catch (error) {
-      if (error.response != null)
+    } catch (e) {
+      if (e is DioError) {
+        DioError error = e;
         return DioResponse.success(error.response!.data);
-      else
-        return DioResponse.success({
-          "statusCode": 403,
-          "statusText": "Forbidden",
-          "message": "Terjadi kesalahan pada jaringan internet"
-        });
+      }
+      return DioResponse.success({
+        "statusCode": 403,
+        "statusText": "Forbidden",
+        "message": "Terjadi kesalahan pada jaringan internet"
+      });
     }
   }
 }

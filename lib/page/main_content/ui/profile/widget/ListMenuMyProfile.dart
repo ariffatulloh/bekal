@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/model/ModelItemListMenuMyProfile.dart';
+import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogHistoryTransaksi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahAlamat.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahDataPribadi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahEmail.dart';
@@ -50,7 +51,7 @@ class ListMenuMyProfile extends StatelessWidget {
       ModelItemListMenuMyProfile(
         text: "Histori Transaksi",
         icon: Icons.library_books_rounded,
-        widget: Container(),
+        widget: DialogHistoryTransaksi(),
       ),
       ModelItemListMenuMyProfile(
         text: "Keluar",
@@ -70,7 +71,6 @@ class ListMenuMyProfile extends StatelessWidget {
       shrinkWrap: true,
       itemCount: datatitle.length,
       itemBuilder: (context, index) {
-        // print("grid index $index");
         return NeumorphicButton(
             onPressed: () {
               if (datatitle.elementAt(index).text == "Keluar") {
@@ -107,10 +107,8 @@ class ListMenuMyProfile extends StatelessWidget {
                   context: context,
                   dataObject: datatitle.elementAt(index),
                   whenClosed: (Closed) {
-                    if (Closed != null && Closed) {
-                      BlocProvider.of<ProfileScreenCubit>(context)
-                          .LoadMyProfileDashboard();
-                    }
+                    BlocProvider.of<ProfileScreenCubit>(context)
+                        .LoadMyProfileDashboard();
                   },
                 );
               }
@@ -192,7 +190,6 @@ DialogBottomSheet({
   required ModelItemListMenuMyProfile dataObject,
   ValueChanged<bool>? whenClosed,
 }) {
-  Widget formWidget = dataObject.widget;
   return showMaterialModalBottomSheet(
     duration: Duration(milliseconds: 1400),
     animationCurve: Curves.easeInOut,
@@ -202,12 +199,15 @@ DialogBottomSheet({
     builder: (context) {
       return Neumorphic(
         margin: EdgeInsets.only(top: 10.h),
-        // padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
         style: NeumorphicStyle(
             surfaceIntensity: .5,
             color: Colors.blueGrey,
-            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.vertical(
-                top: Radius.circular(.8.w.h), bottom: Radius.circular(.8.w.h))),
+            boxShape: NeumorphicBoxShape.roundRect(
+              BorderRadius.vertical(
+                top: Radius.circular(.8.w.h),
+                bottom: Radius.circular(.8.w.h),
+              ),
+            ),
             depth: .2.h,
             intensity: 1),
         child: Column(
@@ -320,6 +320,16 @@ DialogBottomSheet({
                                     .goto("LOGIN");
                               },
                             ),
+                            DialogHistoryTransaksi().toString():
+                                DialogHistoryTransaksi(
+                              onDismiss: (dismiss) {
+                                print("dismiss dialog");
+                                Navigator.of(context).pop();
+                                context
+                                    .read<ControllerPageCubit>()
+                                    .goto("LOGIN");
+                              },
+                            ),
                           },
                           defaultValue: Container(),
                         ),
@@ -340,7 +350,4 @@ TValue case2<TOptionType, TValue>({
   required TValue defaultValue,
 }) {
   return selection.entries.firstWhere((entry) => entry.key == condition).value;
-  // if (!selection.containsKey(condition)) {
-  //   return defaultValue;
-  // }
 }
