@@ -1,4 +1,5 @@
 import 'package:bekal/api/dio_client.dart';
+import 'package:bekal/page/main_content/ui/cart/payment_screen.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _DetailOrderState extends State<DetailOrder> {
   var order;
   var store;
   var status;
+  var invoice;
   List products = [];
 
   @override
@@ -271,33 +273,45 @@ class _DetailOrderState extends State<DetailOrder> {
                 ),
               ),
               SizedBox(height: 4.h),
-              Center(
-                child: InkWell(
-                  child: Container(
-                    width: 55.w,
-                    height: 5.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Colors.red,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Batalkan Pesanan",
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        )
-                      ],
+              if (status?["id"] == "ORD02")
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      if (invoice?["invoice_id"] != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentScreen(
+                                    invoiceId: invoice?["invoice_id"],
+                                  )),
+                        );
+                      }
+                    },
+                    child: Container(
+                      width: 70.w,
+                      height: 5.h,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.orange,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Bayar Pesanan Sekarang",
+                            style: TextStyle(
+                                fontFamily: 'ghotic',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
               SizedBox(height: 10.h)
             ],
           ),
@@ -363,7 +377,7 @@ class _DetailOrderState extends State<DetailOrder> {
                             ),
                           ),
                           Text(
-                            " 1 x ${currencyFormatter.format((double.parse(item["priceProduct"])).toInt())}",
+                            " ${item["stockProduct"]} x ${currencyFormatter.format((double.parse(item["priceProduct"])).toInt())}",
                             style: TextStyle(
                                 fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
@@ -384,19 +398,18 @@ class _DetailOrderState extends State<DetailOrder> {
                     ),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Total Harga",
-                      style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
+                      style: TextStyle(fontFamily: 'ghotic', fontSize: 9.sp),
                     ),
-                    SizedBox(height: 0.5.h),
                     Text(
-                      "${currencyFormatter.format(int.parse("100000"))}",
+                      "${currencyFormatter.format((double.parse(item["priceProduct"]) * int.parse(item["stockProduct"])))}",
                       style: TextStyle(
                           fontFamily: 'ghotic',
-                          fontSize: 11.sp,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -423,6 +436,7 @@ class _DetailOrderState extends State<DetailOrder> {
           store = res.results["data"]["store"];
           status = res.results["data"]["status"];
           products = res.results["data"]["product"];
+          invoice = res.results["data"]["invoice"];
         });
       }
     } catch (e) {

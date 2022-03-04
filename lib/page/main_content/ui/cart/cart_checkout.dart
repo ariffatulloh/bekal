@@ -187,7 +187,7 @@ class _CheckoutState extends State<Checkout> {
       isLoading = true;
     });
     try {
-      DioResponse res = await _dio.getAsync("/order/payment/bank/list");
+      DioResponse res = await _dio.getAsync("/payment/bank/list");
       if (res.results["code"] == 200) {
         List banks = res.results["data"];
 
@@ -248,7 +248,10 @@ class _CheckoutState extends State<Checkout> {
             (Route<dynamic> route) => false);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PaymentScreen()),
+          MaterialPageRoute(
+            builder: (context) =>
+                PaymentScreen(invoiceId: res.results["data"]["invoice_id"]),
+          ),
         );
       } else {
         Toaster(context).showErrorToast(res.results["errorMessage"],
