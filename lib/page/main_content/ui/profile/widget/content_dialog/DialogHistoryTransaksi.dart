@@ -52,7 +52,10 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => DetailOrder()),
+            MaterialPageRoute(
+                builder: (context) => DetailOrder(
+                      orderId: trans["order_id"],
+                    )),
           );
         },
         child: Card(
@@ -69,10 +72,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                     SizedBox(width: 1.5.w),
                     Expanded(
                       child: Text(
-                        formatDate(
-                            context,
-                            "2022-03-02T22:38:28.517+07:00[Asia/Jakarta]"
-                                .substring(0, 19)),
+                        formatDate(context, "${trans["order_at"]}"),
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 10.sp,
@@ -87,7 +87,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                         color: Colors.orange,
                       ),
                       child: Text(
-                        "Menungu Pembayaran",
+                        "${trans["status"]["status_name"]}",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'ghotic',

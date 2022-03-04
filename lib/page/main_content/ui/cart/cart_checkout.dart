@@ -218,7 +218,12 @@ class _CheckoutState extends State<Checkout> {
 
       products.add({
         "store_id": widget.items[i].store_id,
-        "courier_id": selectedShipper[i]!.shippingId,
+        "courier_id": selectedShipper[i]!.courierId,
+        "courier_name": selectedShipper[i]!.courierName,
+        "courier_code": selectedShipper[i]!.courierCode,
+        "rate_id": selectedShipper[i]!.rateId,
+        "rate_name": selectedShipper[i]!.rateName,
+        "rate_type": selectedShipper[i]!.rateType,
         "courier_notes": "-",
         "order_cod": false,
         "use_insurance": false,
@@ -267,7 +272,7 @@ class _CheckoutState extends State<Checkout> {
 
   String buildShipInfo(Shipping? shipping) {
     if (shipping != null) {
-      return "${shipping.shippingName} - ${currencyFormatter.format(shipping.shippingPrice)}";
+      return "${shipping.courierName} (${shipping.rateName}) - ${currencyFormatter.format(shipping.shippingPrice)}";
     }
 
     return "Pilih Pengiriman";
@@ -452,14 +457,22 @@ class _CheckoutState extends State<Checkout> {
 }
 
 class Shipping {
-  double shippingPrice = 0.0;
-  String shippingName = "";
-  int shippingId = 0;
+  double courierId;
+  String courierName;
+  String courierCode;
+  double rateId;
+  String rateName = "";
+  String rateType = "";
+  double shippingPrice;
 
   Shipping(
-      {required this.shippingId,
-      required this.shippingName,
-      required this.shippingPrice});
+      {required this.courierId,
+      this.courierName = "",
+      this.courierCode = "",
+      required this.rateId,
+      this.rateName = "",
+      this.rateType = "",
+      this.shippingPrice = 0.0});
 }
 
 class CourierDialog extends StatefulWidget {
@@ -557,11 +570,17 @@ class _CourierDialogState extends State<CourierDialog> {
                                       widget.onSelected(
                                         widget.indexShipper,
                                         new Shipping(
-                                            shippingId: (courier[i]["rate"]
-                                                    ["id"] as double)
-                                                .toInt(),
-                                            shippingName:
-                                                "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
+                                            courierId: courier[i]["logistic"]
+                                                ["id"],
+                                            courierName: courier[i]["logistic"]
+                                                ["name"],
+                                            courierCode: courier[i]["logistic"]
+                                                ["code"],
+                                            rateId: courier[i]["rate"]["id"],
+                                            rateName: courier[i]["rate"]
+                                                ["name"],
+                                            rateType: courier[i]["rate"]
+                                                ["type"],
                                             shippingPrice: courier[i]
                                                 ["final_price"]),
                                       );

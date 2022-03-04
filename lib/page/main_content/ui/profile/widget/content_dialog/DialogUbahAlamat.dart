@@ -171,7 +171,7 @@ class _FormUbahAlamat extends State<FormUbahAlamat> {
                   borderRadius: 20.0,
                   onItemSelected: (value) {
                     setState(() {
-                      desa = desa;
+                      desa = value;
                     });
                   },
                 ),
