@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:bekal/firebase/LocalNotification.dart';
-import 'package:bekal/main.dart';
 import 'package:bekal/page/auth/ui/login/login.dart';
 import 'package:bekal/page/auth/ui/register/Register.dart';
 import 'package:bekal/page/auth/ui/splash_screen/SplashScreen.dart';
@@ -9,9 +5,6 @@ import 'package:bekal/page/auth/ui/verification/VerifikasiScreen.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit_state.dart';
 import 'package:bekal/page/main_content/ui/home_screen.dart';
-import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,35 +60,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print("handling onmessage: ${message.data}");
-      await LocalNotificationPlugin().initialIze(
-          onSelectedNotification: (String? payload) {
-        print("onSelectedNotification $payload");
-        actionToPage.sink.add(payload!);
-        goto = payload;
-      });
-      await Firebase.initializeApp(
-          options: const FirebaseOptions(
-              apiKey: 'AIzaSyDe2uDuF_iUvCSs30iMcfa96F-onYBF-6Q',
-              appId: '1:481453095978:android:315f9e5769b3846a2e1753',
-              messagingSenderId: '481453095978',
-              projectId: 'bekalku-812da'));
-      if (message.data != null) {
-        var frameBody = PayloadResponseListConversation.fromJson(
-            json.decode(message.data['data']));
-        print("framebody ===>>> ${frameBody.lastChat}");
-        if (frameBody != null) {
-          LocalNotificationPlugin().showNotif(
-            id: frameBody.hashCode,
-            title: frameBody.chatFrom!.fullName,
-            message: frameBody.lastChat,
-            // payload: 'chat',
-            payload: message.data['actionTo'],
-          );
-        }
-      }
-    });
   }
 
   @override

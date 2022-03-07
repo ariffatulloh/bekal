@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:bekal/firebase/FireBasePlugin.dart';
+import 'package:bekal/firebase/LocalNotification.dart';
 import 'package:bekal/main.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
@@ -8,8 +12,11 @@ import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyLi
 import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
+import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -27,6 +34,12 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   var _index = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setupFirebaseAndStomp();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -394,6 +407,41 @@ class HomeScreenState extends State<HomeScreen> {
         child: Text("Logout"),
       ),
     );
+  }
+
+  Future<void> setupFirebaseAndStomp() async {
+    await getFromApiAndConfigWebsocket();
+    await FireBasePlugin()
+        .initialIze(backgroundHandler: firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      print("handling onmessage: ${message.data}");
+      await LocalNotificationPlugin().initialIze(
+          onSelectedNotification: (String? payload) {
+        print("onSelectedNotification $payload");
+        actionToPage.sink.add(payload!);
+        goto = payload;
+      });
+      await Firebase.initializeApp(
+          options: const FirebaseOptions(
+              apiKey: 'AIzaSyDe2uDuF_iUvCSs30iMcfa96F-onYBF-6Q',
+              appId: '1:481453095978:android:315f9e5769b3846a2e1753',
+              messagingSenderId: '481453095978',
+              projectId: 'bekalku-812da'));
+      if (message.data != null) {
+        var frameBody = PayloadResponseListConversation.fromJson(
+            json.decode(message.data['data']));
+        print("framebody ===>>> ${frameBody.lastChat}");
+        if (frameBody != null) {
+          LocalNotificationPlugin().showNotif(
+            id: frameBody.hashCode,
+            title: frameBody.chatFrom!.fullName,
+            message: frameBody.lastChat,
+            // payload: 'chat',
+            payload: message.data['actionTo'],
+          );
+        }
+      }
+    });
   }
 }
 

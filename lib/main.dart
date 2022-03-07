@@ -21,8 +21,6 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 
-import 'firebase/FireBasePlugin.dart';
-
 // String token = "";
 
 int? idUser = -1;
@@ -141,7 +139,7 @@ Future<void> subscribeTopicFirebaseAndStomp(
   });
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await LocalNotificationPlugin().initialIze(
@@ -318,6 +316,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 //
 // class MyHomePage extends StatefulWidget {
 //   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -427,9 +426,7 @@ Future<void> main() async {
     print("secured sukses get");
     if (value != null) {}
   });
-  await getFromApiAndConfigWebsocket();
-  await FireBasePlugin()
-      .initialIze(backgroundHandler: _firebaseMessagingBackgroundHandler);
+
   // await getFromApiAndConfigWebsocket();
 
   await setupLocator();
