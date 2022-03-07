@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:bekal/main.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/model/ModelItemListMenuMyProfile.dart';
@@ -8,6 +9,8 @@ import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogU
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahDataPribadi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahEmail.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahPassword.dart';
+import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,8 +84,37 @@ class ListMenuMyProfile extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          SecureStorage().deleteStorageToken();
                           var token = await SecureStorage().getToken();
+                          var getDataProfile = await ProfileRepository()
+                              .myProfileDashboard(token!);
+                          PayloadResponseMyProfileDashboard data;
+                          if (getDataProfile != null) {
+                            var dataProfile = getDataProfile.data;
+                            if (dataProfile != null) {
+                              data = dataProfile;
+
+                              List<Map<String, dynamic>> idAccount = [];
+                              idAccount.add(
+                                  {"id": data.idUser, "userOrStore": 'user'});
+                              if (data.myOutlets != null) {
+                                data.myOutlets!.forEach((element) {
+                                  idAccount.add({
+                                    "id": element.storeId,
+                                    "userOrStore": 'store'
+                                  });
+                                });
+                              }
+                              List<String> subscribeTopics = [];
+                              idAccount.forEach((element) async {
+                                subscribeTopics.add(
+                                    '${element['userOrStore']}-${element['id']}');
+                              });
+                              unSubscribeTopicFirebaseAndStomp(
+                                  listSubscribeTopic: subscribeTopics);
+                            }
+                          }
+                          await SecureStorage().deleteStorageToken();
+                          token = await SecureStorage().getToken();
                           if (token == null) {
                             print("dismiss dialog");
                             cubitContext

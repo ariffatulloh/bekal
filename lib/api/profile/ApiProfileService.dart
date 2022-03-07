@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdateEmail.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdatePassword.dart';
@@ -19,7 +20,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'ApiProfileService.g.dart';
 
-@RestApi(baseUrl: 'http://51.79.251.50:3000/api/my/')
+@RestApi(baseUrl: '${DioClient.ipServer}/api/my/')
 abstract class ApiProfileService {
   factory ApiProfileService(Dio dio, {String baseUrl}) = _ApiProfileService;
 

@@ -25,6 +25,7 @@ class _$PayloadResponseMyProfileDashboardTearOff {
 
   _PayloadResponseMyProfileDashboard call(
       {String? image,
+      int? idUser,
       String? nameUser,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
@@ -32,6 +33,7 @@ class _$PayloadResponseMyProfileDashboardTearOff {
       Alert? alertHystoryTransaksi}) {
     return _PayloadResponseMyProfileDashboard(
       image: image,
+      idUser: idUser,
       nameUser: nameUser,
       emailUser: emailUser,
       myOutlets: myOutlets,
@@ -52,6 +54,7 @@ const $PayloadResponseMyProfileDashboard =
 /// @nodoc
 mixin _$PayloadResponseMyProfileDashboard {
   String? get image => throw _privateConstructorUsedError;
+  int? get idUser => throw _privateConstructorUsedError;
   String? get nameUser => throw _privateConstructorUsedError;
   String? get emailUser => throw _privateConstructorUsedError;
   List<MyDashboardProfileOutlets>? get myOutlets =>
@@ -73,6 +76,7 @@ abstract class $PayloadResponseMyProfileDashboardCopyWith<$Res> {
       _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>;
   $Res call(
       {String? image,
+      int? idUser,
       String? nameUser,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
@@ -92,6 +96,7 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
   @override
   $Res call({
     Object? image = freezed,
+    Object? idUser = freezed,
     Object? nameUser = freezed,
     Object? emailUser = freezed,
     Object? myOutlets = freezed,
@@ -103,6 +108,10 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      idUser: idUser == freezed
+          ? _value.idUser
+          : idUser // ignore: cast_nullable_to_non_nullable
+              as int?,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -137,6 +146,7 @@ abstract class _$PayloadResponseMyProfileDashboardCopyWith<$Res>
   @override
   $Res call(
       {String? image,
+      int? idUser,
       String? nameUser,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
@@ -160,6 +170,7 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
   @override
   $Res call({
     Object? image = freezed,
+    Object? idUser = freezed,
     Object? nameUser = freezed,
     Object? emailUser = freezed,
     Object? myOutlets = freezed,
@@ -171,6 +182,10 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String?,
+      idUser: idUser == freezed
+          ? _value.idUser
+          : idUser // ignore: cast_nullable_to_non_nullable
+              as int?,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -201,6 +216,7 @@ class _$_PayloadResponseMyProfileDashboard
     implements _PayloadResponseMyProfileDashboard {
   const _$_PayloadResponseMyProfileDashboard(
       {this.image,
+      this.idUser,
       this.nameUser,
       this.emailUser,
       this.myOutlets,
@@ -214,6 +230,8 @@ class _$_PayloadResponseMyProfileDashboard
   @override
   final String? image;
   @override
+  final int? idUser;
+  @override
   final String? nameUser;
   @override
   final String? emailUser;
@@ -226,7 +244,7 @@ class _$_PayloadResponseMyProfileDashboard
 
   @override
   String toString() {
-    return 'PayloadResponseMyProfileDashboard(image: $image, nameUser: $nameUser, emailUser: $emailUser, myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi)';
+    return 'PayloadResponseMyProfileDashboard(image: $image, idUser: $idUser, nameUser: $nameUser, emailUser: $emailUser, myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi)';
   }
 
   @override
@@ -235,6 +253,7 @@ class _$_PayloadResponseMyProfileDashboard
         (other.runtimeType == runtimeType &&
             other is _PayloadResponseMyProfileDashboard &&
             const DeepCollectionEquality().equals(other.image, image) &&
+            const DeepCollectionEquality().equals(other.idUser, idUser) &&
             const DeepCollectionEquality().equals(other.nameUser, nameUser) &&
             const DeepCollectionEquality().equals(other.emailUser, emailUser) &&
             const DeepCollectionEquality().equals(other.myOutlets, myOutlets) &&
@@ -248,6 +267,7 @@ class _$_PayloadResponseMyProfileDashboard
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(image),
+      const DeepCollectionEquality().hash(idUser),
       const DeepCollectionEquality().hash(nameUser),
       const DeepCollectionEquality().hash(emailUser),
       const DeepCollectionEquality().hash(myOutlets),
@@ -271,6 +291,7 @@ abstract class _PayloadResponseMyProfileDashboard
     implements PayloadResponseMyProfileDashboard {
   const factory _PayloadResponseMyProfileDashboard(
       {String? image,
+      int? idUser,
       String? nameUser,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
@@ -283,6 +304,8 @@ abstract class _PayloadResponseMyProfileDashboard
 
   @override
   String? get image;
+  @override
+  int? get idUser;
   @override
   String? get nameUser;
   @override

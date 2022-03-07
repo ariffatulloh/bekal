@@ -8,6 +8,7 @@ import 'package:sizer/sizer.dart';
 Widget WidgetTextField(
     {initialValue,
     onSaved,
+    controller,
     title,
     messageError,
     isError,
@@ -24,14 +25,17 @@ Widget WidgetTextField(
           alignment: Alignment.topLeft,
           child: Row(
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.bold,
-                    color:
-                        textTitleColor != null ? textTitleColor : Colors.white),
-              ),
+              title == null
+                  ? Container()
+                  : Text(
+                      title,
+                      style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.bold,
+                          color: textTitleColor != null
+                              ? textTitleColor
+                              : Colors.white),
+                    ),
               SizedBox(
                 width: 1.w,
               ),
@@ -74,6 +78,7 @@ Widget WidgetTextField(
             boxShape: NeumorphicBoxShape.roundRect(
                 BorderRadius.all(Radius.circular(20)))),
         child: TextFormField(
+          controller: controller != null ? controller : null,
           initialValue: initialValue,
           textAlignVertical: TextAlignVertical.center,
           keyboardType: keyboardtype,

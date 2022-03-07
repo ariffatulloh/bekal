@@ -1,3 +1,4 @@
+import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/request/PayloadRequestLogin.dart';
 import 'package:bekal/payload/request/PayloadRequestRegister.dart';
@@ -8,7 +9,7 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_auth_service.g.dart';
 
-@RestApi(baseUrl: 'http://51.79.251.50:3000/auth/')
+@RestApi(baseUrl: '${DioClient.ipServer}/auth/')
 abstract class ApiAuthService {
   factory ApiAuthService(Dio dio, {String baseUrl}) = _ApiAuthService;
 

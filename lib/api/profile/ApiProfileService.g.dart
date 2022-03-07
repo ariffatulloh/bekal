@@ -116,11 +116,12 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (file != null)
+    if (file != null) {
       _data.files.add(MapEntry(
           'file',
           MultipartFile.fromFileSync(file.path,
               filename: file.path.split(Platform.pathSeparator).last)));
+    }
     _data.fields.add(MapEntry('fullName', fullName));
     _data.fields.add(MapEntry('phoneNumber', phoneNumber));
     _data.fields.add(MapEntry('address', address));
@@ -203,11 +204,12 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (file != null)
+    if (file != null) {
       _data.files.add(MapEntry(
           'file',
           MultipartFile.fromFileSync(file.path,
               filename: file.path.split(Platform.pathSeparator).last)));
+    }
     _data.fields.add(MapEntry('nameStore', nameStore));
     _data.fields.add(MapEntry('addressStore', addressStore));
     _data.fields.add(MapEntry('phoneNumber', phoneNumber));
@@ -244,11 +246,12 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (imgThumbnail != null)
+    if (imgThumbnail != null) {
       _data.files.add(MapEntry(
           'imgThumbnail',
           MultipartFile.fromFileSync(imgThumbnail.path,
               filename: imgThumbnail.path.split(Platform.pathSeparator).last)));
+    }
     if (files != null) {
       _data.files.addAll(files.map((i) => MapEntry(
           'files',
@@ -394,11 +397,12 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (file != null)
+    if (file != null) {
       _data.files.add(MapEntry(
           'file',
           MultipartFile.fromFileSync(file.path,
               filename: file.path.split(Platform.pathSeparator).last)));
+    }
     _data.fields.add(MapEntry('nameStore', nameStore));
     _data.fields.add(MapEntry('addressStore', addressStore));
     _data.fields.add(MapEntry('phoneNumber', phoneNumber));

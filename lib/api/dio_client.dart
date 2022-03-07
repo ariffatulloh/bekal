@@ -6,9 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
+  static const String ipServer = 'http://51.79.251.50:3000';
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://51.79.251.50:3000',
+      baseUrl: ipServer,
       connectTimeout: 30000,
       receiveTimeout: 30000,
     ),

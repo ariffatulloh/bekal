@@ -1,10 +1,206 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:bekal/database/db_locator.dart';
+import 'package:bekal/firebase/LocalNotification.dart';
 import 'package:bekal/page/controll_all_page/ui/page_ui_controll.dart';
+import 'package:bekal/payload/PayloadResponseApi.dart';
+import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
+import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:bekal/repository/chat_repository.dart';
+import 'package:bekal/repository/profile_repository.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:bekal/xd_ipro.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:stomp_dart_client/stomp_frame.dart';
+
+import 'firebase/FireBasePlugin.dart';
+
+// String token = "";
+
+int? idUser = -1;
+late StompClient stompClient;
+var snapshotListChat = StreamController<
+    List<Map<String, List<PayloadResponseListConversation>>>>.broadcast();
+var streamNotifChat = StreamController<String?>.broadcast();
+var streamToken = StreamController<String?>.broadcast();
+var actionToPage = StreamController<String>.broadcast();
+String? goto = "";
+Future<void> onConnects(StompFrame frame) async {
+  print("websocket Connected....");
+  var token = (await SecureStorage().getToken()) ?? "";
+  var getDataProfile = await ProfileRepository().myProfileDashboard(token);
+  PayloadResponseMyProfileDashboard data;
+  if (getDataProfile != null) {
+    var dataProfile = getDataProfile.data;
+    if (dataProfile != null) {
+      data = dataProfile;
+
+      List<Map<String, dynamic>> idAccount = [];
+      idUser = data.idUser;
+      idAccount.add({"id": idUser, "userOrStore": 'user'});
+      if (data.myOutlets != null) {
+        data.myOutlets!.forEach((element) {
+          idAccount.add({"id": element.storeId, "userOrStore": 'store'});
+        });
+      }
+      List<String> subscribeTopics = [];
+      idAccount.forEach((element) async {
+        subscribeTopics.add('${element['userOrStore']}-${element['id']}');
+      });
+      // await FireBasePlugin()
+      //     .initialIze(backgroundHandler: _firebaseMessagingBackgroundHandler);
+      subscribeTopicFirebaseAndStomp(listSubscribeTopic: subscribeTopics);
+    }
+  }
+}
+
+unSubscribeTopicFirebaseAndStomp(
+    {required List<String> listSubscribeTopic}) async {
+  listSubscribeTopic.forEach((element) async {
+    await FirebaseMessaging.instance.unsubscribeFromTopic(element);
+    print("websocket /topic/message/${element}}");
+    subUnSubStomp("");
+  });
+}
+
+dynamic subUnSubStomp(element) {
+  return stompClient.subscribe(
+      destination: '/topic/message/${element}',
+      callback: (frame) async {
+        print("websocket /topic/message/${element}}");
+        var token = (await SecureStorage().getToken()) ?? "";
+        PayloadResponseApi<PayloadResponseMyProfileDashboard?> getDataProfile =
+            await ProfileRepository().myProfileDashboard(token);
+        PayloadResponseMyProfileDashboard data;
+        if (getDataProfile != null) {
+          PayloadResponseMyProfileDashboard dataProfile = getDataProfile.data!;
+          if (dataProfile != null) {
+            data = dataProfile;
+            List<Map<String, dynamic>> idAccount = [];
+            idUser = data.idUser;
+            idAccount.add({"id": idUser, "userOrStore": 'user'});
+            if (data.myOutlets != null) {
+              data.myOutlets!.forEach((element) {
+                idAccount.add({"id": element.storeId, "userOrStore": 'store'});
+              });
+            }
+            List<Map<String, List<PayloadResponseListConversation>>>
+                listToSnapShotChat = [];
+            List<String> s = [];
+            await Future.forEach(idAccount,
+                (Map<String, dynamic> element) async {
+              String subscribeTopics =
+                  '${element['userOrStore']}-${element['id']}';
+              if (element['userOrStore'] == 'user') {
+                PayloadResponseApi<List<PayloadResponseListConversation>>
+                    getListConversation =
+                    await ChatRepository().getListConversation(token);
+                var datalist = getListConversation.data;
+                s.add("waw");
+                if (datalist != null) {
+                  listToSnapShotChat.add({'$subscribeTopics': datalist});
+                }
+              }
+              if (element['userOrStore'] == 'store') {
+                PayloadResponseApi<List<PayloadResponseListConversation>>
+                    getListConversation = await ChatRepository()
+                        .getListConversationAsStore(token, element['id']);
+                var datalist = getListConversation.data;
+                s.add("waw");
+                if (datalist != null) {
+                  listToSnapShotChat.add({'$subscribeTopics': datalist});
+                }
+              }
+            });
+
+            // print(
+            //     'listchat ${listToSnapShotChat.where((element) => element.keys.toString().toLowerCase().contains("user-91")).map((e) => e.values).toList()}');
+            // streamNotifChat.sink.add("have new message");
+
+            streamNotifChat.sink.add("have new message");
+            snapshotListChat.sink.add(listToSnapShotChat);
+          }
+        }
+      });
+}
+
+Future<void> subscribeTopicFirebaseAndStomp(
+    {required List<String> listSubscribeTopic}) async {
+  await Future.forEach(listSubscribeTopic, (String element) async {
+    await FirebaseMessaging.instance.subscribeToTopic(element);
+    print("websocket /topic/message/${element}}");
+    subUnSubStomp(element);
+  });
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await LocalNotificationPlugin().initialIze(
+      onSelectedNotification: (String? payload) {
+    print("onSelectedNotification $payload");
+    actionToPage.sink.add(payload!);
+    goto = payload;
+  });
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: 'AIzaSyDe2uDuF_iUvCSs30iMcfa96F-onYBF-6Q',
+          appId: '1:481453095978:android:315f9e5769b3846a2e1753',
+          messagingSenderId: '481453095978',
+          projectId: 'bekalku-812da'));
+  print('Handling a background message ${message.messageId} ${message.data}');
+
+  if (message.data != null) {
+    var frameBody = PayloadResponseListConversation.fromJson(
+        json.decode(message.data['data']));
+    print("framebody ===>>> ${frameBody.lastChat}");
+    if (frameBody != null) {
+      LocalNotificationPlugin().showNotif(
+        id: frameBody.hashCode,
+        title: frameBody.chatFrom!.fullName,
+        message: frameBody.lastChat,
+        // payload: 'chat',
+        payload: message.data['actionTo'],
+      );
+    }
+  }
+}
+
+Future<void> getFromApiAndConfigWebsocket() async {
+  var getTokenFromLocal = await SecureStorage().getToken();
+  if (getTokenFromLocal != null) {
+    var token = getTokenFromLocal;
+    stompClient = StompClient(
+      config: StompConfig(
+        url: 'ws://51.79.251.50:3000/ws-message',
+        onConnect: onConnects,
+        beforeConnect: () async {
+          // print('waiting to connect... $token');
+          await Future.delayed(Duration(milliseconds: 200));
+          print('connecting...');
+        },
+        onWebSocketError: (dynamic error) => print(error),
+        // stompConnectHeaders: {'Authorization': 'Bearer yourToken'},
+        webSocketConnectHeaders: {'Authorization': token},
+      ),
+    );
+    stompClient.activate();
+    // PayloadResponseApi<List<PayloadResponseListConversation>>
+    //     getListConversation = await ChatRepository().getListConversation(token);
+    // var datalist = getListConversation.data;
+    // if (datalist != null) {
+    //   snapshotListChat.sink.add(datalist);
+    // }
+  }
+}
 
 // void main() {
 //   Locator();
@@ -208,8 +404,34 @@ class MyApp extends StatelessWidget {
 //   }
 // }
 
-void main() async {
+Future<void> main() async {
   // runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  var notifAppLaunch = await LocalNotificationPlugin()
+      .flutterLocalNotificationsPlugin
+      .getNotificationAppLaunchDetails();
+
+  if (notifAppLaunch?.didNotificationLaunchApp ?? false) {
+    goto = notifAppLaunch!.payload;
+    // initialRoute = SecondPage.routeName;
+  }
+  // await LocalNotificationPlugin().initialIze(
+  //     onSelectedNotification: (String? payload) {
+  //   print("onSelectedNotification $payload");
+  //   actionToPage.sink.add(payload!);
+  //   goto = payload;
+  // });
+  StreamSubscription<String?> streamSubscription =
+      streamToken.stream.listen((value) async {
+    print('Value from controller: $value');
+    print("secured sukses get");
+    if (value != null) {}
+  });
+  await getFromApiAndConfigWebsocket();
+  await FireBasePlugin()
+      .initialIze(backgroundHandler: _firebaseMessagingBackgroundHandler);
+  // await getFromApiAndConfigWebsocket();
+
   await setupLocator();
   BlocOverrides.runZoned(
     () => runApp(RunApps()),

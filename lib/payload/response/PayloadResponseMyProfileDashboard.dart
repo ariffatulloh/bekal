@@ -9,6 +9,7 @@ class PayloadResponseMyProfileDashboard
     with _$PayloadResponseMyProfileDashboard {
   const factory PayloadResponseMyProfileDashboard({
     String? image,
+    int? idUser,
     String? nameUser,
     String? emailUser,
     List<MyDashboardProfileOutlets>? myOutlets,

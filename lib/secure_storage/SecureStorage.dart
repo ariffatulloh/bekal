@@ -1,3 +1,4 @@
+import 'package:bekal/main.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -41,6 +42,7 @@ class SecureStorage {
 
   Future<void> saveTokenWithCredential(
       String token, String email, String password) async {
+    streamToken.sink.add(token);
     await FlutterSecureStorage().write(
         key: "token",
         value: token,
@@ -64,6 +66,7 @@ class SecureStorage {
   }
 
   Future<void> saveTokenOnly(String token) async {
+    streamToken.sink.add(token);
     await FlutterSecureStorage().write(
         key: "token",
         value: token,
@@ -76,8 +79,9 @@ class SecureStorage {
         aOptions: _getAndroidOptions());
   }
 
-  void deleteStorageToken() {
-    FlutterSecureStorage()
+  Future<void> deleteStorageToken() async {
+    streamToken.sink.add(null);
+    await FlutterSecureStorage()
         .deleteAll(iOptions: _getIOSOptions(), aOptions: _getAndroidOptions());
     // CheckingToken();
   }

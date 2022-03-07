@@ -1,14 +1,16 @@
+import 'package:bekal/main.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/home_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/ViewProduct.dart';
 import 'package:bekal/page/main_content/ui/cart/cart_screen.dart';
+import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
 import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyListProduct.dart';
 import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
-import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
@@ -54,10 +56,20 @@ class HomeScreenState extends State<HomeScreen> {
               countNotif: 0,
               icon: Icons.person,
             ),
-            itemBottomNavBar(
-              countNotif: 0,
-              icon: Icons.chat,
-            ),
+            StreamBuilder(
+                stream: streamNotifChat.stream,
+                builder: (context, AsyncSnapshot<String?> snapshot) {
+                  if (snapshot.hasData) {
+                    return itemBottomNavBar(
+                      countNotif: 2,
+                      icon: Icons.chat,
+                    );
+                  }
+                  return itemBottomNavBar(
+                    countNotif: 0,
+                    icon: Icons.chat,
+                  );
+                }),
             itemBottomNavBar(
               countNotif: 0,
               icon: Icons.shopping_basket,
@@ -72,6 +84,9 @@ class HomeScreenState extends State<HomeScreen> {
             setState(() {
               _index = index;
             });
+            if (index == 3) {
+              streamNotifChat.sink.add(null);
+            }
           },
           letIndexChange: (index) => true,
         ),
@@ -84,24 +99,32 @@ class HomeScreenState extends State<HomeScreen> {
         Positioned(
           child: Icon(
             icon,
-            size: 3.h,
+            size: 4.h,
             color: Color(0xfff39200),
           ),
           // top: 2,
         ),
         countNotif > 1
-            ? Positioned(
-                child: CircleAvatar(
-                  backgroundColor: Colors.red,
-                  radius: 8,
-                  child: Center(
-                    child: Text(
-                      countNotif > 99 ? "99+" : "$countNotif",
-                      style: TextStyle(color: Colors.white, fontSize: 6.sp),
+            ? icon == Icons.chat
+                ? Positioned(
+                    child: NeumorphicIcon(
+                      Icons.circle_notifications_sharp,
+                      style: NeumorphicStyle(color: Colors.red, depth: 1.h),
+                      size: 2.h,
                     ),
-                  ),
-                ),
-              )
+                  )
+                : Positioned(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      radius: 8,
+                      child: Center(
+                        child: Text(
+                          countNotif > 99 ? "99+" : "$countNotif",
+                          style: TextStyle(color: Colors.white, fontSize: 6.sp),
+                        ),
+                      ),
+                    ),
+                  )
             : const SizedBox(),
       ],
     );
@@ -113,6 +136,8 @@ class HomeScreenState extends State<HomeScreen> {
         return HomeWidget();
       case 2:
         return ProfileScreen();
+      case 3:
+        return const ChatScreen();
       case 4:
         return const CartScreen();
     }
@@ -192,7 +217,10 @@ class HomeScreenState extends State<HomeScreen> {
                                                   .viewListStoreProductResponse[
                                               index];
                                           return ItemProduct(
-                                            onClick: () {
+                                            onClick: () async {
+                                              var token = await SecureStorage()
+                                                      .getToken() ??
+                                                  "";
                                               showMaterialModalBottomSheet(
                                                   duration: Duration(
                                                       milliseconds: 1400),
@@ -204,41 +232,45 @@ class HomeScreenState extends State<HomeScreen> {
                                                       Colors.transparent,
                                                   context: context,
                                                   builder: (context) {
-                                                    return FutureBuilder(
-                                                        future: HomeScreenCubit()
-                                                            .getHomeSeeDetailProduct(
-                                                                idProduct: object
-                                                                    .storeProdId,
-                                                                idStore: object
-                                                                    .store
-                                                                    .storeID),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          PayloadResponseStoreProduct?
-                                                              dataDetailProduct;
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .done) {
-                                                            PayloadResponseApi
-                                                                dataApiDetailProduct =
-                                                                snapshot.data
-                                                                    as PayloadResponseApi;
-                                                            if (dataApiDetailProduct
-                                                                .errorMessage
-                                                                .isEmpty) {
-                                                              dataDetailProduct =
-                                                                  dataApiDetailProduct
-                                                                      .data;
-                                                            }
-                                                          }
-                                                          return ViewProduct(
-                                                              dataDetailProduct:
-                                                                  dataDetailProduct,
-                                                              idProduct: object
-                                                                  .storeProdId);
-                                                        });
+                                                    return ViewProduct(
+                                                        idStore: object
+                                                            .store.storeID,
+                                                        auth: token,
+                                                        dataDetailProduct: null,
+                                                        idProduct:
+                                                            object.storeProdId);
                                                   });
+                                              // StreamBuilder(
+                                              //     stream: HomeScreenCubit()
+                                              //         .getHomeSeeDetailProduct(
+                                              //             idProduct: object
+                                              //                 .storeProdId,
+                                              //             idStore: object
+                                              //                 .store.storeID)
+                                              //         .asStream(),
+                                              //     builder: (context, snapshot) {
+                                              //       PayloadResponseStoreProduct?
+                                              //           dataDetailProduct;
+                                              //       if (snapshot
+                                              //               .connectionState ==
+                                              //           ConnectionState.done) {
+                                              //         PayloadResponseApi
+                                              //             dataApiDetailProduct =
+                                              //             snapshot.data
+                                              //                 as PayloadResponseApi;
+                                              //         if (dataApiDetailProduct
+                                              //             .errorMessage
+                                              //             .isEmpty) {
+                                              //           dataDetailProduct =
+                                              //               dataApiDetailProduct
+                                              //                   .data;
+                                              //
+                                              //         }
+                                              //       }
+                                              //       return CircularProgressIndicator(
+                                              //         color: Colors.blue,
+                                              //       );
+                                              //     });
                                             },
                                             counterViews:
                                                 int.parse(object.priceProduct),
@@ -293,7 +325,10 @@ class HomeScreenState extends State<HomeScreen> {
                                                   .viewListStoreProductResponse[
                                               index];
                                           return ItemProduct(
-                                            onClick: () {
+                                            onClick: () async {
+                                              var token = await SecureStorage()
+                                                      .getToken() ??
+                                                  "";
                                               showMaterialModalBottomSheet(
                                                   duration: Duration(
                                                       milliseconds: 1400),
@@ -305,40 +340,13 @@ class HomeScreenState extends State<HomeScreen> {
                                                       Colors.transparent,
                                                   context: context,
                                                   builder: (context) {
-                                                    return FutureBuilder(
-                                                        future: HomeScreenCubit()
-                                                            .getHomeSeeDetailProduct(
-                                                                idProduct: object
-                                                                    .storeProdId,
-                                                                idStore: object
-                                                                    .store
-                                                                    .storeID),
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          PayloadResponseStoreProduct?
-                                                              dataDetailProduct;
-                                                          if (snapshot
-                                                                  .connectionState ==
-                                                              ConnectionState
-                                                                  .done) {
-                                                            PayloadResponseApi
-                                                                dataApiDetailProduct =
-                                                                snapshot.data
-                                                                    as PayloadResponseApi;
-                                                            if (dataApiDetailProduct
-                                                                .errorMessage
-                                                                .isEmpty) {
-                                                              dataDetailProduct =
-                                                                  dataApiDetailProduct
-                                                                      .data;
-                                                            }
-                                                          }
-                                                          return ViewProduct(
-                                                              dataDetailProduct:
-                                                                  dataDetailProduct,
-                                                              idProduct: object
-                                                                  .storeProdId);
-                                                        });
+                                                    return ViewProduct(
+                                                        idStore: object
+                                                            .store.storeID,
+                                                        auth: token,
+                                                        dataDetailProduct: null,
+                                                        idProduct:
+                                                            object.storeProdId);
                                                   });
                                             },
                                             counterViews:
