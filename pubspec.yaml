@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.3+4
 
 environment:
-  sdk: ">=2.15.0-178.1.beta <3.0.0"
+  sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -56,7 +56,7 @@ dependencies:
   loading_overlay: ^0.3.0
   stomp_dart_client:
   flutter_local_notifications:
-  firebase_messaging:
+  firebase_messaging: ^11.2.8
   firebase_core:
 
 dev_dependencies:

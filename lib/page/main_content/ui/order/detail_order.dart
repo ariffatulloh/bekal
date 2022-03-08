@@ -1,8 +1,12 @@
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/main_content/ui/cart/payment_screen.dart';
+import 'package:bekal/page/common/input_field.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
+import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' hide TextInput;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sizer/sizer.dart';
@@ -18,6 +22,8 @@ class DetailOrder extends StatefulWidget {
 class _DetailOrderState extends State<DetailOrder> {
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
   final DioClient _dio = new DioClient();
+
+  String noresi = "";
 
   bool isGettingData = false;
   var order;
@@ -178,6 +184,64 @@ class _DetailOrderState extends State<DetailOrder> {
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold),
                     ),
+                    if (noresi != "")
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 2.h),
+                          Text(
+                            "Nomor Resi",
+                            style: TextStyle(
+                                fontFamily: 'ghotic', fontSize: 10.sp),
+                          ),
+                          SizedBox(height: 1.h),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  noresi,
+                                  style: TextStyle(
+                                      fontFamily: 'ghotic',
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: noresi));
+                                  Fluttertoast.showToast(
+                                    msg: "No Resi di copy",
+                                    gravity: ToastGravity.CENTER,
+                                  );
+                                },
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 2.w),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Salin",
+                                        style: TextStyle(
+                                            fontFamily: 'ghotic',
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.orange),
+                                      ),
+                                      SizedBox(width: 1.w),
+                                      Icon(
+                                        Icons.copy,
+                                        size: 11.sp,
+                                        color: Colors.orange,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
                   ],
                 ),
               ),
@@ -312,6 +376,154 @@ class _DetailOrderState extends State<DetailOrder> {
                     ),
                   ),
                 ),
+              if (status?["id"] == "ORD08")
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Konfirmasi"),
+                            content: Text(
+                                "Apakah Anda telah menerima pesanan Anda?"),
+                            actions: [
+                              TextButton(
+                                child: Text("Tutup"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Ya, Pesanan Diterima"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  _terimaPesanan();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 70.w,
+                      height: 5.h,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.orange,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Barang Telah Diterima",
+                            style: TextStyle(
+                                fontFamily: 'ghotic',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              if (status?["id"] == "ORD05")
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Konfirmasi"),
+                            content: Text(
+                                "Apakah yakin akan menyelesaikan transaksi ini? Uang akan segera diteruskan ke Penjual"),
+                            actions: [
+                              TextButton(
+                                child: Text("Tutup"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text("Ya, Transaksi Selesai"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  _pesananSelesai();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: 70.w,
+                      height: 5.h,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.orange,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Transaksi Selesai",
+                            style: TextStyle(
+                                fontFamily: 'ghotic',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              if (status?["id"] == "ORD03")
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return DialogPembatalanPesanan(
+                              orderId: widget.orderId,
+                              onSuccess: _getData,
+                            );
+                          });
+                    },
+                    child: Container(
+                      width: 70.w,
+                      height: 5.h,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.red,
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Batalkan Transaksi",
+                            style: TextStyle(
+                                fontFamily: 'ghotic',
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               SizedBox(height: 10.h)
             ],
           ),
@@ -424,6 +636,62 @@ class _DetailOrderState extends State<DetailOrder> {
     return list;
   }
 
+  _pesananSelesai() async {
+    setState(() {
+      isGettingData = true;
+    });
+
+    var payload = {
+      "order_id": widget.orderId,
+      "status": "ORD09",
+      "delivery_no": "",
+      "reason": ""
+    };
+
+    try {
+      DioResponse res = await _dio.postAsync("/order/action", payload);
+      if (res.results["code"] == 200) {
+        Toaster(context).showSuccessToast("Transaksi Anda telah selesai",
+            gravity: ToastGravity.CENTER);
+        _getData();
+      }
+    } catch (e) {
+      print(e);
+
+      setState(() {
+        isGettingData = false;
+      });
+    }
+  }
+
+  _terimaPesanan() async {
+    setState(() {
+      isGettingData = true;
+    });
+
+    var payload = {
+      "order_id": widget.orderId,
+      "status": "ORD05",
+      "delivery_no": "",
+      "reason": ""
+    };
+
+    try {
+      DioResponse res = await _dio.postAsync("/order/action", payload);
+      if (res.results["code"] == 200) {
+        Toaster(context).showSuccessToast("Pesanan berhasil diterima",
+            gravity: ToastGravity.CENTER);
+        _getData();
+      }
+    } catch (e) {
+      print(e);
+
+      setState(() {
+        isGettingData = false;
+      });
+    }
+  }
+
   _getData() async {
     setState(() {
       isGettingData = true;
@@ -437,6 +705,7 @@ class _DetailOrderState extends State<DetailOrder> {
           status = res.results["data"]["status"];
           products = res.results["data"]["product"];
           invoice = res.results["data"]["invoice"];
+          noresi = order?["delivery_no"] ?? "";
         });
       }
     } catch (e) {
@@ -445,6 +714,246 @@ class _DetailOrderState extends State<DetailOrder> {
 
     setState(() {
       isGettingData = false;
+    });
+  }
+}
+
+class DialogPembatalanPesanan extends StatefulWidget {
+  final String orderId;
+  final Function onSuccess;
+  const DialogPembatalanPesanan(
+      {Key? key, required this.orderId, required this.onSuccess})
+      : super(key: key);
+
+  @override
+  _DialogPembatalanPesananState createState() =>
+      new _DialogPembatalanPesananState();
+}
+
+class _DialogPembatalanPesananState extends State<DialogPembatalanPesanan> {
+  final currencyFormatter = NumberFormat.currency(locale: 'ID');
+  final _formKey = GlobalKey<FormState>();
+  DioClient _dio = new DioClient();
+  bool isSaving = false;
+
+  String reason = "";
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(5.w),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Container(
+                              width: double.infinity,
+                              height: 7.h,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Alasan Penolakan",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(5.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Tuliskan Alasan Pembatalan Anda",
+                                    style: TextStyle(
+                                      fontFamily: 'ghotic',
+                                      fontSize: 11.sp,
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.h),
+                                  TextInput(
+                                      maxLines: 2,
+                                      value: reason,
+                                      keyboardType: TextInputType.text,
+                                      borderRadius: 10.0,
+                                      onChanged: (v) {
+                                        setState(() {
+                                          reason = v ?? "";
+                                        });
+                                      }),
+                                ],
+                              ),
+                            ),
+                            if (!isSaving)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 4.h,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          color: Colors.orange),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Tutup",
+                                            style: TextStyle(
+                                                fontFamily: 'ghotic',
+                                                fontSize: 9.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 3.w),
+                                  InkWell(
+                                    onTap: () {
+                                      if (_formKey.currentState!.validate() &&
+                                          !isSaving) _submitConfirmation();
+                                    },
+                                    child: Container(
+                                      width: 30.w,
+                                      height: 4.h,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        color: Colors.green,
+                                      ),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Submit",
+                                            style: TextStyle(
+                                                fontFamily: 'ghotic',
+                                                fontSize: 9.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            if (isSaving)
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 15,
+                                      height: 15,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.orange,
+                                      ),
+                                    ),
+                                    SizedBox(width: 2.w),
+                                    Text(
+                                      "membatalkan pesanan...",
+                                      style: TextStyle(
+                                          fontFamily: 'ghotic',
+                                          color: Colors.black87,
+                                          fontSize: 11.sp,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ]),
+                            SizedBox(height: 3.h)
+                          ]),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _submitConfirmation() async {
+    setState(() {
+      isSaving = true;
+    });
+
+    var payload = {
+      "order_id": widget.orderId,
+      "status": "ORD07",
+      "delivery_no": "",
+      "reason": reason
+    };
+
+    try {
+      DioResponse res = await _dio.postAsync("/order/action", payload);
+      if (res.results["code"] == 200) {
+        Toaster(context).showSuccessToast("Pesanan berhasil dibatalkan",
+            gravity: ToastGravity.CENTER);
+
+        Navigator.of(context).pop();
+
+        widget.onSuccess();
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    setState(() {
+      isSaving = false;
     });
   }
 }

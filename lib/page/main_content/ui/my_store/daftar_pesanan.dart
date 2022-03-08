@@ -1,25 +1,25 @@
 import 'package:bekal/api/dio_client.dart';
-import 'package:bekal/page/main_content/ui/order/detail_order.dart';
+import 'package:bekal/page/main_content/ui/my_store/detail_pesanan.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sizer/sizer.dart';
 
-class DialogHistoryTransaksi extends StatefulWidget {
-  final ValueChanged<bool>? onDismiss;
-  const DialogHistoryTransaksi({Key? key, this.onDismiss}) : super(key: key);
+class DaftarPesanan extends StatefulWidget {
+  const DaftarPesanan({Key? key}) : super(key: key);
+
   @override
-  _DialogHistoryTransaksi createState() => _DialogHistoryTransaksi();
+  State<DaftarPesanan> createState() => _DaftarPesananState();
 }
 
-class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
+class _DaftarPesananState extends State<DaftarPesanan> {
   DioClient _dio = new DioClient();
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
 
   bool isGettingData = false;
-  List historyTrans = [];
+  List orderList = [];
 
   @override
   void initState() {
@@ -30,16 +30,30 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingOverlay(
-      isLoading: isGettingData,
-      color: Colors.black38,
-      opacity: .3,
-      child: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(color: Colors.transparent),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: false,
+        title: Text(
+          'Daftar Pesanan',
+          style: TextStyle(
+              fontFamily: 'ghotic',
+              color: Colors.black87,
+              fontWeight: FontWeight.bold),
+        ),
+        leading: BackButton(
+          color: Colors.black87,
+        ),
+        backgroundColor: Colors.white,
+        elevation: 1,
+      ),
+      body: LoadingOverlay(
+        isLoading: isGettingData,
+        color: Colors.black38,
+        opacity: .3,
+        child: SingleChildScrollView(
           child: Column(
-            children: [..._buildItem()],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: _buildItem()),
         ),
       ),
     );
@@ -47,14 +61,15 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
 
   List<Widget> _buildItem() {
     List<Widget> list = [];
-    historyTrans.forEach((trans) {
+    orderList.forEach((trans) {
+      var order = trans["order"];
       list.add(InkWell(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DetailOrder(
-                orderId: trans["order_id"],
+              builder: (context) => DetailPesanan(
+                orderId: order["order_id"],
               ),
             ),
           ).then((Object? obj) => _getData());
@@ -73,7 +88,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                     SizedBox(width: 1.5.w),
                     Expanded(
                       child: Text(
-                        formatDate(context, "${trans["order_at"]}"),
+                        formatDate(context, "${order["createdAt"]}"),
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 10.sp,
@@ -88,7 +103,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                         color: Colors.orange,
                       ),
                       child: Text(
-                        "${trans["status"]["status_name"]}",
+                        "${order["status"]["status_name"]}",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'ghotic',
@@ -118,7 +133,8 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                             child: CachedNetworkImage(
                               fit: BoxFit.cover,
                               imageUrl: trans["thumbnail_product"]
-                                  ["product_thumbnail"],
+                                      ?["product_thumbnail"] ??
+                                  "",
                               placeholder: (context, url) => Center(
                                 child: SizedBox(
                                   width: 30.0,
@@ -141,7 +157,8 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                trans["thumbnail_product"]["product_name"],
+                                trans["thumbnail_product"]?["product_name"] ??
+                                    "",
                                 style: TextStyle(
                                     fontFamily: 'ghotic',
                                     fontSize: 11.sp,
@@ -151,7 +168,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                "Jumlah Barang : ${trans["thumbnail_product"]["product_qty"]}",
+                                "Jumlah Barang : ${order["order_qty"] ?? ""}",
                                 style: TextStyle(
                                     fontFamily: 'ghotic', fontSize: 9.sp),
                               ),
@@ -169,8 +186,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                       ),
                     ),
                     Text(
-                      currencyFormatter
-                          .format(int.parse("${trans["order_total"]}")),
+                      currencyFormatter.format(order["order_total"]),
                       style: TextStyle(
                           fontFamily: 'ghotic',
                           fontSize: 11.sp,
@@ -192,10 +208,10 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
       isGettingData = true;
     });
     try {
-      DioResponse res = await _dio.getAsync("/order/list");
+      DioResponse res = await _dio.getAsync("/api/my/outlet/orders");
       if (res.results["code"] == 200) {
         setState(() {
-          historyTrans = res.results["data"];
+          orderList = res.results["data"];
         });
       }
     } catch (e) {

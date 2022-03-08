@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/my_store/DashboardMyStore.dart';
+import 'package:bekal/page/main_content/ui/my_store/daftar_pesanan.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogBuatToko.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahBasicInformationStore.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
@@ -88,6 +89,25 @@ class _CardStoreMyProfile extends State<CardStoreMyProfile> {
                                   ),
                                 ),
                                 PopupMenuItem(
+                                  value: 'orderList',
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Icon(
+                                            Icons.production_quantity_limits),
+                                      ),
+                                      Text(
+                                        "Informasi Pesanan",
+                                        style: TextStyle(
+                                          fontFamily: 'ghotic',
+                                          fontSize: 10.sp,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
                                   value: 'customerView',
                                   child: Row(
                                     children: <Widget>[
@@ -161,6 +181,15 @@ class _CardStoreMyProfile extends State<CardStoreMyProfile> {
                                           .LoadMyProfileDashboard();
                                     },
                                   );
+                                  break;
+                                case 'orderList':
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DaftarPesanan(),
+                                    ),
+                                  );
+                                  break;
                               }
                               // if (value == 'basicInformation') {
                               //
