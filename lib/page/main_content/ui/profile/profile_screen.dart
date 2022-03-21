@@ -1,257 +1,454 @@
+import 'dart:async';
 import 'dart:math' as math;
 
-import 'package:adobe_xd/adobe_xd.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
-import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit_state.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/CardStoreMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/ListMenuMyProfile.dart';
-import 'package:bekal/page/main_content/ui/profile/widget/LoadingContent.dart';
+import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:bekal/repository/profile_repository.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sizer/sizer.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
+  @override
+  State createState() {
+    return _ProfileScreen();
+  }
+
+  final _ProfileScreen myAppState = new _ProfileScreen();
+}
+
+class _ProfileScreen extends State<ProfileScreen> {
   Widget? notifikasi;
+  var streamProfileScreen = StreamController<
+      PayloadResponseApi<PayloadResponseMyProfileDashboard?>>.broadcast();
+
+  PayloadResponseMyProfileDashboard? dataEvent;
+  Future<void> getFromApi() async {
+    // streamProfileScreen.sink
+    //     .add(await ProfileRepository().myProfileDashboard("authorization"));
+    var event = await ProfileRepository().myProfileDashboard("authorization");
+    if (event.data != null) {
+      setState(() {
+        dataEvent = event.data;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getFromApi();
+  } // ProfileScreen();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    streamProfileScreen.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ProfileScreenCubit>(
       create: (context) => ProfileScreenCubit(),
       child: Scaffold(
-        backgroundColor: const Color(0x26000000),
-        body: BlocBuilder<ProfileScreenCubit, ProfileScreenCubitState>(
-          builder: (cubitContext, cubitState) {
-            var container = Container(
-              child: null,
-            );
-            if (cubitState is InitialStateProfileScreenCubitState) {
-              cubitContext.read<ProfileScreenCubit>().LoadMyProfileDashboard();
-              return LoadingContent(
-                child: ProfileContent(
-                  null,
-                  cubitState: cubitState,
-                  cubitContext: cubitContext,
-                ),
-              );
-            } else {
-              return Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(size: 207.0, end: 0.0),
-                    Pin(size: 212.0, start: 0.0),
-                    child: Stack(
-                      children: <Widget>[
-                        Pinned.fromPins(
-                          Pin(size: 103.0, end: 0.0),
-                          Pin(size: 134.0, start: 0.0),
-                          child: SvgPicture.string(
-                            _svg_dh7r5a,
-                            allowDrawingOutsideViewBox: true,
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                        Pinned.fromPins(
-                          Pin(size: 77.0, middle: 0.3),
-                          Pin(size: 77.0, middle: 0.7111),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.elliptical(9999.0, 9999.0)),
-                              color: Color(0xfff39200),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0x29000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Pinned.fromPins(
-                          Pin(size: 39.0, start: 0.0),
-                          Pin(size: 39.0, end: 0.0),
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                  Radius.elliptical(9999.0, 9999.0)),
-                              color: Color(0xfff39200),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0x29000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          backgroundColor: const Color(0x26000000),
+          body: dataEvent != null
+              ? ProfileContent(
+                  data: dataEvent!,
+                  context: context,
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
                   ),
-                  Container(
-                    child: cubitState is LoadProfileSukses
-                        ? ProfileContent(cubitState.data,
-                            cubitState: cubitState, cubitContext: cubitContext)
-                        : LoadingContent(
-                            child: ProfileContent(
-                              null,
-                              cubitState: cubitState,
-                              cubitContext: cubitContext,
-                            ),
-                          ),
-                  ),
-                  Container(
-                    child: notifikasi != null ? notifikasi : Container(),
-                  )
-                ],
-              );
-            }
-          },
-        ),
-      ),
+                )
+          // StreamBuilder(
+          //   stream: streamProfileScreen.stream,
+          //   builder: (context,
+          //       AsyncSnapshot<
+          //               PayloadResponseApi<PayloadResponseMyProfileDashboard?>>
+          //           snapshot) {
+          //     print('profile ${snapshot.data}');
+          //     if (snapshot.hasData) {
+          //       if (snapshot.data != null) {
+          //         if (snapshot.data!.data != null) {
+          //           return ProfileContent(
+          //             data: snapshot.data!.data!,
+          //             context: context,
+          //           );
+          //         }
+          //       }
+          //     }
+          //     return Center(
+          //       child: CircularProgressIndicator(),
+          //     );
+          //   },
+          // ),
+
+          ///////////////////////////////////
+          // body: BlocBuilder<ProfileScreenCubit, ProfileScreenCubitState>(
+          //   builder: (cubitContext, cubitState) {
+          //     var container = Container(
+          //       child: null,
+          //     );
+          //     if (cubitState is InitialStateProfileScreenCubitState) {
+          //       cubitContext.read<ProfileScreenCubit>().LoadMyProfileDashboard();
+          //       return LoadingContent(
+          //         child: ProfileContent(
+          //           null,
+          //           cubitState: cubitState,
+          //           cubitContext: cubitContext,
+          //         ),
+          //       );
+          //     } else {
+          //       return Stack(
+          //         children: <Widget>[
+          //           Pinned.fromPins(
+          //             Pin(size: 207.0, end: 0.0),
+          //             Pin(size: 212.0, start: 0.0),
+          //             child: Stack(
+          //               children: <Widget>[
+          //                 Pinned.fromPins(
+          //                   Pin(size: 103.0, end: 0.0),
+          //                   Pin(size: 134.0, start: 0.0),
+          //                   child: SvgPicture.string(
+          //                     _svg_dh7r5a,
+          //                     allowDrawingOutsideViewBox: true,
+          //                     fit: BoxFit.fill,
+          //                   ),
+          //                 ),
+          //                 Pinned.fromPins(
+          //                   Pin(size: 77.0, middle: 0.3),
+          //                   Pin(size: 77.0, middle: 0.7111),
+          //                   child: Container(
+          //                     decoration: const BoxDecoration(
+          //                       borderRadius: BorderRadius.all(
+          //                           Radius.elliptical(9999.0, 9999.0)),
+          //                       color: Color(0xfff39200),
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Color(0x29000000),
+          //                           offset: Offset(0, 3),
+          //                           blurRadius: 6,
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Pinned.fromPins(
+          //                   Pin(size: 39.0, start: 0.0),
+          //                   Pin(size: 39.0, end: 0.0),
+          //                   child: Container(
+          //                     decoration: const BoxDecoration(
+          //                       borderRadius: BorderRadius.all(
+          //                           Radius.elliptical(9999.0, 9999.0)),
+          //                       color: Color(0xfff39200),
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Color(0x29000000),
+          //                           offset: Offset(0, 3),
+          //                           blurRadius: 6,
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           Container(
+          //             color: Colors.blue,
+          //             width: 100.w,
+          //             height: 100.h,
+          //             child: cubitState is LoadProfileSukses
+          //                 ? ProfileContent(cubitState.data,
+          //                     cubitState: cubitState, cubitContext: cubitContext)
+          //                 : Container(
+          //                     color: Colors.red,
+          //                     height: 100.h,
+          //                     width: 100.w,
+          //                   ),
+          //           ),
+          //           // Container(
+          //           //   child: cubitState is LoadProfileSukses
+          //           //       ? ProfileContent(cubitState.data,
+          //           //       cubitState: cubitState, cubitContext: cubitContext)
+          //           //       : LoadingContent(
+          //           //     child: ProfileContent(
+          //           //       null,
+          //           //       cubitState: cubitState,
+          //           //       cubitContext: cubitContext,
+          //           //     ),
+          //           //   ),
+          //           // ),
+          //
+          //           // Container(
+          //           //   child: notifikasi != null ? notifikasi : Container(),
+          //           // )
+          //         ],
+          //       );
+          //     }
+          //   },
+          // ),
+          ),
     );
   }
 
-  Container ProfileContent(PayloadResponseMyProfileDashboard? data,
-      {required ProfileScreenCubitState cubitState,
-      required BuildContext cubitContext}) {
-    print("assuuuu====${data != null ? data.image : ""}");
-    return Container(
-      // color: Colors.black38,
-      width: 100.w,
-      padding: EdgeInsets.all(0),
-      child: SingleChildScrollView(
-        child: Column(
+  Widget ProfileContent({
+    required PayloadResponseMyProfileDashboard data,
+    required BuildContext context,
+  }) {
+    return Center(
+      child: Container(
+        width: 100.w,
+        alignment: Alignment.center,
+        child: ListView(
           children: [
             SizedBox(
-              height: 3.h,
+              height: 1.h,
             ),
             Neumorphic(
               padding: EdgeInsets.all(.8.h),
+              margin: EdgeInsets.symmetric(horizontal: 5.w),
               style: NeumorphicStyle(
                   color: Color((265 * 0xFFFFFF * 100).toInt()).withOpacity(1),
                   shape: NeumorphicShape.concave,
                   depth: .2.h,
                   intensity: 1),
-              child: Container(
-                width: 90.w,
-                padding: EdgeInsets.all(1.h),
-                child: Column(
-                  children: [
-                    Neumorphic(
-                        padding: EdgeInsets.all(0),
-                        style: NeumorphicStyle(
-                            color: Colors.white,
-                            shape: NeumorphicShape.concave,
-                            boxShape: NeumorphicBoxShape.circle(),
-                            depth: .2.h,
-                            intensity: 1),
-                        child: Container(
-                          width: 3.w.h,
-                          height: 3.w.h,
-                          child: AspectRatio(
-                            aspectRatio: 1.w / 1.w,
-                            child: data != null
-                                ? data.image != null
-                                    ? Image.network(
-                                        "${data.image}?dummy=${math.Random().nextInt(999)}",
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Align(
-                                        alignment: Alignment.center,
-                                        child: NeumorphicIcon(
-                                          Icons.camera_alt_outlined,
-                                          size: 1.w.h,
-                                          style: NeumorphicStyle(
-                                            depth: .05.w.h,
-                                            surfaceIntensity: 1,
-                                            intensity: 1,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      )
-                                : Align(
-                                    alignment: Alignment.center,
-                                    child: NeumorphicIcon(
-                                      Icons.camera_alt_outlined,
-                                      size: 1.w.h,
-                                      style: NeumorphicStyle(
-                                        depth: .05.w.h,
-                                        surfaceIntensity: 1,
-                                        intensity: 1,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                          ),
-                        )),
-                    SizedBox(
-                      height: .8.h,
+              child: Column(
+                children: [
+                  Neumorphic(
+                      padding: EdgeInsets.all(0),
+                      style: NeumorphicStyle(
+                          color: Colors.white,
+                          shape: NeumorphicShape.concave,
+                          boxShape: NeumorphicBoxShape.circle(),
+                          depth: .2.h,
+                          intensity: 1),
+                      child: Container(
+                        width: 20.w,
+                        height: 20.w,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${data.image ?? ""}?dummy=${math.Random().nextInt(999)}',
+                          errorWidget: (context, url, error) {
+                            return Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            );
+                          },
+                          progressIndicatorBuilder: (context, widget, error) {
+                            return CircularProgressIndicator(
+                              color: Colors.blue,
+                            );
+                          },
+                          fit: BoxFit.cover,
+                        ),
+                      )),
+                  SizedBox(
+                    height: .8.h,
+                  ),
+                  Text(
+                    "Hallo, ${data != null ? data.nameUser : "No Connection Internet"}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'ghotic',
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w900,
                     ),
-                    Text(
-                      "Hallo, ${data != null ? data.nameUser : "No Connection Internet"}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'ghotic',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w900,
-                      ),
+                  ),
+                  SizedBox(
+                    height: .8.h,
+                  ),
+                  Text(
+                    "${data != null ? data.emailUser : "No Connection Internet"}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'ghotic',
+                      fontSize: 12.sp,
                     ),
-                    SizedBox(
-                      height: .8.h,
-                    ),
-                    Text(
-                      "${data != null ? data.emailUser : "No Connection Internet"}",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'ghotic',
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    SizedBox(
-                      height: .8.h,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: .8.h,
+                  ),
+                ],
               ),
             ),
             SizedBox(
               height: 3.h,
             ),
-            SizedBox(
-              child: data != null
-                  ? CardStoreMyProfile(data: data.myOutlets!)
-                  : Container(),
-              height: 23.h,
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            SizedBox(
-              height: 3.h,
-            ),
-            SizedBox(
-              width: 90.w,
-              child: ListMenuMyProfile(
-                  cubitContext: cubitContext,
-                  onPressed: () {},
-                  notify: (Widget notify) {
-                    notifikasi = notify;
+            Container(
+              // color: Colors.blue,
+              height: 30.h,
+              child: CardStoreMyProfile(
+                  data: data.myOutlets!,
+                  callbackOnRefresh: () {
+                    getFromApi();
                   }),
             ),
             SizedBox(
               height: 3.h,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 5.w),
+              child: ListMenuMyProfile(
+                cubitContext: context,
+                onPressedBack: (bool) {
+                  if (bool) {
+                    getFromApi();
+                  }
+                },
+                data: data,
+              ),
             ),
           ],
         ),
       ),
     );
   }
+
+  // Container ProfileContent(PayloadResponseMyProfileDashboard? data,
+  //     {ProfileScreenCubitState? cubitState, BuildContext? cubitContext}) {
+  //   if (data != null) {
+  //     print("call content");
+  //   }
+  //
+  //   return Container(
+  //     // color: Colors.black38,
+  //     width: 100.w,
+  //     height: 100.h,
+  //     padding: EdgeInsets.all(0),
+  //     color: Colors.blue,
+  //     child: SingleChildScrollView(
+  //       child: Column(
+  //         children: [
+  //           SizedBox(
+  //             height: 3.h,
+  //           ),
+  //           Neumorphic(
+  //             padding: EdgeInsets.all(.8.h),
+  //             style: NeumorphicStyle(
+  //                 color: Color((265 * 0xFFFFFF * 100).toInt()).withOpacity(1),
+  //                 shape: NeumorphicShape.concave,
+  //                 depth: .2.h,
+  //                 intensity: 1),
+  //             child: Container(
+  //               width: 90.w,
+  //               padding: EdgeInsets.all(1.h),
+  //               child: Column(
+  //                 children: [
+  //                   Neumorphic(
+  //                       padding: EdgeInsets.all(0),
+  //                       style: NeumorphicStyle(
+  //                           color: Colors.white,
+  //                           shape: NeumorphicShape.concave,
+  //                           boxShape: NeumorphicBoxShape.circle(),
+  //                           depth: .2.h,
+  //                           intensity: 1),
+  //                       child: Container(
+  //                         width: 3.w.h,
+  //                         height: 3.w.h,
+  //                         child: AspectRatio(
+  //                           aspectRatio: 1.w / 1.w,
+  //                           child: data != null
+  //                               ? data.image != null
+  //                                   ? Image.network(
+  //                                       "${data.image}?dummy=${math.Random().nextInt(999)}",
+  //                                       fit: BoxFit.cover,
+  //                                     )
+  //                                   : Align(
+  //                                       alignment: Alignment.center,
+  //                                       child: NeumorphicIcon(
+  //                                         Icons.camera_alt_outlined,
+  //                                         size: 1.w.h,
+  //                                         style: NeumorphicStyle(
+  //                                           depth: .05.w.h,
+  //                                           surfaceIntensity: 1,
+  //                                           intensity: 1,
+  //                                           color: Colors.black54,
+  //                                         ),
+  //                                       ),
+  //                                     )
+  //                               : Align(
+  //                                   alignment: Alignment.center,
+  //                                   child: NeumorphicIcon(
+  //                                     Icons.camera_alt_outlined,
+  //                                     size: 1.w.h,
+  //                                     style: NeumorphicStyle(
+  //                                       depth: .05.w.h,
+  //                                       surfaceIntensity: 1,
+  //                                       intensity: 1,
+  //                                       color: Colors.black54,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                         ),
+  //                       )),
+  //                   SizedBox(
+  //                     height: .8.h,
+  //                   ),
+  //                   Text(
+  //                     "Hallo, ${data != null ? data.nameUser : "No Connection Internet"}",
+  //                     textAlign: TextAlign.center,
+  //                     style: TextStyle(
+  //                       fontFamily: 'ghotic',
+  //                       fontSize: 14.sp,
+  //                       fontWeight: FontWeight.w900,
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: .8.h,
+  //                   ),
+  //                   Text(
+  //                     "${data != null ? data.emailUser : "No Connection Internet"}",
+  //                     textAlign: TextAlign.center,
+  //                     style: TextStyle(
+  //                       fontFamily: 'ghotic',
+  //                       fontSize: 12.sp,
+  //                     ),
+  //                   ),
+  //                   SizedBox(
+  //                     height: .8.h,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //           SizedBox(
+  //             height: 3.h,
+  //           ),
+  //           data != null
+  //               ? CardStoreMyProfile(
+  //                   data: data.myOutlets!,
+  //                 )
+  //               : Container(),
+  //
+  //           // SizedBox(
+  //           //   height: 3.h,
+  //           // ),
+  //           // SizedBox(
+  //           //   width: 90.w,
+  //           //   child: ListMenuMyProfile(
+  //           //     cubitContext: cubitContext,
+  //           //     onPressed: () {},
+  //           //     data: data ?? PayloadResponseMyProfileDashboard(),
+  //           //   ),
+  //           // ),
+  //           // SizedBox(
+  //           //   height: 3.h,
+  //           // ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 // Widget listMenuItemProfile(

@@ -120,8 +120,9 @@ class DialogBuatToko extends StatelessWidget {
                       data: null,
                       onDismiss: (dismiss) {
                         if (dismiss) {
+                          print("x");
                           onDismiss!(dismiss);
-                          Navigator.of(context).pop();
+                          // Navigator.of(context).pop();
                         }
                       })
                   : LoadingContent(

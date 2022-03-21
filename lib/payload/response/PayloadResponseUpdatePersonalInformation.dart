@@ -1,3 +1,4 @@
+import 'package:bekal/payload/response/PayloadResponseProfile.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'PayloadResponseUpdatePersonalInformation.freezed.dart';
@@ -9,7 +10,7 @@ class PayloadResponseUpdatePersonalInformation
   const factory PayloadResponseUpdatePersonalInformation({
     required String fullName,
     required String phoneNumber,
-    required String address,
+    Address? address,
   }) = _PayloadResponseUpdatePersonalInformation;
 
   factory PayloadResponseUpdatePersonalInformation.fromJson(Object? json) =>

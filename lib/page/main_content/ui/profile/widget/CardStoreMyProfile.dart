@@ -1,20 +1,22 @@
 import 'dart:math' as math;
 
-import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
-import 'package:bekal/page/main_content/ui/my_store/DashboardMyStore.dart';
-import 'package:bekal/page/main_content/ui/my_store/daftar_pesanan.dart';
+import 'package:bekal/page/main_content/ui/profile/store/DashboardStore.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogBuatToko.dart';
-import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahBasicInformationStore.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
 
 class CardStoreMyProfile extends StatefulWidget {
   final List<MyDashboardProfileOutlets> data;
-  const CardStoreMyProfile({Key? key, required this.data}) : super(key: key);
+  final Function callbackOnRefresh;
+  CardStoreMyProfile({
+    Key? key,
+    required this.data,
+    required this.callbackOnRefresh,
+  }) : super(key: key);
 
   @override
   _CardStoreMyProfile createState() => _CardStoreMyProfile();
@@ -26,298 +28,323 @@ class _CardStoreMyProfile extends State<CardStoreMyProfile> {
   @override
   Widget build(BuildContext context) {
     if (widget.data.length > 0) {
-      return Container(
-        width: 100.w,
-        child: PageView.builder(
-          itemCount: widget.data != null ? widget.data.length : 0,
-          controller: PageController(viewportFraction: 0.025.w.h),
-          onPageChanged: (int index) => setState(() => _index = index),
-          itemBuilder: (_, i) {
-            return Transform.scale(
-              // scale: 0.3.w,
-              scale: i == _index ? 0.034.w.h : 0.027.w.h,
-              // child: AspectRatio(
-              // aspectRatio: 2.370,
-              child: Neumorphic(
-                margin: EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 2.w),
-                padding: EdgeInsets.all(.2.h),
-                style: NeumorphicStyle(
-                    color:
-                        Color((100 * 0xFFFFFF * 100).toInt()).withOpacity(.8),
-                    shape: NeumorphicShape.flat,
-                    boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.all(Radius.circular(.5.w.h))),
-                    depth: -.2.h,
-                    surfaceIntensity: .5,
-                    intensity: 1),
-                child: Container(
-                  width: 100.w,
-                  padding: EdgeInsets.all(0.5.h),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: PopupMenuButton(
-                            icon: NeumorphicIcon(
-                              Icons.settings_rounded,
-                              style: NeumorphicStyle(
-                                depth: .08.w.h,
-                                surfaceIntensity: 1,
-                                intensity: 1,
-                                color: Colors.black54,
-                              ),
-                              size: (1.w.h),
-                            ),
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem(
-                                  value: 'basicInformation',
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Icon(Icons.store_rounded),
-                                      ),
-                                      Text(
-                                        "Informasi Dasar",
-                                        style: TextStyle(
-                                          fontFamily: 'ghotic',
-                                          fontSize: 10.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'orderList',
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Icon(
-                                            Icons.production_quantity_limits),
-                                      ),
-                                      Text(
-                                        "Informasi Pesanan",
-                                        style: TextStyle(
-                                          fontFamily: 'ghotic',
-                                          fontSize: 10.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'customerView',
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Icon(Icons.visibility_outlined),
-                                      ),
-                                      Text(
-                                        "Lihat Sebagai Customer",
-                                        style: TextStyle(
-                                          fontFamily: 'ghotic',
-                                          fontSize: 10.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem(
-                                  value: 'createProduct',
-                                  child: Row(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Icon(Icons.visibility_outlined),
-                                      ),
-                                      Text(
-                                        "Buat Produk",
-                                        style: TextStyle(
-                                          fontFamily: 'ghotic',
-                                          fontSize: 10.sp,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ];
-                            },
-                            onSelected: (String value) {
-                              switch (value) {
-                                case 'basicInformation':
-                                  DialogBottomSheet(
-                                      title: "Informasi Dasar Toko",
-                                      icon: Icons.store_rounded,
-                                      contentBody:
-                                          DialogUbahBasicInformationStore(
-                                        data: widget.data.elementAt(i),
-                                        onDismiss: (onDismiss) {
-                                          if (onDismiss) {}
-                                        },
-                                      ),
-                                      context: context,
-                                      whenClosed: (whenClosed) {
-                                        if (whenClosed != null && whenClosed) {
-                                          context
-                                              .read<ProfileScreenCubit>()
-                                              .LoadMyProfileDashboard();
-                                          Future.delayed(
-                                              Duration(milliseconds: 1), () {
-                                            // Navigator.of(context).pop();
-                                          });
-                                        }
-                                      });
-                                  break;
-                                case 'createProduct':
-                                  DashboardMyStore(
-                                    data: widget.data.elementAt(i),
-                                    context: context,
-                                    whenClosed: (whenClosed) {
-                                      context
-                                          .read<ProfileScreenCubit>()
-                                          .LoadMyProfileDashboard();
-                                    },
-                                  );
-                                  break;
-                                case 'orderList':
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DaftarPesanan(),
-                                    ),
-                                  );
-                                  break;
-                              }
-                              // if (value == 'basicInformation') {
-                              //
-                              // }
-                            }),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          // NeumorphicButton(
-                          //   onPressed: () {
-                          //     DialogBottomSheet(
-                          //         contentBody: DialogUbahBasicInformationStore(
-                          //           onDismiss: (onDismiss) {
-                          //             if (onDismiss) {
-                          //               BlocProvider.of<ProfileScreenCubit>(
-                          //                   context)
-                          //                   .LoadMyProfileDashboard();
-                          //               Future.delayed(Duration(milliseconds: 1),
-                          //                       () {
-                          //                     Navigator.of(context).pop();
-                          //                   });
-                          //             }
-                          //           },
-                          //         ),
-                          //         context: context,
-                          //         whenClosed: (whenClosed) {
-                          //           if (whenClosed != null && whenClosed) {
-                          //             print("waw");
-                          //           }
-                          //         });
-                          //   },
-                          //   padding: const EdgeInsets.only(
-                          //       top: 5, bottom: 5, left: 15, right: 15),
-                          //   style: NeumorphicStyle(
-                          //       color: Color((100 * 0xFFFFFF * 103).toInt())
-                          //           .withOpacity(0),
-                          //       shape: NeumorphicShape.flat,
-                          //       depth: .2.h,
-                          //       intensity: 1),
-                          //   child: Text(
-                          //     "Ubah Informasi Dasar",
-                          //     style: TextStyle(fontSize: 10.sp),
-                          //   ),
-                          // ),
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Neumorphic(
-                                padding: EdgeInsets.all(0),
-                                style: NeumorphicStyle(
-                                    color: Colors.white,
-                                    shape: NeumorphicShape.concave,
-                                    boxShape: NeumorphicBoxShape.circle(),
-                                    depth: .2.h,
-                                    intensity: 1),
-                                child: Container(
-                                  width: 2.0.w.h,
-                                  height: 2.0.w.h,
-                                  child: AspectRatio(
-                                    aspectRatio: 1.w / 1.w,
-                                    child: widget.data != null
-                                        ? widget.data.elementAt(i).image != null
-                                            ? Image.network(
-                                                "${widget.data.elementAt(i).image}?dummy=${math.Random().nextInt(999)}",
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Align(
-                                                alignment: Alignment.center,
-                                                child: NeumorphicIcon(
-                                                  Icons.camera_alt_outlined,
-                                                  size: 1.w.h,
-                                                  style: NeumorphicStyle(
-                                                    depth: .05.w.h,
-                                                    surfaceIntensity: 1,
-                                                    intensity: 1,
-                                                    color: Colors.black54,
-                                                  ),
-                                                ),
-                                              )
-                                        : Align(
-                                            alignment: Alignment.center,
-                                            child: NeumorphicIcon(
-                                              Icons.camera_alt_outlined,
-                                              size: 1.w.h,
-                                              style: NeumorphicStyle(
-                                                depth: .05.w.h,
-                                                surfaceIntensity: 1,
-                                                intensity: 1,
-                                                color: Colors.black54,
-                                              ),
-                                            ),
-                                          ),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: .8.h,
-                            ),
-                            Text(
-                              widget.data.elementAt(i).nameOutlet!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            SizedBox(
-                              height: .8.h,
-                            ),
-                            Text(
-                              widget.data.elementAt(i).addressOutlet!,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          ],
+      print("have Store");
+      return PageView.builder(
+        itemCount: widget.data != null ? widget.data.length : 0,
+        controller: PageController(viewportFraction: .8),
+        onPageChanged: (int index) => setState(() => _index = index),
+        itemBuilder: (_, i) {
+          return Transform.scale(
+            // scale: 0.3.w,
+            scale: i == _index ? 1.1 : 0.95,
+            // child: AspectRatio(
+            // aspectRatio: 2.370,
+            child: Neumorphic(
+              margin: EdgeInsets.symmetric(vertical: 1.5.h, horizontal: 2.w),
+              padding: EdgeInsets.all(.2.h),
+              style: NeumorphicStyle(
+                  color: Color((100 * 0xFFFFFF * 100).toInt()).withOpacity(.8),
+                  shape: NeumorphicShape.flat,
+                  boxShape: NeumorphicBoxShape.roundRect(
+                      BorderRadius.all(Radius.circular(.5.w.h))),
+                  depth: -.2.h,
+                  surfaceIntensity: .5,
+                  intensity: 1),
+              child: Container(
+                width: 100.w,
+                padding: EdgeInsets.all(0.5.h),
+                child: Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          vertical: 1.5.h, horizontal: 1.5.w),
+                      alignment: Alignment.topRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          showMaterialModalBottomSheet(
+                              duration: Duration(milliseconds: 1400),
+                              animationCurve: Curves.easeInOut,
+                              enableDrag: true,
+                              backgroundColor: Colors.white,
+                              context: context,
+                              builder: (context) {
+                                return DashboardStore(
+                                  storeId: widget.data[i].storeId!,
+                                  mystore: true,
+                                );
+                              });
+                        },
+                        child: NeumorphicIcon(
+                          Icons.open_in_new,
+                          style: NeumorphicStyle(
+                            depth: .08.w.h,
+                            surfaceIntensity: 1,
+                            intensity: 1,
+                            color: Colors.white,
+                          ),
+                          size: 7.w,
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+
+                    // Align(
+                    //   alignment: Alignment.topRight,
+                    //   child: PopupMenuButton(
+                    //       icon: NeumorphicIcon(
+                    //         Icons.settings_rounded,
+                    //         style: NeumorphicStyle(
+                    //           depth: .08.w.h,
+                    //           surfaceIntensity: 1,
+                    //           intensity: 1,
+                    //           color: Colors.black54,
+                    //         ),
+                    //         size: (1.w.h),
+                    //       ),
+                    //       itemBuilder: (context) {
+                    //         return [
+                    //           PopupMenuItem(
+                    //             value: 'basicInformation',
+                    //             child: Row(
+                    //               children: <Widget>[
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.all(5),
+                    //                   child: Icon(Icons.store_rounded),
+                    //                 ),
+                    //                 Text(
+                    //                   "Informasi Dasar",
+                    //                   style: TextStyle(
+                    //                     fontFamily: 'ghotic',
+                    //                     fontSize: 10.sp,
+                    //                   ),
+                    //                 )
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           PopupMenuItem(
+                    //             value: 'orderList',
+                    //             child: Row(
+                    //               children: <Widget>[
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.all(5),
+                    //                   child: Icon(
+                    //                       Icons.production_quantity_limits),
+                    //                 ),
+                    //                 Text(
+                    //                   "Informasi Pesanan",
+                    //                   style: TextStyle(
+                    //                     fontFamily: 'ghotic',
+                    //                     fontSize: 10.sp,
+                    //                   ),
+                    //                 )
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           PopupMenuItem(
+                    //             value: 'customerView',
+                    //             child: Row(
+                    //               children: <Widget>[
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.all(5),
+                    //                   child: Icon(Icons.visibility_outlined),
+                    //                 ),
+                    //                 Text(
+                    //                   "Lihat Sebagai Customer",
+                    //                   style: TextStyle(
+                    //                     fontFamily: 'ghotic',
+                    //                     fontSize: 10.sp,
+                    //                   ),
+                    //                 )
+                    //               ],
+                    //             ),
+                    //           ),
+                    //           PopupMenuItem(
+                    //             value: 'createProduct',
+                    //             child: Row(
+                    //               children: <Widget>[
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.all(5),
+                    //                   child: Icon(Icons.visibility_outlined),
+                    //                 ),
+                    //                 Text(
+                    //                   "Buat Produk",
+                    //                   style: TextStyle(
+                    //                     fontFamily: 'ghotic',
+                    //                     fontSize: 10.sp,
+                    //                   ),
+                    //                 )
+                    //               ],
+                    //             ),
+                    //           )
+                    //         ];
+                    //       },
+                    //       onSelected: (String value) {
+                    //         switch (value) {
+                    //           case 'basicInformation':
+                    //             DialogBottomSheet(
+                    //                 title: "Informasi Dasar Toko",
+                    //                 icon: Icons.store_rounded,
+                    //                 contentBody:
+                    //                     DialogUbahBasicInformationStore(
+                    //                   data: widget.data.elementAt(i),
+                    //                   onDismiss: (onDismiss) {
+                    //                     if (onDismiss) {}
+                    //                   },
+                    //                 ),
+                    //                 context: context,
+                    //                 whenClosed: (whenClosed) {
+                    //                   if (whenClosed != null && whenClosed) {
+                    //                     context
+                    //                         .read<ProfileScreenCubit>()
+                    //                         .LoadMyProfileDashboard();
+                    //                     Future.delayed(
+                    //                         Duration(milliseconds: 1), () {
+                    //                       // Navigator.of(context).pop();
+                    //                     });
+                    //                   }
+                    //                 });
+                    //             break;
+                    //           case 'createProduct':
+                    //             DashboardMyStore(
+                    //               data: widget.data.elementAt(i),
+                    //               context: context,
+                    //               whenClosed: (whenClosed) {
+                    //                 context
+                    //                     .read<ProfileScreenCubit>()
+                    //                     .LoadMyProfileDashboard();
+                    //               },
+                    //             );
+                    //             break;
+                    //           case 'customerView':
+                    //             showMaterialModalBottomSheet(
+                    //                 duration: Duration(milliseconds: 1400),
+                    //                 animationCurve: Curves.easeInOut,
+                    //                 enableDrag: true,
+                    //                 backgroundColor: Colors.white,
+                    //                 context: context,
+                    //                 builder: (context) {
+                    //                   return DashboardStore(
+                    //                     storeId: widget.data[i].storeId!,
+                    //                     mystore: true,
+                    //                   );
+                    //                 });
+                    //             break;
+                    //           case 'orderList':
+                    //             Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                 builder: (context) => DaftarPesanan(),
+                    //               ),
+                    //             );
+                    //             break;
+                    //         }
+                    //         // if (value == 'basicInformation') {
+                    //         //
+                    //         // }
+                    //       }),
+                    // ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Column(
+                        // NeumorphicButton(
+                        //   onPressed: () {
+                        //     DialogBottomSheet(
+                        //         contentBody: DialogUbahBasicInformationStore(
+                        //           onDismiss: (onDismiss) {
+                        //             if (onDismiss) {
+                        //               BlocProvider.of<ProfileScreenCubit>(
+                        //                   context)
+                        //                   .LoadMyProfileDashboard();
+                        //               Future.delayed(Duration(milliseconds: 1),
+                        //                       () {
+                        //                     Navigator.of(context).pop();
+                        //                   });
+                        //             }
+                        //           },
+                        //         ),
+                        //         context: context,
+                        //         whenClosed: (whenClosed) {
+                        //           if (whenClosed != null && whenClosed) {
+                        //             print("waw");
+                        //           }
+                        //         });
+                        //   },
+                        //   padding: const EdgeInsets.only(
+                        //       top: 5, bottom: 5, left: 15, right: 15),
+                        //   style: NeumorphicStyle(
+                        //       color: Color((100 * 0xFFFFFF * 103).toInt())
+                        //           .withOpacity(0),
+                        //       shape: NeumorphicShape.flat,
+                        //       depth: .2.h,
+                        //       intensity: 1),
+                        //   child: Text(
+                        //     "Ubah Informasi Dasar",
+                        //     style: TextStyle(fontSize: 10.sp),
+                        //   ),
+                        // ),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Neumorphic(
+                              padding: EdgeInsets.all(0),
+                              style: NeumorphicStyle(
+                                  color: Colors.white,
+                                  shape: NeumorphicShape.concave,
+                                  boxShape: NeumorphicBoxShape.circle(),
+                                  depth: .2.h,
+                                  intensity: 1),
+                              child: Container(
+                                width: 20.w,
+                                height: 20.w,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      '${widget.data.elementAt(i).image ?? ""}?dummy=${math.Random().nextInt(999)}',
+                                  errorWidget: (context, url, error) {
+                                    return Icon(
+                                      Icons.store,
+                                      color: Colors.black,
+                                    );
+                                  },
+                                  progressIndicatorBuilder:
+                                      (context, widget, error) {
+                                    return CircularProgressIndicator(
+                                      color: Colors.blue,
+                                    );
+                                  },
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                          SizedBox(
+                            height: .8.h,
+                          ),
+                          Text(
+                            widget.data.elementAt(i).nameOutlet!,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'ghotic',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          SizedBox(
+                            height: .8.h,
+                          ),
+                          Text(
+                            widget.data.elementAt(i).addressOutlet!,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'ghotic',
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
-              // ),
-            );
-          },
-        ),
+            ),
+            // ),
+          );
+        },
       );
     } else {
       return NeumorphicButton(
@@ -328,9 +355,11 @@ class _CardStoreMyProfile extends State<CardStoreMyProfile> {
               contentBody: DialogBuatToko(
                 onDismiss: (onDismiss) {
                   if (onDismiss) {
-                    BlocProvider.of<ProfileScreenCubit>(context)
-                        .LoadMyProfileDashboard();
-                    Future.delayed(Duration(milliseconds: 1), () {
+                    print("dismis createToko");
+                    // context.read<ProfileScreenCubit>().LoadMyProfileDashboard();
+                    widget.callbackOnRefresh();
+
+                    Future.delayed(Duration(seconds: 1), () {
                       Navigator.of(context).pop();
                     });
                   }
@@ -388,9 +417,8 @@ class _CardStoreMyProfile extends State<CardStoreMyProfile> {
                         contentBody: DialogBuatToko(
                           onDismiss: (onDismiss) {
                             if (onDismiss) {
-                              BlocProvider.of<ProfileScreenCubit>(context)
-                                  .LoadMyProfileDashboard();
-                              Future.delayed(Duration(milliseconds: 1), () {
+                              widget.callbackOnRefresh();
+                              Future.delayed(Duration(seconds: 1), () {
                                 Navigator.of(context).pop();
                               });
                             }

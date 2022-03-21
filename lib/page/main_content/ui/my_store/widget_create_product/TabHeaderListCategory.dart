@@ -31,12 +31,18 @@ class _TabHeaderListCategory extends State<TabHeaderListCategory> {
   @override
   Widget build(BuildContext context) {
     List<PayloadResponseStoreCategory> list = [];
+    print("${widget.selectedIndex} notime");
     var itemList = PayloadResponseStoreCategory(
         storeName: widget.listCategory.elementAt(0).storeName,
         categoryName: "All",
-        categoryId: -1);
+        categoryId: 0);
     list.add(itemList);
-    list.addAll(widget.listCategory);
+    if (widget.listCategory != null) {
+      if (widget.listCategory.isNotEmpty) {
+        list.addAll(widget.listCategory);
+      }
+    }
+
     print("${widget.selectedIndex} notime");
     return Neumorphic(
       margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 0.w),
@@ -62,6 +68,7 @@ class _TabHeaderListCategory extends State<TabHeaderListCategory> {
               scrollDirection: Axis.horizontal,
               itemCount: list.length,
               itemBuilder: (context, index) {
+                print("tabheader ${index == widget.selectedIndex}");
                 var object = list.elementAt(index);
                 if (index == widget.selectedIndex) {}
                 return NeumorphicButton(

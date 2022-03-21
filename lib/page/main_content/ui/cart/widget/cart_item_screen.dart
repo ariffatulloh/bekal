@@ -1,6 +1,8 @@
 import 'package:bekal/page/main_content/ui/cart/model/cart.dart';
+import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -146,8 +148,15 @@ class _CartItemScreenState extends State<CartItemScreen> {
                                   ),
                                   InkWell(
                                     onTap: () async {
+                                      Toaster(context).showErrorToast(
+                                          "qty product ${widget.item.product.stockProduct}",
+                                          gravity: ToastGravity.CENTER);
                                       setState(() {
-                                        widget.item.cart_qty++;
+                                        if (widget.item.cart_qty <
+                                            (int.tryParse(widget.item.product
+                                                        .stockProduct ??
+                                                    "0") ??
+                                                0)) widget.item.cart_qty++;
                                         widget.onChange(
                                             widget.item.product.storeProdId,
                                             widget.item.cart_qty);

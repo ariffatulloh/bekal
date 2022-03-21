@@ -3,7 +3,7 @@ description: MarketPlace BelanjaKalimantan
 
 publish_to: 'none' 
 
-version: 1.0.3+4
+version: 1.0.5+6
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -51,13 +51,17 @@ dependencies:
   modal_bottom_sheet:
   moor: ^4.5.0
   sqlite3_flutter_libs: ^0.5.0
-  path_provider: ^2.0.0
+  path_provider: ^2.0.9
   path: ^1.8.0
   loading_overlay: ^0.3.0
   stomp_dart_client:
   flutter_local_notifications:
-  firebase_messaging: ^11.2.8
-  firebase_core:
+  firebase_messaging: ^11.2.10
+  network_to_file_image: ^3.1.0
+  permission_handler:
+  floating_action_bubble: ^1.1.4
+  flutter_cache_manager:
+  http:
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +93,7 @@ flutter:
    - assets/2.jpg
    - assets/3.jpg
    - assets/4.jpeg
+   - assets/newlogo.png
    - assets/5.jpeg
    - assets/6.jpeg
    - assets/7.jpg

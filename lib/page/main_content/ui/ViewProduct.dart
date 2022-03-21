@@ -3,12 +3,14 @@ import 'dart:math' as math;
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
+import 'package:bekal/page/main_content/ui/profile/store/DashboardStore.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,13 +23,9 @@ import 'package:sizer/sizer.dart';
 class ViewProduct extends StatefulWidget {
   int idProduct = -1;
   PayloadResponseStoreProduct? dataDetailProduct;
-  String auth;
   int idStore;
   ViewProduct(
-      {required this.idProduct,
-      this.dataDetailProduct,
-      required this.auth,
-      required this.idStore});
+      {required this.idProduct, this.dataDetailProduct, required this.idStore});
   @override
   _ViewProduct createState() => _ViewProduct();
 }
@@ -36,11 +34,12 @@ class _ViewProduct extends State<ViewProduct> {
   int galleryImageSelected = 0;
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
   bool isSaving = false;
-
+  var auth = "";
   DioClient _dio = new DioClient();
   @override
   void initState() {
     // TODO: implement initState
+    getToken();
     super.initState();
   }
 
@@ -50,7 +49,7 @@ class _ViewProduct extends State<ViewProduct> {
     // TODO: implement build
     return StreamBuilder(
         stream: ProfileRepository()
-            .getDetailProduct(widget.auth, widget.idProduct, widget.idStore)
+            .getDetailProduct(auth, widget.idProduct, widget.idStore)
             .asStream(),
         builder: (context, snapshot) {
           PayloadResponseStoreProduct data;
@@ -386,6 +385,98 @@ class _ViewProduct extends State<ViewProduct> {
                       SizedBox(
                         height: 1.h,
                       ),
+                      Neumorphic(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 1.h, horizontal: 1.5.w),
+                        style: NeumorphicStyle(
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Neumorphic(
+                                    style: NeumorphicStyle(
+                                        color: Colors.white,
+                                        border: NeumorphicBorder(
+                                            width: 1.5, color: Colors.white70),
+                                        boxShape: NeumorphicBoxShape.circle(),
+                                        depth: .2.h,
+                                        intensity: 1,
+                                        surfaceIntensity: .5),
+                                    child: Container(
+                                      width: 10.w,
+                                      height: 10.w,
+                                      child: CachedNetworkImage(
+                                        fit: BoxFit.cover,
+                                        imageUrl: data.store.uriStoreImage,
+                                        errorWidget: (context, url, error) {
+                                          return Icon(
+                                            Icons.person,
+                                            color: Colors.black,
+                                          );
+                                        },
+                                        progressIndicatorBuilder:
+                                            (context, url, error) {
+                                          return CircularProgressIndicator();
+                                        },
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 1.w,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "${data.store.storeName}",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.grey),
+                                  ),
+                                ),
+                                NeumorphicButton(
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 1.w, vertical: 1.h),
+                                  pressed: true,
+                                  onPressed: () {
+                                    showMaterialModalBottomSheet(
+                                        duration: Duration(milliseconds: 1400),
+                                        animationCurve: Curves.easeInOut,
+                                        enableDrag: true,
+                                        backgroundColor: Colors.white,
+                                        context: context,
+                                        builder: (context) {
+                                          return DashboardStore(
+                                            storeId: data.store.storeID,
+                                          );
+                                        });
+                                  },
+                                  style: NeumorphicStyle(
+                                      color: Colors.orangeAccent,
+                                      depth: .2.h,
+                                      intensity: .8,
+                                      boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.all(
+                                              Radius.circular(20)))),
+                                  child: Container(
+                                    child: Text(
+                                      "Etalase Toko",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Wrap(
+                              children: [],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -421,6 +512,11 @@ class _ViewProduct extends State<ViewProduct> {
             color: Colors.blue,
           );
         });
+  }
+
+  Future<void> getToken() async {
+    auth = await SecureStorage().getToken() ?? "";
+    setState(() {});
   }
 }
 

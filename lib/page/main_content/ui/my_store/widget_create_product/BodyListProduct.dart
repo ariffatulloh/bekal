@@ -1,9 +1,11 @@
 import 'dart:math' as math;
 
+import 'package:bekal/page/main_content/ui/my_store/CreateProduct.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
 
 class BodyListProduct extends StatelessWidget {
@@ -31,7 +33,20 @@ class BodyListProduct extends StatelessWidget {
             itemBuilder: (context, index) {
               var object = data[index];
               return ItemProduct(
-                onClick: () {},
+                onClick: () {
+                  showMaterialModalBottomSheet(
+                      duration: Duration(milliseconds: 1400),
+                      animationCurve: Curves.easeInOut,
+                      enableDrag: true,
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      builder: (context) {
+                        return CreateProduct(
+                          idStore: object.store.storeID,
+                          idProduct: object.storeProdId,
+                        );
+                      });
+                },
                 counterViews: 0,
                 counterSell: 0,
                 available: false,

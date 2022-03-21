@@ -12,7 +12,9 @@ _$_PayloadRequestUpdatePersonalInformation
         _$_PayloadRequestUpdatePersonalInformation(
           fullName: json['fullName'] as String,
           phoneNumber: json['phoneNumber'] as String,
-          address: json['address'] as String,
+          address: json['address'] == null
+              ? null
+              : Address.fromJson(json['address'] as Map<String, dynamic>),
         );
 
 Map<String, dynamic> _$$_PayloadRequestUpdatePersonalInformationToJson(

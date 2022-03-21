@@ -2,10 +2,8 @@ import 'dart:math' as math;
 
 import 'package:bekal/main.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
-import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/model/ModelItemListMenuMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogHistoryTransaksi.dart';
-import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahAlamat.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahDataPribadi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahEmail.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahPassword.dart';
@@ -23,15 +21,16 @@ class ListMenuMyProfile extends StatelessWidget {
   final BuildContext cubitContext;
   // final ProfileScreenCubitState cubitState;
   // final int index;
-  final ValueChanged<Widget> notify;
-  final Function() onPressed;
+  final Function(bool) onPressedBack;
+  final PayloadResponseMyProfileDashboard data;
+
   const ListMenuMyProfile({
     Key? key,
     // required this.index,
     // required this.cubitState,
     required this.cubitContext,
-    required this.onPressed,
-    required this.notify,
+    required this.onPressedBack,
+    required this.data,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -39,17 +38,36 @@ class ListMenuMyProfile extends StatelessWidget {
       ModelItemListMenuMyProfile(
         text: "Ubah Data Pribadi",
         icon: Icons.person,
-        widget: DialogUbahDataPribadi(),
+        alert: data.alertUbahDataPribadi,
+        widget: FormDataPribadi(),
       ),
       ModelItemListMenuMyProfile(
         text: "Ubah Email",
         icon: Icons.alternate_email_outlined,
-        widget: DialogUbahEmail(),
+        widget: DialogUbahEmail(onDismiss: (value) async {
+          if (value) {
+            await SecureStorage().deleteStorageToken();
+            var token = await SecureStorage().getToken();
+            if (token == null) {
+              cubitContext.read<ControllerPageCubit>().goto("LOGIN");
+              Navigator.of(context).pop();
+            } else {}
+          }
+        }),
       ),
       ModelItemListMenuMyProfile(
         text: "Ubah Password",
         icon: Icons.vpn_key_sharp,
-        widget: DialogUbahPassword(),
+        widget: DialogUbahPassword(onDismiss: (value) async {
+          if (value) {
+            await SecureStorage().deleteStorageToken();
+            var token = await SecureStorage().getToken();
+            if (token == null) {
+              cubitContext.read<ControllerPageCubit>().goto("LOGIN");
+              Navigator.of(context).pop();
+            } else {}
+          }
+        }),
       ),
       ModelItemListMenuMyProfile(
         text: "Histori Transaksi",
@@ -61,11 +79,11 @@ class ListMenuMyProfile extends StatelessWidget {
         icon: Icons.logout,
         widget: Container(),
       ),
-      ModelItemListMenuMyProfile(
-        text: "Alamat\nRumah",
-        icon: Icons.maps_home_work,
-        widget: DialogUbahAlamat(),
-      ),
+      // ModelItemListMenuMyProfile(
+      //   text: "Alamat\nRumah",
+      //   icon: Icons.maps_home_work,
+      //   widget: DialogUbahAlamat(),
+      // ),
     ];
     return MasonryGridView.count(
       physics: NeverScrollableScrollPhysics(),
@@ -80,7 +98,7 @@ class ListMenuMyProfile extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Apakah Anda Ingin Keluar?'),
+                    title: Text('Klik ok untuk keluar'),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
@@ -139,8 +157,7 @@ class ListMenuMyProfile extends StatelessWidget {
                   context: context,
                   dataObject: datatitle.elementAt(index),
                   whenClosed: (Closed) {
-                    BlocProvider.of<ProfileScreenCubit>(context)
-                        .LoadMyProfileDashboard();
+                    onPressedBack(true);
                   },
                 );
               }
@@ -188,28 +205,30 @@ class ListMenuMyProfile extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Positioned(
-                //   child: Tooltip(
-                //     preferBelow: false,
-                //     triggerMode: TooltipTriggerMode.tap,
-                //     waitDuration: const Duration(seconds: 0),
-                //     showDuration: const Duration(seconds: 2),
-                //     textStyle: TextStyle(
-                //         fontSize: 10.sp,
-                //         color: Colors.white,
-                //         fontWeight: FontWeight.normal),
-                //     // decoration: BoxDecoration(
-                //     //     borderRadius: BorderRadius.circular(10), color: Colors.green),
-                //     message: "you need change data",
-                //     child: Icon(
-                //       Icons.info,
-                //       color: Colors.red,
-                //       size: 3.h,
-                //     ),
-                //   ),
-                //   right: 10,
-                //   top: 10,
-                // )
+                datatitle[index].alert != null
+                    ? Positioned(
+                        child: Tooltip(
+                          preferBelow: false,
+                          triggerMode: TooltipTriggerMode.tap,
+                          waitDuration: const Duration(seconds: 0),
+                          showDuration: const Duration(seconds: 2),
+                          textStyle: TextStyle(
+                              fontSize: 10.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal),
+                          // decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(10), color: Colors.green),
+                          message: "${datatitle[index].alert!.message ?? ""}",
+                          child: Icon(
+                            Icons.info,
+                            color: Colors.red,
+                            size: 3.h,
+                          ),
+                        ),
+                        right: 10,
+                        top: 10,
+                      )
+                    : Container()
               ],
             ));
       },
@@ -267,9 +286,11 @@ DialogBottomSheet({
                     size: (.5.w.h),
                   ),
                 ]),
-                onPressed: () {
+                onPressed: () async {
                   if (whenClosed != null) {
                     whenClosed(true);
+                    // ProfileScreen().myAppState.streamProfileScreen.close();
+                    // ProfileScreen().myAppState.getFromApi();
                     Future.delayed(Duration(milliseconds: 1), () {
                       Navigator.of(context).pop();
                     });
@@ -277,98 +298,44 @@ DialogBottomSheet({
                 },
               ),
             ),
+            Container(
+              width: 40.w,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  NeumorphicIcon(
+                    dataObject.icon,
+                    style: NeumorphicStyle(
+                      color: Colors.white12,
+                      depth: .2.h,
+                      surfaceIntensity: .3,
+                      intensity: 1,
+                    ),
+                    size: (1.5.w.h),
+                  ),
+                  NeumorphicText(
+                    dataObject.text,
+                    textAlign: TextAlign.left,
+                    textStyle: NeumorphicTextStyle(
+                      fontFamily: 'ghotic',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    style: NeumorphicStyle(
+                      color: Colors.white70,
+                      depth: .09.h,
+                      surfaceIntensity: 1,
+                      intensity: 1,
+                    ),
+                  )
+                ],
+              ),
+            ),
             Expanded(
-              child: Container(
-                  padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 2.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 40.w,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            NeumorphicIcon(
-                              dataObject.icon,
-                              style: NeumorphicStyle(
-                                color: Colors.white12,
-                                depth: .2.h,
-                                surfaceIntensity: .3,
-                                intensity: 1,
-                              ),
-                              size: (1.5.w.h),
-                            ),
-                            NeumorphicText(
-                              dataObject.text,
-                              textAlign: TextAlign.left,
-                              textStyle: NeumorphicTextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                              style: NeumorphicStyle(
-                                color: Colors.white70,
-                                depth: .09.h,
-                                surfaceIntensity: 1,
-                                intensity: 1,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Expanded(
-                        child: case2(
-                          condition: dataObject.widget.toString(),
-                          selection: {
-                            DialogUbahDataPribadi().toString():
-                                DialogUbahDataPribadi(),
-                            DialogUbahEmail().toString(): DialogUbahEmail(
-                              onDismiss: (dismiss) {
-                                print("dismiss dialog");
-                                Navigator.of(context).pop();
-                                context
-                                    .read<ControllerPageCubit>()
-                                    .goto("LOGIN");
-                              },
-                            ),
-                            DialogUbahPassword().toString(): DialogUbahPassword(
-                              onDismiss: (dismiss) {
-                                print("dismiss dialog");
-                                Navigator.of(context).pop();
-                                context
-                                    .read<ControllerPageCubit>()
-                                    .goto("LOGIN");
-                              },
-                            ),
-                            DialogUbahAlamat().toString(): DialogUbahAlamat(
-                              onDismiss: (dismiss) {
-                                print("dismiss dialog");
-                                Navigator.of(context).pop();
-                                context
-                                    .read<ControllerPageCubit>()
-                                    .goto("LOGIN");
-                              },
-                            ),
-                            DialogHistoryTransaksi().toString():
-                                DialogHistoryTransaksi(
-                              onDismiss: (dismiss) {
-                                print("dismiss dialog");
-                                Navigator.of(context).pop();
-                                context
-                                    .read<ControllerPageCubit>()
-                                    .goto("LOGIN");
-                              },
-                            ),
-                          },
-                          defaultValue: Container(),
-                        ),
-                      )
-                    ],
-                  )),
-            )
+                child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 5.w),
+              child: dataObject.widget,
+            ))
           ],
         ),
       );
@@ -376,10 +343,10 @@ DialogBottomSheet({
   );
 }
 
-TValue case2<TOptionType, TValue>({
-  required TOptionType condition,
-  required Map<TOptionType, TValue> selection,
-  required TValue defaultValue,
+TValue case2<String, TValue>({
+  required String condition,
+  required Map<String, TValue> selection,
+  required String defaultValue,
 }) {
   return selection.entries.firstWhere((entry) => entry.key == condition).value;
 }

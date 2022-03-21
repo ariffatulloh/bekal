@@ -49,6 +49,8 @@ class Address {
   String? province_name;
   int suburb_id;
   String? suburb_name;
+  String? lat;
+  String? lng;
   Address({
     this.address,
     this.area_id = 0,
@@ -63,7 +65,10 @@ class Address {
     this.province_name,
     this.suburb_id = 0,
     this.suburb_name,
+    this.lat = "",
+    this.lng = "",
   });
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

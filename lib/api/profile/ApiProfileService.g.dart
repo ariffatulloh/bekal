@@ -109,31 +109,30 @@ class _ApiProfileService implements ApiProfileService {
   @override
   Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
       updatePersonalInformation(
-          authorization, file, fullName, phoneNumber, address) async {
+          authorization, file, payloadRequestUpdatePersonalInformation) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
-    final _data = FormData();
+    // final _data = FormData();
+    final _data = <String, dynamic>{};
+    final _dataFile = FormData();
     if (file != null) {
-      _data.files.add(MapEntry(
+      _dataFile.files.add(MapEntry(
           'file',
           MultipartFile.fromFileSync(file.path,
               filename: file.path.split(Platform.pathSeparator).last)));
+      // _data.addEntries(_dataFile.files);
     }
-    _data.fields.add(MapEntry('fullName', fullName));
-    _data.fields.add(MapEntry('phoneNumber', phoneNumber));
-    _data.fields.add(MapEntry('address', address));
+    _dataFile.fields.add(MapEntry(
+        'json', jsonEncode(payloadRequestUpdatePersonalInformation.toJson())));
     final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
-        PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(Options(
-            method: 'POST',
-            headers: _headers,
-            extra: _extra,
-            contentType: 'multipart/form-data')
-        .compose(_dio.options, 'profile/update/datapribadi',
-            queryParameters: queryParameters, data: _data)
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
+        Options(method: 'POST', headers: _headers, extra: _extra)
+            .compose(_dio.options, 'profile/update/datapribadi',
+                queryParameters: queryParameters, data: _dataFile)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value =
         PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
       _result.data!,
@@ -142,6 +141,31 @@ class _ApiProfileService implements ApiProfileService {
     );
     return value;
   }
+  // @override
+  // Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
+  //     updatePersonalInformation(
+  //         authorization, file, payloadRequestUpdatePersonalInformation) async {
+  //   const _extra = <String, dynamic>{};
+  //   final queryParameters = <String, dynamic>{};
+  //   queryParameters.removeWhere((k, v) => v == null);
+  //   final _headers = <String, dynamic>{r'Authorization': authorization};
+  //   _headers.removeWhere((k, v) => v == null);
+  //   final _data = <String, dynamic>{};
+  //   _data.addAll(payloadRequestUpdatePersonalInformation.toJson());
+  //   final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
+  //           PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
+  //       Options(method: 'POST', headers: _headers, extra: _extra)
+  //           .compose(_dio.options, 'profile/update/datapribadi',
+  //               queryParameters: queryParameters, data: _data)
+  //           .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+  //   final value =
+  //       PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
+  //     _result.data!,
+  //     (json) => PayloadResponseUpdatePersonalInformation.fromJson(
+  //         json as Map<String, dynamic>),
+  //   );
+  //   return value;
+  // }
 
   @override
   Future<PayloadResponseApi<PayloadResponseUpdateEmail?>> updateEmail(

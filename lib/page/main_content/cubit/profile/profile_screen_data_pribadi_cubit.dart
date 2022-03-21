@@ -56,7 +56,7 @@ class ProfileScreenDataPribadiCubit
     var token = await SecureStorage().getToken();
 
     profileRepository
-        .updatePersonalInformation(token!, file, param)
+        .updatePersonalInformation(token!, param, file)
         .then((value) async {
       // print("this ${value}");
       PayloadResponseUpdatePersonalInformation? data = value.data;

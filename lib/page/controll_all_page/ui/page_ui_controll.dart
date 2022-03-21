@@ -17,21 +17,18 @@ class RunApps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "title",
-      home: HomePage(
-        title: "Title",
-      ),
+    return HomePage(
+      title: "Title",
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  HomePage({Key? key, required this.title, this.gotoAnotherPage})
+      : super(key: key);
 
   final String title;
-
+  final String? gotoAnotherPage;
   @override
   State<StatefulWidget> createState() => _HomePageState();
 }
@@ -40,6 +37,26 @@ class _HomePageState extends State<HomePage> {
   Future<bool> _onWillPop() async {
     return (await showDialog(
           context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Apakah Anda Ingin Keluar?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+  Future<bool> reLogin() async {
+    return (await showDialog(
+          context: this.context,
           builder: (context) => AlertDialog(
             title: const Text('Apakah Anda Ingin Keluar?'),
             actions: <Widget>[
@@ -66,20 +83,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: PageUiControll(),
+      child: PageUiControll(gotoAnotherPage: widget.gotoAnotherPage),
     );
   }
 }
 
 class PageUiControll extends StatelessWidget {
-  const PageUiControll({Key? key}) : super(key: key);
-
+  const PageUiControll({Key? key, this.gotoAnotherPage}) : super(key: key);
+  final String? gotoAnotherPage;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return BlocProvider<ControllerPageCubit>(
-      create: (context) => ControllerPageCubit(),
-      child: AppView(),
+      create: (context) {
+        return ControllerPageCubit();
+      },
+      child: AppView(gotoAnotherPage: gotoAnotherPage),
       // child: Scaffold(
       //   body: BlocBuilder<ControllerPageCubit, ControllerPageCubitState>(
       //     builder: (cubitContext, cubitState) {
@@ -163,8 +182,10 @@ class PageUiControll extends StatelessWidget {
 }
 
 class AppView extends StatelessWidget {
+  final String? gotoAnotherPage;
+
   /// {@macro app_view}
-  const AppView({Key? key}) : super(key: key);
+  const AppView({Key? key, this.gotoAnotherPage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -173,11 +194,29 @@ class AppView extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           home: Sizer(builder: (cubitContext, orientation, deviceType) {
+            if (gotoAnotherPage != null) {
+              return gotoPageWithoutCubit(gotoAnotherPage!);
+            }
             return gotoPage(cubitState, cubitContext);
           }),
         );
       },
     );
+  }
+
+  Widget gotoPageWithoutCubit(String gotoAnotherPage) {
+    switch (gotoAnotherPage.toUpperCase()) {
+      case "LOGIN":
+        return Login();
+      case "VERIFIED_ACCOUNT":
+        return VerifikasiScreen();
+
+      case "HOME":
+        return HomeScreen();
+      case "REGISTER":
+        return Register();
+    }
+    return HomeScreen();
   }
 }
 
@@ -187,7 +226,7 @@ Widget gotoPage(ControllerPageCubitState controllerPageCubitState,
   if (controllerPageCubitState is LOGIN) {
     return Login();
   } else if (controllerPageCubitState is HOME) {
-    return const HomeScreen();
+    return HomeScreen();
   } else if (controllerPageCubitState is SPLASH) {
     return const SplashScreen();
   } else if (controllerPageCubitState is VERIFIEDACCOUNT) {

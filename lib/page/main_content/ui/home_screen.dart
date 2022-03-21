@@ -26,17 +26,19 @@ import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  int? selectedIndexMenu = 0;
+  HomeScreen({Key? key, this.selectedIndexMenu}) : super(key: key);
 
   @override
   HomeScreenState createState() => HomeScreenState();
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  var _index = 0;
+  late var _index = 0;
   @override
   void initState() {
     // TODO: implement initState
+    // _index = widget.selectedIndexMenu!;
     super.initState();
     setupFirebaseAndStomp();
   }
@@ -93,6 +95,7 @@ class HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOutCirc,
           animationDuration: const Duration(milliseconds: 700),
+          index: _index,
           onTap: (index) {
             setState(() {
               _index = index;
@@ -248,7 +251,6 @@ class HomeScreenState extends State<HomeScreen> {
                                                     return ViewProduct(
                                                         idStore: object
                                                             .store.storeID,
-                                                        auth: token,
                                                         dataDetailProduct: null,
                                                         idProduct:
                                                             object.storeProdId);
@@ -356,7 +358,6 @@ class HomeScreenState extends State<HomeScreen> {
                                                     return ViewProduct(
                                                         idStore: object
                                                             .store.storeID,
-                                                        auth: token,
                                                         dataDetailProduct: null,
                                                         idProduct:
                                                             object.storeProdId);

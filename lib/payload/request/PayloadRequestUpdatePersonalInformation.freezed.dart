@@ -27,7 +27,7 @@ class _$PayloadRequestUpdatePersonalInformationTearOff {
   _PayloadRequestUpdatePersonalInformation call(
       {required String fullName,
       required String phoneNumber,
-      required String address}) {
+      Address? address}) {
     return _PayloadRequestUpdatePersonalInformation(
       fullName: fullName,
       phoneNumber: phoneNumber,
@@ -48,7 +48,7 @@ const $PayloadRequestUpdatePersonalInformation =
 mixin _$PayloadRequestUpdatePersonalInformation {
   String get fullName => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
-  String get address => throw _privateConstructorUsedError;
+  Address? get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -63,7 +63,7 @@ abstract class $PayloadRequestUpdatePersonalInformationCopyWith<$Res> {
           PayloadRequestUpdatePersonalInformation value,
           $Res Function(PayloadRequestUpdatePersonalInformation) then) =
       _$PayloadRequestUpdatePersonalInformationCopyWithImpl<$Res>;
-  $Res call({String fullName, String phoneNumber, String address});
+  $Res call({String fullName, String phoneNumber, Address? address});
 }
 
 /// @nodoc
@@ -94,7 +94,7 @@ class _$PayloadRequestUpdatePersonalInformationCopyWithImpl<$Res>
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Address?,
     ));
   }
 }
@@ -107,7 +107,7 @@ abstract class _$PayloadRequestUpdatePersonalInformationCopyWith<$Res>
           $Res Function(_PayloadRequestUpdatePersonalInformation) then) =
       __$PayloadRequestUpdatePersonalInformationCopyWithImpl<$Res>;
   @override
-  $Res call({String fullName, String phoneNumber, String address});
+  $Res call({String fullName, String phoneNumber, Address? address});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class __$PayloadRequestUpdatePersonalInformationCopyWithImpl<$Res>
       address: address == freezed
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Address?,
     ));
   }
 }
@@ -151,10 +151,8 @@ class __$PayloadRequestUpdatePersonalInformationCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_PayloadRequestUpdatePersonalInformation
     implements _PayloadRequestUpdatePersonalInformation {
-  const _$_PayloadRequestUpdatePersonalInformation(
-      {required this.fullName,
-      required this.phoneNumber,
-      required this.address});
+  _$_PayloadRequestUpdatePersonalInformation(
+      {required this.fullName, required this.phoneNumber, this.address});
 
   factory _$_PayloadRequestUpdatePersonalInformation.fromJson(
           Map<String, dynamic> json) =>
@@ -165,7 +163,7 @@ class _$_PayloadRequestUpdatePersonalInformation
   @override
   final String phoneNumber;
   @override
-  final String address;
+  final Address? address;
 
   @override
   String toString() {
@@ -205,10 +203,10 @@ class _$_PayloadRequestUpdatePersonalInformation
 
 abstract class _PayloadRequestUpdatePersonalInformation
     implements PayloadRequestUpdatePersonalInformation {
-  const factory _PayloadRequestUpdatePersonalInformation(
+  factory _PayloadRequestUpdatePersonalInformation(
       {required String fullName,
       required String phoneNumber,
-      required String address}) = _$_PayloadRequestUpdatePersonalInformation;
+      Address? address}) = _$_PayloadRequestUpdatePersonalInformation;
 
   factory _PayloadRequestUpdatePersonalInformation.fromJson(
           Map<String, dynamic> json) =
@@ -219,7 +217,7 @@ abstract class _PayloadRequestUpdatePersonalInformation
   @override
   String get phoneNumber;
   @override
-  String get address;
+  Address? get address;
   @override
   @JsonKey(ignore: true)
   _$PayloadRequestUpdatePersonalInformationCopyWith<

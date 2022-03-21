@@ -19,6 +19,7 @@ import 'package:bekal/payload/response/PayloadResponseUpdateEmail.dart';
 import 'package:bekal/payload/response/PayloadResponseUpdatePassword.dart';
 import 'package:bekal/payload/response/PayloadResponseUpdatePersonalInformation.dart';
 import 'package:bekal/payload/response/PayloadResponseVerification.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 
 class ProfileRepository {
   late ApiProfileService _service;
@@ -28,12 +29,12 @@ class ProfileRepository {
   }
 
   Future<PayloadResponseApi<PayloadResponseProfile?>> getProfile(
-          String authorization) =>
-      _service.getProfile("Bearer $authorization");
+          String authorization) async =>
+      _service.getProfile("Bearer ${await SecureStorage().getToken()}");
 
   Future<PayloadResponseApi<PayloadResponseMyProfileDashboard?>>
-      myProfileDashboard(String authorization) =>
-          _service.myProfileDashboard("Bearer $authorization");
+      myProfileDashboard(String authorization) async => _service
+          .myProfileDashboard("Bearer ${await SecureStorage().getToken()}");
 
   Future<PayloadResponseApi<PayloadResponseVerification?>> getResendVerifyCode(
           String authorization) =>
@@ -47,16 +48,15 @@ class ProfileRepository {
 
   Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
       updatePersonalInformation(
-              String authorization,
-              File? file,
+              String? authorization,
               PayloadRequestUpdatePersonalInformation
-                  payloadRequestUpdatePersonalInformation) =>
+                  payloadRequestUpdatePersonalInformation,
+              File? file) =>
           _service.updatePersonalInformation(
-              "Bearer $authorization",
-              file,
-              payloadRequestUpdatePersonalInformation.fullName,
-              payloadRequestUpdatePersonalInformation.phoneNumber,
-              payloadRequestUpdatePersonalInformation.address);
+            "Bearer $authorization",
+            file,
+            payloadRequestUpdatePersonalInformation,
+          );
 
   Future<PayloadResponseApi<PayloadResponseUpdateEmail?>> updateEmail(
           String authorization,
@@ -120,8 +120,10 @@ class ProfileRepository {
   Future<PayloadResponseApi<List<PayloadResponseStoreCategory>>> getCategory(
     String authorization,
     int idstore,
-  ) =>
-      _service.getCategory("Bearer $authorization", idstore);
+  ) async =>
+      _service.getCategory(
+          "Bearer ${await SecureStorage().getToken() ?? authorization}",
+          idstore);
 
   Future<PayloadResponseApi<List<PayloadResponseStoreProduct>>> getProduct(
     String authorization,

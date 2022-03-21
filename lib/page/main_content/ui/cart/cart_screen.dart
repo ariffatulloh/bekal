@@ -33,7 +33,7 @@ class _CartScreenState extends State<CartScreen> {
 
     return LoadingOverlay(
       isLoading: isGettingData,
-      color: Colors.black38,
+      color: Colors.white,
       opacity: .3,
       child: Stack(
         children: [

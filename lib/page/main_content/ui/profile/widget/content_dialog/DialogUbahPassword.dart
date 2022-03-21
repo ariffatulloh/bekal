@@ -1,9 +1,13 @@
+import 'package:bekal/main.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit_state.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/LoadingContent.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/WidgetTextField.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdatePassword.dart';
+import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
 import 'package:bekal/payload/response/PayloadResponseProfile.dart';
+import 'package:bekal/repository/profile_repository.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:sizer/sizer.dart';
@@ -207,9 +211,42 @@ class _FormUbahPassword extends State<FormUbahPassword> {
                                   fontSize: 10.sp, color: Colors.white),
                             ),
                           ]),
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
+                              var token = await SecureStorage().getToken();
+                              var getDataProfile = await ProfileRepository()
+                                  .myProfileDashboard(token!);
+                              PayloadResponseMyProfileDashboard
+                                  dataProfileDashboard;
+                              if (getDataProfile != null) {
+                                var dataProfile = getDataProfile.data;
+                                if (dataProfile != null) {
+                                  dataProfileDashboard = dataProfile;
+
+                                  List<Map<String, dynamic>> idAccount = [];
+                                  idAccount.add({
+                                    "id": dataProfileDashboard.idUser,
+                                    "userOrStore": 'user'
+                                  });
+                                  if (dataProfileDashboard.myOutlets != null) {
+                                    dataProfileDashboard.myOutlets!
+                                        .forEach((element) {
+                                      idAccount.add({
+                                        "id": element.storeId,
+                                        "userOrStore": 'store'
+                                      });
+                                    });
+                                  }
+                                  List<String> subscribeTopics = [];
+                                  idAccount.forEach((element) async {
+                                    subscribeTopics.add(
+                                        '${element['userOrStore']}-${element['id']}');
+                                  });
+                                  unSubscribeTopicFirebaseAndStomp(
+                                      listSubscribeTopic: subscribeTopics);
+                                }
+                              }
                               var param = PayloadRequestUpdatePassword(
                                   existingPassword: existingPasswordField,
                                   newPassword: newPasswordField,

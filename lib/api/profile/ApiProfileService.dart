@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdateEmail.dart';
 import 'package:bekal/payload/request/PayloadRequestUpdatePassword.dart';
+import 'package:bekal/payload/request/PayloadRequestUpdatePersonalInformation.dart';
 import 'package:bekal/payload/request/PayloadRequestVerificationCode.dart';
 import 'package:bekal/payload/response/PayloadResponseCreateStore.dart';
 import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
@@ -40,15 +42,15 @@ abstract class ApiProfileService {
   Future<PayloadResponseApi<PayloadResponseVerification?>>
       submitVerifiedAccount(@Header("Authorization") String authorization,
           @Body() PayloadRequestVerificationCode payloadRequestLogin);
-  @MultiPart()
+
   @POST('profile/update/datapribadi')
   Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
       updatePersonalInformation(
     @Header("Authorization") String authorization,
-    @Part(name: "file") File? file,
-    @Part(name: "fullName") String fullName,
-    @Part(name: "phoneNumber") String phoneNumber,
-    @Part(name: "address") String address,
+    @Part() File? file,
+    @Body()
+        PayloadRequestUpdatePersonalInformation
+            payloadRequestUpdatePersonalInformation,
   );
 
   @POST('profile/update-email')

@@ -4,7 +4,9 @@ import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyLi
 import 'package:bekal/page/main_content/ui/my_store/widget_create_product/TabHeaderListCategory.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:bekal/payload/response/PayloadResponseStoreCategory.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
+import 'package:bekal/repository/profile_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -94,36 +96,45 @@ class _DashboardMyStores extends State<DashboardMyStores> {
             ),
           ),
           FutureBuilder(
-            future: DashboardMyStoreCubit().getCategory(idStore: data.storeId!),
-            builder: (context, snapshot) {
-              PayloadResponseApi snapshotData =
-                  snapshot.data as PayloadResponseApi;
+            future: ProfileRepository().getCategory("", data.storeId!),
+            builder: (context,
+                AsyncSnapshot<
+                        PayloadResponseApi<List<PayloadResponseStoreCategory>>>
+                    snapshot) {
+              List<PayloadResponseStoreCategory> dataList = [];
 
               print("$selectedIndexHeaderCategory notimes");
-              return TabHeaderListCategory(
-                selectedIndex: selectedIndexHeaderCategory.isNaN
-                    ? 0
-                    : selectedIndexHeaderCategory,
-                idStore: data.storeId!,
-                listCategory: snapshotData.data,
-                // cubitContext:cubitContext,
-                selectedCategoryName: (passParameterTabHeaderListCategory) {
-                  print(passParameterTabHeaderListCategory.index);
-                  setState(() {
-                    selectedIndexHeaderCategory =
-                        passParameterTabHeaderListCategory.index;
-                    selectedCategoryName =
-                        passParameterTabHeaderListCategory.value;
-                  });
-                  // selectedCategoryName
-                  // setState(() {
-                  //   selectedCategoryName = value;
-                  // });
-                  // cubitContext
-                  //     .read<DashboardMyStoreCubit>()
-                  //     .LoadDataProduct();
-                },
-              );
+              if (snapshot.data != null) {
+                dataList = snapshot.data!.data!;
+                if (dataList != null) {
+                  if (dataList.isNotEmpty) {
+                    return TabHeaderListCategory(
+                      selectedIndex: selectedIndexHeaderCategory,
+                      idStore: data.storeId!,
+                      listCategory: dataList,
+                      // cubitContext:cubitContext,
+                      selectedCategoryName:
+                          (passParameterTabHeaderListCategory) {
+                        print(passParameterTabHeaderListCategory.index);
+                        // setState(() {
+                        //   selectedIndexHeaderCategory =
+                        //       passParameterTabHeaderListCategory.index;
+                        //   selectedCategoryName =
+                        //       passParameterTabHeaderListCategory.value;
+                        // });
+                        // selectedCategoryName
+                        // setState(() {
+                        //   selectedCategoryName = value;
+                        // });
+                        // cubitContext
+                        //     .read<DashboardMyStoreCubit>()
+                        //     .LoadDataProduct();
+                      },
+                    );
+                  }
+                }
+              }
+
 //here you should check snapshot.connectionState
               return SizedBox();
             },
@@ -198,7 +209,7 @@ class _DashboardMyStores extends State<DashboardMyStores> {
                           showMaterialModalBottomSheet(
                               duration: Duration(milliseconds: 1400),
                               animationCurve: Curves.easeInOut,
-                              enableDrag: false,
+                              enableDrag: true,
                               backgroundColor: Colors.transparent,
                               context: context,
                               builder: (context) {
