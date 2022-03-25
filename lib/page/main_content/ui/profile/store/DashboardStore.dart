@@ -7,6 +7,7 @@ import 'package:bekal/page/main_content/ui/cart/cart_screen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
 import 'package:bekal/page/main_content/ui/my_store/CreateProduct.dart';
+import 'package:bekal/page/main_content/ui/my_store/ListArchivedProductDialog.dart';
 import 'package:bekal/page/main_content/ui/my_store/daftar_pesanan.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/CardStoreMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahBasicInformationStore.dart';
@@ -51,6 +52,7 @@ Future<http.Response> getDataProduct({required String url}) async =>
 
 class _DashboardStore extends State<DashboardStore>
     with TickerProviderStateMixin {
+  var dummyImageVersion = '?dummy=${math.Random().nextInt(999)}';
   // late Animation<double> _animation;
   // late AnimationController _animationController=AnimationController(
   // vsync: this,
@@ -69,6 +71,8 @@ class _DashboardStore extends State<DashboardStore>
   MyDashboardProfileOutlets myDashboardProfileOutlets =
       MyDashboardProfileOutlets();
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
+
+  bool isRefresh = false;
   Future<void> callFromApi() async {
     http.Response snapshotDataStore =
         await getDataStore(storeId: widget.storeId);
@@ -179,611 +183,624 @@ class _DashboardStore extends State<DashboardStore>
     //   },
     // );
     if (isDoneCallFromApi) {
-      return Stack(
-        children: [
-          Neumorphic(
-            style: NeumorphicStyle(color: Colors.white70),
-            child: Column(children: [
-              Neumorphic(
-                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
-                style: NeumorphicStyle(
-                  boxShape: NeumorphicBoxShape.rect(),
-                  color: Colors.white54,
-                  depth: .2.h,
-                ),
-                child: Row(
-                  children: [
-                    NeumorphicButton(
-                      onPressed: () {
-                        Future.delayed(Duration(milliseconds: 100), () {
-                          // if (stompClient != null) {
-                          //   stompClient!.deactivate();
-                          // }
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      padding: EdgeInsets.all(0.w.h),
-                      // margin: EdgeInsets.all(0),
+      return Scaffold(
+        body: SafeArea(
+            child: Neumorphic(
+          style: NeumorphicStyle(color: Colors.white70),
+          child: Column(children: [
+            Neumorphic(
+              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
+              style: NeumorphicStyle(
+                boxShape: NeumorphicBoxShape.rect(),
+                color: Colors.white54,
+                depth: .2.h,
+              ),
+              child: Row(
+                children: [
+                  NeumorphicButton(
+                    onPressed: () {
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        // if (stompClient != null) {
+                        //   stompClient!.deactivate();
+                        // }
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    padding: EdgeInsets.all(0.w.h),
+                    // margin: EdgeInsets.all(0),
+                    style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.circle(),
+                      color: Colors.white24,
+                      depth: 0,
+                    ),
+                    child: NeumorphicIcon(
+                      Icons.arrow_back_ios,
                       style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.circle(),
-                        color: Colors.white24,
-                        depth: 0,
+                        depth: .1.h,
+                        color: Colors.black45,
                       ),
+                      size: 32,
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text('${dataStore['storeName']}'),
+                    ),
+                  ),
+                  NeumorphicButton(
+                    onPressed: () {
+                      Future.delayed(Duration(milliseconds: 100), () {
+                        // if (stompClient != null) {
+                        //   stompClient!.deactivate();
+                        // }
+                        Navigator.of(context).pop();
+                      });
+                    },
+                    padding: EdgeInsets.all(0.w.h),
+                    // margin: EdgeInsets.all(0),
+                    style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.circle(),
+                      color: Colors.white24,
+                      depth: 0,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        showMaterialModalBottomSheet(
+                            duration: Duration(milliseconds: 1400),
+                            animationCurve: Curves.easeInOut,
+                            enableDrag: true,
+                            isDismissible: false,
+                            backgroundColor: Colors.white,
+                            context: context,
+                            builder: (context) {
+                              return Column(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: NeumorphicButton(
+                                      onPressed: () {
+                                        Future.delayed(
+                                            Duration(milliseconds: 100), () {
+                                          // if (stompClient != null) {
+                                          //   stompClient!.deactivate();
+                                          // }
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                      padding: EdgeInsets.all(0.w.h),
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 1.h, horizontal: 1.5.w),
+                                      // margin: EdgeInsets.all(0),
+                                      style: NeumorphicStyle(
+                                        boxShape: NeumorphicBoxShape.circle(),
+                                        color: Colors.white24,
+                                        depth: 0,
+                                      ),
+                                      child: NeumorphicIcon(
+                                        Icons.arrow_back_ios,
+                                        style: NeumorphicStyle(
+                                          depth: .1.h,
+                                          color: Colors.black45,
+                                        ),
+                                        size: 32,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(child: CartScreen())
+                                ],
+                              );
+                            });
+                      },
                       child: NeumorphicIcon(
-                        Icons.arrow_back_ios,
+                        Icons.shopping_basket,
                         style: NeumorphicStyle(
                           depth: .1.h,
-                          color: Colors.black45,
+                          color: Colors.orangeAccent,
                         ),
                         size: 32,
                       ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Text('${dataStore['storeName']}'),
-                      ),
-                    ),
-                    NeumorphicButton(
-                      onPressed: () {
-                        Future.delayed(Duration(milliseconds: 100), () {
-                          // if (stompClient != null) {
-                          //   stompClient!.deactivate();
-                          // }
-                          Navigator.of(context).pop();
-                        });
-                      },
-                      padding: EdgeInsets.all(0.w.h),
-                      // margin: EdgeInsets.all(0),
-                      style: NeumorphicStyle(
-                        boxShape: NeumorphicBoxShape.circle(),
-                        color: Colors.white24,
-                        depth: 0,
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          showMaterialModalBottomSheet(
-                              duration: Duration(milliseconds: 1400),
-                              animationCurve: Curves.easeInOut,
-                              enableDrag: true,
-                              isDismissible: false,
-                              backgroundColor: Colors.white,
-                              context: context,
-                              builder: (context) {
-                                return Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
-                                      child: NeumorphicButton(
-                                        onPressed: () {
-                                          Future.delayed(
-                                              Duration(milliseconds: 100), () {
-                                            // if (stompClient != null) {
-                                            //   stompClient!.deactivate();
-                                            // }
-                                            Navigator.of(context).pop();
-                                          });
-                                        },
-                                        padding: EdgeInsets.all(0.w.h),
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 1.h, horizontal: 1.5.w),
-                                        // margin: EdgeInsets.all(0),
-                                        style: NeumorphicStyle(
-                                          boxShape: NeumorphicBoxShape.circle(),
-                                          color: Colors.white24,
-                                          depth: 0,
-                                        ),
-                                        child: NeumorphicIcon(
-                                          Icons.arrow_back_ios,
-                                          style: NeumorphicStyle(
-                                            depth: .1.h,
-                                            color: Colors.black45,
-                                          ),
-                                          size: 32,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(child: CartScreen())
-                                  ],
-                                );
-                              });
-                        },
-                        child: NeumorphicIcon(
-                          Icons.shopping_basket,
-                          style: NeumorphicStyle(
-                            depth: .1.h,
-                            color: Colors.orangeAccent,
-                          ),
-                          size: 32,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 30.h,
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(bottom: 5.h),
-                            alignment: Alignment.bottomCenter,
-                            child: WaveWidget(
-                              config: CustomConfig(
-                                gradients: [
-                                  [
-                                    const Color.fromRGBO(63, 142, 252, .4),
-                                    const Color.fromRGBO(63, 142, 252, .1)
-                                  ],
-                                  [
-                                    const Color.fromRGBO(243, 146, 0, .5),
-                                    const Color.fromRGBO(243, 146, 0, .1)
-                                  ],
-                                  [
-                                    const Color.fromRGBO(233, 78, 27, .5),
-                                    const Color.fromRGBO(233, 78, 27, .1)
-                                  ],
-                                  [
-                                    const Color.fromRGBO(231, 48, 42, .5),
-                                    const Color.fromRGBO(231, 48, 42, .1)
-                                  ]
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    height: 30.h,
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(bottom: 5.h),
+                          alignment: Alignment.bottomCenter,
+                          child: WaveWidget(
+                            config: CustomConfig(
+                              gradients: [
+                                [
+                                  const Color.fromRGBO(63, 142, 252, .4),
+                                  const Color.fromRGBO(63, 142, 252, .1)
                                 ],
-                                durations: [18000, 9440, 10800, 6000],
-                                heightPercentages: [-0.20, -0.23, -.1, -.22],
-                                blur:
-                                    const MaskFilter.blur(BlurStyle.solid, 20),
-                                gradientBegin: Alignment.bottomLeft,
-                                gradientEnd: Alignment.topRight,
-                              ),
-                              waveAmplitude: 8,
-                              waveFrequency: 2,
-                              heightPercentange: 2,
-                              isLoop: true,
-                              size: Size(100.w, 15.h),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.bottomCenter,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Neumorphic(
-                                    style: NeumorphicStyle(
-                                        color: Colors.white70,
-                                        border: NeumorphicBorder(
-                                            width: 1.5, color: Colors.white70),
-                                        boxShape: NeumorphicBoxShape.circle(),
-                                        depth: .2.h,
-                                        intensity: 1,
-                                        surfaceIntensity: .5),
-                                    child: Container(
-                                      width: 25.w,
-                                      height: 25.w,
-                                      child: CachedNetworkImage(
-                                        // cacheManager: imageManager,
-                                        fit: BoxFit.cover,
-                                        imageUrl: dataStore['storeImageUri'] +
-                                            '?${math.Random().nextDouble()}',
-                                        // imageBuilder: (context, imProvider) {
-                                        //   return Image(image: imProvider);
-                                        // },
-
-                                        errorWidget: (context, url, error) {
-                                          print('error $error}');
-                                          return Icon(
-                                            Icons.person,
-                                            color: Colors.black,
-                                          );
-                                        },
-                                        progressIndicatorBuilder:
-                                            (context, url, error) {
-                                          print('loadingBuilder$error');
-                                          return CircularProgressIndicator();
-                                        },
-                                      ),
-                                    )),
-                                SizedBox(
-                                  height: 16.sp,
-                                ),
-                                Neumorphic(
-                                    style: NeumorphicStyle(
-                                        color: Colors.white,
-                                        border: NeumorphicBorder(
-                                            width: 1.5, color: Colors.white70),
-                                        depth: .5.h,
-                                        intensity: 1,
-                                        surfaceIntensity: .5),
-                                    child: Container(
-                                      width: 100.w,
-                                      // height: 20.h,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () async {
-                                                    var token =
-                                                        await SecureStorage()
-                                                            .getToken();
-                                                    ProfileRepository()
-                                                        .myProfileDashboard(
-                                                            token!)
-                                                        .then((value) async {
-                                                      var getDataProfile =
-                                                          value.data!;
-                                                      showMaterialModalBottomSheet(
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  1400),
-                                                          animationCurve:
-                                                              Curves.easeInOut,
-                                                          enableDrag: true,
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return ChatDetailScreen(
-                                                              onClosed: () {},
-                                                              accountSelected: PopUpList(
-                                                                  image: getDataProfile
-                                                                          .image ??
-                                                                      "",
-                                                                  id: getDataProfile
-                                                                          .idUser ??
-                                                                      -1,
-                                                                  userOrStore:
-                                                                      "user",
-                                                                  nameDisplay:
-                                                                      getDataProfile
-                                                                              .nameUser ??
-                                                                          ""),
-                                                              withUser: ChatWith(
-                                                                  fullName:
-                                                                      dataStore[
-                                                                          'storeName'],
-                                                                  id: widget
-                                                                      .storeId,
-                                                                  userOrStore:
-                                                                      'store'),
-                                                            );
-                                                          });
-                                                    });
-                                                  },
-                                                  child: NeumorphicIcon(
-                                                    Icons.chat_sharp,
-                                                    style: NeumorphicStyle(
-                                                      depth: .1.h,
-                                                      color:
-                                                          Colors.orangeAccent,
-                                                    ),
-                                                    size: 32,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                Text(
-                                                  "Chat",
-                                                  style: TextStyle(
-                                                      fontSize: 8.sp,
-                                                      color: Colors.black54),
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                Icon(
-                                                  Icons.shopping_cart_sharp,
-                                                  color: Colors.orangeAccent,
-                                                  size: 32,
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                Text(
-                                                  "99",
-                                                  style: TextStyle(
-                                                      fontSize: 8.sp,
-                                                      color: Colors.black54),
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              children: [
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                Icon(
-                                                  Icons.shopping_bag_sharp,
-                                                  color: Colors.orangeAccent,
-                                                  size: 32,
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                                Text(
-                                                  "99",
-                                                  style: TextStyle(
-                                                      fontSize: 8.sp,
-                                                      color: Colors.black54),
-                                                ),
-                                                SizedBox(
-                                                  height: 8.sp,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
+                                [
+                                  const Color.fromRGBO(243, 146, 0, .5),
+                                  const Color.fromRGBO(243, 146, 0, .1)
+                                ],
+                                [
+                                  const Color.fromRGBO(233, 78, 27, .5),
+                                  const Color.fromRGBO(233, 78, 27, .1)
+                                ],
+                                [
+                                  const Color.fromRGBO(231, 48, 42, .5),
+                                  const Color.fromRGBO(231, 48, 42, .1)
+                                ]
                               ],
+                              durations: [18000, 9440, 10800, 6000],
+                              heightPercentages: [-0.20, -0.23, -.1, -.22],
+                              blur: const MaskFilter.blur(BlurStyle.solid, 20),
+                              gradientBegin: Alignment.bottomLeft,
+                              gradientEnd: Alignment.topRight,
                             ),
+                            waveAmplitude: 8,
+                            waveFrequency: 2,
+                            heightPercentange: 2,
+                            isLoop: true,
+                            size: Size(100.w, 15.h),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 2.h,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Wrap(
-                        children: dataStore['storeListCategory'] == null
-                            ? []
-                            : (dataStore['storeListCategory'] as List)
-                                .map((e) => NeumorphicButton(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 1.w, vertical: 1.h),
-                                      pressed: true,
-                                      onPressed: () {
-                                        setState(() {
-                                          uriUrl = e['productInCategory'];
-                                          selectedIndexCategory =
-                                              e['categoryId'];
-                                        });
-                                        // setState(() {
-                                        //
-                                        // });
-                                      },
-                                      style: NeumorphicStyle(
-                                          color: selectedIndexCategory ==
-                                                  e['categoryId']
-                                              ? Colors.blue
-                                              : Colors.orangeAccent,
-                                          depth: .2.h,
-                                          intensity: .8,
-                                          boxShape:
-                                              NeumorphicBoxShape.roundRect(
-                                                  BorderRadius.all(
-                                                      Radius.circular(20)))),
-                                      child: Container(
-                                        child: Text(
-                                          e['categoryName'],
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                      ),
-                    ),
-                    Expanded(
-                      child: StreamBuilder(
-                          stream: getDataProduct(url: uriUrl).asStream(),
-                          builder:
-                              (context, AsyncSnapshot<http.Response> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text(snapshot.error.toString());
-                            }
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Neumorphic(
+                                  style: NeumorphicStyle(
+                                      color: Colors.white70,
+                                      border: NeumorphicBorder(
+                                          width: 1.5, color: Colors.white70),
+                                      boxShape: NeumorphicBoxShape.circle(),
+                                      depth: .2.h,
+                                      intensity: 1,
+                                      surfaceIntensity: .5),
+                                  child: Container(
+                                    width: 25.w,
+                                    height: 25.w,
+                                    child: CachedNetworkImage(
+                                      // cacheManager: imageManager,
+                                      fit: BoxFit.cover,
+                                      imageUrl: dataStore['storeImageUri'] +
+                                          '?${math.Random().nextDouble()}',
+                                      // imageBuilder: (context, imProvider) {
+                                      //   return Image(image: imProvider);
+                                      // },
 
-                            if (snapshot.connectionState !=
-                                ConnectionState.done) {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (snapshot.hasData) {
-                              var bodyResponse =
-                                  json.decode(snapshot.data!.body);
-                              return MasonryGridView.count(
-                                  crossAxisCount: 3,
-                                  mainAxisSpacing: 1,
-                                  crossAxisSpacing: 1,
-                                  shrinkWrap: true,
-                                  itemCount: bodyResponse['data'] == null
-                                      ? 0
-                                      : (bodyResponse['data'] as List).length,
-                                  itemBuilder: (context, index) {
-                                    var e = bodyResponse['data'] == null
-                                        ? null
-                                        : bodyResponse['data'][index];
-                                    return NeumorphicButton(
-                                      onPressed: () {
-                                        if (widget.mystore ?? false) {
-                                          showMaterialModalBottomSheet(
-                                              duration:
-                                                  Duration(milliseconds: 1400),
-                                              animationCurve: Curves.easeInOut,
-                                              enableDrag: true,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              context: context,
-                                              builder: (context) {
-                                                return CreateProduct(
-                                                  idStore: widget.storeId,
-                                                  idProduct: e['storeProdId'],
-                                                );
-                                              });
-                                        } else {
-                                          showMaterialModalBottomSheet(
-                                              duration:
-                                                  Duration(milliseconds: 1400),
-                                              animationCurve: Curves.easeInOut,
-                                              enableDrag: true,
-                                              isDismissible: false,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              context: context,
-                                              builder: (context) {
-                                                return ViewProduct(
-                                                    idStore: widget.storeId,
-                                                    dataDetailProduct: null,
-                                                    idProduct:
-                                                        e['storeProdId']);
-                                              });
-                                        }
+                                      errorWidget: (context, url, error) {
+                                        print('error $error}');
+                                        return Icon(
+                                          Icons.person,
+                                          color: Colors.black,
+                                        );
                                       },
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: .1.w, vertical: .1.h),
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: .5.h, horizontal: 2.w),
-                                      style: NeumorphicStyle(
-                                          color: Colors.white, depth: 1.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Stack(
+                                      progressIndicatorBuilder:
+                                          (context, url, error) {
+                                        print('loadingBuilder$error');
+                                        return CircularProgressIndicator();
+                                      },
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 16.sp,
+                              ),
+                              Neumorphic(
+                                  style: NeumorphicStyle(
+                                      color: Colors.white,
+                                      border: NeumorphicBorder(
+                                          width: 1.5, color: Colors.white70),
+                                      depth: .5.h,
+                                      intensity: 1,
+                                      surfaceIntensity: .5),
+                                  child: Container(
+                                    width: 100.w,
+                                    // height: 20.h,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
                                             children: [
-                                              Neumorphic(
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  var token =
+                                                      await SecureStorage()
+                                                          .getToken();
+                                                  ProfileRepository()
+                                                      .myProfileDashboard(
+                                                          token!)
+                                                      .then((value) async {
+                                                    var getDataProfile =
+                                                        value.data!;
+                                                    showMaterialModalBottomSheet(
+                                                        duration: Duration(
+                                                            milliseconds: 1400),
+                                                        animationCurve:
+                                                            Curves.easeInOut,
+                                                        enableDrag: true,
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return ChatDetailScreen(
+                                                            onClosed: () {},
+                                                            accountSelected: PopUpList(
+                                                                image: getDataProfile
+                                                                        .image ??
+                                                                    "",
+                                                                id: getDataProfile
+                                                                        .idUser ??
+                                                                    -1,
+                                                                userOrStore:
+                                                                    "user",
+                                                                nameDisplay:
+                                                                    getDataProfile
+                                                                            .nameUser ??
+                                                                        ""),
+                                                            withUser: ChatWith(
+                                                                fullName: dataStore[
+                                                                    'storeName'],
+                                                                id: widget
+                                                                    .storeId,
+                                                                userOrStore:
+                                                                    'store'),
+                                                          );
+                                                        });
+                                                  });
+                                                },
+                                                child: NeumorphicIcon(
+                                                  Icons.chat_sharp,
                                                   style: NeumorphicStyle(
-                                                      depth: 1.0),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: e['uriThumbnail'],
-                                                    height: 20.h,
-                                                    fit: BoxFit.cover,
-                                                    errorWidget:
-                                                        (context, url, error) {
-                                                      return Icon(
-                                                        Icons.remove_circle,
-                                                        color: Colors.red,
-                                                      );
-                                                    },
-                                                    progressIndicatorBuilder:
-                                                        (context, url, error) {
-                                                      return CircularProgressIndicator(
-                                                        color: Colors.blue,
-                                                      );
-                                                    },
-                                                  )),
-                                              Positioned(
-                                                top: .5.h,
-                                                right: .5.w,
-                                                child: Neumorphic(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 2,
-                                                          bottom: 2,
-                                                          left: 5,
-                                                          right: 5),
-                                                  style: NeumorphicStyle(
-                                                      depth: .2.h,
-                                                      intensity: .6,
-                                                      color: int.parse(e[
-                                                                  'stockProduct']) >
-                                                              0
-                                                          ? Colors.greenAccent
-                                                          : Colors.redAccent),
-                                                  child: Center(
-                                                    child: Text(
-                                                      int.parse(e['stockProduct']) >
-                                                              0
-                                                          ? "Tersedia"
-                                                          : "Habis",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 8.sp),
-                                                    ),
+                                                    depth: .1.h,
+                                                    color: Colors.orangeAccent,
                                                   ),
+                                                  size: 32,
                                                 ),
-                                              )
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              Text(
+                                                "Chat",
+                                                style: TextStyle(
+                                                    fontSize: 8.sp,
+                                                    color: Colors.black54),
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 1.h,
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              Icon(
+                                                Icons.shopping_cart_sharp,
+                                                color: Colors.orangeAccent,
+                                                size: 32,
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              Text(
+                                                "99",
+                                                style: TextStyle(
+                                                    fontSize: 8.sp,
+                                                    color: Colors.black54),
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            alignment: Alignment.topLeft,
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 1.w),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  e['nameProduct'],
-                                                  style: TextStyle(
-                                                      fontFamily: 'ghotic',
-                                                      fontSize: 8.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black87),
-                                                ),
-                                                SizedBox(
-                                                  height: 2.sp,
-                                                ),
-                                                Text(
-                                                  "${currencyFormatter.format(int.parse(e['priceProduct']))}",
-                                                  style: TextStyle(
-                                                      fontFamily: 'ghotic',
-                                                      fontSize: 8.sp,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Colors.red),
-                                                ),
-                                                SizedBox(
-                                                  height: 2.sp,
-                                                ),
-                                                Text(
-                                                  // "TerJual: ${counterSell! > 9999 ? "9999+" : counterSell}",
-                                                  "",
-                                                  style: TextStyle(
-                                                      fontFamily: 'ghotic',
-                                                      fontSize: 8.sp,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      color: Colors.black38),
-                                                ),
-                                              ],
-                                            ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              Icon(
+                                                Icons.shopping_bag_sharp,
+                                                color: Colors.orangeAccent,
+                                                size: 32,
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                              Text(
+                                                "99",
+                                                style: TextStyle(
+                                                    fontSize: 8.sp,
+                                                    color: Colors.black54),
+                                              ),
+                                              SizedBox(
+                                                height: 8.sp,
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(
-                                            height: 1.h,
-                                          ),
-                                        ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      children: dataStore['storeListCategory'] == null
+                          ? []
+                          : (dataStore['storeListCategory'] as List)
+                              .map((e) => NeumorphicButton(
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 1.w, vertical: 1.h),
+                                    pressed: true,
+                                    onPressed: () {
+                                      setState(() {
+                                        uriUrl = e['productInCategory'];
+                                        selectedIndexCategory = e['categoryId'];
+                                      });
+                                      // setState(() {
+                                      //
+                                      // });
+                                    },
+                                    style: NeumorphicStyle(
+                                        color: selectedIndexCategory ==
+                                                e['categoryId']
+                                            ? Colors.blue
+                                            : Colors.orangeAccent,
+                                        depth: .2.h,
+                                        intensity: .8,
+                                        boxShape: NeumorphicBoxShape.roundRect(
+                                            BorderRadius.all(
+                                                Radius.circular(20)))),
+                                    child: Container(
+                                      child: Text(
+                                        e['categoryName'],
+                                        style: TextStyle(color: Colors.white),
                                       ),
-                                    );
-                                  });
-                            }
+                                    ),
+                                  ))
+                              .toList(),
+                    ),
+                  ),
+                  Expanded(
+                    child: StreamBuilder(
+                        stream: getDataProduct(url: uriUrl).asStream(),
+                        builder:
+                            (context, AsyncSnapshot<http.Response> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text(snapshot.error.toString());
+                          }
+
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
-                          }),
-                    )
-                  ],
-                ),
+                          }
+                          if (snapshot.hasData) {
+                            var bodyResponse = json.decode(snapshot.data!.body);
+                            return MasonryGridView.count(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 1,
+                                crossAxisSpacing: 1,
+                                shrinkWrap: true,
+                                itemCount: bodyResponse['data'] == null
+                                    ? 0
+                                    : (bodyResponse['data'] as List).length,
+                                itemBuilder: (context, index) {
+                                  var e = bodyResponse['data'] == null
+                                      ? null
+                                      : bodyResponse['data'][index];
+
+                                  return NeumorphicButton(
+                                    onPressed: () async {
+                                      if (widget.mystore ?? false) {
+                                        await showMaterialModalBottomSheet(
+                                            duration:
+                                                Duration(milliseconds: 1400),
+                                            animationCurve: Curves.easeInOut,
+                                            enableDrag: true,
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) {
+                                              return CreateProduct(
+                                                onDismiss: (isDismiss) {
+                                                  setState(() {
+                                                    isRefresh = true;
+                                                  });
+                                                },
+                                                idStore: widget.storeId,
+                                                idProduct: e['storeProdId'],
+                                              );
+                                            });
+                                      } else {
+                                        showMaterialModalBottomSheet(
+                                            duration:
+                                                Duration(milliseconds: 1400),
+                                            animationCurve: Curves.easeInOut,
+                                            enableDrag: true,
+                                            isDismissible: false,
+                                            backgroundColor: Colors.transparent,
+                                            context: context,
+                                            builder: (context) {
+                                              return ViewProduct(
+                                                  idStore: widget.storeId,
+                                                  dataDetailProduct: null,
+                                                  idProduct: e['storeProdId']);
+                                            });
+                                      }
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 1.w, vertical: 1.h),
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: .5.h, horizontal: 2.w),
+                                    style: NeumorphicStyle(
+                                        color: Colors.white, depth: 1.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Center(
+                                              child: Neumorphic(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 1.w,
+                                                      vertical: 1.w),
+                                                  style: NeumorphicStyle(
+                                                      boxShape:
+                                                          NeumorphicBoxShape
+                                                              .circle(),
+                                                      depth: 2,
+                                                      intensity: 1,
+                                                      surfaceIntensity: 1),
+                                                  child: Container(
+                                                      width: 30.w,
+                                                      height: 30.w,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: e[
+                                                                'uriThumbnail'] +
+                                                            dummyImageVersion,
+                                                        fit: BoxFit.cover,
+                                                        errorWidget: (context,
+                                                            url, error) {
+                                                          return Icon(
+                                                            Icons.remove_circle,
+                                                            color: Colors.red,
+                                                          );
+                                                        },
+                                                        progressIndicatorBuilder:
+                                                            (context, url,
+                                                                error) {
+                                                          return CircularProgressIndicator(
+                                                            color: Colors.blue,
+                                                          );
+                                                        },
+                                                      ))),
+                                            ),
+                                            Positioned(
+                                              top: .5.h,
+                                              right: .5.w,
+                                              child: Neumorphic(
+                                                padding: const EdgeInsets.only(
+                                                    top: 2,
+                                                    bottom: 2,
+                                                    left: 5,
+                                                    right: 5),
+                                                style: NeumorphicStyle(
+                                                    depth: .2.h,
+                                                    intensity: .6,
+                                                    color: int.parse(e[
+                                                                'stockProduct']) >
+                                                            0
+                                                        ? Colors.greenAccent
+                                                        : Colors.redAccent),
+                                                child: Center(
+                                                  child: Text(
+                                                    int.parse(e['stockProduct']) >
+                                                            0
+                                                        ? "Tersedia"
+                                                        : "Habis",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 8.sp),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 1.h,
+                                        ),
+                                        Container(
+                                          alignment: Alignment.topLeft,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 1.w),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                e['nameProduct'],
+                                                style: TextStyle(
+                                                    fontFamily: 'ghotic',
+                                                    fontSize: 8.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black87),
+                                              ),
+                                              SizedBox(
+                                                height: 2.sp,
+                                              ),
+                                              Text(
+                                                "${currencyFormatter.format(int.parse(e['priceProduct']))}",
+                                                style: TextStyle(
+                                                    fontFamily: 'ghotic',
+                                                    fontSize: 8.sp,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.red),
+                                              ),
+                                              SizedBox(
+                                                height: 2.sp,
+                                              ),
+                                              Text(
+                                                // "TerJual: ${counterSell! > 9999 ? "9999+" : counterSell}",
+                                                "",
+                                                style: TextStyle(
+                                                    fontFamily: 'ghotic',
+                                                    fontSize: 8.sp,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.black38),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 1.h,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }),
+                  )
+                ],
               ),
-            ]),
-          ),
+            ),
+          ]),
+        )),
+        floatingActionButton: isMyStoreAction(),
+      );
+      return Stack(
+        children: [
           // Positioned(
           //   top: floatingY,
           //   left: floatingX,
@@ -802,11 +819,16 @@ class _DashboardStore extends State<DashboardStore>
           //     },
           //   ),
           // ),
-          Positioned(
-            right: 3.w,
-            bottom: -73.h,
-            child: isMyStoreAction(),
-          )
+          isMyStoreAction()
+          // Positioned(
+          //   right: 3.w,
+          //   top: 0,
+          //   child: Container(
+          //     color: Colors.blue,
+          //     height: 100.h,
+          //     child: Positioned
+          //   ),
+          // )
         ],
       );
     }
@@ -825,11 +847,62 @@ class _DashboardStore extends State<DashboardStore>
       final curvedAnimation = CurvedAnimation(
           curve: Curves.easeInOut, parent: _animationController);
       var _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-      return Container(
+      return Positioned(
+        bottom: 0,
         width: 100.w,
         height: 100.h,
         child: FloatingActionBubble(
           items: [
+            Bubble(
+              title: "Rekening Pembayaran",
+              iconColor: Colors.white,
+              bubbleColor: Colors.blue,
+              icon: Icons.credit_card_rounded,
+              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+              onPress: () {
+                _animationController.reverse();
+                showMaterialModalBottomSheet(
+                    duration: Duration(milliseconds: 1400),
+                    animationCurve: Curves.easeInOut,
+                    enableDrag: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (context) {
+                      return ListArchivedProductDialog(
+                          storeId: widget.storeId,
+                          onDismiss: (isDismiss) {
+                            setState(() {
+                              isRefresh = true;
+                            });
+                          });
+                    });
+              },
+            ),
+            Bubble(
+              title: "Daftar Barang Dihapus",
+              iconColor: Colors.white,
+              bubbleColor: Colors.blue,
+              icon: Icons.archive,
+              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+              onPress: () {
+                _animationController.reverse();
+                showMaterialModalBottomSheet(
+                    duration: Duration(milliseconds: 1400),
+                    animationCurve: Curves.easeInOut,
+                    enableDrag: true,
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    builder: (context) {
+                      return ListArchivedProductDialog(
+                          storeId: widget.storeId,
+                          onDismiss: (isDismiss) {
+                            setState(() {
+                              isRefresh = true;
+                            });
+                          });
+                    });
+              },
+            ),
             Bubble(
               title: "Informasi Dasar",
               iconColor: Colors.white,
@@ -899,6 +972,11 @@ class _DashboardStore extends State<DashboardStore>
                     builder: (context) {
                       return CreateProduct(
                         idStore: widget.storeId,
+                        onDismiss: (isDimiss) {
+                          setState(() {
+                            isRefresh = true;
+                          });
+                        },
                         // idProduct: e['storeProdId'],
                       );
                     });

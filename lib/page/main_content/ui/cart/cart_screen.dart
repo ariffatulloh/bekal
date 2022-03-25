@@ -3,6 +3,7 @@ import 'package:bekal/page/main_content/ui/cart/cart_checkout.dart';
 import 'package:bekal/page/main_content/ui/cart/model/cart.dart';
 import 'package:bekal/page/main_content/ui/cart/widget/cart_item_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:sizer/sizer.dart';
@@ -37,6 +38,30 @@ class _CartScreenState extends State<CartScreen> {
       opacity: .3,
       child: Stack(
         children: [
+          Positioned(
+            top: -20.h,
+            right: -10.w,
+            height: 30.h,
+            width: 120.w,
+            child: Neumorphic(
+              style: NeumorphicStyle(
+                  color: Color(0xfff39200).withOpacity(.8),
+                  shadowDarkColorEmboss: Colors.black87,
+                  shape: NeumorphicShape.flat,
+                  depth: 2,
+                  intensity: 1,
+                  surfaceIntensity: 1,
+                  boxShape: NeumorphicBoxShape.roundRect(BorderRadius.only(
+                      topLeft: Radius.circular(10.w),
+                      topRight: Radius.circular(10.w),
+                      bottomRight: Radius.circular(35.w),
+                      bottomLeft: Radius.circular(35.w)))),
+              child: Container(
+                color: Colors.transparent,
+                height: 10,
+              ),
+            ),
+          ),
           SafeArea(
             child: Container(
               padding: EdgeInsets.fromLTRB(0.w, 2.h, 0.w, 13.h),
@@ -91,58 +116,68 @@ class _CartScreenState extends State<CartScreen> {
           ),
           Positioned(
             bottom: 0.h,
-            child: Container(
-              padding: EdgeInsets.all(16),
-              width: 100.w,
-              height: 15.h,
-              decoration: BoxDecoration(color: Colors.grey[100]),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total Harga",
-                        style: TextStyle(fontFamily: 'ghotic', fontSize: 14),
-                      ),
-                      Text(
-                        currencyFormatter.format(grandPrice),
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  InkWell(
-                      onTap: () {
-                        if (_items.isNotEmpty)
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Checkout(items: _items)),
-                          );
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: _items.isNotEmpty ? Colors.red : Colors.grey,
+            child: Neumorphic(
+              style: NeumorphicStyle(
+                color: Color(0xfff39200).withOpacity(.8),
+                boxShape: NeumorphicBoxShape.rect(),
+                depth: -2,
+                intensity: 1,
+                surfaceIntensity: 1,
+              ),
+              child: Container(
+                padding: EdgeInsets.all(16),
+                width: 100.w,
+                height: 18.h,
+                decoration: BoxDecoration(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total Harga",
+                          style: TextStyle(fontFamily: 'ghotic', fontSize: 14),
                         ),
-                        child: Text(
-                          "Checkout",
+                        Text(
+                          currencyFormatter.format(grandPrice),
                           style: TextStyle(
                               fontFamily: 'ghotic',
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ))
-                ],
+                              fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                    InkWell(
+                        onTap: () {
+                          if (_items.isNotEmpty)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Checkout(items: _items)),
+                            );
+                        },
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: _items.isNotEmpty ? Colors.red : Colors.grey,
+                          ),
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(
+                                fontFamily: 'ghotic',
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ))
+                  ],
+                ),
               ),
             ),
           )

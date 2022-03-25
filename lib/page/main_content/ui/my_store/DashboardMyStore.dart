@@ -214,7 +214,9 @@ class _DashboardMyStores extends State<DashboardMyStores> {
                               context: context,
                               builder: (context) {
                                 return CreateProduct(
-                                    idStore: widget.data.storeId!);
+                                  idStore: widget.data.storeId!,
+                                  onDismiss: (isDismiss) {},
+                                );
                               });
                         }),
                     NeumorphicButton(

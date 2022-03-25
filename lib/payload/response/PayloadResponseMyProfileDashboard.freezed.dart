@@ -28,6 +28,7 @@ class _$PayloadResponseMyProfileDashboardTearOff {
       int? idUser,
       String? nameUser,
       String? emailUser,
+      required bool isAdmin,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
       Alert? alertHystoryTransaksi}) {
@@ -35,6 +36,7 @@ class _$PayloadResponseMyProfileDashboardTearOff {
       image: image,
       idUser: idUser,
       nameUser: nameUser,
+      isAdmin: isAdmin,
       emailUser: emailUser,
       myOutlets: myOutlets,
       alertUbahDataPribadi: alertUbahDataPribadi,
@@ -56,6 +58,7 @@ mixin _$PayloadResponseMyProfileDashboard {
   String? get image => throw _privateConstructorUsedError;
   int? get idUser => throw _privateConstructorUsedError;
   String? get nameUser => throw _privateConstructorUsedError;
+  bool get isAdmin => throw _privateConstructorUsedError;
   String? get emailUser => throw _privateConstructorUsedError;
   List<MyDashboardProfileOutlets>? get myOutlets =>
       throw _privateConstructorUsedError;
@@ -78,6 +81,7 @@ abstract class $PayloadResponseMyProfileDashboardCopyWith<$Res> {
       {String? image,
       int? idUser,
       String? nameUser,
+      bool isAdmin,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
@@ -99,6 +103,7 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
     Object? idUser = freezed,
     Object? nameUser = freezed,
     Object? emailUser = freezed,
+    Object? isAdmin = freezed,
     Object? myOutlets = freezed,
     Object? alertUbahDataPribadi = freezed,
     Object? alertHystoryTransaksi = freezed,
@@ -112,6 +117,10 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
               as int?,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -148,6 +157,7 @@ abstract class _$PayloadResponseMyProfileDashboardCopyWith<$Res>
       {String? image,
       int? idUser,
       String? nameUser,
+      bool isAdmin,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
@@ -172,6 +182,7 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
     Object? image = freezed,
     Object? idUser = freezed,
     Object? nameUser = freezed,
+    Object? isAdmin = freezed,
     Object? emailUser = freezed,
     Object? myOutlets = freezed,
     Object? alertUbahDataPribadi = freezed,
@@ -186,6 +197,10 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
               as int?,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -219,6 +234,7 @@ class _$_PayloadResponseMyProfileDashboard
       this.idUser,
       this.nameUser,
       this.emailUser,
+      required this.isAdmin,
       this.myOutlets,
       this.alertUbahDataPribadi,
       this.alertHystoryTransaksi});
@@ -236,6 +252,8 @@ class _$_PayloadResponseMyProfileDashboard
   @override
   final String? emailUser;
   @override
+  final bool isAdmin;
+  @override
   final List<MyDashboardProfileOutlets>? myOutlets;
   @override
   final Alert? alertUbahDataPribadi;
@@ -244,7 +262,7 @@ class _$_PayloadResponseMyProfileDashboard
 
   @override
   String toString() {
-    return 'PayloadResponseMyProfileDashboard(image: $image, idUser: $idUser, nameUser: $nameUser, emailUser: $emailUser, myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi)';
+    return 'PayloadResponseMyProfileDashboard(image: $image, idUser: $idUser, nameUser: $nameUser, emailUser: $emailUser, isAdmin: $isAdmin,myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi)';
   }
 
   @override
@@ -256,6 +274,7 @@ class _$_PayloadResponseMyProfileDashboard
             const DeepCollectionEquality().equals(other.idUser, idUser) &&
             const DeepCollectionEquality().equals(other.nameUser, nameUser) &&
             const DeepCollectionEquality().equals(other.emailUser, emailUser) &&
+            const DeepCollectionEquality().equals(other.isAdmin, isAdmin) &&
             const DeepCollectionEquality().equals(other.myOutlets, myOutlets) &&
             const DeepCollectionEquality()
                 .equals(other.alertUbahDataPribadi, alertUbahDataPribadi) &&
@@ -270,6 +289,7 @@ class _$_PayloadResponseMyProfileDashboard
       const DeepCollectionEquality().hash(idUser),
       const DeepCollectionEquality().hash(nameUser),
       const DeepCollectionEquality().hash(emailUser),
+      const DeepCollectionEquality().hash(isAdmin),
       const DeepCollectionEquality().hash(myOutlets),
       const DeepCollectionEquality().hash(alertUbahDataPribadi),
       const DeepCollectionEquality().hash(alertHystoryTransaksi));
@@ -294,6 +314,7 @@ abstract class _PayloadResponseMyProfileDashboard
       int? idUser,
       String? nameUser,
       String? emailUser,
+      required bool isAdmin,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
       Alert? alertHystoryTransaksi}) = _$_PayloadResponseMyProfileDashboard;
@@ -310,6 +331,8 @@ abstract class _PayloadResponseMyProfileDashboard
   String? get nameUser;
   @override
   String? get emailUser;
+  @override
+  bool get isAdmin;
   @override
   List<MyDashboardProfileOutlets>? get myOutlets;
   @override

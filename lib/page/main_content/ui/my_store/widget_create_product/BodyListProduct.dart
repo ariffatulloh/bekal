@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:bekal/page/main_content/ui/my_store/CreateProduct.dart';
 import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +18,7 @@ class BodyListProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var dummyImageVersion = '?dummy=${math.Random().nextInt(999)}';
     return Expanded(
       child: Container(
         // color: Colors.white,
@@ -44,6 +46,7 @@ class BodyListProduct extends StatelessWidget {
                         return CreateProduct(
                           idStore: object.store.storeID,
                           idProduct: object.storeProdId,
+                          onDismiss: (isDismiss) {},
                         );
                       });
                 },
@@ -52,8 +55,9 @@ class BodyListProduct extends StatelessWidget {
                 available: false,
                 priceProduk: double.parse(object.priceProduct),
                 nameProduk: object.nameProduct,
-                imageProduk: object.uriThumbnail,
+                imageProduk: object.uriThumbnail + dummyImageVersion,
                 logoToko: object.store.uriStoreImage,
+                imagetype: "circle",
               );
             }),
       ),
@@ -62,17 +66,18 @@ class BodyListProduct extends StatelessWidget {
 }
 
 class ItemProduct extends StatelessWidget {
-  ItemProduct({
-    Key? key,
-    required this.imageProduk,
-    required this.nameProduk,
-    required this.priceProduk,
-    required this.logoToko,
-    required this.available,
-    this.counterSell,
-    this.counterViews,
-    required this.onClick,
-  }) : super(key: key);
+  ItemProduct(
+      {Key? key,
+      required this.imageProduk,
+      required this.nameProduk,
+      required this.priceProduk,
+      required this.logoToko,
+      required this.available,
+      this.counterSell,
+      this.counterViews,
+      required this.onClick,
+      this.imagetype})
+      : super(key: key);
   final Function()? onClick;
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
   final String imageProduk;
@@ -82,34 +87,81 @@ class ItemProduct extends StatelessWidget {
   final bool available;
   int? counterSell = 0;
   int? counterViews = 0;
+  String? imagetype;
 
   @override
   Widget build(BuildContext context) {
     return NeumorphicButton(
-        padding: EdgeInsets.all(0.2.w.h),
+        padding: EdgeInsets.all(0),
+        margin: EdgeInsets.symmetric(vertical: .5.h),
         onPressed: onClick,
-        margin: EdgeInsets.only(bottom: 2.h, top: 1.h),
+        // margin: EdgeInsets.only(bottom: 2.h, top: 1.h),
+
         style: NeumorphicStyle(
-            color: Colors.white,
+            color: Colors.transparent,
             depth: .2.h,
             surfaceIntensity: .3,
             intensity: 1,
             boxShape: NeumorphicBoxShape.roundRect(
                 const BorderRadius.all(Radius.circular(10)))),
         // margin: const EdgeInsets.only(right: 10, bottom: 10),
-        child: SizedBox(
+        child: Container(
           width: 40.w,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xfff39200).withOpacity(.01),
+                  Color(0xfff39200).withOpacity(.4)
+                ],
+                stops: [
+                  .2,
+                  .7
+                ]),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
-                  AspectRatio(
-                      aspectRatio: 1.w / 1.w,
-                      child: Image.network(
-                        "$imageProduk?dummy=${math.Random().nextInt(999)}",
-                        fit: BoxFit.fill,
-                      )),
+                  Center(
+                    child: Container(
+                      width: imagetype == "circle" ? 30.w : 100.w,
+                      height: imagetype == "circle" ? 30.w : 50.w,
+                      child: Neumorphic(
+                        style: NeumorphicStyle(
+                            color: Colors.transparent,
+                            boxShape: imagetype == "circle"
+                                ? NeumorphicBoxShape.circle()
+                                : null,
+                            depth: 2,
+                            intensity: 1,
+                            surfaceIntensity: 1),
+                        child: CachedNetworkImage(
+                          imageUrl: imageProduk,
+                          errorWidget: (context, url, error) {
+                            return new Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            );
+                          },
+                          progressIndicatorBuilder:
+                              (loadContext, loadWidget, chunkEvent) {
+                            return Container(
+                              height: 30.h,
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.blue,
+                                ),
+                              ),
+                            );
+                          },
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                   Positioned(
                     top: .5.h,
                     right: .5.w,
@@ -138,14 +190,14 @@ class ItemProduct extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Dikunjungi: ${counterViews! > 9999 ? "9999+" : counterViews}/hr",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black38),
-                      ),
+                      // Text(
+                      //   "Dikunjungi: ${counterViews! > 9999 ? "9999+" : counterViews}/hr",
+                      //   style: TextStyle(
+                      //       fontFamily: 'ghotic',
+                      //       fontSize: 8.sp,
+                      //       fontWeight: FontWeight.normal,
+                      //       color: Colors.black38),
+                      // ),
                       const SizedBox(
                         height: 2,
                       ),
@@ -162,16 +214,14 @@ class ItemProduct extends StatelessWidget {
                               color: Colors.black87),
                         ),
                       ),
-                      const SizedBox(
-                        height: 2,
-                      ),
+
                       Text(
                         "${currencyFormatter.format(priceProduk)}",
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 8.sp,
                             fontWeight: FontWeight.normal,
-                            color: Colors.red),
+                            color: Colors.black87),
                       ),
                       const SizedBox(
                         height: 2,

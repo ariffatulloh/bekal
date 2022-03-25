@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:bekal/firebase/FireBasePlugin.dart';
 import 'package:bekal/firebase/LocalNotification.dart';
@@ -10,6 +11,7 @@ import 'package:bekal/page/main_content/ui/cart/cart_screen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
 import 'package:bekal/page/main_content/ui/my_store/widget_create_product/BodyListProduct.dart';
 import 'package:bekal/page/main_content/ui/profile/profile_screen.dart';
+import 'package:bekal/page/main_content/ui/search/SearchProductAndStore.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseHomeSeeAllProduct.dart';
 import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
@@ -40,6 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     // _index = widget.selectedIndexMenu!;
     super.initState();
+    _getAllProduct();
     setupFirebaseAndStomp();
   }
 
@@ -150,6 +153,8 @@ class HomeScreenState extends State<HomeScreen> {
     switch (index) {
       case 0:
         return HomeWidget();
+      case 1:
+        return SearchProductAndStore();
       case 2:
         return ProfileScreen();
       case 3:
@@ -160,237 +165,452 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   HomeWidget() {
+    var dummyImageVersion = '?dummy=${math.Random().nextInt(999)}';
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-        width: 100.w,
-        height: 100.h,
-        color: Colors.black12,
-        alignment: Alignment.center,
-        child: FutureBuilder(
-          future: HomeScreenCubit().getHomeSeeAllProduct(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              PayloadResponseApi data = snapshot.data as PayloadResponseApi;
-              if (data.errorMessage.isEmpty) {
-                List<PayloadResponseHomeSeeAllProduct> list = data.data;
-
-                return Container(
-                  height: 100.h,
-                  // color: Colors.black12,
-                  alignment: Alignment.center,
-                  child: ListView.builder(
-                      // scrollDirection: Axis.horizontal,
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        var dataObject = list.elementAt(index);
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${dataObject.titleTab}",
-                              style: TextStyle(
-                                  fontFamily: 'ghotic',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black45),
-                            ),
-                            SizedBox(
-                              height: 3.w,
-                            ),
-                            // Expanded(
-                            //     child: ),
-                            dataObject.titleTab.toLowerCase().contains("semua")
-                                ? Container(
-                                    // height: 100.h,
-                                    child: MasonryGridView.count(
-                                        physics: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? NeverScrollableScrollPhysics()
-                                            : AlwaysScrollableScrollPhysics(),
-                                        scrollDirection: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? Axis.vertical
-                                            : Axis.horizontal,
-                                        shrinkWrap: true,
-                                        crossAxisCount: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? 2
-                                            : 1,
-                                        mainAxisSpacing: 1.h,
-                                        crossAxisSpacing: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? 3.w
-                                            : 0,
-                                        itemCount: dataObject
-                                            .viewListStoreProductResponse
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          var object = dataObject
-                                                  .viewListStoreProductResponse[
-                                              index];
-                                          return ItemProduct(
-                                            onClick: () async {
-                                              var token = await SecureStorage()
-                                                      .getToken() ??
-                                                  "";
-                                              showMaterialModalBottomSheet(
-                                                  duration: Duration(
-                                                      milliseconds: 1400),
-                                                  animationCurve:
-                                                      Curves.easeInOut,
-                                                  enableDrag: true,
-                                                  isDismissible: false,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return ViewProduct(
-                                                        idStore: object
-                                                            .store.storeID,
-                                                        dataDetailProduct: null,
-                                                        idProduct:
-                                                            object.storeProdId);
-                                                  });
-                                              // StreamBuilder(
-                                              //     stream: HomeScreenCubit()
-                                              //         .getHomeSeeDetailProduct(
-                                              //             idProduct: object
-                                              //                 .storeProdId,
-                                              //             idStore: object
-                                              //                 .store.storeID)
-                                              //         .asStream(),
-                                              //     builder: (context, snapshot) {
-                                              //       PayloadResponseStoreProduct?
-                                              //           dataDetailProduct;
-                                              //       if (snapshot
-                                              //               .connectionState ==
-                                              //           ConnectionState.done) {
-                                              //         PayloadResponseApi
-                                              //             dataApiDetailProduct =
-                                              //             snapshot.data
-                                              //                 as PayloadResponseApi;
-                                              //         if (dataApiDetailProduct
-                                              //             .errorMessage
-                                              //             .isEmpty) {
-                                              //           dataDetailProduct =
-                                              //               dataApiDetailProduct
-                                              //                   .data;
-                                              //
-                                              //         }
-                                              //       }
-                                              //       return CircularProgressIndicator(
-                                              //         color: Colors.blue,
-                                              //       );
-                                              //     });
-                                            },
-                                            counterViews:
-                                                int.parse(object.priceProduct),
-                                            counterSell:
-                                                int.parse(object.stockProduct),
-                                            available: double.parse(
-                                                        object.stockProduct) >
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+      width: 100.w,
+      height: 100.h,
+      color: Colors.white,
+      alignment: Alignment.center,
+      child: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            )
+          : Container(
+              height: 100.h,
+              // color: Colors.black12,
+              alignment: Alignment.center,
+              child: ListView.builder(
+                  // scrollDirection: Axis.horizontal,
+                  itemCount: listDataHome.length,
+                  itemBuilder: (context, index) {
+                    var dataObject = listDataHome.elementAt(index);
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${dataObject.titleTab}",
+                          style: TextStyle(
+                              fontFamily: 'ghotic',
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black45),
+                        ),
+                        SizedBox(
+                          height: 3.w,
+                        ),
+                        // Expanded(
+                        //     child: ),
+                        dataObject.titleTab.toLowerCase().contains("semua")
+                            ? Container(
+                                // height: 100.h,
+                                child: MasonryGridView.count(
+                                    physics: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? NeverScrollableScrollPhysics()
+                                        : AlwaysScrollableScrollPhysics(),
+                                    scrollDirection: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    shrinkWrap: true,
+                                    crossAxisCount: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? 2
+                                        : 1,
+                                    mainAxisSpacing: 1.h,
+                                    crossAxisSpacing: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? 3.w
+                                        : 0,
+                                    itemCount: dataObject
+                                        .viewListStoreProductResponse.length,
+                                    itemBuilder: (context, index) {
+                                      var object = dataObject
+                                          .viewListStoreProductResponse[index];
+                                      return ItemProduct(
+                                        onClick: () async {
+                                          var token = await SecureStorage()
+                                                  .getToken() ??
+                                              "";
+                                          showMaterialModalBottomSheet(
+                                              duration:
+                                                  Duration(milliseconds: 1400),
+                                              animationCurve: Curves.easeInOut,
+                                              enableDrag: true,
+                                              isDismissible: false,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              context: context,
+                                              builder: (context) {
+                                                return ViewProduct(
+                                                    idStore:
+                                                        object.store.storeID,
+                                                    dataDetailProduct: null,
+                                                    idProduct:
+                                                        object.storeProdId);
+                                              });
+                                          // StreamBuilder(
+                                          //     stream: HomeScreenCubit()
+                                          //         .getHomeSeeDetailProduct(
+                                          //             idProduct: object
+                                          //                 .storeProdId,
+                                          //             idStore: object
+                                          //                 .store.storeID)
+                                          //         .asStream(),
+                                          //     builder: (context, snapshot) {
+                                          //       PayloadResponseStoreProduct?
+                                          //           dataDetailProduct;
+                                          //       if (snapshot
+                                          //               .connectionState ==
+                                          //           ConnectionState.done) {
+                                          //         PayloadResponseApi
+                                          //             dataApiDetailProduct =
+                                          //             snapshot.data
+                                          //                 as PayloadResponseApi;
+                                          //         if (dataApiDetailProduct
+                                          //             .errorMessage
+                                          //             .isEmpty) {
+                                          //           dataDetailProduct =
+                                          //               dataApiDetailProduct
+                                          //                   .data;
+                                          //
+                                          //         }
+                                          //       }
+                                          //       return CircularProgressIndicator(
+                                          //         color: Colors.blue,
+                                          //       );
+                                          //     });
+                                        },
+                                        counterViews:
+                                            int.parse(object.priceProduct),
+                                        counterSell:
+                                            int.parse(object.stockProduct),
+                                        available:
+                                            double.parse(object.stockProduct) >
                                                     0
                                                 ? true
                                                 : false,
-                                            priceProduk: double.parse(
-                                                object.priceProduct),
-                                            nameProduk: object.nameProduct,
-                                            imageProduk: object.uriThumbnail,
-                                            logoToko:
-                                                object.store.uriStoreImage,
-                                          );
-                                        }),
-                                    // padding: EdgeInsets.symmetric(vertical: 2.h),
-                                    // width: 100,
-                                  )
-                                : Container(
-                                    height: 39.h,
-                                    child: MasonryGridView.count(
-                                        physics: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? NeverScrollableScrollPhysics()
-                                            : AlwaysScrollableScrollPhysics(),
-                                        scrollDirection: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? Axis.vertical
-                                            : Axis.horizontal,
-                                        shrinkWrap: true,
-                                        crossAxisCount: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? 2
-                                            : 1,
-                                        mainAxisSpacing: 1.h,
-                                        crossAxisSpacing: dataObject.titleTab
-                                                .toLowerCase()
-                                                .contains("semua")
-                                            ? 3.w
-                                            : 0,
-                                        itemCount: dataObject
-                                            .viewListStoreProductResponse
-                                            .length,
-                                        itemBuilder: (context, index) {
-                                          var object = dataObject
-                                                  .viewListStoreProductResponse[
-                                              index];
-                                          return ItemProduct(
-                                            onClick: () async {
-                                              var token = await SecureStorage()
-                                                      .getToken() ??
-                                                  "";
-                                              showMaterialModalBottomSheet(
-                                                  duration: Duration(
-                                                      milliseconds: 1400),
-                                                  animationCurve:
-                                                      Curves.easeInOut,
-                                                  enableDrag: true,
-                                                  isDismissible: false,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return ViewProduct(
-                                                        idStore: object
-                                                            .store.storeID,
-                                                        dataDetailProduct: null,
-                                                        idProduct:
-                                                            object.storeProdId);
-                                                  });
-                                            },
-                                            counterViews:
-                                                int.parse(object.priceProduct),
-                                            counterSell:
-                                                int.parse(object.stockProduct),
-                                            available: double.parse(
-                                                        object.stockProduct) >
+                                        priceProduk:
+                                            double.parse(object.priceProduct),
+                                        nameProduk: object.nameProduct,
+                                        imageProduk: object.uriThumbnail +
+                                            dummyImageVersion,
+                                        logoToko: object.store.uriStoreImage,
+                                      );
+                                    }),
+                                // padding: EdgeInsets.symmetric(vertical: 2.h),
+                                // width: 100,
+                              )
+                            : Container(
+                                constraints: BoxConstraints(
+                                    minHeight: 0, maxHeight: 35.h),
+                                child: MasonryGridView.count(
+                                    physics: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? NeverScrollableScrollPhysics()
+                                        : AlwaysScrollableScrollPhysics(),
+                                    scrollDirection: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? Axis.vertical
+                                        : Axis.horizontal,
+                                    shrinkWrap: true,
+                                    crossAxisCount: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? 2
+                                        : 1,
+                                    mainAxisSpacing: 1.h,
+                                    crossAxisSpacing: dataObject.titleTab
+                                            .toLowerCase()
+                                            .contains("semua")
+                                        ? 3.w
+                                        : 0,
+                                    itemCount: dataObject
+                                        .viewListStoreProductResponse.length,
+                                    itemBuilder: (context, index) {
+                                      var object = dataObject
+                                          .viewListStoreProductResponse[index];
+                                      return ItemProduct(
+                                        imagetype: "circle",
+                                        onClick: () async {
+                                          var token = await SecureStorage()
+                                                  .getToken() ??
+                                              "";
+                                          showMaterialModalBottomSheet(
+                                              duration:
+                                                  Duration(milliseconds: 1400),
+                                              animationCurve: Curves.easeInOut,
+                                              enableDrag: true,
+                                              isDismissible: false,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              context: context,
+                                              builder: (context) {
+                                                return ViewProduct(
+                                                    idStore:
+                                                        object.store.storeID,
+                                                    dataDetailProduct: null,
+                                                    idProduct:
+                                                        object.storeProdId);
+                                              });
+                                        },
+                                        counterViews:
+                                            int.parse(object.priceProduct),
+                                        counterSell:
+                                            int.parse(object.stockProduct),
+                                        available:
+                                            double.parse(object.stockProduct) >
                                                     0
                                                 ? true
                                                 : false,
-                                            priceProduk: double.parse(
-                                                object.priceProduct),
-                                            nameProduk: object.nameProduct,
-                                            imageProduk: object.uriThumbnail,
-                                            logoToko:
-                                                object.store.uriStoreImage,
-                                          );
-                                        }),
-                                  )
-                          ],
-                        );
-                      }),
-                );
-              }
-            }
-//here you should check snapshot.connectionState
-            return Expanded(child: Container());
-          },
-        ));
+                                        priceProduk:
+                                            double.parse(object.priceProduct),
+                                        nameProduk: object.nameProduct,
+                                        imageProduk: object.uriThumbnail +
+                                            dummyImageVersion,
+                                        logoToko: object.store.uriStoreImage,
+                                      );
+                                    }),
+                              )
+                      ],
+                    );
+                  }),
+            ),
+    );
+//         child: FutureBuilder(
+//           future: HomeScreenCubit().getHomeSeeAllProduct(),
+//           builder: (context, snapshot) {
+//             if (snapshot.connectionState == ConnectionState.done) {
+//               PayloadResponseApi data = snapshot.data as PayloadResponseApi;
+//               if (data.errorMessage.isEmpty) {
+//                 List<PayloadResponseHomeSeeAllProduct> list = listDataHome;
+//
+//                 return Container(
+//                   height: 100.h,
+//                   // color: Colors.black12,
+//                   alignment: Alignment.center,
+//                   child: ListView.builder(
+//                       // scrollDirection: Axis.horizontal,
+//                       itemCount: list.length,
+//                       itemBuilder: (context, index) {
+//                         var dataObject = list.elementAt(index);
+//                         return Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             Text(
+//                               "${dataObject.titleTab}",
+//                               style: TextStyle(
+//                                   fontFamily: 'ghotic',
+//                                   fontSize: 12.sp,
+//                                   fontWeight: FontWeight.bold,
+//                                   color: Colors.black45),
+//                             ),
+//                             SizedBox(
+//                               height: 3.w,
+//                             ),
+//                             // Expanded(
+//                             //     child: ),
+//                             dataObject.titleTab.toLowerCase().contains("semua")
+//                                 ? Container(
+//                                     // height: 100.h,
+//                                     child: MasonryGridView.count(
+//                                         physics: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? NeverScrollableScrollPhysics()
+//                                             : AlwaysScrollableScrollPhysics(),
+//                                         scrollDirection: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? Axis.vertical
+//                                             : Axis.horizontal,
+//                                         shrinkWrap: true,
+//                                         crossAxisCount: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? 2
+//                                             : 1,
+//                                         mainAxisSpacing: 1.h,
+//                                         crossAxisSpacing: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? 3.w
+//                                             : 0,
+//                                         itemCount: dataObject
+//                                             .viewListStoreProductResponse
+//                                             .length,
+//                                         itemBuilder: (context, index) {
+//                                           var object = dataObject
+//                                                   .viewListStoreProductResponse[
+//                                               index];
+//                                           return ItemProduct(
+//                                             onClick: () async {
+//                                               var token = await SecureStorage()
+//                                                       .getToken() ??
+//                                                   "";
+//                                               showMaterialModalBottomSheet(
+//                                                   duration: Duration(
+//                                                       milliseconds: 1400),
+//                                                   animationCurve:
+//                                                       Curves.easeInOut,
+//                                                   enableDrag: true,
+//                                                   isDismissible: false,
+//                                                   backgroundColor:
+//                                                       Colors.transparent,
+//                                                   context: context,
+//                                                   builder: (context) {
+//                                                     return ViewProduct(
+//                                                         idStore: object
+//                                                             .store.storeID,
+//                                                         dataDetailProduct: null,
+//                                                         idProduct:
+//                                                             object.storeProdId);
+//                                                   });
+//                                               // StreamBuilder(
+//                                               //     stream: HomeScreenCubit()
+//                                               //         .getHomeSeeDetailProduct(
+//                                               //             idProduct: object
+//                                               //                 .storeProdId,
+//                                               //             idStore: object
+//                                               //                 .store.storeID)
+//                                               //         .asStream(),
+//                                               //     builder: (context, snapshot) {
+//                                               //       PayloadResponseStoreProduct?
+//                                               //           dataDetailProduct;
+//                                               //       if (snapshot
+//                                               //               .connectionState ==
+//                                               //           ConnectionState.done) {
+//                                               //         PayloadResponseApi
+//                                               //             dataApiDetailProduct =
+//                                               //             snapshot.data
+//                                               //                 as PayloadResponseApi;
+//                                               //         if (dataApiDetailProduct
+//                                               //             .errorMessage
+//                                               //             .isEmpty) {
+//                                               //           dataDetailProduct =
+//                                               //               dataApiDetailProduct
+//                                               //                   .data;
+//                                               //
+//                                               //         }
+//                                               //       }
+//                                               //       return CircularProgressIndicator(
+//                                               //         color: Colors.blue,
+//                                               //       );
+//                                               //     });
+//                                             },
+//                                             counterViews:
+//                                                 int.parse(object.priceProduct),
+//                                             counterSell:
+//                                                 int.parse(object.stockProduct),
+//                                             available: double.parse(
+//                                                         object.stockProduct) >
+//                                                     0
+//                                                 ? true
+//                                                 : false,
+//                                             priceProduk: double.parse(
+//                                                 object.priceProduct),
+//                                             nameProduk: object.nameProduct,
+//                                             imageProduk: object.uriThumbnail,
+//                                             logoToko:
+//                                                 object.store.uriStoreImage,
+//                                           );
+//                                         }),
+//                                     // padding: EdgeInsets.symmetric(vertical: 2.h),
+//                                     // width: 100,
+//                                   )
+//                                 : Container(
+//                                     height: 39.h,
+//                                     child: MasonryGridView.count(
+//                                         physics: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? NeverScrollableScrollPhysics()
+//                                             : AlwaysScrollableScrollPhysics(),
+//                                         scrollDirection: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? Axis.vertical
+//                                             : Axis.horizontal,
+//                                         shrinkWrap: true,
+//                                         crossAxisCount: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? 2
+//                                             : 1,
+//                                         mainAxisSpacing: 1.h,
+//                                         crossAxisSpacing: dataObject.titleTab
+//                                                 .toLowerCase()
+//                                                 .contains("semua")
+//                                             ? 3.w
+//                                             : 0,
+//                                         itemCount: dataObject
+//                                             .viewListStoreProductResponse
+//                                             .length,
+//                                         itemBuilder: (context, index) {
+//                                           var object = dataObject
+//                                                   .viewListStoreProductResponse[
+//                                               index];
+//                                           return ItemProduct(
+//                                             onClick: () async {
+//                                               var token = await SecureStorage()
+//                                                       .getToken() ??
+//                                                   "";
+//                                               showMaterialModalBottomSheet(
+//                                                   duration: Duration(
+//                                                       milliseconds: 1400),
+//                                                   animationCurve:
+//                                                       Curves.easeInOut,
+//                                                   enableDrag: true,
+//                                                   isDismissible: false,
+//                                                   backgroundColor:
+//                                                       Colors.transparent,
+//                                                   context: context,
+//                                                   builder: (context) {
+//                                                     return ViewProduct(
+//                                                         idStore: object
+//                                                             .store.storeID,
+//                                                         dataDetailProduct: null,
+//                                                         idProduct:
+//                                                             object.storeProdId);
+//                                                   });
+//                                             },
+//                                             counterViews:
+//                                                 int.parse(object.priceProduct),
+//                                             counterSell:
+//                                                 int.parse(object.stockProduct),
+//                                             available: double.parse(
+//                                                         object.stockProduct) >
+//                                                     0
+//                                                 ? true
+//                                                 : false,
+//                                             priceProduk: double.parse(
+//                                                 object.priceProduct),
+//                                             nameProduk: object.nameProduct,
+//                                             imageProduk: object.uriThumbnail,
+//                                             logoToko:
+//                                                 object.store.uriStoreImage,
+//                                           );
+//                                         }),
+//                                   )
+//                           ],
+//                         );
+//                       }),
+//                 );
+//               }
+//             }
+// //here you should check snapshot.connectionState
+//             return Expanded(child: Container());
+//           },
+//         ));
   }
 
   ProfileWidget(BuildContext context) {
@@ -442,6 +662,25 @@ class HomeScreenState extends State<HomeScreen> {
           );
         }
       }
+    });
+  }
+
+  bool isLoading = true;
+  List<PayloadResponseHomeSeeAllProduct> listDataHome = [];
+  Future<void> _getAllProduct() async {
+    PayloadResponseApi<dynamic> responseApi =
+        await HomeScreenCubit().getHomeSeeAllProduct();
+    var itemList;
+    List<PayloadResponseHomeSeeAllProduct> list = [];
+    if (responseApi.errorMessage.isEmpty) {
+      list = responseApi.data;
+      // itemList = list
+      //     .where((element) => element.titleTab.toLowerCase().contains("semua"))
+      //     .single;
+    }
+    setState(() {
+      listDataHome = list;
+      isLoading = false;
     });
   }
 }

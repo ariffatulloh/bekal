@@ -26,7 +26,9 @@ class CreateProduct extends StatefulWidget {
   int idStore = -1;
 
   int? idProduct;
-  CreateProduct({required this.idStore, this.idProduct});
+  Function(bool) onDismiss;
+  CreateProduct(
+      {required this.idStore, this.idProduct, required this.onDismiss});
   @override
   _CreateProduct createState() => _CreateProduct();
 }
@@ -60,6 +62,10 @@ class _CreateProduct extends State<CreateProduct> {
   Map<String, dynamic> dataProductExistingState = Map();
   List<String> listCategoryState = [];
   bool isCallFromApiFinish = false;
+
+  String imageOverSize = "";
+
+  var isArchived = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -128,17 +134,6 @@ class _CreateProduct extends State<CreateProduct> {
                   new File('');
               imageGalleryProductConvert.add(bytesFile);
             });
-            // (bodyProductExisting['data']['storeProductImages'] as List).forEach(
-            //   (element) async {
-            //     var bytesFile = await bytesTofile(
-            //           base64.decode(element['propicData']),
-            //           element['propicName'],
-            //         ) ??
-            //         new File('');
-            //     imageGalleryProductConvert.add(bytesFile);
-            //     print('foreach ${imageGalleryProductConvert}');
-            //   },
-            // );
           }
         }
         if (bodyProductExisting['data']['storeCategorys'] != null) {
@@ -169,6 +164,7 @@ class _CreateProduct extends State<CreateProduct> {
       }
       if (bodyProductExisting['data'] != null) {
         dataProductExistingState = bodyProductExisting['data'];
+        isArchived = dataProductExistingState['isArchived'];
         nameProductField = dataProductExistingState['nameProduct'];
         priceProductField =
             "${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(int.tryParse(dataProductExistingState['priceProduct'] ?? 0) ?? 0).replaceAll(',', '')}";
@@ -207,27 +203,31 @@ class _CreateProduct extends State<CreateProduct> {
         .pickImage(source: ImageSource.camera, imageQuality: 50);
     double sizeInMb = await image!.length() / (1024 * 1024);
     print(sizeInMb);
-    setState(() {
-      if (image != null) {
-        if (sizeInMb > 2) {
-          if (isThumbnail) {
+    if (image != null) {
+      if (sizeInMb > 2) {
+        imageOverSize = "Pastikan file kurang dari 2Mb";
+        Toaster(context)
+            .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
+        if (isThumbnail) {
+          setState(() {
             imageError =
                 "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
-          }
-        } else {
-          // _image = File(image.path);
-          setState(() {
-            if (isGalleryImmage) {
-              _listImageGallery.add(File(image.path));
-            }
-            if (isThumbnail) {
-              imageError = "";
-              imageThumbnail = File(image.path);
-            }
           });
         }
+      } else {
+        // _image = File(image.path);
+        setState(() {
+          if (isGalleryImmage) {
+            imageOverSize = "";
+            _listImageGallery.add(File(image.path));
+          }
+          if (isThumbnail) {
+            imageError = "";
+            imageThumbnail = File(image.path);
+          }
+        });
       }
-    });
+    }
   }
 
   //
@@ -236,27 +236,31 @@ class _CreateProduct extends State<CreateProduct> {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     double sizeInMb = await image!.length() / (1024 * 1024);
     print(sizeInMb);
-    setState(() {
-      if (image != null) {
-        if (sizeInMb > 2) {
-          if (isThumbnail) {
+    if (image != null) {
+      if (sizeInMb > 2) {
+        imageOverSize = "Pastikan file kurang dari 2Mb";
+        Toaster(context)
+            .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
+        if (isThumbnail) {
+          setState(() {
             imageError =
                 "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
-          }
-        } else {
-          // _image = File(image.path);
-          setState(() {
-            if (isGalleryImmage) {
-              _listImageGallery.add(File(image.path));
-            }
-            if (isThumbnail) {
-              imageError = "";
-              imageThumbnail = File(image.path);
-            }
           });
         }
+      } else {
+        // _image = File(image.path);
+        setState(() {
+          if (isGalleryImmage) {
+            imageOverSize = "";
+            _listImageGallery.add(File(image.path));
+          }
+          if (isThumbnail) {
+            imageError = "";
+            imageThumbnail = File(image.path);
+          }
+        });
       }
-    });
+    }
   }
 
   @override
@@ -1111,161 +1115,231 @@ class _CreateProduct extends State<CreateProduct> {
                                       lengthProductField.isNotEmpty &&
                                       selectedChoices.isNotEmpty &&
                                       imageThumbnail != null
-                                  ? Align(
-                                      alignment: Alignment.topRight,
-                                      child: NeumorphicButton(
-                                        padding: EdgeInsets.only(
-                                            top: 6.sp,
-                                            bottom: 6.sp,
-                                            left: 12.sp,
-                                            right: 12.sp),
-                                        style: NeumorphicStyle(
-                                            shape: NeumorphicShape.convex,
-                                            color: Color.fromRGBO(
-                                                243, 174, 0, 1.0),
-                                            boxShape:
-                                                NeumorphicBoxShape.stadium(),
-                                            depth: .2.h,
-                                            surfaceIntensity: .3,
-                                            intensity: .9),
-                                        child: Wrap(children: [
-                                          Text(
-                                            "Buat",
-                                            style: TextStyle(
-                                                fontSize: 10.sp,
-                                                color: Colors.white),
-                                          ),
-                                        ]),
-                                        onPressed: () async {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            _formKey.currentState!.save();
-                                            // print(priceProductField
-                                            //     .toLowerCase()
-                                            //     .replaceAll('rp', '')
-                                            //     .replaceAll('.', ''));
-                                            // print(descProductField);
-                                            var param =
-                                                PayloadRequestCreateProduct(
-                                                    deskripsiProduct:
-                                                        descProductField,
-                                                    priceProduct:
-                                                        priceProductField
-                                                            .toLowerCase()
-                                                            .replaceAll(
-                                                                'rp', '')
-                                                            .replaceAll(
-                                                                '.', ''),
-                                                    stockProduct:
-                                                        stockProductField,
-                                                    nameProduct:
-                                                        nameProductField,
-                                                    storeCatProd:
-                                                        selectedChoices);
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        widget.idProduct != null
+                                            ? NeumorphicButton(
+                                                padding: EdgeInsets.only(
+                                                    top: 6.sp,
+                                                    bottom: 6.sp,
+                                                    left: 12.sp,
+                                                    right: 12.sp),
+                                                style: NeumorphicStyle(
+                                                    shape:
+                                                        NeumorphicShape.convex,
+                                                    color: Color.fromRGBO(
+                                                        243, 174, 0, 1.0),
+                                                    boxShape: NeumorphicBoxShape
+                                                        .stadium(),
+                                                    depth: .2.h,
+                                                    surfaceIntensity: .3,
+                                                    intensity: .9),
+                                                child: Wrap(children: [
+                                                  Text(
+                                                    "${isArchived ? 'Tampilkan' : 'Hapus'}",
+                                                    style: TextStyle(
+                                                        fontSize: 10.sp,
+                                                        color: Colors.white),
+                                                  ),
+                                                ]),
+                                                onPressed: () async {
+                                                  var getArchiveProduct =
+                                                      await http.get(
+                                                          Uri.parse(
+                                                              "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/archive/${!isArchived}/product/${widget.idProduct}"),
+                                                          headers: {
+                                                        'Content-Type':
+                                                            'application/json',
+                                                        'Accept':
+                                                            'application/json',
+                                                        'Authorization':
+                                                            'Bearer ${await SecureStorage().getToken()}'
+                                                      });
+                                                  if (getArchiveProduct
+                                                          .statusCode ==
+                                                      200) {
+                                                    var response = json.decode(
+                                                        getArchiveProduct.body);
+                                                    if (response['data'] !=
+                                                        null) {
+                                                      Toaster(context)
+                                                          .showSuccessToast(
+                                                              "Produk berhasil di ${response['data']['isArchived'] ? 'hapus' : 'tampilkan kembali'}",
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .CENTER);
+                                                      widget.onDismiss(true);
+                                                      Navigator.pop(context);
+                                                    }
+                                                  }
+                                                },
+                                              )
+                                            : Container(),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        NeumorphicButton(
+                                          padding: EdgeInsets.only(
+                                              top: 6.sp,
+                                              bottom: 6.sp,
+                                              left: 12.sp,
+                                              right: 12.sp),
+                                          style: NeumorphicStyle(
+                                              shape: NeumorphicShape.convex,
+                                              color: Color.fromRGBO(
+                                                  243, 174, 0, 1.0),
+                                              boxShape:
+                                                  NeumorphicBoxShape.stadium(),
+                                              depth: .2.h,
+                                              surfaceIntensity: .3,
+                                              intensity: .9),
+                                          child: Wrap(children: [
+                                            Text(
+                                              "Buat",
+                                              style: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.white),
+                                            ),
+                                          ]),
+                                          onPressed: () async {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              _formKey.currentState!.save();
+                                              // print(priceProductField
+                                              //     .toLowerCase()
+                                              //     .replaceAll('rp', '')
+                                              //     .replaceAll('.', ''));
+                                              // print(descProductField);
+                                              var param =
+                                                  PayloadRequestCreateProduct(
+                                                      deskripsiProduct:
+                                                          descProductField,
+                                                      priceProduct:
+                                                          priceProductField
+                                                              .toLowerCase()
+                                                              .replaceAll(
+                                                                  'rp', '')
+                                                              .replaceAll(
+                                                                  '.', ''),
+                                                      stockProduct:
+                                                          stockProductField,
+                                                      nameProduct:
+                                                          nameProductField,
+                                                      storeCatProd:
+                                                          selectedChoices);
 
-                                            // CreateProductMyStoreCubit()
-                                            //     .createProduct(
-                                            //         imgThumbnail: imageThumbnail!,
-                                            //         files: _listImageGallery,
-                                            //         idStore: widget.idStore,
-                                            //         payloadRequestCreateProduct:
-                                            //             param);
-                                            // Future.delayed(
-                                            //     Duration(milliseconds: 1), () {
-                                            //   Navigator.of(context).pop();
-                                            // });
-                                            try {
-                                              var formData = FormData.fromMap({
-                                                'deskripsiProduct':
-                                                    descProductField,
-                                                'priceProduct':
-                                                    priceProductField
-                                                        .toLowerCase()
-                                                        .replaceAll('rp', '')
-                                                        .replaceAll('.', ''),
-                                                'stockProduct':
-                                                    stockProductField,
-                                                'nameProduct': nameProductField,
-                                                'heightProduct': int.tryParse(
-                                                        heightProductField) ??
-                                                    0,
-                                                'weightProduct': int.tryParse(
-                                                        weightProductField) ??
-                                                    0,
-                                                'widthProduct': int.tryParse(
-                                                        widthProductField) ??
-                                                    0,
-                                                'lengthProduct': int.tryParse(
-                                                        lengthProductField) ??
-                                                    0,
-                                                'storeCatProd': selectedChoices,
-                                              });
-                                              if (imageThumbnail != null) {
-                                                formData.files.add(MapEntry(
-                                                    'imgThumbnail',
-                                                    MultipartFile.fromFileSync(
-                                                        imageThumbnail!.path,
-                                                        filename: imageThumbnail!
-                                                            .path
-                                                            .split(Platform
-                                                                .pathSeparator)
-                                                            .last)));
-                                              }
-                                              if (_listImageGallery != null) {
-                                                formData.files.addAll(
-                                                    _listImageGallery.map((i) =>
-                                                        MapEntry(
-                                                            'files',
-                                                            MultipartFile
-                                                                .fromFileSync(
-                                                              i.path,
-                                                              filename: i.path
-                                                                  .split(Platform
-                                                                      .pathSeparator)
-                                                                  .last,
-                                                            ))));
-                                              }
-                                              DioClient _dio = new DioClient();
-                                              DioResponse res =
-                                                  await _dio.postAsync(
-                                                      "/api/my/outlet/${widget.idStore}/create/product${widget.idProduct != null ? '/${widget.idProduct}' : ""}",
-                                                      formData);
-                                              if (res.results["code"] == 200) {
-                                                Toaster(context).showSuccessToast(
-                                                    "Produk berhasil ditambahkan ke keranjang",
+                                              // CreateProductMyStoreCubit()
+                                              //     .createProduct(
+                                              //         imgThumbnail: imageThumbnail!,
+                                              //         files: _listImageGallery,
+                                              //         idStore: widget.idStore,
+                                              //         payloadRequestCreateProduct:
+                                              //             param);
+                                              // Future.delayed(
+                                              //     Duration(milliseconds: 1), () {
+                                              //   Navigator.of(context).pop();
+                                              // });
+                                              try {
+                                                var formData =
+                                                    FormData.fromMap({
+                                                  'deskripsiProduct':
+                                                      descProductField,
+                                                  'priceProduct':
+                                                      priceProductField
+                                                          .toLowerCase()
+                                                          .replaceAll('rp', '')
+                                                          .replaceAll('.', ''),
+                                                  'stockProduct':
+                                                      stockProductField,
+                                                  'nameProduct':
+                                                      nameProductField,
+                                                  'heightProduct': int.tryParse(
+                                                          heightProductField) ??
+                                                      0,
+                                                  'weightProduct': int.tryParse(
+                                                          weightProductField) ??
+                                                      0,
+                                                  'widthProduct': int.tryParse(
+                                                          widthProductField) ??
+                                                      0,
+                                                  'lengthProduct': int.tryParse(
+                                                          lengthProductField) ??
+                                                      0,
+                                                  'storeCatProd':
+                                                      selectedChoices,
+                                                });
+                                                if (imageThumbnail != null) {
+                                                  formData.files.add(MapEntry(
+                                                      'imgThumbnail',
+                                                      MultipartFile.fromFileSync(
+                                                          imageThumbnail!.path,
+                                                          filename: imageThumbnail!
+                                                              .path
+                                                              .split(Platform
+                                                                  .pathSeparator)
+                                                              .last)));
+                                                }
+                                                if (_listImageGallery != null) {
+                                                  formData.files.addAll(
+                                                      _listImageGallery.map(
+                                                          (i) => MapEntry(
+                                                              'files',
+                                                              MultipartFile
+                                                                  .fromFileSync(
+                                                                i.path,
+                                                                filename: i.path
+                                                                    .split(Platform
+                                                                        .pathSeparator)
+                                                                    .last,
+                                                              ))));
+                                                }
+                                                DioClient _dio =
+                                                    new DioClient();
+                                                DioResponse res =
+                                                    await _dio.postAsync(
+                                                        "/api/my/outlet/${widget.idStore}/create/product${widget.idProduct != null ? '/${widget.idProduct}' : ""}",
+                                                        formData);
+                                                if (res.results["code"] ==
+                                                    200) {
+                                                  Toaster(context).showSuccessToast(
+                                                      "Produk berhasil ditambahkan ke keranjang",
+                                                      gravity:
+                                                          ToastGravity.CENTER);
+                                                  Navigator.of(context).pop();
+                                                }
+                                              } catch (e) {
+                                                Toaster(context).showErrorToast(
+                                                    "Terjadi kesalahan saat menyimpan data",
                                                     gravity:
                                                         ToastGravity.CENTER);
-                                                Navigator.of(context).pop();
                                               }
-                                            } catch (e) {
-                                              Toaster(context).showErrorToast(
-                                                  "Terjadi kesalahan saat menyimpan data",
-                                                  gravity: ToastGravity.CENTER);
+                                              // print("saved true");
+                                              //
+                                              // // var param = PayloadRequestUpdateEmail(
+                                              // //     existingEmail: data!.email,
+                                              // //     newEmail: emailField);
+                                              //
+                                              // // widget.onDismiss!(true);
+                                              // BlocProvider.of<ProfileScreenDataPribadiCubit>(
+                                              //     context)
+                                              //     .createStore(param: param, file: _image)
+                                              //     .then((value) {
+                                              //   if (value) {
+                                              //     print("sukses");
+                                              //
+                                              //     widget.onDismiss!(true);
+                                              //   }
+                                              // });
+
+                                              // ScaffoldMessenger.of(context)
+                                              //     .showSnackBar(snackBar);
+
                                             }
-                                            // print("saved true");
-                                            //
-                                            // // var param = PayloadRequestUpdateEmail(
-                                            // //     existingEmail: data!.email,
-                                            // //     newEmail: emailField);
-                                            //
-                                            // // widget.onDismiss!(true);
-                                            // BlocProvider.of<ProfileScreenDataPribadiCubit>(
-                                            //     context)
-                                            //     .createStore(param: param, file: _image)
-                                            //     .then((value) {
-                                            //   if (value) {
-                                            //     print("sukses");
-                                            //
-                                            //     widget.onDismiss!(true);
-                                            //   }
-                                            // });
-
-                                            // ScaffoldMessenger.of(context)
-                                            //     .showSnackBar(snackBar);
-
-                                          }
-                                        },
-                                      ))
+                                          },
+                                        )
+                                      ],
+                                    )
                                   : Container(),
                             ],
                           ),

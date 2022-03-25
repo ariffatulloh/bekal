@@ -1,10 +1,16 @@
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/main_content/ui/my_store/detail_pesanan.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
+import 'package:bekal/page/utility_ui/DirectoryPath.dart';
+import 'package:bekal/page/utility_ui/xlsx.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:open_file/open_file.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 
 class DaftarPesanan extends StatefulWidget {
@@ -28,17 +34,50 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     _getData();
   }
 
+  bool isExportInProgress = false;
+  double progressExport = 0;
   @override
   Widget build(BuildContext context) {
+    print(progressExport.toStringAsFixed(1) + '%');
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
-          'Daftar Pesanan',
-          style: TextStyle(
-              fontFamily: 'ghotic',
-              color: Colors.black87,
-              fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            Expanded(
+                child: Center(
+              child: Text(
+                'Daftar Pesanan',
+                style: TextStyle(
+                    fontFamily: 'ghotic',
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold),
+              ),
+            )),
+            NeumorphicButton(
+              onPressed: () async {
+                await _getPermission();
+                createFileExcel(
+                  progress: (value) {
+                    setState(() {
+                      progressExport = value * 100;
+                      isExportInProgress = (progressExport < 100);
+                    });
+                  },
+                );
+              },
+              style: NeumorphicStyle(
+                  color: Colors.transparent,
+                  boxShape: NeumorphicBoxShape.circle(),
+                  depth: 1,
+                  intensity: 1,
+                  surfaceIntensity: 1),
+              child: Icon(
+                Icons.download_rounded,
+                color: Colors.grey,
+              ),
+            )
+          ],
         ),
         leading: BackButton(
           color: Colors.black87,
@@ -47,20 +86,42 @@ class _DaftarPesananState extends State<DaftarPesanan> {
         elevation: 1,
       ),
       body: LoadingOverlay(
-        isLoading: isGettingData,
+        isLoading: isGettingData || isExportInProgress,
         color: Colors.black38,
         opacity: .3,
+        progressIndicator: CircularPercentIndicator(
+          radius: 60.0,
+          lineWidth: 5.0,
+          percent: progressExport / 100,
+          center: new Text("${progressExport.toStringAsFixed(1)}%"),
+          progressColor: Colors.blue,
+        ),
         child: SingleChildScrollView(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildItem()),
+              children: _buildItem(context)),
         ),
       ),
     );
   }
 
-  List<Widget> _buildItem() {
+  Future<void> _getPermission() async {
+    var status = await Permission.storage.status;
+    var statusManage = await Permission.manageExternalStorage.status;
+    if (!status.isGranted) {
+      print('notsave');
+      await Permission.storage.request();
+    }
+
+    if (!statusManage.isGranted) {
+      print('notsave');
+      await Permission.manageExternalStorage.request();
+    }
+  }
+
+  List<Widget> _buildItem(BuildContext context) {
     List<Widget> list = [];
+
     orderList.forEach((trans) {
       var order = trans["order"];
       list.add(InkWell(
@@ -200,6 +261,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
         ),
       ));
     });
+
     return list;
   }
 
@@ -221,5 +283,86 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     setState(() {
       isGettingData = false;
     });
+  }
+
+  void createFileExcel({required Function(double value) progress}) async {
+    List<DataTransaksi_xlsFormat> listDataTransaksiToxlsx = [];
+    double progressValue = 0.0;
+    await Future.forEach(orderList, (dynamic elementorderList) async {
+      // progressValue = indexOrder;
+      // print('${progressValue++ / 100}');
+      // progressValue += progressValue / orderList.length.toDouble() * 30;
+      // print('30=> ${progressValue}');
+      print('elementorder=${elementorderList['order']['order_id']} ');
+      DioResponse res = await _dio
+          .getAsync("/order/detail/${elementorderList['order']['order_id']}");
+      if (res.results["code"] == 200) {
+        var order = res.results["data"]["order"];
+        var store = res.results["data"]["store"];
+        var status = res.results["data"]["status"];
+        var products = res.results["data"]["product"];
+        var invoice = res.results["data"]["invoice"];
+        var noresi = order?["delivery_no"] ?? "";
+        double indexProduct = 0;
+        await Future.forEach(products, (dynamic elementProducts) {
+          var data = DataTransaksi_xlsFormat();
+          String _buyerName = "";
+          String _buyerPhone = "";
+          String _buyerAddress = "";
+          String _kurirType = "";
+          data.detailProduct_xlsFormat.nameProduct =
+              elementProducts['nameProduct'];
+
+          data.detailProduct_xlsFormat.quantity =
+              elementProducts['stockProduct'];
+
+          data.detailProduct_xlsFormat.pricePerQty =
+              elementProducts['priceProduct'];
+
+          data.detailProduct_xlsFormat.dateOrder =
+              formatDate(context, "${elementorderList['order']['createdAt']}");
+
+          data.detailProduct_xlsFormat.statusTransaksi =
+              elementorderList['order']['status']['status_name'];
+
+          data.detailProduct_xlsFormat.priceAllQty =
+              (double.parse(elementProducts["priceProduct"]) *
+                      int.parse(elementProducts["stockProduct"]))
+                  .toString();
+
+          data.buyerInformation_xlsFormat.buyerName =
+              elementorderList['buyer']['name'];
+          data.buyerInformation_xlsFormat.buyerPhone =
+              elementorderList['buyer']['phone'];
+          data.buyerInformation_xlsFormat.buyerAddress =
+              elementorderList['order']['delivery_destination'];
+          data.buyerInformation_xlsFormat.kurirType =
+              '${order['courier_desc']} (${order['rate_name']})';
+          listDataTransaksiToxlsx.add(data);
+          var valuOfProgress = ((progressValue++) /
+              (listDataTransaksiToxlsx.length +
+                  (products as List).length +
+                  20));
+          progress(valuOfProgress);
+        });
+      }
+    });
+    // print('${listDataTransaksiToxlsx.length}');
+
+    progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
+    var ex = xlsx().createExcelFile(dataListTransaksi: listDataTransaksiToxlsx);
+
+    progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
+    // progress(valuOfProgress);
+    // var valuOfProgress = progressValue / listDataTransaksiToxlsx.length;
+    // progress(valuOfProgress);
+    // print(
+    //     '${(progressValue) / listDataTransaksiToxlsx.length}==${progressValue}');
+
+    await OpenFile.open(await DirectoryPath().saveDoc(documents: ex))
+        .then((value) => null);
+
+    progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
+    progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
   }
 }

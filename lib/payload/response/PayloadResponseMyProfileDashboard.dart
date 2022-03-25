@@ -15,6 +15,7 @@ class PayloadResponseMyProfileDashboard
     List<MyDashboardProfileOutlets>? myOutlets,
     Alert? alertUbahDataPribadi,
     Alert? alertHystoryTransaksi,
+    required bool isAdmin,
   }) = _PayloadResponseMyProfileDashboard;
 
   factory PayloadResponseMyProfileDashboard.fromJson(Object? json) =>

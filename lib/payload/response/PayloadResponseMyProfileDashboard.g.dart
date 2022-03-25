@@ -44,6 +44,7 @@ _$_PayloadResponseMyProfileDashboard
           image: json['image'] as String?,
           idUser: json['idUser'] as int?,
           nameUser: json['nameUser'] as String?,
+          isAdmin: json['isAdmin'] as bool,
           emailUser: json['emailUser'] as String?,
           myOutlets: (json['myOutlets'] as List<dynamic>?)
               ?.map((e) =>
@@ -65,6 +66,7 @@ Map<String, dynamic> _$$_PayloadResponseMyProfileDashboardToJson(
       'image': instance.image,
       'idUser': instance.idUser,
       'nameUser': instance.nameUser,
+      'isAdmin': instance.isAdmin,
       'emailUser': instance.emailUser,
       'myOutlets': instance.myOutlets,
       'alertUbahDataPribadi': instance.alertUbahDataPribadi,
