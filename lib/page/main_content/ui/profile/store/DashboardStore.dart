@@ -8,6 +8,7 @@ import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
 import 'package:bekal/page/main_content/ui/my_store/CreateProduct.dart';
 import 'package:bekal/page/main_content/ui/my_store/ListArchivedProductDialog.dart';
+import 'package:bekal/page/main_content/ui/my_store/WithdrawlScreen.dart';
 import 'package:bekal/page/main_content/ui/my_store/daftar_pesanan.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/CardStoreMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahBasicInformationStore.dart';
@@ -31,7 +32,9 @@ import 'package:sizer/sizer.dart';
 class DashboardStore extends StatefulWidget {
   int storeId = -1;
   bool? mystore = false;
+
   DashboardStore({required this.storeId, this.mystore});
+
   @override
   _DashboardStore createState() => _DashboardStore();
 }
@@ -43,6 +46,7 @@ Future<http.Response> getDataStore({required int storeId}) async =>
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
+
 Future<http.Response> getDataProduct({required String url}) async =>
     http.get(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
@@ -53,6 +57,7 @@ Future<http.Response> getDataProduct({required String url}) async =>
 class _DashboardStore extends State<DashboardStore>
     with TickerProviderStateMixin {
   var dummyImageVersion = '?dummy=${math.Random().nextInt(999)}';
+
   // late Animation<double> _animation;
   // late AnimationController _animationController=AnimationController(
   // vsync: this,
@@ -73,6 +78,7 @@ class _DashboardStore extends State<DashboardStore>
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
 
   bool isRefresh = false;
+
   Future<void> callFromApi() async {
     http.Response snapshotDataStore =
         await getDataStore(storeId: widget.storeId);
@@ -854,7 +860,7 @@ class _DashboardStore extends State<DashboardStore>
         child: FloatingActionBubble(
           items: [
             Bubble(
-              title: "Rekening Pembayaran",
+              title: "Dompet",
               iconColor: Colors.white,
               bubbleColor: Colors.blue,
               icon: Icons.credit_card_rounded,
@@ -864,17 +870,11 @@ class _DashboardStore extends State<DashboardStore>
                 showMaterialModalBottomSheet(
                     duration: Duration(milliseconds: 1400),
                     animationCurve: Curves.easeInOut,
-                    enableDrag: true,
+                    enableDrag: false,
                     backgroundColor: Colors.transparent,
                     context: context,
                     builder: (context) {
-                      return ListArchivedProductDialog(
-                          storeId: widget.storeId,
-                          onDismiss: (isDismiss) {
-                            setState(() {
-                              isRefresh = true;
-                            });
-                          });
+                      return WithdrawlScreen(idStore: widget.storeId);
                     });
               },
             ),
