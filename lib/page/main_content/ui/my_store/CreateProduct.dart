@@ -1196,7 +1196,7 @@ class _CreateProduct extends State<CreateProduct> {
                                               intensity: .9),
                                           child: Wrap(children: [
                                             Text(
-                                              "Buat",
+                                              "${widget.idProduct != null ? "Ubah" : "Buat"}",
                                               style: TextStyle(
                                                   fontSize: 10.sp,
                                                   color: Colors.white),
@@ -1303,7 +1303,7 @@ class _CreateProduct extends State<CreateProduct> {
                                                 if (res.results["code"] ==
                                                     200) {
                                                   Toaster(context).showSuccessToast(
-                                                      "Produk berhasil ditambahkan ke keranjang",
+                                                      "Produk berhasil di perbaharui",
                                                       gravity:
                                                           ToastGravity.CENTER);
                                                   Navigator.of(context).pop();

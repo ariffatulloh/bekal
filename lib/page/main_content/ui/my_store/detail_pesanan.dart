@@ -26,6 +26,7 @@ class _DetailPesananState extends State<DetailPesanan> {
   var store;
   var status;
   var invoice;
+  dynamic? buyer;
   String noresi = "";
   List products = [];
 
@@ -98,7 +99,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       SizedBox(height: 1.h),
                       Text(
                         formatDate(context, order?["createdAt"],
-                            format: "dd MMMM yyyy, hh:mm WIB"),
+                            format: "dd MMMM yyyy, hh:mm aa (WIB)"),
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 11.sp,
@@ -151,7 +152,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        "${order?["courier_desc"] ?? "-"} (${order?["rate_name"] ?? "-"})",
+                        "${buyer?['buyerName'] ?? ""}",
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 11.sp,
@@ -164,7 +165,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        "${order?["delivery_destination"] ?? "-"}",
+                        "${buyer?['buyerPhone'] ?? "-"}",
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 11.sp,
@@ -172,12 +173,12 @@ class _DetailPesananState extends State<DetailPesanan> {
                       ),
                       SizedBox(height: 2.h),
                       Text(
-                        "Alamat Pengiriman",
+                        "Alamat Pembeli",
                         style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        "${order?["delivery_destination"] ?? "-"}",
+                        "${order?["delivery_origin"] ?? "-"}",
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 11.sp,
@@ -299,7 +300,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                                 fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                           Text(
-                            "BCA Virtual Account",
+                            "${invoice?["bank_code"] ?? "-"}",
                             style: TextStyle(
                                 fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
@@ -622,7 +623,7 @@ class _DetailPesananState extends State<DetailPesanan> {
     try {
       DioResponse res = await _dio.postAsync("/order/action", payload);
       if (res.results["code"] == 200) {
-        Toaster(context).showSuccessToast("Pesanan berhasil di tolak",
+        Toaster(context).showSuccessToast("Berhasil Update No Resi",
             gravity: ToastGravity.CENTER);
         _getData();
       }
@@ -648,6 +649,7 @@ class _DetailPesananState extends State<DetailPesanan> {
           status = res.results["data"]["status"];
           products = res.results["data"]["product"];
           invoice = res.results["data"]["invoice"];
+          buyer = res.results["data"]["buyer"];
           noresi = order?["delivery_no"] ?? "";
         });
       }

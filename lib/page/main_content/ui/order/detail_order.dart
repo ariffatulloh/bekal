@@ -1,6 +1,6 @@
 import 'package:bekal/api/dio_client.dart';
-import 'package:bekal/page/main_content/ui/cart/payment_screen.dart';
 import 'package:bekal/page/common/input_field.dart';
+import 'package:bekal/page/main_content/ui/cart/payment_screen.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -271,7 +271,7 @@ class _DetailOrderState extends State<DetailOrder> {
                               TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                         ),
                         Text(
-                          "BCA Virtual Account",
+                          "${invoice?["bank_code"] ?? "-"}",
                           style:
                               TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                         ),

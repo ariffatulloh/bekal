@@ -616,19 +616,19 @@ class AdminPageState extends State<AdminPage> {
   }
 
   Future<void> getRequestPayout() async {
-    var getDisbursementCards = await http.get(
+    var getBankAccounts = await http.get(
         Uri.parse("${DioClient.ipServer}/api/admin/get-all/request-payout"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
-    print(jsonDecode(getDisbursementCards.body));
+    print(jsonDecode(getBankAccounts.body));
     var localListStoreHistoryDisbursement = [];
-    if (getDisbursementCards.statusCode == 200) {
-      if (jsonDecode(getDisbursementCards.body)['data'] != null) {
+    if (getBankAccounts.statusCode == 200) {
+      if (jsonDecode(getBankAccounts.body)['data'] != null) {
         localListStoreHistoryDisbursement =
-            jsonDecode(getDisbursementCards.body)['data'];
+            jsonDecode(getBankAccounts.body)['data'];
       }
     }
     listStoreHistoryDisbursement.clear();

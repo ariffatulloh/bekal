@@ -853,150 +853,145 @@ class _DashboardStore extends State<DashboardStore>
       final curvedAnimation = CurvedAnimation(
           curve: Curves.easeInOut, parent: _animationController);
       var _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
-      return Positioned(
-        bottom: 0,
-        width: 100.w,
-        height: 100.h,
-        child: FloatingActionBubble(
-          items: [
-            Bubble(
-              title: "Dompet",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.credit_card_rounded,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-                showMaterialModalBottomSheet(
-                    duration: Duration(milliseconds: 1400),
-                    animationCurve: Curves.easeInOut,
-                    enableDrag: false,
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (context) {
-                      return WithdrawlScreen(idStore: widget.storeId);
-                    });
-              },
-            ),
-            Bubble(
-              title: "Daftar Barang Dihapus",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.archive,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-                showMaterialModalBottomSheet(
-                    duration: Duration(milliseconds: 1400),
-                    animationCurve: Curves.easeInOut,
-                    enableDrag: true,
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (context) {
-                      return ListArchivedProductDialog(
-                          storeId: widget.storeId,
-                          onDismiss: (isDismiss) {
-                            setState(() {
-                              isRefresh = true;
-                            });
-                          });
-                    });
-              },
-            ),
-            Bubble(
-              title: "Informasi Dasar",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.store_rounded,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-                DialogBottomSheet(
-                    title: "Informasi Dasar Toko",
-                    icon: Icons.store_rounded,
-                    contentBody: DialogUbahBasicInformationStore(
-                      data: myDashboardProfileOutlets,
-                      onDismiss: (onDismiss) {
-                        if (onDismiss) {}
-                      },
-                    ),
-                    context: context,
-                    whenClosed: (whenClosed) {
-                      if (whenClosed != null && whenClosed) {
-                        setState(() {
-                          isDoneCallFromApi = false;
-                          callFromApi();
-                        });
-
-                        // context
-                        //     .read<ProfileScreenCubit>()
-                        //     .LoadMyProfileDashboard();
-                        // Future.delayed(
-                        //     Duration(milliseconds: 1), () {
-                        //   // Navigator.of(context).pop();
-                        // });
-                      }
-                    });
-              },
-            ),
-            Bubble(
-              title: "Informasi Pesanan",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.production_quantity_limits,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DaftarPesanan(),
-                  ),
-                );
-              },
-            ),
-            Bubble(
-              title: "Buat Produk",
-              iconColor: Colors.white,
-              bubbleColor: Colors.blue,
-              icon: Icons.add_circle,
-              titleStyle: TextStyle(fontSize: 16, color: Colors.white),
-              onPress: () {
-                _animationController.reverse();
-                showMaterialModalBottomSheet(
-                    duration: Duration(milliseconds: 1400),
-                    animationCurve: Curves.easeInOut,
-                    enableDrag: true,
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    builder: (context) {
-                      return CreateProduct(
-                        idStore: widget.storeId,
-                        onDismiss: (isDimiss) {
+      return FloatingActionBubble(
+        items: [
+          Bubble(
+            title: "Dompet",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.credit_card_rounded,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+              showMaterialModalBottomSheet(
+                  duration: Duration(milliseconds: 1400),
+                  animationCurve: Curves.easeInOut,
+                  enableDrag: false,
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) {
+                    return WithdrawlScreen(idStore: widget.storeId);
+                  });
+            },
+          ),
+          Bubble(
+            title: "Daftar Barang Dihapus",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.archive,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+              showMaterialModalBottomSheet(
+                  duration: Duration(milliseconds: 1400),
+                  animationCurve: Curves.easeInOut,
+                  enableDrag: true,
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) {
+                    return ListArchivedProductDialog(
+                        storeId: widget.storeId,
+                        onDismiss: (isDismiss) {
                           setState(() {
                             isRefresh = true;
                           });
-                        },
-                        // idProduct: e['storeProdId'],
-                      );
-                    });
-              },
-            ),
-          ],
-          animation: _animation,
+                        });
+                  });
+            },
+          ),
+          Bubble(
+            title: "Informasi Dasar",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.store_rounded,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+              DialogBottomSheet(
+                  title: "Informasi Dasar Toko",
+                  icon: Icons.store_rounded,
+                  contentBody: DialogUbahBasicInformationStore(
+                    data: myDashboardProfileOutlets,
+                    onDismiss: (onDismiss) {
+                      if (onDismiss) {}
+                    },
+                  ),
+                  context: context,
+                  whenClosed: (whenClosed) {
+                    if (whenClosed != null && whenClosed) {
+                      setState(() {
+                        isDoneCallFromApi = false;
+                        callFromApi();
+                      });
 
-          // On pressed change animation state
-          onPress: () => _animationController.isCompleted
-              ? _animationController.reverse()
-              : _animationController.forward(),
+                      // context
+                      //     .read<ProfileScreenCubit>()
+                      //     .LoadMyProfileDashboard();
+                      // Future.delayed(
+                      //     Duration(milliseconds: 1), () {
+                      //   // Navigator.of(context).pop();
+                      // });
+                    }
+                  });
+            },
+          ),
+          Bubble(
+            title: "Informasi Pesanan",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.production_quantity_limits,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DaftarPesanan(),
+                ),
+              );
+            },
+          ),
+          Bubble(
+            title: "Buat Produk",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.add_circle,
+            titleStyle: TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              _animationController.reverse();
+              showMaterialModalBottomSheet(
+                  duration: Duration(milliseconds: 1400),
+                  animationCurve: Curves.easeInOut,
+                  enableDrag: true,
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) {
+                    return CreateProduct(
+                      idStore: widget.storeId,
+                      onDismiss: (isDimiss) {
+                        setState(() {
+                          isRefresh = true;
+                        });
+                      },
+                      // idProduct: e['storeProdId'],
+                    );
+                  });
+            },
+          ),
+        ],
+        animation: _animation,
 
-          // Floating Action button Icon color
-          iconColor: Colors.white,
+        // On pressed change animation state
+        onPress: () => _animationController.isCompleted
+            ? _animationController.reverse()
+            : _animationController.forward(),
 
-          // Flaoting Action button Icon
-          iconData: Icons.format_list_bulleted,
-          backGroundColor: Colors.blue,
-        ),
+        // Floating Action button Icon color
+        iconColor: Colors.white,
+
+        // Flaoting Action button Icon
+        iconData: Icons.format_list_bulleted,
+        backGroundColor: Colors.blue,
       );
     }
 

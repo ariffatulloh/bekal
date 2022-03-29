@@ -188,12 +188,12 @@ class _CheckoutState extends State<Checkout> {
     });
     try {
       DioResponse res = await _dio.getAsync("/payment/bank/list");
+      print(res.results);
       if (res.results["code"] == 200) {
         List banks = res.results["data"];
 
-        List selectedBank = banks
-            .where((e) => ["BCA", "MANDIRI", "BRI"].contains(e["code"]))
-            .toList();
+        List selectedBank =
+            banks.where((e) => ["MANDIRI", "BRI"].contains(e["code"])).toList();
         setState(() {
           availableBanks = selectedBank;
         });
@@ -240,7 +240,8 @@ class _CheckoutState extends State<Checkout> {
       });
 
       DioResponse res = await _dio.postAsync("/order/create", payload);
-
+      print(res.results);
+      print(payload);
       if (res.results["code"] == 200) {
         Navigator.pushAndRemoveUntil(
             context,

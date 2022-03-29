@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/common/dropdownBasic.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/WidgetTextField.dart';
+import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/page/utility_ui/config_wave_widget.dart';
 import 'package:bekal/page/utility_ui/wave_widget.dart';
@@ -26,10 +27,13 @@ class WithdrawlScreen extends StatefulWidget {
 
 class WithdrawlScreenState extends State<WithdrawlScreen> {
   bool tabReqPayout = true;
-  var listStoreDisbursementCard = [];
-  bool isLoadingGetlistStoreDisbursementCard = true;
+  var listStoreBankAccounts = [];
+  bool isLoadingGetlistStoreBankAccounts = true;
   var listStoreHistoryDisbursement = [];
+  var storeHistoryBalance = [];
   bool isLoadingGetListStoreHistoryDisbursement = true;
+  bool isLoadingGetBalanceStore = true;
+  String balanceStore = 'IDR 0';
   @override
   void initState() {
     // TODO: implement initState
@@ -107,38 +111,142 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                       width: 100.w,
                       padding:
                           EdgeInsets.symmetric(vertical: 3.h, horizontal: 2.h),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          NeumorphicText(
-                            'Total Uang',
-                            style: NeumorphicStyle(
-                                color: Colors.white,
-                                depth: 1.2,
-                                intensity: 1,
-                                surfaceIntensity: 1),
-                            textStyle: NeumorphicTextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 1.sp),
-                          Center(
-                            child: NeumorphicText(
-                              'IDR 100.000',
-                              style: NeumorphicStyle(
-                                  color: Colors.white,
-                                  depth: 1.2,
-                                  intensity: 1,
-                                  surfaceIntensity: 1),
-                              textStyle: NeumorphicTextStyle(
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.bold,
+                      child: isLoadingGetBalanceStore
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.blue,
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                            )
+                          : GestureDetector(
+                              onTap: () async {
+                                await getBalanceStore();
+
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (builder) {
+                                      return ListView.builder(
+                                          itemCount: storeHistoryBalance.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              child: Neumorphic(
+                                                margin: EdgeInsets.symmetric(
+                                                    vertical: 1.h,
+                                                    horizontal: 3.w),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 2.w,
+                                                    vertical: 1.h),
+                                                style: NeumorphicStyle(
+                                                    color: Colors.white,
+                                                    depth: 2,
+                                                    intensity: 1,
+                                                    surfaceIntensity: 1),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Icon(Icons.date_range),
+                                                        SizedBox(
+                                                          width: 2.w,
+                                                        ),
+                                                        Expanded(
+                                                          child: Text(
+                                                            formatDate(
+                                                                context,
+                                                                storeHistoryBalance[
+                                                                        index]?[
+                                                                    "createdAt"],
+                                                                format:
+                                                                    "dd MMMM yyyy, hh:mm WIB"),
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'ghotic',
+                                                                fontSize: 11.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Devider(),
+                                                    Text(
+                                                      storeHistoryBalance[index]
+                                                              ?["message"] ??
+                                                          "-",
+                                                      style: TextStyle(
+                                                          fontFamily: 'ghotic',
+                                                          fontSize: 8.sp,
+                                                          color: storeHistoryBalance[
+                                                                          index]
+                                                                      ?[
+                                                                      "amount"] >
+                                                                  0
+                                                              ? Colors
+                                                                  .lightGreen
+                                                              : Colors
+                                                                  .redAccent,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    });
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  NeumorphicText(
+                                    'Total Uang',
+                                    style: NeumorphicStyle(
+                                        color: Colors.white,
+                                        depth: 1.2,
+                                        intensity: 1,
+                                        surfaceIntensity: 1),
+                                    textStyle: NeumorphicTextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 1.sp),
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        NeumorphicIcon(
+                                          Icons.history_rounded,
+                                          style: NeumorphicStyle(
+                                              color: Colors.white,
+                                              depth: 1,
+                                              intensity: 1,
+                                              surfaceIntensity: 1),
+                                          size: 17.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 3.w,
+                                        ),
+                                        NeumorphicText(
+                                          '$balanceStore',
+                                          style: NeumorphicStyle(
+                                              color: Colors.white,
+                                              depth: 1.2,
+                                              intensity: 1,
+                                              surfaceIntensity: 1),
+                                          textStyle: NeumorphicTextStyle(
+                                            fontSize: 24.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )),
                     ),
                   ),
                   Positioned(
@@ -164,6 +272,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                 Expanded(
                                   child: NeumorphicButton(
                                     onPressed: () {
+                                      getBankAccounts();
                                       setState(() {
                                         tabReqPayout = true;
                                       });
@@ -247,6 +356,15 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
           )
         ],
       ),
+    );
+  }
+
+  Container Devider() {
+    return Container(
+      color: Colors.black26,
+      height: .1.h,
+      width: 100.h,
+      margin: EdgeInsets.symmetric(vertical: 1.h),
     );
   }
 
@@ -348,16 +466,15 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                   context: context,
                                   builder: (builder) {
                                     return DialogRequestDisbursement(
-                                        idDisbursementCard:
-                                            listStoreDisbursementCard[index]
-                                                ['id'],
+                                        idBankAccounts:
+                                            listStoreBankAccounts[index]['id'],
                                         idStore: widget.idStore,
                                         onDismiss: (isDismiss) async {
                                           setState(() {
-                                            isLoadingGetlistStoreDisbursementCard =
+                                            isLoadingGetlistStoreBankAccounts =
                                                 true;
                                           });
-                                          await getDisbursementCards();
+                                          await getBankAccounts();
                                           print('wawa');
                                         });
                                   });
@@ -391,13 +508,13 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                 showDialog(
                     context: context,
                     builder: (builder) {
-                      return DialogAddDisbursementCard(
+                      return DialogAddBankAccounts(
                           idStore: widget.idStore,
                           onDismiss: (isDismiss) async {
                             setState(() {
-                              isLoadingGetlistStoreDisbursementCard = true;
+                              isLoadingGetlistStoreBankAccounts = true;
                             });
-                            await getDisbursementCards();
+                            await getBankAccounts();
                             print('wawa');
                           });
                     });
@@ -433,18 +550,18 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
           ),
           Flexible(
             fit: FlexFit.loose,
-            child: isLoadingGetlistStoreDisbursementCard
+            child: isLoadingGetlistStoreBankAccounts
                 ? Center(
                     child: CircularProgressIndicator(
                       color: Colors.blue,
                     ),
                   )
-                : listStoreDisbursementCard.length < 1
+                : listStoreBankAccounts.length < 1
                     ? Center(
                         child: Text('Tidak Memiliki Daftar Bank/E-wallet'),
                       )
                     : ListView.builder(
-                        itemCount: listStoreDisbursementCard.length,
+                        itemCount: listStoreBankAccounts.length,
                         itemBuilder: (context, index) {
                           return Container(
                             width: 100.w,
@@ -480,7 +597,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                       children: [
                                         Text(
                                           maskCardNumber(
-                                              "${listStoreDisbursementCard[index]['accountNumber']}",
+                                              "${listStoreBankAccounts[index]['accountNumber']}",
                                               '#'),
                                           style: TextStyle(
                                               fontSize: 12.sp,
@@ -491,7 +608,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                           height: 1.h,
                                         ),
                                         Text(
-                                          'A/N: ${listStoreDisbursementCard[index]['accountHolderName']}',
+                                          'A/N: ${listStoreBankAccounts[index]['accountHolderName']}',
                                           style: TextStyle(
                                               fontSize: 10.sp,
                                               letterSpacing: 1.sp),
@@ -500,7 +617,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                           height: 1.h,
                                         ),
                                         Text(
-                                          'Bank / E-wallet: (${listStoreDisbursementCard[index]['bankCode']})',
+                                          'Bank / E-wallet: (${listStoreBankAccounts[index]['bankCode']})',
                                           style: TextStyle(
                                             fontSize: 10.sp,
                                           ),
@@ -514,16 +631,16 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                           context: context,
                                           builder: (builder) {
                                             return DialogRequestDisbursement(
-                                                idDisbursementCard:
-                                                    listStoreDisbursementCard[
-                                                        index]['id'],
+                                                idBankAccounts:
+                                                    listStoreBankAccounts[index]
+                                                        ['id'],
                                                 idStore: widget.idStore,
                                                 onDismiss: (isDismiss) async {
                                                   setState(() {
-                                                    isLoadingGetlistStoreDisbursementCard =
+                                                    isLoadingGetlistStoreBankAccounts =
                                                         true;
                                                   });
-                                                  await getDisbursementCards();
+                                                  await getBankAccounts();
                                                   print('wawa');
                                                 });
                                           });
@@ -566,36 +683,64 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
     return newString;
   }
 
-  Future<void> getFromApi() async {
-    await getDisbursementCards();
+  void getFromApi() async {
+    getBankAccounts();
+    Future.delayed(Duration(seconds: 1));
+    getBalanceStore();
   }
 
-  Future<void> getDisbursementCards() async {
-    var getDisbursementCards = await http.get(
+  Future<void> getBankAccounts() async {
+    var getBankAccounts = await http.get(
         Uri.parse(
-            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/disbursement-card"),
+            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/bank-accounts"),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
-    print(jsonDecode(getDisbursementCards.body));
-    var localListStoreDisbursementCard = [];
-    if (getDisbursementCards.statusCode == 200) {
-      if (jsonDecode(getDisbursementCards.body)['data'] != null) {
-        localListStoreDisbursementCard =
-            jsonDecode(getDisbursementCards.body)['data'];
+    print(jsonDecode(getBankAccounts.body));
+    var localListStoreBankAccounts = [];
+    if (getBankAccounts.statusCode == 200) {
+      if (jsonDecode(getBankAccounts.body)['data'] != null) {
+        localListStoreBankAccounts = jsonDecode(getBankAccounts.body)['data'];
       }
     }
-    listStoreDisbursementCard.clear();
+    listStoreBankAccounts.clear();
     setState(() {
-      isLoadingGetlistStoreDisbursementCard = false;
-      listStoreDisbursementCard = localListStoreDisbursementCard;
+      isLoadingGetlistStoreBankAccounts = false;
+      listStoreBankAccounts = localListStoreBankAccounts;
     });
   }
 
+  Future<void> getBalanceStore() async {
+    setState(() {
+      isLoadingGetBalanceStore = true;
+    });
+    var getBalanceStoreResponse = await http.get(
+        Uri.parse(
+            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/balance"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
+        });
+    if (getBalanceStoreResponse.statusCode == 200) {
+      if (jsonDecode(getBalanceStoreResponse.body)['data'] != null) {
+        setState(() {
+          isLoadingGetBalanceStore = false;
+          balanceStore = NumberFormat.simpleCurrency(
+                  locale: "IDR", decimalDigits: 0)
+              .format(
+                  jsonDecode(getBalanceStoreResponse.body)['data']['balance']);
+          storeHistoryBalance =
+              jsonDecode(getBalanceStoreResponse.body)['data']['history'];
+        });
+      }
+    }
+  }
+
   Future<void> getHistoryDisbursement() async {
-    var getDisbursementCards = await http.get(
+    var getBankAccounts = await http.get(
         Uri.parse(
             "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/history/request-disbursement"),
         headers: {
@@ -603,12 +748,12 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
-    print(jsonDecode(getDisbursementCards.body));
+    print(jsonDecode(getBankAccounts.body));
     var localListStoreHistoryDisbursement = [];
-    if (getDisbursementCards.statusCode == 200) {
-      if (jsonDecode(getDisbursementCards.body)['data'] != null) {
+    if (getBankAccounts.statusCode == 200) {
+      if (jsonDecode(getBankAccounts.body)['data'] != null) {
         localListStoreHistoryDisbursement =
-            jsonDecode(getDisbursementCards.body)['data'];
+            jsonDecode(getBankAccounts.body)['data'];
       }
     }
     listStoreHistoryDisbursement.clear();
@@ -619,20 +764,20 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
   }
 }
 
-class DialogAddDisbursementCard extends StatefulWidget {
+class DialogAddBankAccounts extends StatefulWidget {
   int idStore = -1;
 
   Function(bool) onDismiss;
 
-  DialogAddDisbursementCard({required this.idStore, required this.onDismiss});
+  DialogAddBankAccounts({required this.idStore, required this.onDismiss});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return DialogAddDisbursementCardState();
+    return DialogAddBankAccountstate();
   }
 }
 
-class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
+class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
   Map<String, dynamic>? selectedDisbursementBank;
 
   List<Map<String, dynamic>> listBankDisbursements = [];
@@ -641,6 +786,7 @@ class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
 
   TextEditingController accountNumberController = TextEditingController();
   TextEditingController accountHolderNameController = TextEditingController();
+  bool isSavingProcess = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -743,45 +889,53 @@ class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
                                   },
                                   messageError: "",
                                   obSecure: false),
-                              accountHolderNameController.text.isNotEmpty &&
-                                      accountNumberController.text.isNotEmpty
-                                  ? Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 2.h,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                              isSavingProcess
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                        color: Colors.blue,
+                                      ),
+                                    )
+                                  : accountHolderNameController
+                                              .text.isNotEmpty &&
+                                          accountNumberController
+                                              .text.isNotEmpty
+                                      ? Column(
                                           children: [
-                                            NeumorphicButton(
-                                              onPressed: () {
-                                                var payload = {
-                                                  "bankCode":
-                                                      selectedDisbursementBank![
-                                                          'code'],
-                                                  "accountNumber":
-                                                      accountNumberController
-                                                          .text,
-                                                  "accountHolderName":
-                                                      accountHolderNameController
-                                                          .text
-                                                };
-                                                createDisbursementCard(
-                                                    payload: payload);
-                                              },
-                                              style: NeumorphicStyle(
-                                                  color: Colors.white,
-                                                  depth: 1.2,
-                                                  intensity: 1,
-                                                  surfaceIntensity: 1),
-                                              child: Text('Simpan'),
+                                            SizedBox(
+                                              height: 2.h,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: [
+                                                NeumorphicButton(
+                                                  onPressed: () {
+                                                    var payload = {
+                                                      "bankCode":
+                                                          selectedDisbursementBank![
+                                                              'code'],
+                                                      "accountNumber":
+                                                          accountNumberController
+                                                              .text,
+                                                      "accountHolderName":
+                                                          accountHolderNameController
+                                                              .text
+                                                    };
+                                                    createBankAccounts(
+                                                        payload: payload);
+                                                  },
+                                                  style: NeumorphicStyle(
+                                                      color: Colors.white,
+                                                      depth: 1.2,
+                                                      intensity: 1,
+                                                      surfaceIntensity: 1),
+                                                  child: Text('Simpan'),
+                                                )
+                                              ],
                                             )
                                           ],
                                         )
-                                      ],
-                                    )
-                                  : Container()
+                                      : Container()
                             ],
                           )
                         : Container(),
@@ -812,7 +966,7 @@ class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
   }
 
   Future<void> getDataFromApi() async {
-    var getDisbursementCards = await http.get(
+    var getBankAccounts = await http.get(
         Uri.parse("${DioClient.ipServer}/payment/disbursement/bank/list"),
         headers: {
           'Content-Type': 'application/json',
@@ -821,9 +975,8 @@ class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
         });
     // print(dataListDisbursementBank);
     List<Map<String, dynamic>> localListBankDisbursement = [];
-    if (jsonDecode(getDisbursementCards.body)['data'] != null) {
-      var dataListDisbursementBank =
-          jsonDecode(getDisbursementCards.body)['data'];
+    if (jsonDecode(getBankAccounts.body)['data'] != null) {
+      var dataListDisbursementBank = jsonDecode(getBankAccounts.body)['data'];
 
       (dataListDisbursementBank as List).asMap().forEach((key, value) {
         if (value['canDisburse']) {
@@ -838,24 +991,31 @@ class DialogAddDisbursementCardState extends State<DialogAddDisbursementCard> {
     });
   }
 
-  Future<void> createDisbursementCard({required Object payload}) async {
-    var createDisbursementCard = await http.post(
+  Future<void> createBankAccounts({required Object payload}) async {
+    setState(() {
+      isSavingProcess = true;
+    });
+    var createBankAccounts = await http.post(
         Uri.parse(
-            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/create/disbursement-card'),
+            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/create/bank-accounts'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         },
         body: jsonEncode(payload));
-    print(createDisbursementCard.body);
-    if (createDisbursementCard.statusCode == 200) {
-      if (jsonDecode(createDisbursementCard.body)['data'] != null) {
-        var data = jsonDecode(createDisbursementCard.body)['data'];
+    print(createBankAccounts.body);
+    if (createBankAccounts.statusCode == 200) {
+      if (jsonDecode(createBankAccounts.body)['data'] != null) {
+        var data = jsonDecode(createBankAccounts.body)['data'];
         if (data['message'] != null) {
           if (data['message'].toString() == "create success") {
             widget.onDismiss(true);
             Navigator.pop(context);
+          } else {
+            setState(() {
+              isSavingProcess = false;
+            });
           }
         }
       }
@@ -868,11 +1028,11 @@ class DialogRequestDisbursement extends StatefulWidget {
 
   Function(bool) onDismiss;
 
-  int idDisbursementCard;
+  int idBankAccounts;
   DialogRequestDisbursement(
       {required this.idStore,
       required this.onDismiss,
-      required this.idDisbursementCard});
+      required this.idBankAccounts});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -999,19 +1159,19 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
   }
 
   Future<void> reqDisbursement({required Object payload}) async {
-    var createDisbursementCard = await http.post(
+    var createBankAccounts = await http.post(
         Uri.parse(
-            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/request-disbursement/${widget.idDisbursementCard}'),
+            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/request-disbursement/${widget.idBankAccounts}'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         },
         body: jsonEncode(payload));
-    print(createDisbursementCard.body);
-    if (createDisbursementCard.statusCode == 200) {
-      if (jsonDecode(createDisbursementCard.body)['data'] != null) {
-        var data = jsonDecode(createDisbursementCard.body)['data'];
+    print(createBankAccounts.body);
+    if (createBankAccounts.statusCode == 200) {
+      if (jsonDecode(createBankAccounts.body)['data'] != null) {
+        var data = jsonDecode(createBankAccounts.body)['data'];
         if (data['message'] != null) {
           if (data['message'].toString() == "request terkirim") {
             Toaster(context).showSuccessToast(data['message'].toString(),

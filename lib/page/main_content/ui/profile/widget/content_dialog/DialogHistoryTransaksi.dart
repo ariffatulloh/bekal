@@ -73,13 +73,23 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                     SizedBox(width: 1.5.w),
                     Expanded(
                       child: Text(
-                        formatDate(context, "${trans["order_at"]}"),
+                        formatDate(context, "${trans["order_at"]}",
+                            format: "dd MMMM yyyy, hh:mm WIB"),
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 10.sp,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 3.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
@@ -95,16 +105,10 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                             fontSize: 8.sp,
                             fontWeight: FontWeight.bold),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Divider(),
-              Padding(
-                padding: EdgeInsets.all(3.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                    ),
+                    SizedBox(
+                      height: 1.h,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,6 +183,7 @@ class _DialogHistoryTransaksi extends State<DialogHistoryTransaksi> {
                   ],
                 ),
               ),
+              Divider(),
             ]),
           ),
         ),

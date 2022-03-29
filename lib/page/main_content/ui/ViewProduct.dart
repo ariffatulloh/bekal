@@ -293,140 +293,153 @@ class _ViewProduct extends State<ViewProduct> {
                                               });
                                             },
                                           ),
-                                          NeumorphicButton(
-                                            padding: EdgeInsets.only(
-                                                top: 6.sp,
-                                                bottom: 6.sp,
-                                                left: 12.sp,
-                                                right: 12.sp),
-                                            style: NeumorphicStyle(
-                                                shape: NeumorphicShape.convex,
-                                                color: isSaving
-                                                    ? Colors.grey
-                                                        .withOpacity(.5)
-                                                    : Color.fromRGBO(
-                                                        243, 146, 0, 1),
-                                                boxShape: NeumorphicBoxShape
-                                                    .stadium(),
-                                                depth: .2.h,
-                                                intensity: .8),
-                                            child: Wrap(
-                                              children: [
-                                                if (isSaving)
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 3.w),
-                                                    child: SizedBox(
-                                                      child:
-                                                          CircularProgressIndicator(
-                                                        color: Colors.orange,
-                                                        strokeWidth: 2,
+                                          Visibility(
+                                              visible: int.parse(
+                                                      data.stockProduct) >=
+                                                  1,
+                                              child: NeumorphicButton(
+                                                padding: EdgeInsets.only(
+                                                    top: 6.sp,
+                                                    bottom: 6.sp,
+                                                    left: 12.sp,
+                                                    right: 12.sp),
+                                                style: NeumorphicStyle(
+                                                    shape:
+                                                        NeumorphicShape.convex,
+                                                    color: isSaving
+                                                        ? Colors.grey
+                                                            .withOpacity(.5)
+                                                        : Color.fromRGBO(
+                                                            243, 146, 0, 1),
+                                                    boxShape: NeumorphicBoxShape
+                                                        .stadium(),
+                                                    depth: .2.h,
+                                                    intensity: .8),
+                                                child: Wrap(
+                                                  children: [
+                                                    if (isSaving)
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                right: 3.w),
+                                                        child: SizedBox(
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                            color:
+                                                                Colors.orange,
+                                                            strokeWidth: 2,
+                                                          ),
+                                                          height: 2.h,
+                                                          width: 2.h,
+                                                        ),
                                                       ),
-                                                      height: 2.h,
-                                                      width: 2.h,
+                                                    Text(
+                                                      isSaving
+                                                          ? "Processing"
+                                                          : "Masukkan Keranjang",
+                                                      style: TextStyle(
+                                                          fontSize: 10.sp,
+                                                          color: Colors.white),
                                                     ),
-                                                  ),
-                                                Text(
-                                                  isSaving
-                                                      ? "Processing"
-                                                      : "Masukkan Keranjang",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                            onPressed: () async {
-                                              setState(() {
-                                                isSaving = true;
-                                              });
+                                                onPressed: () async {
+                                                  setState(() {
+                                                    isSaving = true;
+                                                  });
 
-                                              var respDataprofile =
-                                                  await ProfileRepository()
-                                                      .getProfile("");
-                                              if (respDataprofile != null) {
-                                                PayloadResponseProfile
-                                                    dataProfile =
-                                                    respDataprofile.data!;
-                                                if (data != null) {
-                                                  Address? dataAddress =
-                                                      dataProfile
-                                                          .profile.address;
-                                                  if (dataAddress != null) {
-                                                    print('datapribadi load');
-                                                    if ((dataAddress.city_name?.isEmpty ?? false) ||
-                                                        (dataAddress.address
-                                                                ?.isEmpty ??
-                                                            false) ||
-                                                        (dataAddress.province_name
-                                                                ?.isEmpty ??
-                                                            false) ||
-                                                        (dataAddress.suburb_name
-                                                                ?.isEmpty ??
-                                                            false) ||
-                                                        (dataAddress.area_name
-                                                                ?.isEmpty ??
-                                                            false ||
-                                                                !(dataAddress
-                                                                        .postcode
-                                                                        ?.isEmpty ??
-                                                                    false))) {
-                                                      Toaster(context)
-                                                          .showErrorToast(
-                                                              "silahkan lengkapi data pribadi anda pada menu profile",
-                                                              gravity:
-                                                                  ToastGravity
-                                                                      .CENTER);
-                                                    } else {
-                                                      try {
-                                                        var payload = {
-                                                          "store_product_id":
-                                                              data.storeProdId,
-                                                          "product_qty": 1
-                                                        };
-
-                                                        DioResponse res =
-                                                            await _dio.postAsync(
-                                                                "/order/cart/add",
-                                                                payload);
-
-                                                        if (res.results[
-                                                                "code"] ==
-                                                            200) {
+                                                  var respDataprofile =
+                                                      await ProfileRepository()
+                                                          .getProfile("");
+                                                  if (respDataprofile != null) {
+                                                    PayloadResponseProfile
+                                                        dataProfile =
+                                                        respDataprofile.data!;
+                                                    if (data != null) {
+                                                      Address? dataAddress =
+                                                          dataProfile
+                                                              .profile.address;
+                                                      if (dataAddress != null) {
+                                                        print(
+                                                            'datapribadi load');
+                                                        if ((dataAddress
+                                                                    .city_name
+                                                                    ?.isEmpty ??
+                                                                false) ||
+                                                            (dataAddress
+                                                                    .address?.isEmpty ??
+                                                                false) ||
+                                                            (dataAddress
+                                                                    .province_name
+                                                                    ?.isEmpty ??
+                                                                false) ||
+                                                            (dataAddress
+                                                                    .suburb_name
+                                                                    ?.isEmpty ??
+                                                                false) ||
+                                                            (dataAddress
+                                                                    .area_name
+                                                                    ?.isEmpty ??
+                                                                false ||
+                                                                    !(dataAddress
+                                                                            .postcode
+                                                                            ?.isEmpty ??
+                                                                        false))) {
                                                           Toaster(context)
-                                                              .showSuccessToast(
+                                                              .showErrorToast(
+                                                                  "silahkan lengkapi data pribadi anda pada menu profile",
+                                                                  gravity:
+                                                                      ToastGravity
+                                                                          .CENTER);
+                                                        } else {
+                                                          try {
+                                                            var payload = {
+                                                              "store_product_id":
+                                                                  data.storeProdId,
+                                                              "product_qty": 1
+                                                            };
+
+                                                            DioResponse res =
+                                                                await _dio.postAsync(
+                                                                    "/order/cart/add",
+                                                                    payload);
+
+                                                            if (res.results[
+                                                                    "code"] ==
+                                                                200) {
+                                                              Toaster(context).showSuccessToast(
                                                                   "Produk berhasil ditambahkan ke keranjang",
                                                                   gravity:
                                                                       ToastGravity
                                                                           .CENTER);
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        }
-                                                      } catch (e) {
-                                                        Toaster(context)
-                                                            .showErrorToast(
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            }
+                                                          } catch (e) {
+                                                            Toaster(context).showErrorToast(
                                                                 "Terjadi kesalahan saat menyimpan data",
                                                                 gravity:
                                                                     ToastGravity
                                                                         .CENTER);
-                                                      }
+                                                          }
 
-                                                      setState(() {
-                                                        isSaving = false;
-                                                      });
+                                                          setState(() {
+                                                            isSaving = false;
+                                                          });
+                                                        }
+                                                        // provinsi = "${dataAddress.province_id}";
+                                                        // kabupaten = "${dataAddress.city_id}";
+                                                        // kecamatan = "${dataAddress.suburb_id}";
+                                                        // desa = "${dataAddress.area_id}";
+                                                        // kodepos = dataAddress.postcode ?? "";
+                                                        // alamat = dataAddress.address ?? "";
+                                                        // loadData.sink.add(true);
+                                                      }
                                                     }
-                                                    // provinsi = "${dataAddress.province_id}";
-                                                    // kabupaten = "${dataAddress.city_id}";
-                                                    // kecamatan = "${dataAddress.suburb_id}";
-                                                    // desa = "${dataAddress.area_id}";
-                                                    // kodepos = dataAddress.postcode ?? "";
-                                                    // alamat = dataAddress.address ?? "";
-                                                    // loadData.sink.add(true);
                                                   }
-                                                }
-                                              }
-                                            },
-                                          )
+                                                },
+                                              ))
                                         ],
                                       ),
                                     ],

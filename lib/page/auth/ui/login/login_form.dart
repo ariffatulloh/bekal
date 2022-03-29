@@ -176,26 +176,28 @@ class LoginFormState extends State<LoginForm> {
   }
 
   _widgetForgetPassword() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "Lupa Kata Sandi?,",
-          style: TextStyle(fontSize: 10.sp, color: Colors.white),
-        ),
-        TextButton(
-          child: Text(
-            "KLIK DISINI ",
-            style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-                decoration: TextDecoration.underline),
-          ),
-          onPressed: () {},
-        )
-      ],
-    );
+    return Visibility(
+        visible: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Lupa Kata Sandi?,",
+              style: TextStyle(fontSize: 10.sp, color: Colors.white),
+            ),
+            TextButton(
+              child: Text(
+                "KLIK DISINI ",
+                style: TextStyle(
+                    fontSize: 10.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline),
+              ),
+              onPressed: () {},
+            )
+          ],
+        ));
   }
 
   Widget _widgetTextField(
