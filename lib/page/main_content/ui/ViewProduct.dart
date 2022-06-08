@@ -61,9 +61,9 @@ class _ViewProduct extends State<ViewProduct> {
               data = dataApiDetailProduct.data;
               var dataImage = data.galleryImage;
               print('dataImage ${dataImage}');
-              return Column(children: [
+              return SafeArea(
+                  child: Column(children: [
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                   child: NeumorphicButton(
                     padding: EdgeInsets.all(0.w.h),
                     style: NeumorphicStyle(
@@ -574,7 +574,7 @@ class _ViewProduct extends State<ViewProduct> {
                     ],
                   ),
                 ))
-              ]);
+              ]));
             }
           }
           return CircularProgressIndicator(

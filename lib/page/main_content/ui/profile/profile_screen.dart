@@ -1,17 +1,21 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:bekal/main.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/CardStoreMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/ListMenuMyProfile.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
 import 'package:bekal/repository/profile_repository.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -33,7 +37,17 @@ class _ProfileScreen extends State<ProfileScreen> {
     // streamProfileScreen.sink
     //     .add(await ProfileRepository().myProfileDashboard("authorization"));
     var event = await ProfileRepository().myProfileDashboard("authorization");
+    List<String> dataSubsFirebase = [];
     if (event.data != null) {
+      dataSubsFirebase.add('user-${event.data?.idUser}');
+      var myOutlets = event.data?.myOutlets;
+      if (myOutlets != null) {
+        myOutlets.forEach((element) {
+          dataSubsFirebase.add('store-${element.storeId}');
+        });
+      }
+      await SecureStorage().saveSubscribeFirebase(jsonEncode(dataSubsFirebase));
+      streamSubsUnSubs.sink.add("subscribe");
       setState(() {
         dataEvent = event.data;
       });
@@ -44,6 +58,7 @@ class _ProfileScreen extends State<ProfileScreen> {
   void initState() {
     super.initState();
     getFromApi();
+    _askPermission();
   } // ProfileScreen();
 
   @override
@@ -285,7 +300,7 @@ class _ProfileScreen extends State<ProfileScreen> {
               height: 3.h,
             ),
             Container(
-              // color: Colors.blue,
+              margin: EdgeInsets.symmetric(horizontal: 5.w),
               height: 30.h,
               child: CardStoreMyProfile(
                   data: data.myOutlets!,
@@ -312,6 +327,28 @@ class _ProfileScreen extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _askPermission() async {
+    final Permission location_permission = await Permission.photos;
+    bool location_status = false;
+
+    bool ispermanetelydenied =
+        await location_permission.request().isPermanentlyDenied;
+    if (ispermanetelydenied) {
+      print("denied");
+      await openAppSettings();
+    }
+    // else{
+    //
+    //   location_status=location_statu.isGranted;
+    //
+    //   print(await location_statu.name);
+    // }
+    // // if(!camerarequest.isGranted){
+    // //   await Permission.camera.shouldShowRequestRationale;
+    // //
+    // // }
   }
 
   // Container ProfileContent(PayloadResponseMyProfileDashboard? data,

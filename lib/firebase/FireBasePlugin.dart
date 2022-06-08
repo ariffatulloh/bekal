@@ -28,15 +28,13 @@ class FireBasePlugin {
     } else if (Platform.isIOS || Platform.isMacOS) {
       // iOS and MacOS
       return const FirebaseOptions(
-        apiKey: 'AIzaSyAHAsf51D0A407EklG1bs-5wA7EbyfNFg0',
-        appId: '1:448618578101:ios:0b11ed8263232715ac3efc',
-        messagingSenderId: '448618578101',
-        projectId: 'react-native-firebase-testing',
-        authDomain: 'react-native-firebase-testing.firebaseapp.com',
-        iosBundleId: 'io.flutter.plugins.firebase.messaging',
+        appId: '1:481453095978:ios:997ba006efd5b40b2e1753',
+        apiKey: 'AIzaSyCJkhkJ2z9S4q1jVBc5_swqAbPSYNSnW2Y',
+        projectId: 'bekalku-812da',
+        messagingSenderId: '481453095978',
+        iosBundleId: 'com.belanjakalimantan.bekal',
         iosClientId:
-            '448618578101-evbjdqq9co9v29pi8jcua8bm7kr4smuu.apps.googleusercontent.com',
-        databaseURL: 'https://react-native-firebase-testing.firebaseio.com',
+            '481453095978-1ndics8cbqklorjaqts00kj010gc7na2.apps.googleusercontent.com',
       );
     } else {
       // Android
@@ -64,12 +62,12 @@ class FireBasePlugin {
   Future<void> initialIze(
       {required Future<void> Function(RemoteMessage message) backgroundHandler,
       int? idUser = -1}) async {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            apiKey: 'AIzaSyDe2uDuF_iUvCSs30iMcfa96F-onYBF-6Q',
-            appId: '1:481453095978:android:315f9e5769b3846a2e1753',
-            messagingSenderId: '481453095978',
-            projectId: 'bekalku-812da'));
+    await Firebase.initializeApp(options: platformOptions);
+    // options: const FirebaseOptions(
+    //     apiKey: 'AIzaSyDe2uDuF_iUvCSs30iMcfa96F-onYBF-6Q',
+    //     appId: '1:481453095978:android:315f9e5769b3846a2e1753',
+    //     messagingSenderId: '481453095978',
+    //     projectId: 'bekalku-812da'));
 
     FirebaseMessaging.onBackgroundMessage(backgroundHandler);
     if (idUser != null) {

@@ -1,18 +1,20 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
+import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/main.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/WidgetTextField.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseListConversation.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
-import 'package:bekal/repository/chat_repository.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:http/http.dart' as http;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
 
@@ -38,6 +40,10 @@ class _ChatScreen extends State<ChatScreen> {
   String searchField = "";
   int dummyVersion = math.Random().nextInt(999);
   TextEditingController editingSearchController = TextEditingController();
+
+  List<PayloadResponseListConversation> listChat = [];
+
+  List<PayloadResponseListConversation> listRecentChats = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -45,22 +51,23 @@ class _ChatScreen extends State<ChatScreen> {
     super.initState();
     searchOn = false;
     selectedIdLoginAs = 0;
+    getAccount();
     snapshotListChat.stream.listen((event) {
       print("listchat ${event}");
-      snapshotListChatInternal.sink.add(event);
+      getListChatFromApi();
     });
-    getFromApi();
-    getAccount();
+    // getFromApi();
+
     // selectedAccount.stream.listen((PopUpList event) {
     //   setState(() {});
     // });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,9 +158,16 @@ class _ChatScreen extends State<ChatScreen> {
                               icon: Icons.search,
                               messageError: "Silahkan Masukan Deskripsi Produk",
                               isError: false,
-                              onChanged: (String value) {
+                              onChanged: (String? value) {
+                                var find = listRecentChats
+                                    .where((element) =>
+                                        element.chatWith?.fullName
+                                            ?.toLowerCase()
+                                            .contains(value ?? "") ??
+                                        false)
+                                    .toList();
                                 setState(() {
-                                  searchField = value;
+                                  listChat = find;
                                 });
                               },
                               onSaved: (String? value) {
@@ -173,189 +187,308 @@ class _ChatScreen extends State<ChatScreen> {
                 child: Container(
                     // color: Colors.blue,
                     height: 70.h,
-                    child: StreamBuilder(
-                      stream: snapshotListChatInternal.stream,
-                      builder: (context,
-                          AsyncSnapshot<
-                                  List<
-                                      Map<
-                                          String,
-                                          List<
-                                              PayloadResponseListConversation>>>>
-                              snapshot) {
-                        print('${snapshot.data}');
-
-                        if (snapshot.hasData) {
-                          var findIndex = snapshot.data!.indexWhere((element) =>
-                              element.keys.contains(
-                                  "${snapshotAccount.userOrStore}-${snapshotAccount.id}"));
-                          var listChatAll = snapshot.data!.where((element) =>
-                              element.keys.contains(
-                                  "${snapshotAccount.userOrStore}-${snapshotAccount.id}"));
-                          print("listChatAll ${findIndex}");
-                          var listChatGet = [];
-                          if (findIndex != -1) {
-                            listChatGet =
-                                snapshot.data![findIndex].values.elementAt(0);
-                            // listChat = listChatAll.elementAt(0);
-                          }
-                          List<PayloadResponseListConversation> listChat = [];
-                          listChat.addAll(listChatGet
-                              as List<PayloadResponseListConversation>);
-
-                          if (searchField.isNotEmpty) {
-                            listChat.retainWhere((element) =>
-                                element.chatWith?.fullName
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(searchField.toLowerCase()) ??
-                                false);
-
-                            // listChat.retainWhere((element) => element
-                            //     .chatWith.fullName
-                            //     .toString()
-                            //     .toLowerCase()
-                            //     .contains(searchField.toLowerCase()));
-                            // print("===========searchList ${listChat}");
-                          }
-                          return ListView.builder(
-                            itemCount: listChat.length,
-                            itemBuilder: (context, index) {
-                              return NeumorphicButton(
-                                  onPressed: () {
-                                    showMaterialModalBottomSheet(
-                                        duration: Duration(seconds: 1),
-                                        animationCurve: Curves.easeInOut,
-                                        enableDrag: true,
-                                        backgroundColor: Colors.white,
-                                        context: context,
-                                        builder: (context) {
-                                          return SafeArea(
-                                              child: ChatDetailScreen(
-                                            onClosed: () {
-                                              getFromApi();
-                                            },
-                                            accountSelected: snapshotAccount,
-                                            withUser: listChat[index].chatWith!,
-                                          ));
-                                        });
-                                  },
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: .5.h, horizontal: 1.h),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 1.5.w, vertical: 1.3.h),
-                                  style: NeumorphicStyle(
-                                      color: Colors.white,
-                                      shape: NeumorphicShape.flat,
-                                      depth: .1.h,
-                                      intensity: 1),
-                                  child: Row(
-                                    children: [
-                                      Neumorphic(
-                                          padding: EdgeInsets.all(0),
-                                          style: NeumorphicStyle(
-                                              color: Colors.grey,
-                                              shape: NeumorphicShape.flat,
-                                              boxShape:
-                                                  NeumorphicBoxShape.circle(),
-                                              depth: .2.h,
-                                              intensity: 1),
-                                          child: Container(
-                                            width: 1.2.w.h,
-                                            height: 1.2.w.h,
-                                            // margin: EdgeInsets.symmetric(vertical: 1.h),
-                                            child: AspectRatio(
-                                              aspectRatio: 1.w / 1.w,
-                                              child: listChat[index].chatWith !=
-                                                      null
-                                                  ? listChat[index].chatWith !=
-                                                          null
-                                                      ? Image.network(
-                                                          "${listChat[index].chatWith!.image}?dummy=${math.Random().nextInt(999)}",
-                                                          errorBuilder:
-                                                              (context, url,
-                                                                  error) {
-                                                            return new Icon(
-                                                              Icons.person,
-                                                              color:
-                                                                  Colors.white,
-                                                            );
-                                                          },
-                                                          fit: BoxFit.cover,
-                                                        )
-                                                      : Align(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: NeumorphicIcon(
-                                                            Icons
-                                                                .camera_alt_outlined,
-                                                            size: 1.w.h,
-                                                            style:
-                                                                NeumorphicStyle(
-                                                              depth: .05.w.h,
-                                                              surfaceIntensity:
-                                                                  1,
-                                                              intensity: 1,
-                                                              color: Colors
-                                                                  .black54,
-                                                            ),
-                                                          ),
-                                                        )
-                                                  : Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: NeumorphicIcon(
-                                                        Icons
-                                                            .camera_alt_outlined,
-                                                        size: 1.w.h,
-                                                        style: NeumorphicStyle(
-                                                          depth: .05.w.h,
-                                                          surfaceIntensity: 1,
-                                                          intensity: 1,
-                                                          color: Colors.black54,
-                                                        ),
+                    child: ListView.builder(
+                      itemCount: listChat.length,
+                      itemBuilder: (context, index) {
+                        return NeumorphicButton(
+                            onPressed: () {
+                              showMaterialModalBottomSheet(
+                                  duration: Duration(seconds: 1),
+                                  animationCurve: Curves.easeInOut,
+                                  enableDrag: true,
+                                  backgroundColor: Colors.white,
+                                  context: context,
+                                  builder: (context) {
+                                    return SafeArea(
+                                        child: ChatDetailScreen(
+                                      onClosed: () {
+                                        getListChatFromApi();
+                                      },
+                                      accountSelected: snapshotAccount,
+                                      withUser: listChat[index].chatWith!,
+                                    ));
+                                  });
+                            },
+                            margin: EdgeInsets.symmetric(
+                                vertical: .5.h, horizontal: 1.h),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 1.5.w, vertical: 1.3.h),
+                            style: NeumorphicStyle(
+                                color: Colors.white,
+                                shape: NeumorphicShape.flat,
+                                depth: .1.h,
+                                intensity: 1),
+                            child: Row(
+                              children: [
+                                Neumorphic(
+                                    padding: EdgeInsets.all(0),
+                                    style: NeumorphicStyle(
+                                        color: Colors.grey,
+                                        shape: NeumorphicShape.flat,
+                                        boxShape: NeumorphicBoxShape.circle(),
+                                        depth: .2.h,
+                                        intensity: 1),
+                                    child: Container(
+                                      width: 1.2.w.h,
+                                      height: 1.2.w.h,
+                                      // margin: EdgeInsets.symmetric(vertical: 1.h),
+                                      child: AspectRatio(
+                                        aspectRatio: 1.w / 1.w,
+                                        child: listChat[index].chatWith != null
+                                            ? listChat[index].chatWith != null
+                                                ? Image.network(
+                                                    "${listChat[index].chatWith!.image}?dummy=${math.Random().nextInt(999)}",
+                                                    errorBuilder:
+                                                        (context, url, error) {
+                                                      return new Icon(
+                                                        Icons.person,
+                                                        color: Colors.white,
+                                                      );
+                                                    },
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Align(
+                                                    alignment: Alignment.center,
+                                                    child: NeumorphicIcon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 1.w.h,
+                                                      style: NeumorphicStyle(
+                                                        depth: .05.w.h,
+                                                        surfaceIntensity: 1,
+                                                        intensity: 1,
+                                                        color: Colors.black54,
                                                       ),
                                                     ),
-                                            ),
-                                          )),
-                                      SizedBox(
-                                        width: 2.w,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              listChat[index]
-                                                  .chatWith!
-                                                  .fullName!,
-                                              style: TextStyle(
-                                                  fontFamily: 'ghotic',
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              '${listChat[index].chatFrom!.id == snapshotAccount.id ? 'Anda: ${listChat[index].lastChat!}' : '${listChat[index].chatFrom!.fullName}: ${listChat[index].lastChat!}'}',
-                                              style: TextStyle(
-                                                fontFamily: 'ghotic',
-                                                fontSize: 14,
+                                                  )
+                                            : Align(
+                                                alignment: Alignment.center,
+                                                child: NeumorphicIcon(
+                                                  Icons.camera_alt_outlined,
+                                                  size: 1.w.h,
+                                                  style: NeumorphicStyle(
+                                                    depth: .05.w.h,
+                                                    surfaceIntensity: 1,
+                                                    intensity: 1,
+                                                    color: Colors.black54,
+                                                  ),
+                                                ),
                                               ),
-                                            )
-                                          ],
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        listChat[index].chatWith!.fullName!,
+                                        style: TextStyle(
+                                            fontFamily: 'ghotic',
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        '${listChat[index].chatFrom!.id == snapshotAccount.id ? 'Anda: ${listChat[index].lastChat!}' : '${listChat[index].chatFrom!.fullName}: ${listChat[index].lastChat!}'}',
+                                        style: TextStyle(
+                                          fontFamily: 'ghotic',
+                                          fontSize: 14,
                                         ),
                                       )
                                     ],
-                                  ));
-                            },
-                          );
-                        }
-                        return Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.blue,
-                        ));
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                  ),
+                                )
+                              ],
+                            ));
                       },
-                    )),
+                    )
+
+                    // StreamBuilder(
+                    //   stream: snapshotListChatInternal.stream,
+                    //   builder: (context,
+                    //       AsyncSnapshot<
+                    //               List<
+                    //                   Map<
+                    //                       String,
+                    //                       List<
+                    //                           PayloadResponseListConversation>>>>
+                    //           snapshot) {
+                    //     print('${snapshot.data}');
+                    //
+                    //     if (snapshot.hasData) {
+                    //       var findIndex = snapshot.data!.indexWhere((element) =>
+                    //           element.keys.contains(
+                    //               "${snapshotAccount.userOrStore}-${snapshotAccount.id}"));
+                    //       var listChatAll = snapshot.data!.where((element) =>
+                    //           element.keys.contains(
+                    //               "${snapshotAccount.userOrStore}-${snapshotAccount.id}"));
+                    //       print("listChatAll ${findIndex}");
+                    //       var listChatGet = [];
+                    //       if (findIndex != -1) {
+                    //         listChatGet =
+                    //             snapshot.data![findIndex].values.elementAt(0);
+                    //         // listChat = listChatAll.elementAt(0);
+                    //       }
+                    //       List<PayloadResponseListConversation> listChat = [];
+                    //       listChat.addAll(listChatGet
+                    //           as List<PayloadResponseListConversation>);
+                    //
+                    //       if (searchField.isNotEmpty) {
+                    //         listChat.retainWhere((element) =>
+                    //             element.chatWith?.fullName
+                    //                 .toString()
+                    //                 .toLowerCase()
+                    //                 .contains(searchField.toLowerCase()) ??
+                    //             false);
+                    //
+                    //         // listChat.retainWhere((element) => element
+                    //         //     .chatWith.fullName
+                    //         //     .toString()
+                    //         //     .toLowerCase()
+                    //         //     .contains(searchField.toLowerCase()));
+                    //         // print("===========searchList ${listChat}");
+                    //       }
+                    //       return ListView.builder(
+                    //         itemCount: listChat.length,
+                    //         itemBuilder: (context, index) {
+                    //           return NeumorphicButton(
+                    //               onPressed: () {
+                    //                 showMaterialModalBottomSheet(
+                    //                     duration: Duration(seconds: 1),
+                    //                     animationCurve: Curves.easeInOut,
+                    //                     enableDrag: true,
+                    //                     backgroundColor: Colors.white,
+                    //                     context: context,
+                    //                     builder: (context) {
+                    //                       return SafeArea(
+                    //                           child: ChatDetailScreen(
+                    //                         onClosed: () {
+                    //                           getFromApi();
+                    //                         },
+                    //                         accountSelected: snapshotAccount,
+                    //                         withUser: listChat[index].chatWith!,
+                    //                       ));
+                    //                     });
+                    //               },
+                    //               margin: EdgeInsets.symmetric(
+                    //                   vertical: .5.h, horizontal: 1.h),
+                    //               padding: EdgeInsets.symmetric(
+                    //                   horizontal: 1.5.w, vertical: 1.3.h),
+                    //               style: NeumorphicStyle(
+                    //                   color: Colors.white,
+                    //                   shape: NeumorphicShape.flat,
+                    //                   depth: .1.h,
+                    //                   intensity: 1),
+                    //               child: Row(
+                    //                 children: [
+                    //                   Neumorphic(
+                    //                       padding: EdgeInsets.all(0),
+                    //                       style: NeumorphicStyle(
+                    //                           color: Colors.grey,
+                    //                           shape: NeumorphicShape.flat,
+                    //                           boxShape:
+                    //                               NeumorphicBoxShape.circle(),
+                    //                           depth: .2.h,
+                    //                           intensity: 1),
+                    //                       child: Container(
+                    //                         width: 1.2.w.h,
+                    //                         height: 1.2.w.h,
+                    //                         // margin: EdgeInsets.symmetric(vertical: 1.h),
+                    //                         child: AspectRatio(
+                    //                           aspectRatio: 1.w / 1.w,
+                    //                           child: listChat[index].chatWith !=
+                    //                                   null
+                    //                               ? listChat[index].chatWith !=
+                    //                                       null
+                    //                                   ? Image.network(
+                    //                                       "${listChat[index].chatWith!.image}?dummy=${math.Random().nextInt(999)}",
+                    //                                       errorBuilder:
+                    //                                           (context, url,
+                    //                                               error) {
+                    //                                         return new Icon(
+                    //                                           Icons.person,
+                    //                                           color:
+                    //                                               Colors.white,
+                    //                                         );
+                    //                                       },
+                    //                                       fit: BoxFit.cover,
+                    //                                     )
+                    //                                   : Align(
+                    //                                       alignment:
+                    //                                           Alignment.center,
+                    //                                       child: NeumorphicIcon(
+                    //                                         Icons
+                    //                                             .camera_alt_outlined,
+                    //                                         size: 1.w.h,
+                    //                                         style:
+                    //                                             NeumorphicStyle(
+                    //                                           depth: .05.w.h,
+                    //                                           surfaceIntensity:
+                    //                                               1,
+                    //                                           intensity: 1,
+                    //                                           color: Colors
+                    //                                               .black54,
+                    //                                         ),
+                    //                                       ),
+                    //                                     )
+                    //                               : Align(
+                    //                                   alignment:
+                    //                                       Alignment.center,
+                    //                                   child: NeumorphicIcon(
+                    //                                     Icons
+                    //                                         .camera_alt_outlined,
+                    //                                     size: 1.w.h,
+                    //                                     style: NeumorphicStyle(
+                    //                                       depth: .05.w.h,
+                    //                                       surfaceIntensity: 1,
+                    //                                       intensity: 1,
+                    //                                       color: Colors.black54,
+                    //                                     ),
+                    //                                   ),
+                    //                                 ),
+                    //                         ),
+                    //                       )),
+                    //                   SizedBox(
+                    //                     width: 2.w,
+                    //                   ),
+                    //                   Expanded(
+                    //                     child: Column(
+                    //                       children: [
+                    //                         Text(
+                    //                           listChat[index]
+                    //                               .chatWith!
+                    //                               .fullName!,
+                    //                           style: TextStyle(
+                    //                               fontFamily: 'ghotic',
+                    //                               fontSize: 14,
+                    //                               fontWeight: FontWeight.bold),
+                    //                         ),
+                    //                         Text(
+                    //                           '${listChat[index].chatFrom!.id == snapshotAccount.id ? 'Anda: ${listChat[index].lastChat!}' : '${listChat[index].chatFrom!.fullName}: ${listChat[index].lastChat!}'}',
+                    //                           style: TextStyle(
+                    //                             fontFamily: 'ghotic',
+                    //                             fontSize: 14,
+                    //                           ),
+                    //                         )
+                    //                       ],
+                    //                       crossAxisAlignment:
+                    //                           CrossAxisAlignment.start,
+                    //                     ),
+                    //                   )
+                    //                 ],
+                    //               ));
+                    //         },
+                    //       );
+                    //     }
+                    //     return Center(
+                    //         child: CircularProgressIndicator(
+                    //       color: Colors.blue,
+                    //     ));
+                    //   },
+                    // )
+                    ),
               )
             ],
           ));
@@ -776,12 +909,13 @@ class _ChatScreen extends State<ChatScreen> {
             color: Colors.white,
           ),
         ),
-        onSelected: (value) {
+        onSelected: (value) async {
           var popUpListSelected =
               popUpList.firstWhere((e) => '${e.userOrStore}-${e.id}' == value);
           setState(() {
             snapshotAccount = popUpListSelected;
           });
+          await getListChatFromApi();
           // selectedAccount.sink.add(popUpListSelected);
           // popUpList
           //     .firstWhere((e) => '${e.userOrStore}-${e.id}' == value)
@@ -838,58 +972,83 @@ class _ChatScreen extends State<ChatScreen> {
         });
   }
 
-  Future<void> getFromApi() async {
-    var token = (await SecureStorage().getToken()) ?? "";
-    PayloadResponseApi<PayloadResponseMyProfileDashboard?> getDataProfile =
-        await ProfileRepository().myProfileDashboard(token);
-    PayloadResponseMyProfileDashboard data;
-    if (getDataProfile != null) {
-      PayloadResponseMyProfileDashboard dataProfile = getDataProfile.data!;
-
-      if (dataProfile != null) {
-        data = dataProfile;
-        List<Map<String, dynamic>> idAccount = [];
-        idUser = data.idUser;
-        idAccount.add({"id": idUser, "userOrStore": 'user'});
-        if (data.myOutlets != null) {
-          data.myOutlets!.forEach((element) {
-            idAccount.add({"id": element.storeId, "userOrStore": 'store'});
-          });
-        }
-        List<Map<String, List<PayloadResponseListConversation>>>
-            listToSnapShotChat = [];
-        List<String> s = [];
-        await Future.forEach(idAccount, (Map<String, dynamic> element) async {
-          String subscribeTopics = '${element['userOrStore']}-${element['id']}';
-          if (element['userOrStore'] == 'user') {
-            PayloadResponseApi<List<PayloadResponseListConversation>>
-                getListConversation =
-                await ChatRepository().getListConversation(token);
-            var datalist = getListConversation.data;
-            s.add("waw");
-            if (datalist != null) {
-              listToSnapShotChat.add({'$subscribeTopics': datalist});
-            }
-          }
-          if (element['userOrStore'] == 'store') {
-            PayloadResponseApi<List<PayloadResponseListConversation>>
-                getListConversation = await ChatRepository()
-                    .getListConversationAsStore(token, element['id']);
-            var datalist = getListConversation.data;
-            s.add("waw");
-            if (datalist != null) {
-              listToSnapShotChat.add({'$subscribeTopics': datalist});
-            }
-          }
+  Future<void> getListChatFromApi() async {
+    var responseHttp = await http.get(
+        Uri.parse(
+            "${DioClient.ipServer}/chat/${snapshotAccount.userOrStore == "user" ? "" : "as-store/${snapshotAccount.id}"}"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
-        print('listchat ${listToSnapShotChat.length}');
-        snapshotListChat.sink.add(listToSnapShotChat);
-        // print(
-        //     'listchat ${listToSnapShotChat.where((element) => element.keys.toString().toLowerCase().contains("user-91")).map((e) => e.values).toList()}');
-        // streamNotifChat.sink.add("have new message");
-
+    List<dynamic> data = jsonDecode(responseHttp.body)['data'];
+    if (data != null) {
+      List<PayloadResponseListConversation> listRecentChat = [];
+      data.forEach((element) {
+        PayloadResponseListConversation recentChatObject =
+            PayloadResponseListConversation.fromJson(element);
+        listRecentChat.add(recentChatObject);
+      });
+      if (mounted) {
+        setState(() {
+          listRecentChats = listRecentChat;
+          listChat = listRecentChat;
+        });
       }
+
+      // listRecentChat=data as >;
     }
+    // var token = (await SecureStorage().getToken()) ?? "";
+    // PayloadResponseApi<PayloadResponseMyProfileDashboard?> getDataProfile =
+    //     await ProfileRepository().myProfileDashboard(token);
+    // PayloadResponseMyProfileDashboard data;
+    // if (getDataProfile != null) {
+    //   PayloadResponseMyProfileDashboard dataProfile = getDataProfile.data!;
+    //
+    //   if (dataProfile != null) {
+    //     data = dataProfile;
+    //     List<Map<String, dynamic>> idAccount = [];
+    //     idUser = data.idUser;
+    //     idAccount.add({"id": idUser, "userOrStore": 'user'});
+    //     if (data.myOutlets != null) {
+    //       data.myOutlets!.forEach((element) {
+    //         idAccount.add({"id": element.storeId, "userOrStore": 'store'});
+    //       });
+    //     }
+    //     List<Map<String, List<PayloadResponseListConversation>>>
+    //         listToSnapShotChat = [];
+    //     List<String> s = [];
+    //     await Future.forEach(idAccount, (Map<String, dynamic> element) async {
+    //       String subscribeTopics = '${element['userOrStore']}-${element['id']}';
+    //       if (element['userOrStore'] == 'user') {
+    //         PayloadResponseApi<List<PayloadResponseListConversation>>
+    //             getListConversation =
+    //             await ChatRepository().getListConversation(token);
+    //         var datalist = getListConversation.data;
+    //         s.add("waw");
+    //         if (datalist != null) {
+    //           listToSnapShotChat.add({'$subscribeTopics': datalist});
+    //         }
+    //       }
+    //       if (element['userOrStore'] == 'store') {
+    //         PayloadResponseApi<List<PayloadResponseListConversation>>
+    //             getListConversation = await ChatRepository()
+    //                 .getListConversationAsStore(token, element['id']);
+    //         var datalist = getListConversation.data;
+    //         s.add("waw");
+    //         if (datalist != null) {
+    //           listToSnapShotChat.add({'$subscribeTopics': datalist});
+    //         }
+    //       }
+    //     });
+    //     print('listchat ${listToSnapShotChat.length}');
+    //     // snapshotListChat.sink.add(listToSnapShotChat);
+    //     // print(
+    //     //     'listchat ${listToSnapShotChat.where((element) => element.keys.toString().toLowerCase().contains("user-91")).map((e) => e.values).toList()}');
+    //     // streamNotifChat.sink.add("have new message");
+    //
+    //   }
+    // }
   }
 
   Future<void> getAccount() async {
@@ -926,6 +1085,7 @@ class _ChatScreen extends State<ChatScreen> {
       snapshotAccount = popupListLocal
           .singleWhere((element) => element.userOrStore.contains('user'));
     });
+    await getListChatFromApi();
     // var selectedAccountDefault = PopUpList(
     //   image: data.image!,
     //   nameDisplay: data.nameUser!,

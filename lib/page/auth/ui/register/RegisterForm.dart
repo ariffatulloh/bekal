@@ -1,7 +1,7 @@
 import 'package:bekal/page/auth/cubit/register/register_cubit.dart';
 import 'package:bekal/payload/request/PayloadRequestRegister.dart';
+import "package:collection/collection.dart";
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 

@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/common/input_field.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import "package:collection/collection.dart";
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
 
 class DetailPesanan extends StatefulWidget {
@@ -197,80 +205,143 @@ class _DetailPesananState extends State<DetailPesanan> {
                             fontSize: 11.sp,
                             fontWeight: FontWeight.bold),
                       ),
-                      if (_showResi) SizedBox(height: 2.h),
-                      if (_showResi)
-                        Text(
-                          "Nomor Resi",
-                          style:
-                              TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
-                        ),
-                      SizedBox(height: 1.h),
-                      if (noresi != "" &&
-                          !["ORD08", "ORD04"].contains(status?["id"]))
-                        Text(
-                          noresi,
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      if (["ORD08", "ORD04"].contains(status?["id"]))
-                        Container(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Expanded(
-                                child: TextInput(
-                                    hintText: "Masukkan Nomor Resi",
-                                    value: noresi,
-                                    keyboardType: TextInputType.text,
-                                    borderRadius: 5.0,
-                                    onChanged: (v) {
-                                      setState(() {
-                                        noresi = v ?? "";
-                                      });
-                                    }),
-                              ),
-                              SizedBox(width: 2.w),
-                              InkWell(
-                                onTap: () {
-                                  if (noresi == "") {
-                                    Toaster(context).showErrorToast(
-                                        "Nomor Resi tidak boleh kosong",
-                                        gravity: ToastGravity.CENTER);
-                                  } else {
-                                    _updateResi();
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 3.w, vertical: 17),
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5)),
-                                      color: Colors.orange),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Update",
-                                        style: TextStyle(
-                                            fontFamily: 'ghotic',
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      )
-                                    ],
+                      // if (_showResi) SizedBox(height: 2.h),
+                      // if (_showResi)
+                      //   Text(
+                      //     "Nomor Resi",
+                      //     style:
+                      //         TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
+                      //   ),
+                      // SizedBox(height: 1.h),
+                      // if (noresi != "" &&
+                      //     !["ORD08", "ORD04"].contains(status?["id"]))
+                      //   Text(
+                      //     noresi,
+                      //     style: TextStyle(
+                      //         fontFamily: 'ghotic',
+                      //         fontSize: 11.sp,
+                      //         fontWeight: FontWeight.bold),
+                      //   ),
+                      Visibility(
+                        visible: !["ORD01", "ORD02", "ORD03"]
+                            .contains(order?["status"]["id"]),
+                        child: Container(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 2.h),
+                            Text(
+                              "Nomor Resi",
+                              style: TextStyle(
+                                  fontFamily: 'ghotic', fontSize: 10.sp),
+                            ),
+                            SizedBox(height: 1.h),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: TextInput(
+                                      hintText: noresi,
+                                      value: noresi,
+                                      enabled: false,
+                                      keyboardType: TextInputType.text,
+                                      borderRadius: 5.0,
+                                      onChanged: (v) {
+                                        // setState(() {
+                                        //   noresi = v ?? "";
+                                        // });
+                                      }),
+                                ),
+                                SizedBox(width: 2.w),
+                                Visibility(
+                                  visible:
+                                      order?["delivery_pickup_code"] == null,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (noresi == "") {
+                                        Toaster(context).showErrorToast(
+                                            "Nomor Resi tidak boleh kosong",
+                                            gravity: ToastGravity.CENTER);
+                                      } else {
+                                        // _updateResi();
+                                        _reqPenjemputan(noresi);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 3.w, vertical: 17),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Colors.orange),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Req. Penjemputan",
+                                            style: TextStyle(
+                                                fontFamily: 'ghotic',
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      SizedBox(height: _showResi ? 1.h : 0),
+                                Visibility(
+                                  visible:
+                                      order?["delivery_pickup_code"] != null,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (noresi == "") {
+                                        Toaster(context).showErrorToast(
+                                            "Nomor Resi tidak boleh kosong",
+                                            gravity: ToastGravity.CENTER);
+                                      } else {
+                                        // _updateResi();
+                                        // _reqPenjemputan(noresi);
+                                        showTrackingPaket();
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 3.w, vertical: 17),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)),
+                                          color: Colors.orange),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Lacak Barang",
+                                            style: TextStyle(
+                                                fontFamily: 'ghotic',
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 2.h)
+                          ],
+                        )),
+                      ),
                     ],
                   ),
                 ),
@@ -575,9 +646,7 @@ class _DetailPesananState extends State<DetailPesanan> {
   }
 
   bool get _showResi {
-    return (["ORD08", "ORD04"].contains(status?["id"]) || noresi != "")
-        ? true
-        : false;
+    return (noresi.isNotEmpty) ? true : false;
   }
 
   _terimaPesanan() async {
@@ -587,7 +656,7 @@ class _DetailPesananState extends State<DetailPesanan> {
 
     var payload = {
       "order_id": widget.orderId,
-      "status": "ORD04",
+      "status": "ORD04A",
       "delivery_no": "",
       "reason": ""
     };
@@ -643,6 +712,7 @@ class _DetailPesananState extends State<DetailPesanan> {
     try {
       DioResponse res = await _dio.getAsync("/order/detail/${widget.orderId}");
       if (res.results["code"] == 200) {
+        print('noresi ${res.results["data"]["order"]["delivery_no"] ?? ""}');
         setState(() {
           order = res.results["data"]["order"];
           store = res.results["data"]["store"];
@@ -650,16 +720,485 @@ class _DetailPesananState extends State<DetailPesanan> {
           products = res.results["data"]["product"];
           invoice = res.results["data"]["invoice"];
           buyer = res.results["data"]["buyer"];
-          noresi = order?["delivery_no"] ?? "";
+          noresi = res.results["data"]["order"]["delivery_no"] ?? "";
+          isGettingData = false;
         });
       }
     } catch (e) {
       print(e);
     }
+  }
 
-    setState(() {
-      isGettingData = false;
+  Future<void> _reqPenjemputan(String noresi) async {
+    String twoDigits(int n) {
+      if (n >= 10) return '$n';
+      return '0$n';
+    }
+
+    var responseGet = await http.get(
+      Uri.parse("${DioClient.ipServer}/logistics/order/timeslot/$noresi"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${await SecureStorage().getToken()}'
+      },
+    );
+    List<dynamic> timeslot =
+        jsonDecode(responseGet.body)["data"]["data"]["time_slots"] ?? [];
+    List<Map<String, dynamic>> listAvailableTimeSlot = [];
+    timeslot.forEach((element) {
+      DateTime.parse(element["start_time"])
+          .difference(DateTime.parse(element["end_time"]));
+      var differenceMinutes = -DateTime.parse(element["start_time"])
+          .difference(DateTime.parse(element["end_time"]))
+          .inMinutes;
+      for (int minutes = 0; minutes < differenceMinutes;) {
+        minutes++;
+        var setHour = 0;
+        var setMinutes = 0;
+        if (minutes % 30 == 0) {
+          setMinutes += minutes;
+          if (minutes % 60 == 0) {
+            setHour++;
+            setMinutes = 0;
+          }
+          var datetime = DateTime.parse(element["start_time"])
+              .toLocal()
+              .add(Duration(minutes: minutes));
+          Map<String, dynamic> availableTimeSlot = Map<String, dynamic>();
+          availableTimeSlot["date"] = datetime.day;
+          availableTimeSlot["dateTime"] = datetime;
+          listAvailableTimeSlot.add(availableTimeSlot);
+          // print(
+          //     "${datetime.day} ${datetime.toLocal().toIso8601String()}");
+        }
+      }
     });
+
+    var slotAvailableTimesGroupByDate =
+        groupBy(listAvailableTimeSlot, (Map element) {
+      return element["date"];
+    }).entries.toList();
+
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (builder) {
+        return ShowSchedulePenjemputan(
+          listData: slotAvailableTimesGroupByDate,
+          onSubmit: (selectedDateTime) async {
+            print(selectedDateTime);
+            // var getDateNow = DateTime.now().add(Duration(minutes: 10, seconds: 0));
+            var payload = {
+              "order_id": ['$noresi'],
+              "pickup_time":
+                  "${DateFormat("yyyy-MM-dd'T'HH:mm:ss", 'id').format(selectedDateTime)}${selectedDateTime.timeZoneOffset.isNegative ? '-' : '+'}${twoDigits(selectedDateTime.timeZoneOffset.inHours.abs())}:${twoDigits(selectedDateTime.timeZoneOffset.inMinutes.remainder(60).abs().toInt())}"
+            };
+            print(payload);
+            var response = await http.post(
+              Uri.parse("${DioClient.ipServer}/order/pickup"),
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ${await SecureStorage().getToken()}'
+              },
+              body: jsonEncode(payload),
+            );
+            //
+            // print(jsonDecode(payload.toString()));
+            print(
+                "data response req pickup ::: ${jsonDecode(response.body)["data"]["metadata"]["http_status_code"]}");
+            if (jsonDecode(response.body)["data"]["metadata"]
+                    ["http_status_code"] ==
+                200) {
+              print(
+                  "data response req pickup ::: ${jsonDecode(response.body)["data"]}");
+              Navigator.pop(context);
+            } else {
+              Navigator.pop(context);
+            }
+            await _getData();
+          },
+        );
+      },
+    );
+
+    // if (jsonDecode(response.body)['data'] != null &&
+    //     jsonDecode(response.body)['data']['data'] != null) {
+    //   await _getData();
+    // }
+  }
+
+  void showTrackingPaket() {
+    showMaterialModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return TrackingPaket(noResi: noresi);
+        });
+  }
+}
+
+class TrackingPaket extends StatelessWidget {
+  TrackingPaket({required this.noResi});
+  String noResi;
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return FutureBuilder<List?>(
+        future: getDataFromApi(),
+        builder: (builderCtx, asynSnapshot) {
+          if (asynSnapshot.connectionState == ConnectionState.done) {
+            if (asynSnapshot.data != null) {
+              // print(asynSnapshot);
+              return Container(
+                width: 100.w,
+                alignment: Alignment.topLeft,
+                constraints: BoxConstraints(maxHeight: 50.h),
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    NeumorphicText("Status Pengiriman",
+                        style: NeumorphicStyle(
+                            color: Colors.black54,
+                            depth: 1,
+                            intensity: 1,
+                            surfaceIntensity: 1),
+                        textAlign: TextAlign.left,
+                        textStyle: NeumorphicTextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12.sp)),
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: buildWidgetTracking(
+                                  lisstData: asynSnapshot.data,
+                                  builderContext: builderCtx) ??
+                              [],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }
+          }
+          return SafeArea(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<List?> getDataFromApi() async {
+    var responsse = await http.get(
+      Uri.parse(
+        "${DioClient.ipServer}/logistics/order/detail/$noResi",
+      ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${await SecureStorage().getToken()}'
+      },
+    );
+    if (jsonEncode(responsse.body) != null) {
+      if (jsonDecode(responsse.body)["data"] != null) {
+        List? trackings =
+            jsonDecode(responsse.body)["data"]["data"]["trackings"];
+
+        if (trackings != null) {
+          return trackings;
+        }
+      }
+    }
+    return null;
+  }
+
+  List<Widget>? buildWidgetTracking(
+      {List? lisstData, required BuildContext builderContext}) {
+    return lisstData?.reversed.map((e) {
+      int index = lisstData.indexOf(e);
+      print("$index ${lisstData.length}");
+      return Column(
+        children: [
+          Row(
+            children: [
+              Neumorphic(
+                padding: EdgeInsets.all(1.w),
+                style: NeumorphicStyle(
+                    color: index == (lisstData.length - 1)
+                        ? Colors.white
+                        : Colors.grey,
+                    depth: 1.2,
+                    intensity: 1,
+                    surfaceIntensity: 1,
+                    boxShape: NeumorphicBoxShape.circle()),
+                child: Icon(
+                  Icons.location_pin,
+                  color: index == (lisstData.length - 1)
+                      ? Colors.green
+                      : Colors.white,
+                  size: 6.5.w,
+                ),
+              ),
+              SizedBox(
+                width: 2.w,
+              ),
+              Text(
+                "${formatDate(builderContext, e?["created_date"], format: "dd MMMM yyyy, hh:mm aa (WIB)")}",
+                style: TextStyle(color: Colors.black54),
+              )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 4.4.w),
+            child: DottedBorder(
+              strokeWidth: .5.w,
+              color:
+                  index == (lisstData.length - 1) ? Colors.green : Colors.grey,
+              customPath: (size) {
+                return Path()
+                  ..moveTo(0, 0)
+                  ..lineTo(0, size.height);
+              },
+              child: Container(
+                width: 100.w,
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                margin: EdgeInsets.only(left: 4.5.w),
+                child: Column(
+                  children: [
+                    Text(
+                      "${e?["shipper_status"]["name"]}",
+                      style: TextStyle(fontSize: 10.sp),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    }).toList();
+  }
+}
+
+class ShowSchedulePenjemputan extends StatefulWidget {
+  List<MapEntry<dynamic, List<Map<String, dynamic>>>> listData;
+  Function(DateTime selectedDateTime)? onSubmit;
+  ShowSchedulePenjemputan({required this.listData, this.onSubmit});
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return ShowSchedulePenjemputanState();
+  }
+}
+
+class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
+  int showChildByKey = 0;
+
+  DateTime selectDateTime = DateTime(2000);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
+      width: 100.w,
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            NeumorphicText(
+              "Atur Waktu Penjemputan",
+              style: NeumorphicStyle(
+                  color: Colors.white.withOpacity(.6),
+                  depth: 1.2,
+                  intensity: 1,
+                  surfaceIntensity: 1),
+              textStyle: NeumorphicTextStyle(
+                  fontSize: 16.sp, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Text("Pilih Tanggal"),
+            SizedBox(
+              height: 1.h,
+            ),
+            Container(
+              width: 100.w,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: widget.listData
+                      .map(
+                        (eParent) => Container(
+                          margin: EdgeInsets.symmetric(vertical: 1.h),
+                          width: 100.w,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              NeumorphicButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (eParent.key.hashCode ==
+                                          showChildByKey) {
+                                        selectDateTime = DateTime(2000);
+                                        showChildByKey = 0;
+                                      } else {
+                                        showChildByKey = eParent.key.hashCode;
+                                      }
+                                    });
+                                  },
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: .5.h, horizontal: 4.w),
+                                  style: NeumorphicStyle(
+                                      depth: 1, color: Colors.white),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.done_all,
+                                        color: showChildByKey ==
+                                                eParent.key.hashCode
+                                            ? Colors.green
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(
+                                        width: 2.w,
+                                      ),
+                                      Text(eParent.key.toString())
+                                    ],
+                                  )),
+                              Container(
+                                width: 100.w,
+                                child: Visibility(
+                                  visible:
+                                      showChildByKey == eParent.key.hashCode,
+                                  child: Neumorphic(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 1.h, horizontal: 2.w),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 1.h, horizontal: 2.w),
+                                    style: NeumorphicStyle(
+                                        depth: -1, color: Colors.white),
+                                    child: Container(
+                                      child: Wrap(
+                                        runSpacing: 1.h,
+                                        spacing: 2.w,
+                                        children: eParent.value.map(
+                                          (eChildren) {
+                                            return NeumorphicButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    if (selectDateTime ==
+                                                        eChildren["dateTime"]) {
+                                                      selectDateTime =
+                                                          DateTime(2000);
+                                                    } else {
+                                                      selectDateTime =
+                                                          eChildren["dateTime"];
+                                                    }
+                                                  });
+                                                },
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: .5.h,
+                                                    horizontal: 4.w),
+                                                style: NeumorphicStyle(
+                                                    depth: 1,
+                                                    color: Colors.white),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.done_all,
+                                                      color: selectDateTime ==
+                                                              eChildren[
+                                                                  "dateTime"]
+                                                          ? Colors.green
+                                                          : Colors.grey,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2.w,
+                                                    ),
+                                                    Text(DateFormat(
+                                                            "HH:mm", "id")
+                                                        .format(eChildren[
+                                                            "dateTime"]))
+                                                  ],
+                                                ));
+                                          },
+                                        ).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Container(
+              width: 100.w,
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Visibility(
+                      visible: selectDateTime != DateTime(2000),
+                      child: NeumorphicButton(
+                          onPressed: () {
+                            widget.onSubmit != null
+                                ? widget.onSubmit!(selectDateTime)
+                                : null;
+                          },
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.h, horizontal: 4.w),
+                          style:
+                              NeumorphicStyle(depth: 1, color: Colors.orange),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.delivery_dining,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 1.w,
+                              ),
+                              Text(
+                                "Req.Penjemputan",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          )))
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

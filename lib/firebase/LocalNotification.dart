@@ -67,14 +67,14 @@ class LocalNotificationPlugin {
   Future initialIze(
       {required Function(String? Payload) onSelectedNotification}) async {
     var notificationAppLaunchDetails =
-        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    // String initialRoute = HomePage.routeName;
-    // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-    //   selectedNotificationPayload = notificationAppLaunchDetails!.payload;
-    //   initialRoute = SecondPage.routeName;
-    // }
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
+        // await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+        // String initialRoute = HomePage.routeName;
+        // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+        //   selectedNotificationPayload = notificationAppLaunchDetails!.payload;
+        //   initialRoute = SecondPage.routeName;
+        // }
+        await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+            onSelectNotification: (String? payload) async {
       onSelectedNotification(payload);
     });
     // const String channelGroupId = 'your channel group id';
@@ -132,6 +132,7 @@ class LocalNotificationPlugin {
       String? title = "",
       String? message = "",
       String? payload}) {
+    print("initiate");
     AndroidNotificationDetails android =
         AndroidNotificationDetails('high_importance_channel', 'Notification',
             channelDescription: 'desc',

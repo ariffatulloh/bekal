@@ -5,84 +5,91 @@ class SecureStorage {
   SecureStorage();
 
   // FlutterSecureStorage _storage = const FlutterSecureStorage();
-  IOSOptions _getIOSOptions() =>
+  static IOSOptions get getIOSOptions =>
       IOSOptions(accessibility: IOSAccessibility.first_unlock);
 
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  static AndroidOptions get getAndroidOptions => const AndroidOptions(
         encryptedSharedPreferences: true,
       );
 
   Future<String?> getToken() async {
     return await FlutterSecureStorage().read(
-        key: "token",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        key: "token", iOptions: getIOSOptions, aOptions: getAndroidOptions);
   }
 
   Future<String?> getEmail() async {
     return await FlutterSecureStorage().read(
-        key: "email",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        key: "email", iOptions: getIOSOptions, aOptions: getAndroidOptions);
   }
 
   Future<String?> getPassword() async {
     return await FlutterSecureStorage().read(
-        key: "password",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        key: "password", iOptions: getIOSOptions, aOptions: getAndroidOptions);
   }
 
   Future<String?> getRememberLogin() async {
     return await FlutterSecureStorage().read(
         key: "rememberme",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
   }
 
   Future<void> saveTokenWithCredential(
       String token, String email, String password) async {
-    streamToken.sink.add(token);
     await FlutterSecureStorage().write(
         key: "token",
         value: token,
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
     await FlutterSecureStorage().write(
         key: "email",
         value: email,
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
     await FlutterSecureStorage().write(
         key: "password",
         value: password,
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
     await FlutterSecureStorage().write(
         key: "rememberme",
         value: "true",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
   }
 
   Future<void> saveTokenOnly(String token) async {
-    streamToken.sink.add(token);
     await FlutterSecureStorage().write(
         key: "token",
         value: token,
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
     await FlutterSecureStorage().write(
         key: "rememberme",
         value: "false",
-        iOptions: _getIOSOptions(),
-        aOptions: _getAndroidOptions());
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
+  }
+
+  Future<void> saveSubscribeFirebase(String dataSubscribeFirebase) async {
+    await FlutterSecureStorage().write(
+        key: "dataSubscribeFirebase",
+        value: dataSubscribeFirebase,
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
+  }
+
+  Future<String?> getDataSubscribeFirebase() async {
+    return await FlutterSecureStorage().read(
+        key: "dataSubscribeFirebase",
+        iOptions: getIOSOptions,
+        aOptions: getAndroidOptions);
   }
 
   Future<void> deleteStorageToken() async {
-    streamToken.sink.add(null);
-    await FlutterSecureStorage()
-        .deleteAll(iOptions: _getIOSOptions(), aOptions: _getAndroidOptions());
+    print("deleteStorage");
+    return streamSubsUnSubs.add("unsubscribe");
+
     // CheckingToken();
   }
 }

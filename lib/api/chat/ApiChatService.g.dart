@@ -10,7 +10,7 @@ part of 'ApiChatService.dart';
 
 class _ApiChatService implements ApiChatService {
   _ApiChatService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://51.79.251.50:3000/chat/';
+    baseUrl ??= 'http://prod.rifias.live/chat/';
   }
 
   final Dio _dio;

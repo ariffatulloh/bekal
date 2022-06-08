@@ -1,6 +1,7 @@
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/common/input_field.dart';
 import 'package:bekal/page/main_content/ui/cart/payment_screen.dart';
+import 'package:bekal/page/main_content/ui/my_store/detail_pesanan.dart';
 import 'package:bekal/page/utility_ui/CommonFunc.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart' hide TextInput;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
 
 class DetailOrder extends StatefulWidget {
@@ -198,46 +200,94 @@ class _DetailOrderState extends State<DetailOrder> {
                           Row(
                             children: [
                               Expanded(
-                                child: Text(
-                                  noresi,
-                                  style: TextStyle(
-                                      fontFamily: 'ghotic',
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.bold),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      noresi,
+                                      style: TextStyle(
+                                          fontFamily: 'ghotic',
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(
+                                      width: 1.w,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Clipboard.setData(
+                                            ClipboardData(text: noresi));
+                                        Fluttertoast.showToast(
+                                          msg: "No Resi di copy",
+                                          gravity: ToastGravity.CENTER,
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 2.w),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "Salin",
+                                              style: TextStyle(
+                                                  fontFamily: 'ghotic',
+                                                  fontSize: 11.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.orange),
+                                            ),
+                                            SizedBox(width: 1.w),
+                                            Icon(
+                                              Icons.copy,
+                                              size: 11.sp,
+                                              color: Colors.orange,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Clipboard.setData(
-                                      ClipboardData(text: noresi));
-                                  Fluttertoast.showToast(
-                                    msg: "No Resi di copy",
-                                    gravity: ToastGravity.CENTER,
-                                  );
-                                },
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 2.w),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "Salin",
-                                        style: TextStyle(
-                                            fontFamily: 'ghotic',
-                                            fontSize: 11.sp,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.orange),
-                                      ),
-                                      SizedBox(width: 1.w),
-                                      Icon(
-                                        Icons.copy,
-                                        size: 11.sp,
-                                        color: Colors.orange,
-                                      )
-                                    ],
+                              Visibility(
+                                visible: order?["delivery_pickup_code"] != null,
+                                child: InkWell(
+                                  onTap: () async {
+                                    if (noresi == "") {
+                                      Toaster(context).showErrorToast(
+                                          "Nomor Resi tidak boleh kosong",
+                                          gravity: ToastGravity.CENTER);
+                                    } else {
+                                      // _updateResi();
+                                      // _reqPenjemputan(noresi);
+                                      showTrackingPaket();
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.w, vertical: 17),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                        color: Colors.orange),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "Lacak Barang",
+                                          style: TextStyle(
+                                              fontFamily: 'ghotic',
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                         ],
@@ -715,6 +765,14 @@ class _DetailOrderState extends State<DetailOrder> {
     setState(() {
       isGettingData = false;
     });
+  }
+
+  void showTrackingPaket() {
+    showMaterialModalBottomSheet(
+        context: context,
+        builder: (builder) {
+          return TrackingPaket(noResi: noresi);
+        });
   }
 }
 

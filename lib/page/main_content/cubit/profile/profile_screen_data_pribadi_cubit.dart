@@ -170,7 +170,7 @@ class ProfileScreenDataPribadiCubit
 
   Future<bool> logout() async {
     emit(LoadingDataPribadi());
-    SecureStorage().deleteStorageToken();
+    await SecureStorage().deleteStorageToken();
     var token = await SecureStorage().getToken();
     if (token == null) {
       return true;

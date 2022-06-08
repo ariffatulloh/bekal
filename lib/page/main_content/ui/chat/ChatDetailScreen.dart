@@ -32,10 +32,16 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
   final ScrollController _controllerScrollView = ScrollController();
 
   String chatField = "";
+
+  List<PayloadResponseListConversation> listChat = [];
   @override
   void initState() {
-    getdataFromSubscribe();
     super.initState();
+    snapshotListChat.stream.listen((event) {
+      print("listchat ${event}");
+      getdataFromSubscribe();
+    });
+    getdataFromSubscribe();
   }
 
   @override
@@ -126,81 +132,139 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
               body: Column(
                 children: [
                   Expanded(
-                    child: StreamBuilder(
-                        stream: snapshotListChatWithUser.stream,
-                        builder: (context,
-                            AsyncSnapshot<List<PayloadResponseListConversation>>
-                                snapshot) {
-                          if (snapshot.hasData) {
-                            var listChat = snapshot.data!;
-                            return ListView.builder(
-                                controller: _controllerScrollView,
-                                reverse: true,
-                                itemCount:
-                                    listChat == null ? 0 : listChat.length,
-                                itemBuilder: (context, index) {
-                                  var idChatfrom =
-                                      '${listChat[index].chatFrom!.userOrStore}-${listChat[index].chatFrom!.id}';
-                                  var idChatWithUser =
-                                      '${widget.withUser.userOrStore}-${widget.withUser.id}';
-                                  var idSelectedAccount =
-                                      '${widget.accountSelected.userOrStore}-${widget.accountSelected.id}';
-                                  return Container(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 1.w),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          idChatfrom == idSelectedAccount
-                                              ? CrossAxisAlignment.end
-                                              : CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Dari : ${idChatfrom == idSelectedAccount ? 'anda' : listChat[index].chatFrom!.fullName!}',
-                                          style: TextStyle(
-                                            decorationThickness: 1.h,
-                                            color: Colors.grey,
-                                            fontSize: 12.sp,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: .5.h,
-                                        ),
-                                        Neumorphic(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 1.h, horizontal: 2.w),
-                                          style: NeumorphicStyle(
-                                            // shape: NeumorphicShape.convex,
-                                            color:
-                                                idChatfrom == idSelectedAccount
-                                                    ? Colors.green
-                                                    : Colors.grey,
-                                            // boxShape: NeumorphicBoxShape.,
-                                            depth: .0.w.h,
-                                            // surfaceIntensity: .5,
-                                            // intensity: 1
-                                          ),
-                                          child: Text(
-                                            listChat[index].lastChat!,
-                                            style: TextStyle(
-                                              decorationThickness: 1.h,
-                                              color: Colors.white,
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                });
-                          }
+                    child: ListView.builder(
+                        controller: _controllerScrollView,
+                        reverse: true,
+                        itemCount: listChat == null ? 0 : listChat.length,
+                        itemBuilder: (context, index) {
+                          var idChatfrom =
+                              '${listChat[index].chatFrom!.userOrStore}-${listChat[index].chatFrom!.id}';
+                          var idChatWithUser =
+                              '${widget.withUser.userOrStore}-${widget.withUser.id}';
+                          var idSelectedAccount =
+                              '${widget.accountSelected.userOrStore}-${widget.accountSelected.id}';
                           return Container(
-                            alignment: Alignment.center,
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
+                            margin: EdgeInsets.symmetric(
+                                vertical: 1.h, horizontal: 1.w),
+                            child: Column(
+                              crossAxisAlignment:
+                                  idChatfrom == idSelectedAccount
+                                      ? CrossAxisAlignment.end
+                                      : CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Dari : ${idChatfrom == idSelectedAccount ? 'anda' : listChat[index].chatFrom!.fullName!}',
+                                  style: TextStyle(
+                                    decorationThickness: 1.h,
+                                    color: Colors.grey,
+                                    fontSize: 12.sp,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: .5.h,
+                                ),
+                                Neumorphic(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 1.h, horizontal: 2.w),
+                                  style: NeumorphicStyle(
+                                    // shape: NeumorphicShape.convex,
+                                    color: idChatfrom == idSelectedAccount
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    // boxShape: NeumorphicBoxShape.,
+                                    depth: .0.w.h,
+                                    // surfaceIntensity: .5,
+                                    // intensity: 1
+                                  ),
+                                  child: Text(
+                                    listChat[index].lastChat!,
+                                    style: TextStyle(
+                                      decorationThickness: 1.h,
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
                           );
                         }),
+                    // StreamBuilder(
+                    //     stream: snapshotListChatWithUser.stream,
+                    //     builder: (context,
+                    //         AsyncSnapshot<List<PayloadResponseListConversation>>
+                    //             snapshot) {
+                    //       if (snapshot.hasData) {
+                    //         var listChat = snapshot.data!;
+                    //         return ListView.builder(
+                    //             controller: _controllerScrollView,
+                    //             reverse: true,
+                    //             itemCount:
+                    //                 listChat == null ? 0 : listChat.length,
+                    //             itemBuilder: (context, index) {
+                    //               var idChatfrom =
+                    //                   '${listChat[index].chatFrom!.userOrStore}-${listChat[index].chatFrom!.id}';
+                    //               var idChatWithUser =
+                    //                   '${widget.withUser.userOrStore}-${widget.withUser.id}';
+                    //               var idSelectedAccount =
+                    //                   '${widget.accountSelected.userOrStore}-${widget.accountSelected.id}';
+                    //               return Container(
+                    //                 margin: EdgeInsets.symmetric(
+                    //                     vertical: 1.h, horizontal: 1.w),
+                    //                 child: Column(
+                    //                   crossAxisAlignment:
+                    //                       idChatfrom == idSelectedAccount
+                    //                           ? CrossAxisAlignment.end
+                    //                           : CrossAxisAlignment.start,
+                    //                   children: [
+                    //                     Text(
+                    //                       'Dari : ${idChatfrom == idSelectedAccount ? 'anda' : listChat[index].chatFrom!.fullName!}',
+                    //                       style: TextStyle(
+                    //                         decorationThickness: 1.h,
+                    //                         color: Colors.grey,
+                    //                         fontSize: 12.sp,
+                    //                       ),
+                    //                     ),
+                    //                     SizedBox(
+                    //                       height: .5.h,
+                    //                     ),
+                    //                     Neumorphic(
+                    //                       padding: EdgeInsets.symmetric(
+                    //                           vertical: 1.h, horizontal: 2.w),
+                    //                       style: NeumorphicStyle(
+                    //                         // shape: NeumorphicShape.convex,
+                    //                         color:
+                    //                             idChatfrom == idSelectedAccount
+                    //                                 ? Colors.green
+                    //                                 : Colors.grey,
+                    //                         // boxShape: NeumorphicBoxShape.,
+                    //                         depth: .0.w.h,
+                    //                         // surfaceIntensity: .5,
+                    //                         // intensity: 1
+                    //                       ),
+                    //                       child: Text(
+                    //                         listChat[index].lastChat!,
+                    //                         style: TextStyle(
+                    //                           decorationThickness: 1.h,
+                    //                           color: Colors.white,
+                    //                           fontSize: 12.sp,
+                    //                           fontWeight: FontWeight.bold,
+                    //                         ),
+                    //                       ),
+                    //                     )
+                    //                   ],
+                    //                 ),
+                    //               );
+                    //             });
+                    //       }
+                    //       return Container(
+                    //         alignment: Alignment.center,
+                    //         child: CircularProgressIndicator(
+                    //           color: Colors.blue,
+                    //         ),
+                    //       );
+                    //     }),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -227,6 +291,25 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
                       chatField.isNotEmpty
                           ? NeumorphicButton(
                               onPressed: () async {
+                                var message = chatFieldController.text;
+                                PayloadResponseListConversation
+                                    fakseSendMessage =
+                                    PayloadResponseListConversation(
+                                        chatWith: widget.withUser,
+                                        chatFrom: ChatWith(
+                                            fullName: widget
+                                                .accountSelected.nameDisplay,
+                                            image: widget.accountSelected.image,
+                                            id: widget.accountSelected.id,
+                                            userOrStore: widget
+                                                .accountSelected.userOrStore),
+                                        chatTo: widget.withUser,
+                                        lastChat: message,
+                                        timeChat: null);
+                                setState(() {
+                                  chatFieldController.clear();
+                                  listChat.insert(0, fakseSendMessage);
+                                });
                                 var token =
                                     (await SecureStorage().getToken()) ?? "";
                                 widget.accountSelected.userOrStore == 'user'
@@ -236,24 +319,22 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
                                             widget.withUser.userOrStore ==
                                                     'user'
                                                 ? PayloadRequestSendMessage(
-                                                    message: chatFieldController
-                                                        .text,
+                                                    message: message,
                                                     toUser: widget.withUser.id,
                                                     toStore: -1)
                                                 : PayloadRequestSendMessage(
-                                                    message: chatFieldController
-                                                        .text,
+                                                    message: message,
                                                     toUser: -1,
                                                     toStore:
                                                         widget.withUser.id))
-                                        .then((value) {
+                                        .then((value) async {
                                         if (value.errorMessage.isEmpty) {
-                                          setState(() {
-                                            // snapshotListChatWithUser.insert(0, value.data!);
-                                            // scrollToDown();
-                                            getdataFromSubscribe();
-                                            chatFieldController.clear();
-                                          });
+                                          // await getdataFromSubscribe();
+                                          // setState(() {
+                                          //   // snapshotListChatWithUser.insert(0, value.data!);
+                                          //   // scrollToDown();
+                                          //
+                                          // });
                                         }
                                       })
                                     : ChatRepository()
@@ -262,25 +343,24 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
                                             widget.withUser.userOrStore ==
                                                     'user'
                                                 ? PayloadRequestSendMessage(
-                                                    message: chatFieldController
-                                                        .text,
+                                                    message: message,
                                                     toUser: widget.withUser.id,
                                                     toStore: -1)
                                                 : PayloadRequestSendMessage(
-                                                    message: chatFieldController
-                                                        .text,
+                                                    message: message,
                                                     toUser: -1,
                                                     toStore:
                                                         widget.withUser.id),
                                             widget.accountSelected.id)
-                                        .then((value) {
+                                        .then((value) async {
                                         if (value.errorMessage.isEmpty) {
-                                          setState(() {
-                                            // snapshotListChatWithUser.insert(0, value.data!);
-                                            // scrollToDown();
-                                            getdataFromSubscribe();
-                                            chatFieldController.clear();
-                                          });
+                                          // await getdataFromSubscribe();
+
+                                          // setState(() {
+                                          //   // snapshotListChatWithUser.insert(0, value.data!);
+                                          //   // scrollToDown();
+                                          //
+                                          // });
                                         }
                                       });
                               },
@@ -324,18 +404,21 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
               .getListDetailConversation(token, widget.withUser.id!);
       var datalist = getListConversation.data;
       if (datalist != null) {
-        snapshotListChatWithUser.sink.add(datalist);
+        setState(() {
+          listChat = datalist;
+        });
+        // snapshotListChatWithUser.sink.add(datalist);
       }
-      StreamSubscription<String?> streamSubscription =
-          streamNotifChat.stream.listen((value) async {
-        PayloadResponseApi<List<PayloadResponseListConversation>>
-            getListConversation = await ChatRepository()
-                .getListDetailConversation(token, widget.withUser.id!);
-        var datalist = getListConversation.data;
-        if (datalist != null) {
-          snapshotListChatWithUser.sink.add(datalist);
-        }
-      });
+      // StreamSubscription<String?> streamSubscription =
+      //     streamNotifChat.stream.listen((value) async {
+      //   PayloadResponseApi<List<PayloadResponseListConversation>>
+      //       getListConversation = await ChatRepository()
+      //           .getListDetailConversation(token, widget.withUser.id!);
+      //   var datalist = getListConversation.data;
+      //   if (datalist != null) {
+      //     // snapshotListChatWithUser.sink.add(datalist);
+      //   }
+      // });
     }
     if (widget.accountSelected.userOrStore == "store") {
       PayloadResponseApi<List<PayloadResponseListConversation>>
@@ -344,7 +427,10 @@ class _ChatDetailScreen extends State<ChatDetailScreen> {
                   token, widget.withUser.id!, widget.accountSelected.id);
       var datalist = getListConversation.data;
       if (datalist != null) {
-        snapshotListChatWithUser.sink.add(datalist);
+        setState(() {
+          listChat = datalist;
+        });
+        // snapshotListChatWithUser.sink.add(datalist);
       }
       StreamSubscription<String?> streamSubscription =
           streamNotifChat.stream.listen((value) async {

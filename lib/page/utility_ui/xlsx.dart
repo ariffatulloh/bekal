@@ -87,7 +87,7 @@ class DataTransaksiBuyerInformation_xlsFormat {
 
 class xlsx {
   xlsx();
-  List<int> createExcelFile(
+  List<int> createExcelFileDaftarPesanan(
       {required List<DataTransaksi_xlsFormat> dataListTransaksi}) {
     Workbook workbook = Workbook(0);
     final Worksheet sheet1 = workbook.worksheets.addWithName('Data Transaksi');
@@ -301,5 +301,105 @@ class xlsx {
     // String fileName = '$path/out.xlsx';
     // File file = File(fileName);
     // await file.writeAsBytes(ex.saveAsStream());
+  }
+
+  List<int> createExcelFileAdminReporting({required List<dynamic> data}) {
+    Workbook workbook = Workbook(0);
+    final Worksheet sheet1 =
+        workbook.worksheets.addWithName('Laporan Toko - {StoreName}');
+    sheet1.showGridlines = false;
+
+    // sheet1.enableSheetCalculations();
+
+    //Adding cell style.
+    final Style style1 = workbook.styles.add('Style1');
+    style1.backColor = '#D9E1F2';
+    style1.hAlign = HAlignType.left;
+    style1.vAlign = VAlignType.center;
+    style1.bold = true;
+
+    final Style style2 = workbook.styles.add('Style2');
+    style2.backColor = '#8EA9DB';
+    style2.vAlign = VAlignType.center;
+    style2.numberFormat = r'[Red]($#,###)';
+    style2.bold = true;
+    int indexRow = 4;
+    data.forEach((element) {
+      (element["listProduct"] as List<dynamic>).forEach((listProduct) {
+        sheet1.getRangeByIndex(indexRow += 1, 1).text =
+            '${listProduct["productName"]}';
+        sheet1.getRangeByIndex(indexRow, 2).text = '${element["time"]}';
+
+        sheet1.getRangeByName('A${indexRow}:B${indexRow}').cellStyle
+          ..backColor = '#f3f6f4'
+          ..hAlign = HAlignType.left
+          ..vAlign = VAlignType.center
+          ..fontSize = 9.sp
+          ..bold = true;
+
+        indexRow += 1;
+        sheet1.getRangeByIndex(indexRow, 1).text = 'Tanggal Pemesanan';
+        sheet1.getRangeByIndex(indexRow, 2).text = 'Nama Pembeli';
+        sheet1.getRangeByIndex(indexRow, 3).text = 'Alamat Tujuan';
+        sheet1.getRangeByIndex(indexRow, 4).text = 'Jumlah Item';
+        sheet1.getRangeByIndex(indexRow, 5).text = 'Jumlah Harga';
+        sheet1.getRangeByIndex(indexRow, 6).text = 'Jumlah Biaya Pengiriman';
+        sheet1.getRangeByIndex(indexRow, 7).text = 'Metode Pembayaran';
+        sheet1.getRangeByIndex(indexRow, 8).text = 'Jasa Pengiriman';
+        sheet1.getRangeByIndex(indexRow, 9).text = 'Status Pemesanan';
+        sheet1.getRangeByName('A${indexRow}:I${indexRow}').cellStyle = style1
+          ..backColor = '#D9E1F2'
+          ..hAlign = HAlignType.left
+          ..vAlign = VAlignType.center
+          ..fontSize = 9.sp
+          ..bold = true;
+        (listProduct["detailInformationOrder"] as List<dynamic>)
+            .forEach((detailInformationOrder) {
+          indexRow += 1;
+          sheet1.getRangeByIndex(indexRow, 1).text =
+              '${detailInformationOrder["tanggalPemesanan"]}';
+          sheet1.getRangeByIndex(indexRow, 2).text =
+              '${detailInformationOrder["customerName"]}';
+          sheet1.getRangeByIndex(indexRow, 3).text =
+              '${detailInformationOrder["customerDestination"]}';
+          sheet1.getRangeByIndex(indexRow, 4).text =
+              '${detailInformationOrder["qtyItem"]}';
+          sheet1.getRangeByIndex(indexRow, 5).text =
+              '${detailInformationOrder["totalPrice"]}';
+          sheet1.getRangeByIndex(indexRow, 6).text =
+              '${detailInformationOrder["courierCost"]}';
+          sheet1.getRangeByIndex(indexRow, 7).text =
+              '${detailInformationOrder["customerPaymentMethod"]}';
+          sheet1.getRangeByIndex(indexRow, 8).text =
+              '${detailInformationOrder["courierType"]}';
+          sheet1.getRangeByIndex(indexRow, 9).text =
+              '${detailInformationOrder["statusPemesanan"]}';
+        });
+        indexRow += 1;
+        sheet1.getRangeByName('A${indexRow}:I${indexRow}')
+          ..cellStyle.backColor = "#D9E1F2";
+        sheet1.getRangeByName('A${indexRow}:C${indexRow}')
+          ..text = "Sub Total"
+          ..merge()
+          ..cellStyle.hAlign = HAlignType.center;
+        sheet1.getRangeByIndex(indexRow, 4).text = '${listProduct["totalQty"]}';
+        sheet1.getRangeByIndex(indexRow, 5).text =
+            '${listProduct["totalMoney"]}';
+        sheet1.getRangeByIndex(indexRow, 6).text =
+            '${listProduct["totalCourierCost"]}';
+      });
+      indexRow++;
+    });
+    sheet1.autoFitColumn(1);
+    sheet1.autoFitColumn(2);
+    sheet1.autoFitColumn(3);
+    sheet1.autoFitColumn(4);
+    sheet1.autoFitColumn(5);
+    sheet1.autoFitColumn(6);
+    sheet1.autoFitColumn(7);
+    sheet1.autoFitColumn(8);
+    sheet1.autoFitColumn(9);
+
+    return workbook.saveAsStream();
   }
 }

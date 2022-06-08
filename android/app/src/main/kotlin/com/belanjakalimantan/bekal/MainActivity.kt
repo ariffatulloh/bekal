@@ -1,4 +1,4 @@
-package com.belanjakalimantan.bekal.bekal
+package com.belanjakalimantan.bekal
 
 import io.flutter.embedding.android.FlutterActivity
 

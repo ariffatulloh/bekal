@@ -1,4 +1,3 @@
-import 'package:bekal/main.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_data_pribadi_cubit_state.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/LoadingContent.dart';
@@ -270,8 +269,6 @@ class _FormEmail extends State<FormEmail> {
                                   subscribeTopics.add(
                                       '${element['userOrStore']}-${element['id']}');
                                 });
-                                unSubscribeTopicFirebaseAndStomp(
-                                    listSubscribeTopic: subscribeTopics);
                               }
                             }
                             var param = PayloadRequestUpdateEmail(

@@ -3,7 +3,7 @@ description: MarketPlace BelanjaKalimantan
 
 publish_to: 'none' 
 
-version: 1.0.5+6
+version: 1.0.6+8
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -14,6 +14,7 @@ dependencies:
   shimmer:
   photo_view:
   cached_network_image: ^3.2.0
+  persistent_bottom_nav_bar:
   rflutter_alert: 
   fluttertoast:
   logger:
@@ -57,15 +58,20 @@ dependencies:
   stomp_dart_client:
   flutter_local_notifications:
   firebase_messaging: ^11.2.10
-  network_to_file_image: ^3.1.0
+  network_to_file_image: ^4.0.1
   permission_handler:
   floating_action_bubble: ^1.1.4
   flutter_cache_manager:
   http:
   excel: ^2.0.0-null-safety-3
   open_file: ^3.2.1
-  syncfusion_flutter_xlsio: ^19.4.56-beta
+  syncfusion_flutter_xlsio: ^20.1.55-beta
   percent_indicator: ^4.0.0
+  flutter_background_service: ^2.0.0
+  device_info_plus: ^3.2.2
+  date_time_picker: ^2.1.0
+  dotted_border: ^2.0.0+2
+  quiver: ^3.1.0
 
 dev_dependencies:
   flutter_test:

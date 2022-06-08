@@ -77,7 +77,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   SizedBox(height: 1.h),
                   Text(
-                    "20 Februari 2022 23.00 WIB",
+                    "-",
                     style: TextStyle(
                         fontFamily: 'ghotic',
                         fontSize: 12.sp,

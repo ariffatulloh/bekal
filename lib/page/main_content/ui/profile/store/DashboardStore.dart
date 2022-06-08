@@ -40,7 +40,7 @@ class DashboardStore extends StatefulWidget {
 }
 
 Future<http.Response> getDataStore({required int storeId}) async =>
-    http.get(Uri.parse('http://51.79.251.50:3000/api/view-outlet/$storeId'),
+    http.get(Uri.parse('http://prod.rifias.live/api/view-outlet/$storeId'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -145,8 +145,8 @@ class _DashboardStore extends State<DashboardStore>
 
   @override
   void initState() {
-    callFromApi();
     super.initState();
+    callFromApi();
   }
 
   @override
@@ -632,10 +632,11 @@ class _DashboardStore extends State<DashboardStore>
                                             context: context,
                                             builder: (context) {
                                               return CreateProduct(
-                                                onDismiss: (isDismiss) {
+                                                onDismiss: (isDismiss) async {
                                                   setState(() {
                                                     isRefresh = true;
                                                   });
+                                                  await callFromApi();
                                                 },
                                                 idStore: widget.storeId,
                                                 idProduct: e['storeProdId'],
@@ -805,38 +806,6 @@ class _DashboardStore extends State<DashboardStore>
         )),
         floatingActionButton: isMyStoreAction(),
       );
-      return Stack(
-        children: [
-          // Positioned(
-          //   top: floatingY,
-          //   left: floatingX,
-          //   child: Draggable(
-          //     child: isMyStoreAction(),
-          //     feedback: isMyStoreAction(),
-          //     childWhenDragging: Container(),
-          //     onDragEnd: (dragDetails) {
-          //       setState(() {
-          //         print(
-          //             'x::${dragDetails.offset.dx}y::${dragDetails.offset.dy}');
-          //         floatingX = dragDetails.offset.dx;
-          //         // if applicable, don't forget offsets like app/status bar
-          //         floatingY = dragDetails.offset.dy;
-          //       });
-          //     },
-          //   ),
-          // ),
-          isMyStoreAction()
-          // Positioned(
-          //   right: 3.w,
-          //   top: 0,
-          //   child: Container(
-          //     color: Colors.blue,
-          //     height: 100.h,
-          //     child: Positioned
-          //   ),
-          // )
-        ],
-      );
     }
     return Center(
       child: CircularProgressIndicator(),
@@ -968,10 +937,11 @@ class _DashboardStore extends State<DashboardStore>
                   builder: (context) {
                     return CreateProduct(
                       idStore: widget.storeId,
-                      onDismiss: (isDimiss) {
+                      onDismiss: (isDimiss) async {
                         setState(() {
                           isRefresh = true;
                         });
+                        await callFromApi();
                       },
                       // idProduct: e['storeProdId'],
                     );

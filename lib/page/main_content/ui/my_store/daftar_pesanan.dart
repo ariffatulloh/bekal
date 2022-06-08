@@ -20,16 +20,52 @@ class DaftarPesanan extends StatefulWidget {
   State<DaftarPesanan> createState() => _DaftarPesananState();
 }
 
+class ItemTabDaftarPesanan {
+  IconData icon;
+  String label;
+  String? value;
+  ItemTabDaftarPesanan({required this.icon, required this.label, this.value});
+}
+
 class _DaftarPesananState extends State<DaftarPesanan> {
   DioClient _dio = new DioClient();
   final currencyFormatter = NumberFormat.currency(locale: 'ID');
 
   bool isGettingData = false;
   List orderList = [];
+  List<ItemTabDaftarPesanan> listItemTab = [];
+
+  String itemTabSelected = "";
 
   @override
   void initState() {
     super.initState();
+    List<ItemTabDaftarPesanan> listItemTabLocale = [
+      ItemTabDaftarPesanan(
+          icon: Icons.move_to_inbox, label: "Pesanan", value: "pesanan"),
+      ItemTabDaftarPesanan(
+          icon: Icons.delivery_dining,
+          label: "Penjemputan",
+          value: "penjemputan"),
+      ItemTabDaftarPesanan(
+          icon: Icons.route, label: "Pengiriman", value: "pengiriman"),
+      ItemTabDaftarPesanan(
+          icon: Icons.flag_rounded, label: "Terkirim", value: "terkirim"),
+      ItemTabDaftarPesanan(
+          icon: Icons.done_all, label: "Diterima", value: "diterima")
+    ];
+    listItemTab = listItemTabLocale;
+    itemTabSelected = listItemTabLocale.first.value ?? "-";
+    // listItemTab.add(ItemTabDaftarPesanan(
+    //     icon: Icons.move_to_inbox, label: "Pesanan", value: "_pesanan"));
+    // listItemTab.add(ItemTabDaftarPesanan(
+    //     icon: Icons.delivery_dining,
+    //     label: "Penjemputan",
+    //     value: "_penjemputan"));
+    // listItemTab.add(ItemTabDaftarPesanan(
+    //     icon: Icons.route, label: "Pengiriman", value: "_pengiriman"));
+    // listItemTab.add(ItemTabDaftarPesanan(
+    //     icon: Icons.done_all, label: "Terkirim", value: "_Terkirim"));
 
     _getData();
   }
@@ -86,22 +122,142 @@ class _DaftarPesananState extends State<DaftarPesanan> {
         elevation: 1,
       ),
       body: LoadingOverlay(
-        isLoading: isGettingData || isExportInProgress,
-        color: Colors.black38,
-        opacity: .3,
-        progressIndicator: CircularPercentIndicator(
-          radius: 60.0,
-          lineWidth: 5.0,
-          percent: progressExport / 100,
-          center: new Text("${progressExport.toStringAsFixed(1)}%"),
-          progressColor: Colors.blue,
-        ),
-        child: SingleChildScrollView(
+          isLoading: isGettingData || isExportInProgress,
+          color: Colors.black38,
+          opacity: .3,
+          progressIndicator: CircularPercentIndicator(
+            radius: 60.0,
+            lineWidth: 5.0,
+            percent: progressExport / 100,
+            center: new Text("${progressExport.toStringAsFixed(1)}%"),
+            progressColor: Colors.blue,
+          ),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: _buildItem(context)),
-        ),
-      ),
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Neumorphic(
+                // margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+                style: NeumorphicStyle(
+                    depth: 1.3,
+                    color: Colors.white,
+                    boxShape: NeumorphicBoxShape.rect()),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                  width: 100.w,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: listItemTab.map((element) {
+                        // print(itemTabSelected);
+                        return NeumorphicButton(
+                          onPressed: () {
+                            print(element.value);
+                            _getData();
+                            setState(() {
+                              itemTabSelected = element.value ?? "-";
+                            });
+                          },
+                          padding: EdgeInsets.symmetric(
+                              vertical: .5.h, horizontal: 2.w),
+                          margin: EdgeInsets.symmetric(horizontal: 2.w),
+                          style: NeumorphicStyle(
+                              depth: -1,
+                              intensity: 1,
+                              surfaceIntensity: 1,
+                              color: Colors.orange.withOpacity(element.value
+                                      .toString()
+                                      .contains(itemTabSelected.toString())
+                                  ? 1
+                                  : 0)),
+                          child: Row(
+                            children: [
+                              Icon(
+                                element.icon,
+                                color: element.value
+                                        .toString()
+                                        .contains(itemTabSelected.toString())
+                                    ? Colors.white
+                                    : Colors.black87,
+                              ),
+                              Text(
+                                "${element.label}",
+                                style: TextStyle(
+                                  color: element.value
+                                          .toString()
+                                          .contains(itemTabSelected.toString())
+                                      ? Colors.white
+                                      : Colors.black87,
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: _buildItem(context),
+                  ),
+                ),
+              )
+            ],
+          )
+
+          // child: PersistentTabView(
+          //   context,
+          //   // controller: _controller,
+          //   screens: _buildScreens(),
+          //   items: [
+          //     PersistentBottomNavBarItem(
+          //       icon: Icon(Icons.move_to_inbox_rounded),
+          //       title: "Pesanan",
+          //       activeColorPrimary: Colors.blue,
+          //       inactiveColorPrimary: Colors.grey,
+          //       inactiveColorSecondary: Colors.purple,
+          //     ),
+          //     PersistentBottomNavBarItem(
+          //       icon: Icon(Icons.motorcycle_outlined),
+          //       title: "Penjemputan",
+          //       activeColorPrimary: Colors.blue,
+          //       inactiveColorPrimary: Colors.grey,
+          //       inactiveColorSecondary: Colors.purple,
+          //     ),
+          //   ],
+          //   confineInSafeArea: true,
+          //   backgroundColor: Colors.white, // Default is Colors.white.
+          //   handleAndroidBackButtonPress: true, // Default is true.
+          //   resizeToAvoidBottomInset:
+          //       true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+          //   stateManagement: true, // Default is true.
+          //   hideNavigationBarWhenKeyboardShows:
+          //       true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+          //   decoration: NavBarDecoration(
+          //     borderRadius: BorderRadius.circular(10.0),
+          //     colorBehindNavBar: Colors.white,
+          //   ),
+          //   popAllScreensOnTapOfSelectedTab: true,
+          //   popActionScreens: PopActionScreensType.all,
+          //   itemAnimationProperties: ItemAnimationProperties(
+          //     // Navigation Bar's items animation properties.
+          //     duration: Duration(milliseconds: 200),
+          //     curve: Curves.ease,
+          //   ),
+          //   screenTransitionAnimation: ScreenTransitionAnimation(
+          //     // Screen transition animation on change of selected tab.
+          //     animateTabTransition: true,
+          //     curve: Curves.ease,
+          //     duration: Duration(milliseconds: 200),
+          //   ),
+          //   navBarStyle: NavBarStyle
+          //       .style1, // Choose the nav bar style with this property.
+          // ),
+          ),
     );
   }
 
@@ -121,8 +277,30 @@ class _DaftarPesananState extends State<DaftarPesanan> {
 
   List<Widget> _buildItem(BuildContext context) {
     List<Widget> list = [];
+    List<String> filterValue() {
+      switch (itemTabSelected) {
+        case 'pesanan':
+          return ["ORD01", "ORD02", "ORD03"];
+        case 'penjemputan':
+          return ["ORD04", "ORD04A", "ORD04B"];
+        case 'pengiriman':
+          return [
+            "ORD08",
+            "ORD08A",
+          ];
+        case 'terkirim':
+          return ["ORD05"];
+        case 'diterima':
+          return ["ORD09"];
+        default:
+          return [];
+      }
+    }
 
-    orderList.forEach((trans) {
+    orderList
+        .where((element) =>
+            filterValue().contains(element["order"]["status"]["id"]))
+        .forEach((trans) {
       var order = trans["order"];
       list.add(InkWell(
         onTap: () {
@@ -149,7 +327,8 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                     SizedBox(width: 1.5.w),
                     Expanded(
                       child: Text(
-                        formatDate(context, "${order["createdAt"]}"),
+                        formatDate(context, "${order["createdAt"]}",
+                            format: "dd MMMM yyyy, hh:mm WIB"),
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 10.sp,
@@ -261,6 +440,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
         ),
       ));
     });
+    // orderList.forEach((trans) {});
 
     return list;
   }
@@ -350,7 +530,8 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     // print('${listDataTransaksiToxlsx.length}');
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
-    var ex = xlsx().createExcelFile(dataListTransaksi: listDataTransaksiToxlsx);
+    var ex = xlsx().createExcelFileDaftarPesanan(
+        dataListTransaksi: listDataTransaksiToxlsx);
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
     // progress(valuOfProgress);
@@ -364,5 +545,14 @@ class _DaftarPesananState extends State<DaftarPesanan> {
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
+  }
+
+  List<Widget> _buildScreens() {
+    return [Container(), Container()];
+    SingleChildScrollView(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: _buildItem(context)),
+    );
   }
 }

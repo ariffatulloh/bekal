@@ -1,39 +1,57 @@
 import 'dart:io';
 
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DirectoryPath {
   DirectoryPath();
   String parentPath = "storage/emulated/0/BEKALKU";
   String documentPath = "storage/emulated/0/BEKALKU/documents";
   Future<String> saveDoc({required List<int> documents}) async {
-    var parentPath = await getParentPath();
-    var documentPath = await getDocumentPath();
-    if (parentPath.existsSync()) {
-      print("parent Directory hasbeen created");
-    }
-    if (documentPath.existsSync()) {
-      print("Document Directory hasbeen created");
-      DateTime now = DateTime.now();
-      String formattedDate = DateFormat('yyyy-MM-dd kk_mm_ss').format(now);
-      String fileName = '${documentPath.path}/reporting_$formattedDate.xlsx';
-      await File(fileName)
-        ..createSync(recursive: true)
-        ..writeAsBytes(documents);
-      return fileName;
+    if (Platform.isAndroid) {
+      var parentPath = await getParentPath();
+      var documentPath = await getDocumentPath();
+      if (parentPath.existsSync()) {
+        print("parent Directory hasbeen created");
+      }
+      if (documentPath.existsSync()) {
+        print("Document Directory hasbeen created");
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('yyyy-MM-dd kk_mm_ss').format(now);
+        String fileName = '${documentPath.path}/reporting_$formattedDate.xlsx';
+        await File(fileName)
+          ..createSync(recursive: true)
+          ..writeAsBytes(documents);
+        return fileName;
 
-      // var file = await createFile;
-      // file.exists()
-      // print(await file.exists());
-      // await file.create(recursive: true);
-      // if (!file.existsSync()) {
-      //   print("fileName hasbeen created");
-      // }
-      // await file.create().then((value) => print(value)).catchError((onError) {
-      //   print(onError);
-      // });
+        // var file = await createFile;
+        // file.exists()
+        // print(await file.exists());
+        // await file.create(recursive: true);
+        // if (!file.existsSync()) {
+        //   print("fileName hasbeen created");
+        // }
+        // await file.create().then((value) => print(value)).catchError((onError) {
+        //   print(onError);
+        // });
+      }
+      return "";
+    } else {
+      var documentPath = await getApplicationSupportDirectory();
+      if (documentPath.existsSync()) {
+        print("Document Directory hasbeen created");
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('yyyy-MM-dd kk_mm_ss').format(now);
+        String fileName = '${documentPath.path}/reporting_$formattedDate.xlsx';
+        await File(fileName)
+          ..createSync(recursive: true)
+          ..writeAsBytes(documents);
+        return fileName;
+      } else {
+        print('failed Exist');
+        return "";
+      }
     }
-    return "";
   }
 
   Future<Directory> getDocumentPath() async {

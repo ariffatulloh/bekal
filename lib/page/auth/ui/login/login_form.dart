@@ -1,9 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/auth/cubit/login/login_cubit.dart';
 import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
+import 'package:bekal/page/utility_ui/TextFieldCustom.dart';
+import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/payload/request/PayloadRequestLogin.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -177,7 +188,7 @@ class LoginFormState extends State<LoginForm> {
 
   _widgetForgetPassword() {
     return Visibility(
-        visible: false,
+        visible: true,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -194,7 +205,13 @@ class LoginFormState extends State<LoginForm> {
                     color: Colors.blue,
                     decoration: TextDecoration.underline),
               ),
-              onPressed: () {},
+              onPressed: () {
+                showMaterialModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return FormForgetPassword();
+                    });
+              },
             )
           ],
         ));
@@ -355,5 +372,250 @@ class LoginFormState extends State<LoginForm> {
               ),
       ),
     );
+  }
+}
+
+class FormForgetPassword extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return FormForgetPasswordState();
+  }
+}
+
+class FormForgetPasswordState extends State<FormForgetPassword> {
+  var _emailForgetCtrl = TextEditingController();
+  var _codeVerifCtrl = TextEditingController();
+  var _newPasswordCtrl = TextEditingController();
+  var _emailForgetCtrlKey = GlobalKey<FormState>();
+  var _codeVerifCtrlKey = GlobalKey<FormState>();
+  var _newPasswordCtrlKey = GlobalKey<FormState>();
+  String responseData = "";
+  @override
+  Widget build(BuildContext context) {
+    Widget showWidget() {
+      switch (responseData) {
+        case "Code terkirim ke email":
+          return Column(
+            children: [
+              TextFieldCustom(
+                  controller: _codeVerifCtrl,
+                  keys: _codeVerifCtrlKey,
+                  label: "Code Verifikasi",
+                  hint: "Code Verifikasi",
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              TextFieldCustom(
+                  controller: _newPasswordCtrl,
+                  keys: _newPasswordCtrlKey,
+                  label: "Password Baru",
+                  hint: "Password Baru",
+                  obscureText: true,
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              NeumorphicButton(
+                onPressed: () {
+                  resetPassword();
+                },
+                child: Text("Ubah Password"),
+              )
+            ],
+          );
+        case "code tidak sesuai":
+          return Column(
+            children: [
+              TextFieldCustom(
+                  controller: _codeVerifCtrl,
+                  keys: _codeVerifCtrlKey,
+                  label: "Code Verifikasi",
+                  hint: "Code Verifikasi",
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              TextFieldCustom(
+                  controller: _newPasswordCtrl,
+                  keys: _newPasswordCtrlKey,
+                  label: "Password Baru",
+                  hint: "Password Baru",
+                  obscureText: true,
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              NeumorphicButton(
+                onPressed: () {
+                  resetPassword();
+                },
+                child: Text("Ubah Password"),
+              )
+            ],
+          );
+        case "code sudah kadaluarsa":
+          return Column(
+            children: [
+              TextFieldCustom(
+                  controller: _codeVerifCtrl,
+                  keys: _codeVerifCtrlKey,
+                  label: "Code Verifikasi",
+                  hint: "Code Verifikasi",
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              TextFieldCustom(
+                  controller: _newPasswordCtrl,
+                  keys: _newPasswordCtrlKey,
+                  label: "Password Baru",
+                  hint: "Password Baru",
+                  obscureText: true,
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              NeumorphicButton(
+                onPressed: () {
+                  resetPassword();
+                },
+                child: Text("Ubah Password"),
+              )
+            ],
+          );
+        case "wait":
+          return Center(
+            child: SpinKitFadingCircle(
+              color: Colors.grey,
+              size: 25.0,
+            ),
+          );
+        default:
+          return Center(
+              child: NeumorphicButton(
+            onPressed: () {
+              forgetPassword();
+            },
+            child: Text("Lupa Sandi"),
+          ));
+      }
+    }
+
+    // TODO: implement build
+    return SafeArea(
+      top: true,
+      child: Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFieldCustom(
+                  controller: _emailForgetCtrl,
+                  keys: _emailForgetCtrlKey,
+                  label: "Email",
+                  hint: "Email",
+                  fieldColor: Colors.white,
+                  onChanged: (value) {
+                    // setState(() {
+                    //   _emailForgetCtrl.text = value;
+                    // });
+                  }),
+              SizedBox(
+                height: 1.h,
+              ),
+              showWidget()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> forgetPassword() async {
+    setState(() {
+      responseData = "wait";
+    });
+    var responseForget = await http.get(Uri.parse(
+        "${DioClient.ipServer}/auth/forget-password/${_emailForgetCtrl.text}"));
+    print(responseForget.body);
+    if (responseForget.statusCode == HttpStatus.ok) {
+      Toaster(context).showSuccessToast(
+          jsonDecode(responseForget.body)["data"] ?? "",
+          gravity: ToastGravity.CENTER);
+      setState(() {
+        responseData = jsonDecode(responseForget.body)["data"] ?? "";
+      });
+    } else {
+      setState(() {
+        responseData = "";
+      });
+    }
+  }
+
+  Future<void> resetPassword() async {
+    setState(() {
+      responseData = "wait";
+    });
+    var payloadResetPassword = {
+      "codeVerifikasi": "${_codeVerifCtrl.text}",
+      "email": "${_emailForgetCtrl.text}",
+      "password": "${_newPasswordCtrl.text}"
+    };
+    var responseForget = await http.post(
+        Uri.parse("${DioClient.ipServer}/auth/request-password/"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(payloadResetPassword));
+    print(responseForget.body);
+    if (responseForget.statusCode == HttpStatus.ok) {
+      Toaster(context).showSuccessToast(
+          jsonDecode(responseForget.body)["data"] ?? "",
+          gravity: ToastGravity.CENTER);
+      if ("berhasil mengganti password" ==
+          jsonDecode(responseForget.body)["data"]) {
+        Navigator.pop(context);
+      }
+
+      setState(() {
+        responseData = jsonDecode(responseForget.body)["data"] ?? "";
+      });
+    } else {
+      setState(() {
+        responseData = "";
+      });
+    }
   }
 }

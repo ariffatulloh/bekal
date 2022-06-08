@@ -704,53 +704,55 @@ class _CourierDialogState extends State<CourierDialog> {
   }
 
   _gettingCourier() async {
-    setState(() {
-      isGettingCourier = true;
-    });
+    if (mounted) {
+      setState(() {
+        isGettingCourier = true;
+      });
 
-    double price = 0;
-    double weight = 0;
+      double price = 0;
+      double weight = 0;
 
-    widget.items.item.forEach((element) {
-      price +=
-          element.cart_qty * double.parse(element.product.priceProduct ?? "0");
-      weight += element.cart_qty * element.product.weightProduct;
-    });
+      widget.items.item.forEach((element) {
+        price += element.cart_qty *
+            double.parse(element.product.priceProduct ?? "0");
+        weight += element.cart_qty * element.product.weightProduct;
+      });
 
-    var payload = {
-      "height": 1.0,
-      "length": 1.0,
-      "width": 1.0,
-      "item_value": price,
-      "weight": weight,
-      "cod": false,
-      "store_id": widget.items.store_id,
-      "for_order": false,
-      "limit": 30,
-      "page": 1,
-      "sort_by": []
-    };
+      var payload = {
+        "height": 1.0,
+        "length": 1.0,
+        "width": 1.0,
+        "item_value": price,
+        "weight": weight,
+        "cod": false,
+        "store_id": widget.items.store_id,
+        "for_order": false,
+        "limit": 30,
+        "page": 1,
+        "sort_by": []
+      };
 
-    try {
-      DioResponse res =
-          await _dio.postAsync("/logistics/pricing/check", payload);
-      if (res.results["code"] == 200) {
-        List pricing = res.results["data"]["pricings"];
+      try {
+        DioResponse res =
+            await _dio.postAsync("/logistics/pricing/check", payload);
+        if (res.results["code"] == 200) {
+          List pricing = res.results["data"]["pricings"];
 
-        List selectedPricing = pricing
-            .where(
-                (e) => ["J&T", "JNE", "Tiki"].contains(e["logistic"]["name"]))
-            .toList();
-        setState(() {
-          courier = selectedPricing;
-        });
+          List selectedPricing = pricing
+              .where(
+                  (e) => ["J&T", "JNE", "Tiki"].contains(e["logistic"]["name"]))
+              .toList();
+          setState(() {
+            courier = selectedPricing;
+          });
+        }
+      } catch (e) {
+        print(e);
       }
-    } catch (e) {
-      print(e);
-    }
 
-    setState(() {
-      isGettingCourier = false;
-    });
+      setState(() {
+        isGettingCourier = false;
+      });
+    }
   }
 }

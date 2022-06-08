@@ -12,7 +12,7 @@ class VerificationCubit extends Cubit<VerificationCubitState> {
 
   Future<bool> logout() async {
     emit(LOADING());
-    SecureStorage().deleteStorageToken();
+    await SecureStorage().deleteStorageToken();
     var token = await SecureStorage().getToken();
     if (token == null) {
       return true;
