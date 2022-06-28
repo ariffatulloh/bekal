@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
-  static const String ipServer = 'http://prod.rifias.live';
+  static const String ipServer = 'http://demo.rifias.live';
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: ipServer,

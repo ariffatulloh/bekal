@@ -1,0 +1,260 @@
+
+App Thinning Size Report for All Variants of Runner
+
+Variant: bekal-050C1A55-938A-4A19-AF94-02E38CF9F5CF.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 10.0], [device: iPhone10,1, os-version: 11.0], [device: iPhone9,3, os-version: 10.0], and [device: iPhone10,4, os-version: 11.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-086E94E1-0B83-460C-BA75-2ED706E47009.ipa
+Supported variant descriptors: [device: iPod9,1, os-version: 12.2], [device: iPhone7,2, os-version: 12.2], [device: iPhone8,1, os-version: 12.2], [device: iPod7,1, os-version: 12.2], [device: iPhone6,1, os-version: 12.2], [device: iPhone6,2, os-version: 12.2], and [device: iPhone8,4, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-09CAB146-2A1C-411E-BCC6-1B5EA707A457.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.2] and [device: iPhone8,2, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-0A02A478-96F5-45B9-B91E-3CD075F0E893.ipa
+Supported variant descriptors: [device: iPad7,2, os-version: 12.0], [device: iPad7,4, os-version: 12.0], [device: iPad7,1, os-version: 12.0], [device: iPad8,1, os-version: 12.0], [device: iPad8,3, os-version: 12.0], [device: iPad7,3, os-version: 12.0], [device: iPad8,2, os-version: 12.0], [device: iPad8,5, os-version: 12.0], [device: iPad6,3, os-version: 12.0], [device: iPad8,7, os-version: 12.0], [device: iPad6,4, os-version: 12.0], [device: iPad8,6, os-version: 12.0], [device: iPad8,8, os-version: 12.0], and [device: iPad8,4, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-0B0BA5B7-C4FC-4B6B-B65B-4B6F620D5285.ipa
+Supported variant descriptors: [device: iPhone10,3, os-version: 12.0], [device: iPhone11,6, os-version: 12.0], [device: iPhone9,4, os-version: 12.0], [device: iPhone9,2, os-version: 12.0], [device: iPhone11,4, os-version: 12.0], [device: iPhone10,2, os-version: 12.0], [device: iPhone10,6, os-version: 12.0], [device: iPhone10,5, os-version: 12.0], and [device: iPhone11,2, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-0BB1C66C-A52A-4AE7-859B-3CC56A8EB2FA.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-0DF3F032-D8C7-474F-B0AA-0CE35AEB4572.ipa
+Supported variant descriptors: [device: iPhone5,4, os-version: 10.0], [device: iPhone5,1, os-version: 10.0], [device: iPhone5,3, os-version: 10.0], and [device: iPhone5,2, os-version: 10.0]
+App + On Demand Resources size: 15,3 MB compressed, 34,6 MB uncompressed
+App size: 15,3 MB compressed, 34,6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-121A2DCA-F1F8-4B82-B9BF-9295497F9C5B.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 12.2], [device: iPhone10,4, os-version: 12.2], [device: iPhone9,1, os-version: 12.2], and [device: iPhone9,3, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-246E423A-65DF-4F40-94BB-16E670B1EC7B.ipa
+Supported variant descriptors: [device: iPhone10,4, os-version: 15.0], [device: iPhone10,1, os-version: 15.0], [device: iPhone12,8, os-version: 15.0], [device: iPhone9,1, os-version: 15.0], and [device: iPhone9,3, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-26387C65-169B-4270-A6BE-E1CEA22450E9.ipa
+Supported variant descriptors: [device: iPhone9,3, os-version: 14.0], [device: iPhone10,1, os-version: 13.0], [device: iPhone10,1, os-version: 14.0], [device: iPhone10,4, os-version: 14.0], [device: iPhone10,4, os-version: 13.0], [device: iPhone12,8, os-version: 14.0], [device: iPhone9,3, os-version: 13.0], [device: iPhone12,8, os-version: 13.0], [device: iPhone9,1, os-version: 13.0], and [device: iPhone9,1, os-version: 14.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-2880CA8F-CC2E-4AD1-8A55-FFD8F97D3CD6.ipa
+Supported variant descriptors: [device: iPad8,4, os-version: 12.2], [device: iPad8,1, os-version: 12.2], [device: iPad6,3, os-version: 12.2], [device: iPad8,6, os-version: 12.2], [device: iPad11,4, os-version: 12.2], [device: iPad7,4, os-version: 12.2], [device: iPad7,1, os-version: 12.2], [device: iPad8,8, os-version: 12.2], [device: iPad8,2, os-version: 12.2], [device: iPad11,3, os-version: 12.2], [device: iPad7,2, os-version: 12.2], [device: iPad11,2, os-version: 12.2], [device: iPad6,4, os-version: 12.2], [device: iPad8,5, os-version: 12.2], [device: iPad8,7, os-version: 12.2], [device: iPad11,1, os-version: 12.2], [device: iPad7,3, os-version: 12.2], and [device: iPad8,3, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-31B005EC-0A6A-4942-9B29-5F82F4345189.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 12.0], [device: iPhone9,1, os-version: 12.0], [device: iPhone9,3, os-version: 12.0], and [device: iPhone10,4, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-338C811F-F75C-4398-A4EB-D9D84429A553.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 15.0] and [device: iPhone12,1, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-497DCE0D-20BC-4EBB-8FBE-792B6DB0D2B8.ipa
+Supported variant descriptors: [device: iPad11,3, os-version: 15.0], [device: iPad6,3, os-version: 15.0], [device: iPad13,2, os-version: 15.0], [device: iPad8,1, os-version: 15.0], [device: iPad8,9, os-version: 15.0], [device: iPad8,5, os-version: 15.0], [device: iPad11,1, os-version: 15.0], [device: iPad11,2, os-version: 15.0], [device: iPad13,10, os-version: 15.0], [device: iPad7,4, os-version: 15.0], [device: iPad8,2, os-version: 15.0], [device: iPad13,5, os-version: 15.0], [device: iPad8,11, os-version: 15.0], [device: iPad7,2, os-version: 15.0], [device: MacFamily20,1, os-version: 15.0], [device: iPad14,1, os-version: 15.0], [device: iPad14,2, os-version: 15.0], [device: iPad13,4, os-version: 15.0], [device: iPad13,11, os-version: 15.0], [device: iPad8,10, os-version: 15.0], [device: iPad7,3, os-version: 15.0], [device: iPad7,1, os-version: 15.0], [device: iPad13,1, os-version: 15.0], [device: iPad8,12, os-version: 15.0], [device: iPad13,9, os-version: 15.0], [device: iPad13,7, os-version: 15.0], [device: iPad8,8, os-version: 15.0], [device: iPad6,4, os-version: 15.0], [device: iPad8,4, os-version: 15.0], [device: iPad8,7, os-version: 15.0], [device: iPad8,3, os-version: 15.0], [device: iPad13,8, os-version: 15.0], [device: iPad11,4, os-version: 15.0], [device: iPad8,6, os-version: 15.0], and [device: iPad13,6, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-5397BF67-8389-4849-BA71-3595167C69DC.ipa
+Supported variant descriptors: [device: iPhone14,2, os-version: 15.0], [device: iPhone9,4, os-version: 15.0], [device: iPhone12,5, os-version: 15.0], [device: iPhone13,4, os-version: 15.0], [device: iPhone14,3, os-version: 15.0], [device: iPhone10,5, os-version: 15.0], [device: iPhone13,1, os-version: 15.0], [device: iPhone9,2, os-version: 15.0], [device: iPhone10,3, os-version: 15.0], [device: iPhone10,2, os-version: 15.0], [device: iPhone10,6, os-version: 15.0], [device: iPhone12,3, os-version: 15.0], [device: iPhone11,2, os-version: 15.0], [device: iPhone14,4, os-version: 15.0], [device: iPhone13,2, os-version: 15.0], [device: iPhone14,5, os-version: 15.0], [device: iPhone11,4, os-version: 15.0], [device: iPhone11,6, os-version: 15.0], and [device: iPhone13,3, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-6CB06382-6232-46A2-BA00-8929BDD3B376.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 13.0] and [device: iPhone8,2, os-version: 14.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-6FC1DE16-CCB0-4577-AC3B-63D1E82A30F0.ipa
+Supported variant descriptors: [device: iPhone11,8, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-7C7936F3-22C9-408E-BD47-A425CFEB3FEB.ipa
+Supported variant descriptors: [device: iPhone7,2, os-version: 12.0], [device: iPhone6,1, os-version: 12.0], [device: iPod7,1, os-version: 12.0], [device: iPhone6,2, os-version: 12.0], [device: iPhone8,1, os-version: 12.0], and [device: iPhone8,4, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-7CBFD17B-E147-4A16-94E8-530BA7DA539E.ipa
+Supported variant descriptors: [device: iPad4,5, os-version: 12.2], [device: iPad5,3, os-version: 12.2], [device: iPad4,4, os-version: 12.2], [device: iPad4,1, os-version: 12.2], [device: iPad6,12, os-version: 12.2], [device: iPad4,6, os-version: 12.2], [device: iPad4,9, os-version: 12.2], [device: iPad7,6, os-version: 12.2], [device: iPad6,8, os-version: 12.2], [device: iPad6,7, os-version: 12.2], [device: iPad7,5, os-version: 12.2], [device: iPad5,2, os-version: 12.2], [device: iPad4,8, os-version: 12.2], [device: iPad4,2, os-version: 12.2], [device: iPad5,1, os-version: 12.2], [device: iPad5,4, os-version: 12.2], [device: iPad4,3, os-version: 12.2], [device: iPad4,7, os-version: 12.2], and [device: iPad6,11, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-824AA19E-A8EF-4E00-B175-44F06E072DD1.ipa
+Supported variant descriptors: [device: iPhone11,2, os-version: 13.0], [device: iPhone10,2, os-version: 13.0], [device: iPhone11,6, os-version: 13.0], [device: iPhone13,2, os-version: 14.0], [device: iPhone9,4, os-version: 14.0], [device: iPhone10,2, os-version: 14.0], [device: iPhone13,3, os-version: 14.0], [device: iPhone11,4, os-version: 13.0], [device: iPhone12,5, os-version: 13.0], [device: iPhone12,3, os-version: 14.0], [device: iPhone11,6, os-version: 14.0], [device: iPhone10,3, os-version: 13.0], [device: iPhone9,2, os-version: 14.0], [device: iPhone11,4, os-version: 14.0], [device: iPhone9,2, os-version: 13.0], [device: iPhone12,5, os-version: 14.0], [device: iPhone13,4, os-version: 14.0], [device: iPhone13,1, os-version: 14.0], [device: iPhone11,2, os-version: 14.0], [device: iPhone10,5, os-version: 14.0], [device: iPhone10,3, os-version: 14.0], [device: iPhone10,6, os-version: 13.0], [device: iPhone12,3, os-version: 13.0], [device: iPhone10,5, os-version: 13.0], [device: iPhone9,4, os-version: 13.0], and [device: iPhone10,6, os-version: 14.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-83AB646B-CBC6-4812-A32F-585D2FFF4857.ipa
+Supported variant descriptors: [device: iPad7,6, os-version: 15.0], [device: iPad5,2, os-version: 15.0], [device: iPad12,2, os-version: 15.0], [device: iPad5,4, os-version: 15.0], [device: iPad5,1, os-version: 15.0], [device: iPad5,3, os-version: 15.0], [device: iPad12,1, os-version: 15.0], [device: iPad7,12, os-version: 15.0], [device: iPad6,12, os-version: 15.0], [device: iPad11,6, os-version: 15.0], [device: iPad11,7, os-version: 15.0], [device: iPad6,11, os-version: 15.0], [device: iPad7,5, os-version: 15.0], [device: iPad7,11, os-version: 15.0], [device: iPad6,8, os-version: 15.0], and [device: iPad6,7, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-86A2558A-CE33-4D02-82F1-B2FD04937191.ipa
+Supported variant descriptors: [device: iPhone12,1, os-version: 13.0], [device: iPhone12,1, os-version: 14.0], [device: iPhone11,8, os-version: 14.0], and [device: iPhone11,8, os-version: 13.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-87A562D5-056A-49B9-A840-35ADBF053915.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 12.0] and [device: iPhone8,2, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-9A0382B9-59D9-4BFA-A308-F14AB8C9727A.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 14.0], [device: iPod9,1, os-version: 14.0], [device: iPod9,1, os-version: 13.0], [device: iPhone8,4, os-version: 13.0], [device: iPhone8,1, os-version: 13.0], and [device: iPhone8,4, os-version: 14.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-AC99EBAD-B038-4099-B2B3-C9AD4B7D4B1B.ipa
+Supported variant descriptors: [device: iPhone8,1, os-version: 10.0], [device: iPhone8,4, os-version: 10.0], [device: iPhone6,1, os-version: 10.0], [device: iPhone6,2, os-version: 10.0], [device: iPod7,1, os-version: 10.0], and [device: iPhone7,2, os-version: 10.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-ACFD358C-C89A-4D6A-8129-412F2F35509E.ipa
+Supported variant descriptors: [device: iPhone7,1, os-version: 10.0] and [device: iPhone8,2, os-version: 10.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-AF8DD0BA-7CEA-414A-886F-DAB3B1976EFD.ipa
+Supported variant descriptors: [device: iPad7,6, os-version: 11.0], [device: iPad5,3, os-version: 10.0], [device: iPad6,11, os-version: 10.0], [device: iPad4,5, os-version: 10.0], [device: iPad4,9, os-version: 10.0], [device: iPad6,12, os-version: 10.0], [device: iPad4,3, os-version: 10.0], [device: iPad5,1, os-version: 10.0], [device: iPad4,1, os-version: 10.0], [device: iPad4,8, os-version: 10.0], [device: iPad6,8, os-version: 10.0], [device: iPad4,4, os-version: 10.0], [device: iPad4,6, os-version: 10.0], [device: iPad4,2, os-version: 10.0], [device: iPad5,2, os-version: 10.0], [device: iPad6,7, os-version: 10.0], [device: iPad5,4, os-version: 10.0], [device: iPad4,7, os-version: 10.0], and [device: iPad7,5, os-version: 11.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-BA524955-4929-4BBD-A59F-EFCA9F8C54E2.ipa
+Supported variant descriptors: [device: iPhone10,3, os-version: 11.0], [device: iPhone10,6, os-version: 11.0], [device: iPhone9,2, os-version: 10.0], [device: iPhone10,5, os-version: 11.0], [device: iPhone10,2, os-version: 11.0], and [device: iPhone9,4, os-version: 10.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-CD6E44A3-0D8B-4051-B544-8B81A0B0F032.ipa
+Supported variant descriptors: [device: iPhone11,6, os-version: 12.2], [device: iPhone11,2, os-version: 12.2], [device: iPhone11,4, os-version: 12.2], [device: iPhone9,4, os-version: 12.2], [device: iPhone9,2, os-version: 12.2], [device: iPhone10,2, os-version: 12.2], [device: iPhone10,3, os-version: 12.2], [device: iPhone10,6, os-version: 12.2], and [device: iPhone10,5, os-version: 12.2]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-CE2E1D2C-F3FF-4962-8678-1F5BD4433F63.ipa
+Supported variant descriptors: [device: iPad6,7, os-version: 12.0], [device: iPad4,8, os-version: 12.0], [device: iPad4,9, os-version: 12.0], [device: iPad7,5, os-version: 12.0], [device: iPad7,6, os-version: 12.0], [device: iPad4,2, os-version: 12.0], [device: iPad5,2, os-version: 12.0], [device: iPad5,3, os-version: 12.0], [device: iPad5,1, os-version: 12.0], [device: iPad4,1, os-version: 12.0], [device: iPad4,5, os-version: 12.0], [device: iPad6,8, os-version: 12.0], [device: iPad6,12, os-version: 12.0], [device: iPad4,7, os-version: 12.0], [device: iPad4,3, os-version: 12.0], [device: iPad4,4, os-version: 12.0], [device: iPad4,6, os-version: 12.0], [device: iPad5,4, os-version: 12.0], and [device: iPad6,11, os-version: 12.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-DA52DC9E-3095-4D66-A741-324F574086C4.ipa
+Supported variant descriptors: [device: iPad6,3, os-version: 10.0], [device: iPad7,3, os-version: 10.0], [device: iPad6,4, os-version: 10.0], [device: iPad7,1, os-version: 10.0], [device: iPad7,2, os-version: 10.0], and [device: iPad7,4, os-version: 10.0]
+App + On Demand Resources size: 14,6 MB compressed, 36,7 MB uncompressed
+App size: 14,6 MB compressed, 36,7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-EBA2CBD6-5F90-4210-92C6-049690504999.ipa
+Supported variant descriptors: [device: iPad3,4, os-version: 10.0], [device: iPad3,5, os-version: 10.0], and [device: iPad3,6, os-version: 10.0]
+App + On Demand Resources size: 15,3 MB compressed, 34,6 MB uncompressed
+App size: 15,3 MB compressed, 34,6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-ED8C0386-CD72-4051-A17A-42D1DE6E417D.ipa
+Supported variant descriptors: [device: iPad5,3, os-version: 13.0], [device: iPad11,7, os-version: 14.0], [device: iPad5,2, os-version: 13.0], [device: iPad5,1, os-version: 14.0], [device: iPad7,5, os-version: 13.0], [device: iPad6,8, os-version: 13.0], [device: iPad7,5, os-version: 14.0], [device: iPad7,6, os-version: 13.0], [device: iPad6,11, os-version: 14.0], [device: iPad5,4, os-version: 14.0], [device: iPad5,4, os-version: 13.0], [device: iPad6,7, os-version: 14.0], [device: iPad6,7, os-version: 13.0], [device: iPad7,11, os-version: 14.0], [device: iPad5,3, os-version: 14.0], [device: iPad6,11, os-version: 13.0], [device: iPad6,12, os-version: 13.0], [device: iPad7,11, os-version: 13.0], [device: iPad7,12, os-version: 14.0], [device: iPad5,2, os-version: 14.0], [device: iPad7,12, os-version: 13.0], [device: iPad7,6, os-version: 14.0], [device: iPad5,1, os-version: 13.0], [device: iPad11,6, os-version: 14.0], [device: iPad6,8, os-version: 14.0], and [device: iPad6,12, os-version: 14.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-F1E5D68F-871D-42FA-ACC6-8AB877D59FF6.ipa
+Supported variant descriptors: [device: iPhone8,2, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-F7284A1E-7F80-467D-8B9C-101F740D6228.ipa
+Supported variant descriptors: [device: iPhone8,4, os-version: 15.0], [device: iPod9,1, os-version: 15.0], and [device: iPhone8,1, os-version: 15.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal-FC152306-26FC-4114-BEEE-AE07AEE56CAF.ipa
+Supported variant descriptors: [device: iPad7,2, os-version: 13.0], [device: iPad11,1, os-version: 14.0], [device: iPad13,1, os-version: 14.0], [device: iPad13,5, os-version: 14.0], [device: iPad8,11, os-version: 14.0], [device: iPad8,2, os-version: 14.0], [device: iPad8,12, os-version: 14.0], [device: iPad13,9, os-version: 14.0], [device: iPad8,2, os-version: 13.0], [device: iPad7,1, os-version: 14.0], [device: iPad8,5, os-version: 14.0], [device: MacFamily20,1, os-version: 14.0], [device: iPad8,8, os-version: 14.0], [device: iPad6,3, os-version: 13.0], [device: iPad7,3, os-version: 14.0], [device: iPad8,4, os-version: 14.0], [device: iPad8,5, os-version: 13.0], [device: iPad8,3, os-version: 14.0], [device: iPad8,6, os-version: 13.0], [device: iPad11,4, os-version: 14.0], [device: iPad8,1, os-version: 13.0], [device: iPad8,11, os-version: 13.0], [device: iPad11,2, os-version: 13.0], [device: iPad13,11, os-version: 14.0], [device: iPad7,3, os-version: 13.0], [device: iPad11,1, os-version: 13.0], [device: iPad6,4, os-version: 14.0], [device: iPad13,8, os-version: 14.0], [device: iPad8,10, os-version: 14.0], [device: iPad13,7, os-version: 14.0], [device: iPad8,8, os-version: 13.0], [device: iPad6,3, os-version: 14.0], [device: iPad8,6, os-version: 14.0], [device: iPad7,4, os-version: 13.0], [device: iPad8,7, os-version: 13.0], [device: iPad13,6, os-version: 14.0], [device: iPad11,4, os-version: 13.0], [device: iPad13,2, os-version: 14.0], [device: iPad11,3, os-version: 14.0], [device: iPad7,1, os-version: 13.0], [device: iPad8,7, os-version: 14.0], [device: iPad6,4, os-version: 13.0], [device: iPad8,9, os-version: 14.0], [device: iPad11,2, os-version: 14.0], [device: iPad8,4, os-version: 13.0], [device: iPad8,9, os-version: 13.0], [device: iPad8,12, os-version: 13.0], [device: iPad13,4, os-version: 14.0], [device: iPad8,3, os-version: 13.0], [device: iPad7,4, os-version: 14.0], [device: iPad11,3, os-version: 13.0], [device: iPad13,10, os-version: 14.0], [device: iPad7,2, os-version: 14.0], [device: iPad8,1, os-version: 14.0], and [device: iPad8,10, os-version: 13.0]
+App + On Demand Resources size: 12,1 MB compressed, 28,8 MB uncompressed
+App size: 12,1 MB compressed, 28,8 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: bekal.ipa
+Supported variant descriptors: Universal
+App + On Demand Resources size: 27 MB compressed, 67,6 MB uncompressed
+App size: 27 MB compressed, 67,6 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed

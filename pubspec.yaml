@@ -3,7 +3,7 @@ description: MarketPlace BelanjaKalimantan
 
 publish_to: 'none' 
 
-version: 1.0.6+8
+version: 1.0.7+9
 
 environment:
   sdk: ">=2.16.0 <3.0.0"

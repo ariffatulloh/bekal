@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/page/admin_page/ui/ShowDetailStore.dart';
+import 'package:bekal/page/main_content/ui/my_store/detail_pesanan.dart';
+import 'package:bekal/page/main_content/ui/profile/store/DashboardStore.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -30,7 +33,9 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   var listStoreHistoryDisbursement = [];
   bool isGetDataDone = false;
   bool isLoadingGetRequestPayout = true;
-  String isTab = "listStore";
+  String isTab = "listAll";
+  int periodicCheckComplaint = 0;
+  var complaintBroadCast = StreamController<dynamic>.broadcast();
   @override
   void initState() {
     // TODO: implement initState
@@ -43,7 +48,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.transparent,
-      floatingActionButton: buildFloatingActionBubble(),
+      // floatingActionButton: buildFloatingActionBubble(),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
       body: SafeArea(
         child: Column(
@@ -261,128 +266,768 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                             SizedBox(
                               height: 2.h,
                             ),
-                            isTab == "listStore"
-                                ? ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        _responseFromApi.listAllStore.length,
-                                    itemBuilder: (context, index) {
-                                      var dataStore =
-                                          _responseFromApi.listAllStore[index];
-                                      // print(dataStore);
-
-                                      return NeumorphicButton(
-                                        onPressed: () {
-                                          showMaterialModalBottomSheet(
-                                              duration:
-                                                  Duration(milliseconds: 1400),
-                                              animationCurve: Curves.easeInOut,
-                                              enableDrag: true,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              context: context,
-                                              builder: (context) {
-                                                return ShowDetailStore(
-                                                    idStore: dataStore.idStore);
-                                              });
-                                        },
-                                        padding: EdgeInsets.all(0),
-                                        margin: EdgeInsets.symmetric(
-                                            vertical: 1.2.h),
-                                        style: NeumorphicStyle(
-                                          depth: 2,
-                                          color: Colors.white,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                                begin: Alignment.topRight,
-                                                end: Alignment.bottomLeft,
-                                                colors: [
-                                                  Color(0xfff39200)
-                                                      .withOpacity(.2),
-                                                  Color(0xfff39200)
-                                                      .withOpacity(.4)
-                                                ],
-                                                stops: [
-                                                  .2,
-                                                  .7
-                                                ]),
+                            Neumorphic(
+                              style: NeumorphicStyle(
+                                  depth: 1, color: Colors.transparent),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      width: 100.w,
+                                      alignment: Alignment.topLeft,
+                                      color: Color(0xfff39200),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 1.w, vertical: 1.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Store yang terdaftar",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 8.sp),
                                           ),
-                                          width: 100.w,
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 1.w,
-                                                    vertical: 1.5.w),
-                                                height: 10.w,
-                                                width: 10.w,
-                                                child: Neumorphic(
-                                                  style: NeumorphicStyle(
-                                                      depth: -2,
-                                                      boxShape:
-                                                          NeumorphicBoxShape
-                                                              .circle()),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        dataStore.storeImageUri,
-                                                    fit: BoxFit.cover,
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            Center(
-                                                      child: SizedBox(
-                                                        width: 40.0,
-                                                        height: 40.0,
+                                          InkWell(
+                                            onTap: () {
+                                              showMaterialModalBottomSheet(
+                                                  context: context,
+                                                  builder: (builder) {
+                                                    return Scaffold(
+                                                      body: SafeArea(
+                                                          child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 10),
+                                                        child: Column(
+                                                          children: [
+                                                            Row(
+                                                              children: [
+                                                                InkWell(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        builder);
+                                                                  },
+                                                                  child: Icon(Icons
+                                                                      .arrow_back_ios),
+                                                                ),
+                                                                Expanded(
+                                                                    child:
+                                                                        Center(
+                                                                  child: Text(
+                                                                      "Semua Toko Yang Terdaftar"),
+                                                                ))
+                                                              ],
+                                                            ),
+                                                            Expanded(
+                                                                child: ListView
+                                                                    .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        physics:
+                                                                            NeverScrollableScrollPhysics(),
+                                                                        itemCount: _responseFromApi
+                                                                            .listAllStore
+                                                                            .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          var dataStore =
+                                                                              _responseFromApi.listAllStore[index];
+                                                                          // print(dataStore);
+
+                                                                          return NeumorphicButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              showMaterialModalBottomSheet(
+                                                                                  duration: Duration(milliseconds: 1400),
+                                                                                  animationCurve: Curves.easeInOut,
+                                                                                  enableDrag: true,
+                                                                                  backgroundColor: Colors.transparent,
+                                                                                  context: context,
+                                                                                  builder: (context) {
+                                                                                    return ShowDetailStore(idStore: dataStore.idStore);
+                                                                                  });
+                                                                            },
+                                                                            padding:
+                                                                                EdgeInsets.all(0),
+                                                                            margin:
+                                                                                EdgeInsets.symmetric(vertical: 1.2.h),
+                                                                            style:
+                                                                                NeumorphicStyle(
+                                                                              depth: 2,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            child:
+                                                                                Container(
+                                                                              decoration: BoxDecoration(
+                                                                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                                                                  Color(0xfff39200).withOpacity(.2),
+                                                                                  Color(0xfff39200).withOpacity(.4)
+                                                                                ], stops: [
+                                                                                  .2,
+                                                                                  .7
+                                                                                ]),
+                                                                              ),
+                                                                              width: 100.w,
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.5.w),
+                                                                                    height: 10.w,
+                                                                                    width: 10.w,
+                                                                                    child: Neumorphic(
+                                                                                      style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                                                      child: CachedNetworkImage(
+                                                                                        imageUrl: dataStore.storeImageUri,
+                                                                                        fit: BoxFit.cover,
+                                                                                        placeholder: (context, url) => Center(
+                                                                                          child: SizedBox(
+                                                                                            width: 40.0,
+                                                                                            height: 40.0,
+                                                                                            child: new CircularProgressIndicator(
+                                                                                              color: Colors.orange,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      dataStore.storeName,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 10.sp,
+                                                                                          // fontWeight: FontWeight.semi,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                          fontFamily: 'ghotic',
+                                                                                          color: Colors.black87),
+                                                                                    ),
+                                                                                  ),
+                                                                                  // GestureDetector(
+                                                                                  //   onTap: () {},
+                                                                                  //   child: NeumorphicIcon(
+                                                                                  //     Icons.open_in_new,
+                                                                                  //     size: 7.5.w,
+                                                                                  //     style: NeumorphicStyle(
+                                                                                  //         color: Colors.black87, depth: 3),
+                                                                                  //   ),
+                                                                                  // ),
+                                                                                  SizedBox(
+                                                                                    width: 1.5.w,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }))
+                                                          ],
+                                                        ),
+                                                      )),
+                                                    );
+                                                  });
+                                            },
+                                            child: Icon(
+                                              Icons.open_in_full_rounded,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 1.w, vertical: 1.h),
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: _responseFromApi
+                                                      .listAllStore.length >
+                                                  5
+                                              ? 5
+                                              : _responseFromApi
+                                                  .listAllStore.length,
+                                          itemBuilder: (context, index) {
+                                            var dataStore = _responseFromApi
+                                                .listAllStore[index];
+                                            // print(dataStore);
+
+                                            return NeumorphicButton(
+                                              onPressed: () {
+                                                showMaterialModalBottomSheet(
+                                                    duration: Duration(
+                                                        milliseconds: 1400),
+                                                    animationCurve:
+                                                        Curves.easeInOut,
+                                                    enableDrag: true,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return ShowDetailStore(
+                                                          idStore: dataStore
+                                                              .idStore);
+                                                    });
+                                              },
+                                              padding: EdgeInsets.all(0),
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: .5.h),
+                                              style: NeumorphicStyle(
+                                                depth: 2,
+                                                color: Colors.white,
+                                              ),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                      begin: Alignment.topRight,
+                                                      end: Alignment.bottomLeft,
+                                                      colors: [
+                                                        Color(0xfff39200)
+                                                            .withOpacity(.2),
+                                                        Color(0xfff39200)
+                                                            .withOpacity(.4)
+                                                      ],
+                                                      stops: [
+                                                        .2,
+                                                        .7
+                                                      ]),
+                                                ),
+                                                width: 100.w,
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 1.w,
+                                                              vertical: 1.5.w),
+                                                      height: 10.w,
+                                                      width: 10.w,
+                                                      child: Neumorphic(
+                                                        style: NeumorphicStyle(
+                                                            depth: -2,
+                                                            boxShape:
+                                                                NeumorphicBoxShape
+                                                                    .circle()),
                                                         child:
-                                                            new CircularProgressIndicator(
-                                                          color: Colors.orange,
+                                                            CachedNetworkImage(
+                                                          imageUrl: dataStore
+                                                              .storeImageUri,
+                                                          fit: BoxFit.cover,
+                                                          placeholder:
+                                                              (context, url) =>
+                                                                  Center(
+                                                            child: SizedBox(
+                                                              width: 40.0,
+                                                              height: 40.0,
+                                                              child:
+                                                                  new CircularProgressIndicator(
+                                                                color: Colors
+                                                                    .orange,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              const Icon(
+                                                                  Icons.error),
                                                         ),
                                                       ),
                                                     ),
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
-                                                  ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        dataStore.storeName,
+                                                        style: TextStyle(
+                                                            fontSize: 10.sp,
+                                                            // fontWeight: FontWeight.semi,
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            fontFamily:
+                                                                'ghotic',
+                                                            color:
+                                                                Colors.black87),
+                                                      ),
+                                                    ),
+                                                    // GestureDetector(
+                                                    //   onTap: () {},
+                                                    //   child: NeumorphicIcon(
+                                                    //     Icons.open_in_new,
+                                                    //     size: 7.5.w,
+                                                    //     style: NeumorphicStyle(
+                                                    //         color: Colors.black87, depth: 3),
+                                                    //   ),
+                                                    // ),
+                                                    SizedBox(
+                                                      width: 1.5.w,
+                                                    )
+                                                  ],
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: Text(
-                                                  dataStore.storeName,
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      // fontWeight: FontWeight.semi,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                      fontFamily: 'ghotic',
-                                                      color: Colors.black87),
+                                            );
+                                          }))
+                                ],
+                              ),
+                            ),
+                            Neumorphic(
+                              style: NeumorphicStyle(
+                                  depth: 1, color: Colors.transparent),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      width: 100.w,
+                                      alignment: Alignment.topLeft,
+                                      color: Color(0xfff39200),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 1.w, vertical: 1.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Store Request Bantuan",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  complaintBroadCast.add(
+                                                      await checkComplaint());
+                                                },
+                                                child: Icon(
+                                                  Icons.refresh,
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              // GestureDetector(
-                                              //   onTap: () {},
-                                              //   child: NeumorphicIcon(
-                                              //     Icons.open_in_new,
-                                              //     size: 7.5.w,
-                                              //     style: NeumorphicStyle(
-                                              //         color: Colors.black87, depth: 3),
-                                              //   ),
-                                              // ),
-                                              SizedBox(
-                                                width: 1.5.w,
+                                              InkWell(
+                                                onTap: () async {
+                                                  complaintBroadCast.add(
+                                                      await checkComplaint());
+                                                  showMaterialModalBottomSheet(
+                                                      context: context,
+                                                      builder: (builder) {
+                                                        return Scaffold(
+                                                          body: SafeArea(
+                                                              child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        10),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            builder);
+                                                                      },
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .arrow_back_ios),
+                                                                    ),
+                                                                    Expanded(
+                                                                        child:
+                                                                            Center(
+                                                                      child: Text(
+                                                                          "Semua Toko Yang Terdaftar"),
+                                                                    ))
+                                                                  ],
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      FutureBuilder(
+                                                                          future:
+                                                                              checkComplaint(),
+                                                                          builder:
+                                                                              (context, AsyncSnapshot<dynamic> snapshot) {
+                                                                            // var res = checkComplaint();
+                                                                            // print(res['code']);
+                                                                            var complaintList =
+                                                                                snapshot.requireData["data"] as List;
+                                                                            return ListView.builder(
+                                                                                shrinkWrap: true,
+                                                                                physics: NeverScrollableScrollPhysics(),
+                                                                                itemCount: complaintList.length,
+                                                                                itemBuilder: (context, index) {
+                                                                                  var obj = complaintList[index];
+                                                                                  return Neumorphic(
+                                                                                    margin: EdgeInsets.symmetric(vertical: 4),
+                                                                                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                                                                                    style: NeumorphicStyle(depth: 1),
+                                                                                    child: Row(
+                                                                                      children: [
+                                                                                        Expanded(
+                                                                                          child: Row(
+                                                                                            children: [
+                                                                                              Neumorphic(
+                                                                                                style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                                                                child: Container(
+                                                                                                  width: 42,
+                                                                                                  height: 42,
+                                                                                                  child: FutureBuilder(
+                                                                                                      future: DioClient().getAsync("/order/detail/${obj["complaint_ref_id"]}"),
+                                                                                                      builder: (fBuilder, AsyncSnapshot<DioResponse> snapshotOrder) {
+                                                                                                        var store = snapshotOrder.requireData.results["data"]["store"];
+                                                                                                        return FutureBuilder(
+                                                                                                            future: getDataStore(storeId: store["store_id"]),
+                                                                                                            builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
+                                                                                                              var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
+                                                                                                              return CachedNetworkImage(
+                                                                                                                imageUrl: detailStore["storeImageUri"],
+                                                                                                                fit: BoxFit.cover,
+                                                                                                                placeholder: (context, url) => Center(
+                                                                                                                  child: SizedBox(
+                                                                                                                    width: 40.0,
+                                                                                                                    height: 40.0,
+                                                                                                                    child: new CircularProgressIndicator(
+                                                                                                                      color: Colors.orange,
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                                errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                                              );
+                                                                                                            });
+                                                                                                      }),
+                                                                                                ),
+                                                                                              ),
+                                                                                              Text(obj["complaint_desc"])
+                                                                                            ],
+                                                                                          ),
+                                                                                        ),
+                                                                                        InkWell(
+                                                                                          onTap: () {
+                                                                                            Navigator.push(
+                                                                                              context,
+                                                                                              MaterialPageRoute(
+                                                                                                builder: (context) => DetailPesanan(
+                                                                                                  orderId: obj["complaint_ref_id"],
+                                                                                                  complaintId: obj["complaint_id"],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ).then((Object? obj) {});
+                                                                                          },
+                                                                                          child: Icon(Icons.open_in_new),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  );
+                                                                                });
+                                                                          }),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          )),
+                                                        );
+                                                      });
+                                                },
+                                                child: Icon(
+                                                  Icons.open_in_full_rounded,
+                                                  color: Colors.white,
+                                                ),
                                               )
                                             ],
+                                          )
+                                        ],
+                                      )),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 1.w, vertical: 1.h),
+                                    child: StreamBuilder(
+                                        stream: complaintBroadCast.stream,
+                                        builder: (context,
+                                            AsyncSnapshot<dynamic> snapshot) {
+                                          // var res = checkComplaint();
+                                          // print(res['code']);
+                                          var complaintList = snapshot
+                                              .requireData["data"] as List;
+                                          return ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount:
+                                                  complaintList.length > 2
+                                                      ? 3
+                                                      : complaintList.length,
+                                              itemBuilder: (context, index) {
+                                                var obj = complaintList[index];
+                                                return Neumorphic(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 4),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2,
+                                                      horizontal: 2),
+                                                  style:
+                                                      NeumorphicStyle(depth: 1),
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            Neumorphic(
+                                                              style: NeumorphicStyle(
+                                                                  depth: -2,
+                                                                  boxShape:
+                                                                      NeumorphicBoxShape
+                                                                          .circle()),
+                                                              child: Container(
+                                                                width: 42,
+                                                                height: 42,
+                                                                child:
+                                                                    FutureBuilder(
+                                                                        future: DioClient().getAsync(
+                                                                            "/order/detail/${obj["complaint_ref_id"]}"),
+                                                                        builder:
+                                                                            (fBuilder,
+                                                                                AsyncSnapshot<DioResponse> snapshotOrder) {
+                                                                          var store = snapshotOrder
+                                                                              .requireData
+                                                                              .results["data"]["store"];
+                                                                          return FutureBuilder(
+                                                                              future: getDataStore(storeId: store["store_id"]),
+                                                                              builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
+                                                                                var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
+                                                                                return CachedNetworkImage(
+                                                                                  imageUrl: detailStore["storeImageUri"],
+                                                                                  fit: BoxFit.cover,
+                                                                                  placeholder: (context, url) => Center(
+                                                                                    child: SizedBox(
+                                                                                      width: 40.0,
+                                                                                      height: 40.0,
+                                                                                      child: new CircularProgressIndicator(
+                                                                                        color: Colors.orange,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                );
+                                                                              });
+                                                                        }),
+                                                              ),
+                                                            ),
+                                                            Text(obj[
+                                                                "complaint_desc"])
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DetailPesanan(
+                                                                      orderId: obj[
+                                                                          "complaint_ref_id"],
+                                                                      complaintId:
+                                                                          obj["complaint_id"]),
+                                                            ),
+                                                          ).then((Object?
+                                                              obj) async {
+                                                            complaintBroadCast
+                                                                .sink
+                                                                .add(
+                                                                    await checkComplaint());
+                                                          });
+                                                        },
+                                                        child: Icon(
+                                                            Icons.open_in_new),
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Neumorphic(
+                              style: NeumorphicStyle(
+                                  depth: 1, color: Colors.transparent),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      width: 100.w,
+                                      alignment: Alignment.topLeft,
+                                      color: Color(0xfff39200),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 1.w, vertical: 1.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Request Penarikan Dana",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                fontSize: 8.sp),
                                           ),
-                                        ),
-                                      );
-                                    })
-                                : isTab == "reqPayout"
-                                    ? ContainerHistoryRequestPayout()
-                                    : Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        ),
-                                      ),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () async {
+                                                  await getRequestPayout();
+                                                },
+                                                child: Icon(
+                                                  Icons.refresh,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  showMaterialModalBottomSheet(
+                                                      context: context,
+                                                      builder: (builder) {
+                                                        return Scaffold(
+                                                          body: SafeArea(
+                                                              child: Padding(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        10),
+                                                            child: Column(
+                                                              children: [
+                                                                Row(
+                                                                  children: [
+                                                                    InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            builder);
+                                                                      },
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .arrow_back_ios),
+                                                                    ),
+                                                                    Expanded(
+                                                                        child:
+                                                                            Center(
+                                                                      child: Text(
+                                                                          "Semua Toko Yang Terdaftar"),
+                                                                    ))
+                                                                  ],
+                                                                ),
+                                                                Expanded(
+                                                                    child: ListView.builder(
+                                                                        shrinkWrap: true,
+                                                                        physics: NeverScrollableScrollPhysics(),
+                                                                        itemCount: _responseFromApi.listAllStore.length,
+                                                                        itemBuilder: (context, index) {
+                                                                          var dataStore =
+                                                                              _responseFromApi.listAllStore[index];
+                                                                          // print(dataStore);
+
+                                                                          return NeumorphicButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              showMaterialModalBottomSheet(
+                                                                                  duration: Duration(milliseconds: 1400),
+                                                                                  animationCurve: Curves.easeInOut,
+                                                                                  enableDrag: true,
+                                                                                  backgroundColor: Colors.transparent,
+                                                                                  context: context,
+                                                                                  builder: (context) {
+                                                                                    return ShowDetailStore(idStore: dataStore.idStore);
+                                                                                  });
+                                                                            },
+                                                                            padding:
+                                                                                EdgeInsets.all(0),
+                                                                            margin:
+                                                                                EdgeInsets.symmetric(vertical: 1.2.h),
+                                                                            style:
+                                                                                NeumorphicStyle(
+                                                                              depth: 2,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            child:
+                                                                                Container(
+                                                                              decoration: BoxDecoration(
+                                                                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
+                                                                                  Color(0xfff39200).withOpacity(.2),
+                                                                                  Color(0xfff39200).withOpacity(.4)
+                                                                                ], stops: [
+                                                                                  .2,
+                                                                                  .7
+                                                                                ]),
+                                                                              ),
+                                                                              width: 100.w,
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.5.w),
+                                                                                    height: 10.w,
+                                                                                    width: 10.w,
+                                                                                    child: Neumorphic(
+                                                                                      style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                                                      child: CachedNetworkImage(
+                                                                                        imageUrl: dataStore.storeImageUri,
+                                                                                        fit: BoxFit.cover,
+                                                                                        placeholder: (context, url) => Center(
+                                                                                          child: SizedBox(
+                                                                                            width: 40.0,
+                                                                                            height: 40.0,
+                                                                                            child: new CircularProgressIndicator(
+                                                                                              color: Colors.orange,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      dataStore.storeName,
+                                                                                      style: TextStyle(
+                                                                                          fontSize: 10.sp,
+                                                                                          // fontWeight: FontWeight.semi,
+                                                                                          fontStyle: FontStyle.normal,
+                                                                                          fontFamily: 'ghotic',
+                                                                                          color: Colors.black87),
+                                                                                    ),
+                                                                                  ),
+                                                                                  // GestureDetector(
+                                                                                  //   onTap: () {},
+                                                                                  //   child: NeumorphicIcon(
+                                                                                  //     Icons.open_in_new,
+                                                                                  //     size: 7.5.w,
+                                                                                  //     style: NeumorphicStyle(
+                                                                                  //         color: Colors.black87, depth: 3),
+                                                                                  //   ),
+                                                                                  // ),
+                                                                                  SizedBox(
+                                                                                    width: 1.5.w,
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }))
+                                                              ],
+                                                            ),
+                                                          )),
+                                                        );
+                                                      });
+                                                },
+                                                child: Icon(
+                                                  Icons.open_in_full_rounded,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      )),
+                                  ContainerHistoryRequestPayout()
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -397,6 +1042,13 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  // var streamGetListComplaint = checkComplaint().;
+  dynamic checkComplaint() async {
+    var payload = {"is_open": "0"};
+    DioResponse res = await DioClient().postAsync("/complaint/list", payload);
+    return res.results;
   }
 
   FloatingActionBubble buildFloatingActionBubble() {
@@ -467,165 +1119,158 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   }
 
   Widget ContainerHistoryRequestPayout() {
-    return isLoadingGetRequestPayout
+    return listStoreHistoryDisbursement.length < 1
         ? Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue,
-            ),
+            child: Text('Tidak Memiliki Request Penarikan Dana'),
           )
-        : listStoreHistoryDisbursement.length < 1
-            ? Center(
-                child: Text('Tidak Memiliki Request Penarikan Dana'),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: listStoreHistoryDisbursement.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: 100.w,
-                    margin:
-                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
-                    child: Neumorphic(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.h, horizontal: 1.2.w),
-                      style: NeumorphicStyle(
-                          boxShape: NeumorphicBoxShape.rect(),
-                          color: Colors.deepOrangeAccent.withOpacity(.2),
-                          depth: 2,
-                          intensity: 1,
-                          surfaceIntensity: 1),
-                      child: Row(
-                        children: [
-                          // Container(
-                          //   width: 10.w,
-                          //   child: Image.asset(
-                          //     'assets/icon_bca.png',
-                          //     fit: BoxFit.fitWidth,
-                          //   ),
-                          // ),
-                          // Container(child: NeumorphicText,)
-                          // SizedBox(
-                          //   width: 2.w,
-                          // ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(listStoreHistoryDisbursement[index]['amount'] ?? 0)}',
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.sp),
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Text(
-                                  maskCardNumber(
-                                      "${listStoreHistoryDisbursement[index]['accountNumber']}",
-                                      '#'),
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.sp),
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Text(
-                                  'A/N: ${listStoreHistoryDisbursement[index]['accountHolderName']}',
-                                  style: TextStyle(
-                                      fontSize: 10.sp, letterSpacing: 1.sp),
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Text(
-                                  'Bank / E-wallet: (${listStoreHistoryDisbursement[index]['bankCode']})',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Text(
-                                  'Status: (${listStoreHistoryDisbursement[index]['status']})',
-                                  style: TextStyle(
-                                      fontSize: 10.sp, color: Colors.purple),
-                                )
-                              ],
+        : ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: listStoreHistoryDisbursement.length,
+            itemBuilder: (context, index) {
+              return Container(
+                width: 100.w,
+                margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                child: Neumorphic(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                  style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.rect(),
+                      color: Colors.deepOrangeAccent.withOpacity(.2),
+                      depth: 2,
+                      intensity: 1,
+                      surfaceIntensity: 1),
+                  child: Row(
+                    children: [
+                      // Container(
+                      //   width: 10.w,
+                      //   child: Image.asset(
+                      //     'assets/icon_bca.png',
+                      //     fit: BoxFit.fitWidth,
+                      //   ),
+                      // ),
+                      // Container(child: NeumorphicText,)
+                      // SizedBox(
+                      //   width: 2.w,
+                      // ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(listStoreHistoryDisbursement[index]['amount'] ?? 0)}',
+                              style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.sp),
                             ),
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: this.context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text(
-                                        'Apakah Anda Yakin Menyetujui Penarikan Dana?'),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(false),
-                                        child: const Text('No'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            isLoadingGetRequestPayout = true;
-                                          });
-                                          var idReqDisbursement =
-                                              listStoreHistoryDisbursement[
-                                                      index]['id'] ??
-                                                  -1;
-
-                                          if (await adminApproved(
-                                              idRequestDisbursement:
-                                                  idReqDisbursement)) {
-                                            getRequestPayout();
-                                            Navigator.of(context).pop(true);
-                                          }
-                                        },
-                                        child: const Text('Yes'),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  NeumorphicIcon(
-                                    Icons.check,
-                                    size: 7.5.w,
-                                    style: NeumorphicStyle(
-                                        color: Colors.green,
-                                        depth: 2,
-                                        intensity: 1,
-                                        surfaceIntensity: 1),
-                                  ),
-                                  Text(
-                                    'Setujui\nPermintaan',
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              )),
-                        ],
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              maskCardNumber(
+                                  "${listStoreHistoryDisbursement[index]['accountNumber']}",
+                                  '#'),
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.sp),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              'A/N: ${listStoreHistoryDisbursement[index]['accountHolderName']}',
+                              style: TextStyle(
+                                  fontSize: 10.sp, letterSpacing: 1.sp),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              'Bank / E-wallet: (${listStoreHistoryDisbursement[index]['bankCode']})',
+                              style: TextStyle(
+                                fontSize: 10.sp,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              'Status: (${listStoreHistoryDisbursement[index]['status']})',
+                              style: TextStyle(
+                                  fontSize: 10.sp, color: Colors.purple),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
+                      GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: this.context,
+                              builder: (context) => AlertDialog(
+                                title: const Text(
+                                    'Apakah Anda Yakin Menyetujui Penarikan Dana?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(false),
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        isLoadingGetRequestPayout = true;
+                                      });
+                                      var idReqDisbursement =
+                                          listStoreHistoryDisbursement[index]
+                                                  ['id'] ??
+                                              -1;
+
+                                      if (await adminApproved(
+                                          idRequestDisbursement:
+                                              idReqDisbursement)) {
+                                        getRequestPayout();
+                                        Navigator.of(context).pop(true);
+                                      }
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          child: Column(
+                            children: [
+                              NeumorphicIcon(
+                                Icons.check,
+                                size: 7.5.w,
+                                style: NeumorphicStyle(
+                                    color: Colors.green,
+                                    depth: 2,
+                                    intensity: 1,
+                                    surfaceIntensity: 1),
+                              ),
+                              Text(
+                                'Setujui\nPermintaan',
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          )),
+                    ],
+                  ),
+                ),
               );
+            },
+          );
   }
 
   Future<void> getFromApi() async {
     List<StoreAdminPage> localListAllStore = [];
     HomeAdmin localResponse = HomeAdmin();
     var getAllStore = await http.get(
-        Uri.parse('http://prod.rifias.live/api/admin/all/store'),
+        Uri.parse('http://demo.rifias.live/api/admin/all/store'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -635,7 +1280,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
       var bodyResponse = json.decode(getAllStore.body);
       if (bodyResponse['data'] != null) {
         localResponse = HomeAdmin.fromJson(bodyResponse['data']);
-        print(localResponse.totalStore);
+        // print(localResponse.totalStore);
       }
     }
 
@@ -643,6 +1288,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
       _responseFromApi = localResponse;
       isGetDataDone = true;
     });
+    complaintBroadCast.add(await checkComplaint());
   }
 
   Future<void> getRequestPayout() async {
@@ -661,6 +1307,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
             jsonDecode(getBankAccounts.body)['data'];
       }
     }
+
     listStoreHistoryDisbursement.clear();
     setState(() {
       isLoadingGetRequestPayout = false;
@@ -680,7 +1327,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
           'Authorization': 'Bearer ${await SecureStorage().getToken()}'
         });
     var result = false;
-    print('xnd:::: ${adminApprovedResponse.request}');
+    // print('xnd:::: ${adminApprovedResponse.request}');
     if (adminApprovedResponse.statusCode == 200) {
       if (jsonDecode(adminApprovedResponse.body)['data'] != null) {
         if (jsonDecode(adminApprovedResponse.body)['data']['isSukses']) {

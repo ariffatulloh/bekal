@@ -273,7 +273,7 @@ class HistoryTransaksiCustomer extends StatelessWidget {
                           "ORD04",
                           "ORD04A",
                           "ORD04B"
-                        ].contains(element["status"]["id"]) ? "Proses Penjemputan" : element["status"]["status_name"]} ",
+                        ].contains(element["status"]["id"]) ? "Proses Packing" : element["status"]["status_name"]} ",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'ghotic',

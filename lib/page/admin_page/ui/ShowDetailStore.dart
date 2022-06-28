@@ -529,7 +529,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
       listData = data;
     });
 
-    // [{productImage: http://prod.rifias.live/assets/img/thumbnail/product/2, productId: 2, totalQty: 1, totalMoney: 9000, productName: sepatu kulit}, {productImage: http://prod.rifias.live/assets/img/thumbnail/product/1, productId: 1, totalQty: 1, totalMoney: 9000, productName: ticket pegunungan cimande}], errorMessage: , errorData: null}
+    // [{productImage: http://demo.rifias.live/assets/img/thumbnail/product/2, productId: 2, totalQty: 1, totalMoney: 9000, productName: sepatu kulit}, {productImage: http://demo.rifias.live/assets/img/thumbnail/product/1, productId: 1, totalQty: 1, totalMoney: 9000, productName: ticket pegunungan cimande}], errorMessage: , errorData: null}
   }
 
   getbody() {

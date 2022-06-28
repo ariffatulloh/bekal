@@ -40,7 +40,7 @@ class DashboardStore extends StatefulWidget {
 }
 
 Future<http.Response> getDataStore({required int storeId}) async =>
-    http.get(Uri.parse('http://prod.rifias.live/api/view-outlet/$storeId'),
+    http.get(Uri.parse('http://demo.rifias.live/api/view-outlet/$storeId'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

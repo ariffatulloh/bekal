@@ -426,7 +426,7 @@ class _DetailOrderState extends State<DetailOrder> {
                     ),
                   ),
                 ),
-              if (status?["id"] == "ORD08")
+              if (status?["id"] == "ORD08A")
                 Center(
                   child: InkWell(
                     onTap: () {

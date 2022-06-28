@@ -44,7 +44,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
       ItemTabDaftarPesanan(
           icon: Icons.move_to_inbox, label: "Pesanan", value: "pesanan"),
       ItemTabDaftarPesanan(
-          icon: Icons.delivery_dining,
+          icon: Icons.shopping_bag_rounded,
           label: "Penjemputan",
           value: "penjemputan"),
       ItemTabDaftarPesanan(

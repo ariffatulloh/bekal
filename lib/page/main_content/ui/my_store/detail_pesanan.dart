@@ -19,7 +19,11 @@ import 'package:sizer/sizer.dart';
 
 class DetailPesanan extends StatefulWidget {
   final String orderId;
-  const DetailPesanan({Key? key, required this.orderId}) : super(key: key);
+  // final bool _adminCheck = adminCheck??false;
+
+  int? complaintId = -1;
+  DetailPesanan({Key? key, required this.orderId, this.complaintId})
+      : super(key: key);
 
   @override
   _DetailPesananState createState() => _DetailPesananState();
@@ -73,24 +77,109 @@ class _DetailPesananState extends State<DetailPesanan> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 4.w),
-                  padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.w),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      left: BorderSide(
-                        color: Colors.black26,
-                        width: 1.5.w,
+                    margin: EdgeInsets.symmetric(vertical: 4.w),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.w),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Colors.black26,
+                          width: 1.5.w,
+                        ),
                       ),
                     ),
-                  ),
-                  child: Text(
-                    status?["status_name"] ?? "",
-                    style: TextStyle(
-                        fontFamily: 'ghotic',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          status?["status_name"] ?? "",
+                          style: TextStyle(
+                              fontFamily: 'ghotic',
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        if (widget.complaintId == null ? false : true)
+                          NeumorphicButton(
+                            onPressed: () {
+                              showMaterialModalBottomSheet(
+                                  context: context,
+                                  builder: (modalBuilder) {
+                                    return SafeArea(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          NeumorphicButton(
+                                            onPressed: () async {
+                                              var payload = {
+                                                "is_open": 1,
+                                                "complaint_id":
+                                                    widget.complaintId,
+                                              };
+
+                                              try {
+                                                DioResponse res =
+                                                    await _dio.postAsync(
+                                                        "/complaint/create",
+                                                        payload);
+                                                print(res.results);
+                                                print(payload);
+                                                if (res.results["code"] ==
+                                                    200) {
+                                                  print(res.results);
+                                                  var payload = {
+                                                    "order_id": widget.orderId,
+                                                    "status": "ORD09",
+                                                  };
+
+                                                  try {
+                                                    DioResponse res =
+                                                        await _dio.postAsync(
+                                                            "/order/action",
+                                                            payload);
+                                                    if (res.results["code"] ==
+                                                        200) {
+                                                      Toaster(modalBuilder)
+                                                          .showSuccessToast(
+                                                              "Status Telah Diubah",
+                                                              gravity:
+                                                                  ToastGravity
+                                                                      .CENTER);
+
+                                                      Navigator.of(modalBuilder)
+                                                          .pop();
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    }
+                                                  } catch (e) {
+                                                    print(e);
+
+                                                    // setState(() {
+                                                    //   isGettingData = false;
+                                                    // });
+                                                  }
+                                                }
+                                              } catch (e) {
+                                                print(e);
+                                              }
+                                            },
+                                            style: NeumorphicStyle(
+                                                color: Colors.white),
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              width: 100.w,
+                                              child: Text("Pesanan Selesai"),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                            },
+                            style: NeumorphicStyle(color: Colors.green),
+                            child: Text("Ubah"),
+                          )
+                      ],
+                    )),
                 Container(
                   height: 1,
                   decoration: BoxDecoration(color: Colors.black12),
@@ -238,33 +327,39 @@ class _DetailPesananState extends State<DetailPesanan> {
                             SizedBox(height: 1.h),
                             Row(
                               mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Expanded(
                                   child: TextInput(
                                       hintText: noresi,
                                       value: noresi,
-                                      enabled: false,
+                                      enabled: true,
                                       keyboardType: TextInputType.text,
                                       borderRadius: 5.0,
                                       onChanged: (v) {
-                                        // setState(() {
-                                        //   noresi = v ?? "";
-                                        // });
+                                        setState(() {
+                                          noresi = v ?? "";
+                                        });
                                       }),
                                 ),
                                 SizedBox(width: 2.w),
                                 Visibility(
                                   visible:
-                                      order?["delivery_pickup_code"] == null,
+                                      //     // order?["delivery_pickup_code"] == null ||
+                                      //     [
+                                      //   "ORD08A",
+                                      // ].contains(order?["status"]["id"]),
+                                      !["ORD08A", "ORD09", "ORD05"]
+                                          .contains(order?["status"]["id"]),
                                   child: InkWell(
                                     onTap: () async {
-                                      if (noresi == "") {
+                                      if (noresi == "" || noresi.isEmpty) {
                                         Toaster(context).showErrorToast(
                                             "Nomor Resi tidak boleh kosong",
                                             gravity: ToastGravity.CENTER);
                                       } else {
-                                        // _updateResi();
-                                        _reqPenjemputan(noresi);
+                                        _updateResi();
+                                        // _reqPenjemputan(noresi);
                                       }
                                     },
                                     child: Container(
@@ -282,7 +377,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Req. Penjemputan",
+                                            [
+                                              "ORD08A",
+                                            ].contains(order?["status"]["id"])
+                                                ? "Ubah No.Resi"
+                                                : "Kirimkan No.Resi",
                                             style: TextStyle(
                                                 fontFamily: 'ghotic',
                                                 fontSize: 10.sp,
@@ -437,6 +536,98 @@ class _DetailPesananState extends State<DetailPesanan> {
                   ),
                 ),
                 SizedBox(height: 4.h),
+                if (status?["id"] == "ORD08A" &&
+                    DateTime.now()
+                            .difference(DateTime.parse(order?["updatedAt"]))
+                            .inDays >
+                        2)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          showMaterialModalBottomSheet(
+                            context: context,
+                            builder: (ctx) {
+                              return SafeArea(
+                                top: true,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    NeumorphicButton(
+                                      onPressed: () async {
+                                        var payload = {
+                                          "is_open": 0,
+                                          "complaint_group": "RESI_COMPLAINT",
+                                          "complaint_ref_id":
+                                              "${widget.orderId}",
+                                          "complaint_desc":
+                                              "Permintaan Pengecekan RESI"
+                                        };
+
+                                        try {
+                                          DioResponse res =
+                                              await _dio.postAsync(
+                                                  "/complaint/create", payload);
+                                          print(res.results);
+                                          print(payload);
+                                          if (res.results["code"] == 200) {
+                                            print(res.results);
+                                            Toaster(ctx).showSuccessToast(
+                                                "Bantuan Telah terkirim",
+                                                gravity: ToastGravity.CENTER);
+
+                                            Navigator.of(ctx).pop();
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      },
+                                      padding: EdgeInsets.all(10),
+                                      style: NeumorphicStyle(
+                                        color: Colors.white,
+                                        boxShape: NeumorphicBoxShape.rect(),
+                                      ),
+                                      child: Container(
+                                        width: 100.w,
+                                        child: Text("Periksa No.Resi"),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          width: 40.w,
+                          height: 5.h,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.red,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Bantuan Admin",
+                                style: TextStyle(
+                                    fontFamily: 'ghotic',
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 3.w),
+                    ],
+                  ),
                 if (status?["id"] == "ORD03")
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -684,7 +875,7 @@ class _DetailPesananState extends State<DetailPesanan> {
 
     var payload = {
       "order_id": widget.orderId,
-      "status": "ORD08",
+      "status": "ORD08A",
       "delivery_no": noresi,
       "reason": ""
     };
@@ -1175,7 +1366,7 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                           child: Row(
                             children: [
                               Icon(
-                                Icons.delivery_dining,
+                                Icons.shopping_bag_rounded,
                                 color: Colors.white,
                               ),
                               SizedBox(
