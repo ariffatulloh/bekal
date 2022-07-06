@@ -115,6 +115,7 @@ PODS:
 
 DEPENDENCIES:
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - Firebase/Messaging
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
@@ -214,6 +215,6 @@ SPEC CHECKSUMS:
   sqlite3_flutter_libs: 92ed62fa0dcbfe2e37d5e2b60d00820672b71ffb
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
-PODFILE CHECKSUM: ef053caf112ad8d141bdf8371e89b43307ce33e6
+PODFILE CHECKSUM: ba3c1c7568313ff9de1ab4c5e8659f0264b70687
 
 COCOAPODS: 1.11.3

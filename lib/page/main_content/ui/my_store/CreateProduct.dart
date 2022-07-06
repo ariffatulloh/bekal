@@ -1352,12 +1352,11 @@ class CreateProductState extends State<CreateProduct> {
 
   _imgFromCamera(
       {bool isThumbnail = false, bool isGalleryImmage = false}) async {
-    XFile? image = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 50);
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     double sizeInMb = await image!.length() / (1024 * 1024);
     print(sizeInMb);
     if (image != null) {
-      if (sizeInMb > 10) {
+      if (sizeInMb > .5) {
         imageOverSize = "Pastikan file kurang dari 2Mb";
         Toaster(context)
             .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
@@ -1389,7 +1388,7 @@ class CreateProductState extends State<CreateProduct> {
       ImagePicker().pickImage(source: ImageSource.gallery).then((xFile) async {
         if (xFile != null) {
           double sizeInMb = await xFile.length() / (1024 * 1024);
-          if (sizeInMb > 10) {
+          if (sizeInMb > .5) {
             imageOverSize = "Pastikan file kurang dari 2Mb";
             Toaster(context)
                 .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
@@ -1412,7 +1411,7 @@ class CreateProductState extends State<CreateProduct> {
       if (image != null) {
         Future.forEach(image, (XFile element) async {
           double sizeInMb = await element.length() / (1024 * 1024);
-          if (sizeInMb > 10) {
+          if (sizeInMb > .5) {
             imageOverSize = "Pastikan file kurang dari 2Mb";
             Toaster(context)
                 .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);

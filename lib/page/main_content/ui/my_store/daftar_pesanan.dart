@@ -540,8 +540,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     // print(
     //     '${(progressValue) / listDataTransaksiToxlsx.length}==${progressValue}');
 
-    await OpenFile.open(await DirectoryPath().saveDoc(documents: ex))
-        .then((value) => null);
+    await OpenFile.open(await DirectoryPath().saveDoc(documents: ex));
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));

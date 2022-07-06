@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:bekal/database/db_locator.dart';
 import 'package:bekal/firebase/FireBasePlugin.dart';
@@ -14,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:permission_handler/permission_handler.dart';
 // String token = "";
 
 int? idUser = -1;
@@ -88,21 +86,6 @@ Future<void> main() async {
     }
   });
   // await FirebaseMessaging.instance.subscribeToTopic();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging.onMessage.listen((event) {
-    // print('Handling a forground message ${event.data}');
-    snapshotListChat.sink.add(event.hashCode);
-    var decodeJsonEvent = jsonDecode(event.data["data"]);
-    print(decodeJsonEvent);
-    LocalNotificationPlugin().showNotif(
-        id: event.messageId.hashCode,
-        title: decodeJsonEvent["chatFrom"]["userOrStore"] == "user"
-            ? "onForground Dari : ${decodeJsonEvent["chatFrom"]["fullName"]}"
-            : "onForground Dari Toko : ${decodeJsonEvent["chatFrom"]["fullName"]}",
-        message: decodeJsonEvent["lastChat"],
-        payload: event.data.toString());
-  });
-
   if (!kIsWeb) {
     channel = const AndroidNotificationChannel(
       'high_importance_channel', // id
@@ -111,20 +94,36 @@ Future<void> main() async {
       importance: Importance.high,
     );
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    //
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(channel);
   }
+  FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  FirebaseMessaging.instance.getAPNSToken().then((value) => print(value));
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((event) {
+    print(event);
+    // print('Handling a forground message ${event.data}');
+    snapshotListChat.sink.add(event.hashCode);
+    print(event.data["data"]);
+    var decodeJsonEvent = jsonDecode(event.data["data"]);
+    print(decodeJsonEvent);
+
+    LocalNotificationPlugin().showNotif(
+        id: event.messageId.hashCode,
+        title: decodeJsonEvent["chatFrom"]["userOrStore"] == "user"
+            ? "onForground Dari : ${decodeJsonEvent["chatFrom"]["fullName"]}"
+            : "onForground Dari Toko : ${decodeJsonEvent["chatFrom"]["fullName"]}",
+        message: decodeJsonEvent["lastChat"],
+        payload: event.data.toString());
+  });
 
   if (await askPermission()) {
     BlocOverrides.runZoned(
@@ -135,33 +134,18 @@ Future<void> main() async {
 }
 
 Future<bool> askPermission() async {
-  var status = await Permission.storage.status;
-  var statusManage = await Permission.manageExternalStorage.status;
-  if (!status.isGranted) {
-    print('notsave');
-    await Permission.storage.request();
-  }
-
-  if (!statusManage.isGranted) {
-    print('notsave');
-    await Permission.manageExternalStorage.request();
-  }
-  if (Platform.isIOS) {
-    var getPermissionPhotos = await Permission.photos.request();
-    var getPermissionCamera = await Permission.camera.request();
-    if (await getPermissionCamera.isPermanentlyDenied ||
-        await getPermissionPhotos.isPermanentlyDenied) {
-      await openAppSettings();
-    }
-    if (await getPermissionPhotos.isGranted &&
-        await getPermissionCamera.isGranted) {
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return true;
-  }
+  // var status = await Permission.storage.status;
+  // var statusManage = await Permission.manageExternalStorage.status;
+  // if (!status.isGranted) {
+  //   print('notsave');
+  //   await Permission.storage.request();
+  // }
+  //
+  // if (!statusManage.isGranted) {
+  //   print('notsave');
+  //   await Permission.manageExternalStorage.request();
+  // }
+  return true;
 }
 
 /// Custom [BlocObserver] that observes all bloc and cubit state changes.

@@ -10,10 +10,12 @@ import 'package:bekal/payload/response/PayloadResponseProfile.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 
 // class DialogUbahDataPribadi extends StatelessWidget {
@@ -82,6 +84,40 @@ class _FormDataPribadi extends State<FormDataPribadi> {
   void initState() {
     getFromApi();
     super.initState();
+  }
+
+  askPermissionCamera() async {
+    if (!kIsWeb) {
+      var getPermissionCamera = await Permission.camera.request();
+      if (await Permission.camera.isGranted) {
+        return true;
+      } else {
+        if (await getPermissionCamera.isPermanentlyDenied) {
+          await openAppSettings();
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+  }
+
+  askPermissionGallery() async {
+    if (!kIsWeb) {
+      var getPermissionFoto = await Permission.photos.request();
+      if (await Permission.photos.isGranted) {
+        return true;
+      } else {
+        if (await getPermissionFoto.isPermanentlyDenied) {
+          await openAppSettings();
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
   }
 
   StreamController<bool> loadData = StreamController<bool>();
