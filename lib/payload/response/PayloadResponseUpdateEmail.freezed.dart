@@ -12,30 +12,12 @@ part of 'PayloadResponseUpdateEmail.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseUpdateEmail _$PayloadResponseUpdateEmailFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseUpdateEmail.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseUpdateEmailTearOff {
-  const _$PayloadResponseUpdateEmailTearOff();
-
-  _PayloadResponseUpdateEmail call({required String message}) {
-    return _PayloadResponseUpdateEmail(
-      message: message,
-    );
-  }
-
-  PayloadResponseUpdateEmail fromJson(Map<String, Object?> json) {
-    return PayloadResponseUpdateEmail.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseUpdateEmail = _$PayloadResponseUpdateEmailTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseUpdateEmail {
@@ -78,33 +60,34 @@ class _$PayloadResponseUpdateEmailCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseUpdateEmailCopyWith<$Res>
+abstract class _$$_PayloadResponseUpdateEmailCopyWith<$Res>
     implements $PayloadResponseUpdateEmailCopyWith<$Res> {
-  factory _$PayloadResponseUpdateEmailCopyWith(
-          _PayloadResponseUpdateEmail value,
-          $Res Function(_PayloadResponseUpdateEmail) then) =
-      __$PayloadResponseUpdateEmailCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseUpdateEmailCopyWith(
+          _$_PayloadResponseUpdateEmail value,
+          $Res Function(_$_PayloadResponseUpdateEmail) then) =
+      __$$_PayloadResponseUpdateEmailCopyWithImpl<$Res>;
   @override
   $Res call({String message});
 }
 
 /// @nodoc
-class __$PayloadResponseUpdateEmailCopyWithImpl<$Res>
+class __$$_PayloadResponseUpdateEmailCopyWithImpl<$Res>
     extends _$PayloadResponseUpdateEmailCopyWithImpl<$Res>
-    implements _$PayloadResponseUpdateEmailCopyWith<$Res> {
-  __$PayloadResponseUpdateEmailCopyWithImpl(_PayloadResponseUpdateEmail _value,
-      $Res Function(_PayloadResponseUpdateEmail) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseUpdateEmail));
+    implements _$$_PayloadResponseUpdateEmailCopyWith<$Res> {
+  __$$_PayloadResponseUpdateEmailCopyWithImpl(
+      _$_PayloadResponseUpdateEmail _value,
+      $Res Function(_$_PayloadResponseUpdateEmail) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseUpdateEmail));
 
   @override
-  _PayloadResponseUpdateEmail get _value =>
-      super._value as _PayloadResponseUpdateEmail;
+  _$_PayloadResponseUpdateEmail get _value =>
+      super._value as _$_PayloadResponseUpdateEmail;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(_PayloadResponseUpdateEmail(
+    return _then(_$_PayloadResponseUpdateEmail(
       message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -133,19 +116,20 @@ class _$_PayloadResponseUpdateEmail implements _PayloadResponseUpdateEmail {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseUpdateEmail &&
+            other is _$_PayloadResponseUpdateEmail &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseUpdateEmailCopyWith<_PayloadResponseUpdateEmail>
-      get copyWith => __$PayloadResponseUpdateEmailCopyWithImpl<
-          _PayloadResponseUpdateEmail>(this, _$identity);
+  _$$_PayloadResponseUpdateEmailCopyWith<_$_PayloadResponseUpdateEmail>
+      get copyWith => __$$_PayloadResponseUpdateEmailCopyWithImpl<
+          _$_PayloadResponseUpdateEmail>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -155,16 +139,16 @@ class _$_PayloadResponseUpdateEmail implements _PayloadResponseUpdateEmail {
 
 abstract class _PayloadResponseUpdateEmail
     implements PayloadResponseUpdateEmail {
-  const factory _PayloadResponseUpdateEmail({required String message}) =
+  const factory _PayloadResponseUpdateEmail({required final String message}) =
       _$_PayloadResponseUpdateEmail;
 
   factory _PayloadResponseUpdateEmail.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseUpdateEmail.fromJson;
 
   @override
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseUpdateEmailCopyWith<_PayloadResponseUpdateEmail>
+  _$$_PayloadResponseUpdateEmailCopyWith<_$_PayloadResponseUpdateEmail>
       get copyWith => throw _privateConstructorUsedError;
 }

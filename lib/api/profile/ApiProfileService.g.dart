@@ -10,7 +10,7 @@ part of 'ApiProfileService.dart';
 
 class _ApiProfileService implements ApiProfileService {
   _ApiProfileService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://demo.rifias.live/api/my/';
+    baseUrl ??= 'https://api.belanjakalimantanutara.com/api/my/';
   }
 
   final Dio _dio;
@@ -115,23 +115,13 @@ class _ApiProfileService implements ApiProfileService {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
-    // final _data = FormData();
     final _data = <String, dynamic>{};
-    final _dataFile = FormData();
-    if (file != null) {
-      _dataFile.files.add(MapEntry(
-          'file',
-          MultipartFile.fromFileSync(file.path,
-              filename: file.path.split(Platform.pathSeparator).last)));
-      // _data.addEntries(_dataFile.files);
-    }
-    _dataFile.fields.add(MapEntry(
-        'json', jsonEncode(payloadRequestUpdatePersonalInformation.toJson())));
+    _data.addAll(payloadRequestUpdatePersonalInformation.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
             PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
         Options(method: 'POST', headers: _headers, extra: _extra)
             .compose(_dio.options, 'profile/update/datapribadi',
-                queryParameters: queryParameters, data: _dataFile)
+                queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value =
         PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
@@ -141,31 +131,6 @@ class _ApiProfileService implements ApiProfileService {
     );
     return value;
   }
-  // @override
-  // Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
-  //     updatePersonalInformation(
-  //         authorization, file, payloadRequestUpdatePersonalInformation) async {
-  //   const _extra = <String, dynamic>{};
-  //   final queryParameters = <String, dynamic>{};
-  //   queryParameters.removeWhere((k, v) => v == null);
-  //   final _headers = <String, dynamic>{r'Authorization': authorization};
-  //   _headers.removeWhere((k, v) => v == null);
-  //   final _data = <String, dynamic>{};
-  //   _data.addAll(payloadRequestUpdatePersonalInformation.toJson());
-  //   final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
-  //           PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
-  //       Options(method: 'POST', headers: _headers, extra: _extra)
-  //           .compose(_dio.options, 'profile/update/datapribadi',
-  //               queryParameters: queryParameters, data: _data)
-  //           .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-  //   final value =
-  //       PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
-  //     _result.data!,
-  //     (json) => PayloadResponseUpdatePersonalInformation.fromJson(
-  //         json as Map<String, dynamic>),
-  //   );
-  //   return value;
-  // }
 
   @override
   Future<PayloadResponseApi<PayloadResponseUpdateEmail?>> updateEmail(
@@ -228,12 +193,10 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (file != null) {
-      _data.files.add(MapEntry(
-          'file',
-          MultipartFile.fromFileSync(file.path,
-              filename: file.path.split(Platform.pathSeparator).last)));
-    }
+    _data.files.add(MapEntry(
+        'file',
+        MultipartFile.fromFileSync(file!.path,
+            filename: file.path.split(Platform.pathSeparator).last)));
     _data.fields.add(MapEntry('nameStore', nameStore));
     _data.fields.add(MapEntry('addressStore', addressStore));
     _data.fields.add(MapEntry('phoneNumber', phoneNumber));
@@ -270,12 +233,10 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (imgThumbnail != null) {
-      _data.files.add(MapEntry(
-          'imgThumbnail',
-          MultipartFile.fromFileSync(imgThumbnail.path,
-              filename: imgThumbnail.path.split(Platform.pathSeparator).last)));
-    }
+    _data.files.add(MapEntry(
+        'imgThumbnail',
+        MultipartFile.fromFileSync(imgThumbnail!.path,
+            filename: imgThumbnail.path.split(Platform.pathSeparator).last)));
     if (files != null) {
       _data.files.addAll(files.map((i) => MapEntry(
           'files',
@@ -421,12 +382,10 @@ class _ApiProfileService implements ApiProfileService {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
-    if (file != null) {
-      _data.files.add(MapEntry(
-          'file',
-          MultipartFile.fromFileSync(file.path,
-              filename: file.path.split(Platform.pathSeparator).last)));
-    }
+    _data.files.add(MapEntry(
+        'file',
+        MultipartFile.fromFileSync(file!.path,
+            filename: file.path.split(Platform.pathSeparator).last)));
     _data.fields.add(MapEntry('nameStore', nameStore));
     _data.fields.add(MapEntry('addressStore', addressStore));
     _data.fields.add(MapEntry('phoneNumber', phoneNumber));

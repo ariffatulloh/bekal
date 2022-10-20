@@ -1,12 +1,10 @@
 {
     "code": 200,
     "status": "OK",
-    "data": [
-        {
+    "data": [{
             "store_id": 17,
             "store_name": "Toko ABC",
-            "item": [
-                {
+            "item": [{
                     "cart_id": 2,
                     "cart_qty": 2,
                     "store_id": 17,
@@ -16,7 +14,7 @@
                         "stockProduct": "",
                         "priceProduct": "122",
                         "deskripsiProduct": "122",
-                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/1",
+                        "uriThumbnail": "https://api.belanjakalimantanutara.com/assets/img/thumbnail/product/1",
                         "heightProduct": 1,
                         "weightProduct": 1,
                         "widthProduct": 1,
@@ -34,7 +32,7 @@
                         "stockProduct": "",
                         "priceProduct": "122",
                         "deskripsiProduct": "122",
-                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/2",
+                        "uriThumbnail": "https://api.belanjakalimantanutara.com/assets/img/thumbnail/product/2",
                         "heightProduct": 1,
                         "weightProduct": 1,
                         "widthProduct": 1,
@@ -47,8 +45,7 @@
         {
             "store_id": 18,
             "store_name": "Toko JKL",
-            "item": [
-                {
+            "item": [{
                     "cart_id": 4,
                     "cart_qty": 1,
                     "store_id": 18,
@@ -58,7 +55,7 @@
                         "stockProduct": "",
                         "priceProduct": "88666",
                         "deskripsiProduct": "xfghhhh",
-                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/6",
+                        "uriThumbnail": "https://api.belanjakalimantanutara.com/assets/img/thumbnail/product/6",
                         "heightProduct": 1,
                         "weightProduct": 1,
                         "widthProduct": 1,
@@ -76,7 +73,7 @@
                         "stockProduct": "",
                         "priceProduct": "120000",
                         "deskripsiProduct": "baju batik baru nihh",
-                        "uriThumbnail": "http://rifias.live/assets/img/thumbnail/product/7",
+                        "uriThumbnail": "https://api.belanjakalimantanutara.com/assets/img/thumbnail/product/7",
                         "heightProduct": 1,
                         "weightProduct": 1,
                         "widthProduct": 1,

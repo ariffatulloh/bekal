@@ -12,30 +12,12 @@ part of 'PayloadResponseRegister.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseRegister _$PayloadResponseRegisterFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseRegister.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseRegisterTearOff {
-  const _$PayloadResponseRegisterTearOff();
-
-  _PayloadResponseRegister call({required bool registrationSukses}) {
-    return _PayloadResponseRegister(
-      registrationSukses: registrationSukses,
-    );
-  }
-
-  PayloadResponseRegister fromJson(Map<String, Object?> json) {
-    return PayloadResponseRegister.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseRegister = _$PayloadResponseRegisterTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseRegister {
@@ -78,32 +60,32 @@ class _$PayloadResponseRegisterCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseRegisterCopyWith<$Res>
+abstract class _$$_PayloadResponseRegisterCopyWith<$Res>
     implements $PayloadResponseRegisterCopyWith<$Res> {
-  factory _$PayloadResponseRegisterCopyWith(_PayloadResponseRegister value,
-          $Res Function(_PayloadResponseRegister) then) =
-      __$PayloadResponseRegisterCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseRegisterCopyWith(_$_PayloadResponseRegister value,
+          $Res Function(_$_PayloadResponseRegister) then) =
+      __$$_PayloadResponseRegisterCopyWithImpl<$Res>;
   @override
   $Res call({bool registrationSukses});
 }
 
 /// @nodoc
-class __$PayloadResponseRegisterCopyWithImpl<$Res>
+class __$$_PayloadResponseRegisterCopyWithImpl<$Res>
     extends _$PayloadResponseRegisterCopyWithImpl<$Res>
-    implements _$PayloadResponseRegisterCopyWith<$Res> {
-  __$PayloadResponseRegisterCopyWithImpl(_PayloadResponseRegister _value,
-      $Res Function(_PayloadResponseRegister) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseRegister));
+    implements _$$_PayloadResponseRegisterCopyWith<$Res> {
+  __$$_PayloadResponseRegisterCopyWithImpl(_$_PayloadResponseRegister _value,
+      $Res Function(_$_PayloadResponseRegister) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseRegister));
 
   @override
-  _PayloadResponseRegister get _value =>
-      super._value as _PayloadResponseRegister;
+  _$_PayloadResponseRegister get _value =>
+      super._value as _$_PayloadResponseRegister;
 
   @override
   $Res call({
     Object? registrationSukses = freezed,
   }) {
-    return _then(_PayloadResponseRegister(
+    return _then(_$_PayloadResponseRegister(
       registrationSukses: registrationSukses == freezed
           ? _value.registrationSukses
           : registrationSukses // ignore: cast_nullable_to_non_nullable
@@ -132,20 +114,22 @@ class _$_PayloadResponseRegister implements _PayloadResponseRegister {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseRegister &&
+            other is _$_PayloadResponseRegister &&
             const DeepCollectionEquality()
                 .equals(other.registrationSukses, registrationSukses));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(registrationSukses));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseRegisterCopyWith<_PayloadResponseRegister> get copyWith =>
-      __$PayloadResponseRegisterCopyWithImpl<_PayloadResponseRegister>(
-          this, _$identity);
+  _$$_PayloadResponseRegisterCopyWith<_$_PayloadResponseRegister>
+      get copyWith =>
+          __$$_PayloadResponseRegisterCopyWithImpl<_$_PayloadResponseRegister>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -154,16 +138,16 @@ class _$_PayloadResponseRegister implements _PayloadResponseRegister {
 }
 
 abstract class _PayloadResponseRegister implements PayloadResponseRegister {
-  const factory _PayloadResponseRegister({required bool registrationSukses}) =
-      _$_PayloadResponseRegister;
+  const factory _PayloadResponseRegister(
+      {required final bool registrationSukses}) = _$_PayloadResponseRegister;
 
   factory _PayloadResponseRegister.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseRegister.fromJson;
 
   @override
-  bool get registrationSukses;
+  bool get registrationSukses => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseRegisterCopyWith<_PayloadResponseRegister> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_PayloadResponseRegisterCopyWith<_$_PayloadResponseRegister>
+      get copyWith => throw _privateConstructorUsedError;
 }

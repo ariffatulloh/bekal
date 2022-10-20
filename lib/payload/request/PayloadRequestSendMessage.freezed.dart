@@ -12,33 +12,12 @@ part of 'PayloadRequestSendMessage.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadRequestSendMessage _$PayloadRequestSendMessageFromJson(
     Map<String, dynamic> json) {
   return _PayloadRequestSendMessage.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadRequestSendMessageTearOff {
-  const _$PayloadRequestSendMessageTearOff();
-
-  _PayloadRequestSendMessage call(
-      {String? message, int? toUser, int? toStore}) {
-    return _PayloadRequestSendMessage(
-      message: message,
-      toUser: toUser,
-      toStore: toStore,
-    );
-  }
-
-  PayloadRequestSendMessage fromJson(Map<String, Object?> json) {
-    return PayloadRequestSendMessage.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadRequestSendMessage = _$PayloadRequestSendMessageTearOff();
 
 /// @nodoc
 mixin _$PayloadRequestSendMessage {
@@ -93,26 +72,28 @@ class _$PayloadRequestSendMessageCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadRequestSendMessageCopyWith<$Res>
+abstract class _$$_PayloadRequestSendMessageCopyWith<$Res>
     implements $PayloadRequestSendMessageCopyWith<$Res> {
-  factory _$PayloadRequestSendMessageCopyWith(_PayloadRequestSendMessage value,
-          $Res Function(_PayloadRequestSendMessage) then) =
-      __$PayloadRequestSendMessageCopyWithImpl<$Res>;
+  factory _$$_PayloadRequestSendMessageCopyWith(
+          _$_PayloadRequestSendMessage value,
+          $Res Function(_$_PayloadRequestSendMessage) then) =
+      __$$_PayloadRequestSendMessageCopyWithImpl<$Res>;
   @override
   $Res call({String? message, int? toUser, int? toStore});
 }
 
 /// @nodoc
-class __$PayloadRequestSendMessageCopyWithImpl<$Res>
+class __$$_PayloadRequestSendMessageCopyWithImpl<$Res>
     extends _$PayloadRequestSendMessageCopyWithImpl<$Res>
-    implements _$PayloadRequestSendMessageCopyWith<$Res> {
-  __$PayloadRequestSendMessageCopyWithImpl(_PayloadRequestSendMessage _value,
-      $Res Function(_PayloadRequestSendMessage) _then)
-      : super(_value, (v) => _then(v as _PayloadRequestSendMessage));
+    implements _$$_PayloadRequestSendMessageCopyWith<$Res> {
+  __$$_PayloadRequestSendMessageCopyWithImpl(
+      _$_PayloadRequestSendMessage _value,
+      $Res Function(_$_PayloadRequestSendMessage) _then)
+      : super(_value, (v) => _then(v as _$_PayloadRequestSendMessage));
 
   @override
-  _PayloadRequestSendMessage get _value =>
-      super._value as _PayloadRequestSendMessage;
+  _$_PayloadRequestSendMessage get _value =>
+      super._value as _$_PayloadRequestSendMessage;
 
   @override
   $Res call({
@@ -120,7 +101,7 @@ class __$PayloadRequestSendMessageCopyWithImpl<$Res>
     Object? toUser = freezed,
     Object? toStore = freezed,
   }) {
-    return _then(_PayloadRequestSendMessage(
+    return _then(_$_PayloadRequestSendMessage(
       message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -161,12 +142,13 @@ class _$_PayloadRequestSendMessage implements _PayloadRequestSendMessage {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadRequestSendMessage &&
+            other is _$_PayloadRequestSendMessage &&
             const DeepCollectionEquality().equals(other.message, message) &&
             const DeepCollectionEquality().equals(other.toUser, toUser) &&
             const DeepCollectionEquality().equals(other.toStore, toStore));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -176,10 +158,9 @@ class _$_PayloadRequestSendMessage implements _PayloadRequestSendMessage {
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadRequestSendMessageCopyWith<_PayloadRequestSendMessage>
-      get copyWith =>
-          __$PayloadRequestSendMessageCopyWithImpl<_PayloadRequestSendMessage>(
-              this, _$identity);
+  _$$_PayloadRequestSendMessageCopyWith<_$_PayloadRequestSendMessage>
+      get copyWith => __$$_PayloadRequestSendMessageCopyWithImpl<
+          _$_PayloadRequestSendMessage>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -189,21 +170,21 @@ class _$_PayloadRequestSendMessage implements _PayloadRequestSendMessage {
 
 abstract class _PayloadRequestSendMessage implements PayloadRequestSendMessage {
   const factory _PayloadRequestSendMessage(
-      {String? message,
-      int? toUser,
-      int? toStore}) = _$_PayloadRequestSendMessage;
+      {final String? message,
+      final int? toUser,
+      final int? toStore}) = _$_PayloadRequestSendMessage;
 
   factory _PayloadRequestSendMessage.fromJson(Map<String, dynamic> json) =
       _$_PayloadRequestSendMessage.fromJson;
 
   @override
-  String? get message;
+  String? get message => throw _privateConstructorUsedError;
   @override
-  int? get toUser;
+  int? get toUser => throw _privateConstructorUsedError;
   @override
-  int? get toStore;
+  int? get toStore => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadRequestSendMessageCopyWith<_PayloadRequestSendMessage>
+  _$$_PayloadRequestSendMessageCopyWith<_$_PayloadRequestSendMessage>
       get copyWith => throw _privateConstructorUsedError;
 }

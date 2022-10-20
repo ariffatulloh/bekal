@@ -12,47 +12,12 @@ part of 'PayloadResponseStoreProduct.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseStoreProduct _$PayloadResponseStoreProductFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseStoreProduct.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseStoreProductTearOff {
-  const _$PayloadResponseStoreProductTearOff();
-
-  _PayloadResponseStoreProduct call(
-      {required int storeProdId,
-      required String nameProduct,
-      required String stockProduct,
-      required String priceProduct,
-      required String deskripsiProduct,
-      required String uriThumbnail,
-      required InfoStore store,
-      required List<GalleryImage> galleryImage,
-      required List<CategoryProduct> categoryProduct}) {
-    return _PayloadResponseStoreProduct(
-      storeProdId: storeProdId,
-      nameProduct: nameProduct,
-      stockProduct: stockProduct,
-      priceProduct: priceProduct,
-      deskripsiProduct: deskripsiProduct,
-      uriThumbnail: uriThumbnail,
-      store: store,
-      galleryImage: galleryImage,
-      categoryProduct: categoryProduct,
-    );
-  }
-
-  PayloadResponseStoreProduct fromJson(Map<String, Object?> json) {
-    return PayloadResponseStoreProduct.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseStoreProduct = _$PayloadResponseStoreProductTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseStoreProduct {
@@ -154,12 +119,12 @@ class _$PayloadResponseStoreProductCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseStoreProductCopyWith<$Res>
+abstract class _$$_PayloadResponseStoreProductCopyWith<$Res>
     implements $PayloadResponseStoreProductCopyWith<$Res> {
-  factory _$PayloadResponseStoreProductCopyWith(
-          _PayloadResponseStoreProduct value,
-          $Res Function(_PayloadResponseStoreProduct) then) =
-      __$PayloadResponseStoreProductCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseStoreProductCopyWith(
+          _$_PayloadResponseStoreProduct value,
+          $Res Function(_$_PayloadResponseStoreProduct) then) =
+      __$$_PayloadResponseStoreProductCopyWithImpl<$Res>;
   @override
   $Res call(
       {int storeProdId,
@@ -174,17 +139,17 @@ abstract class _$PayloadResponseStoreProductCopyWith<$Res>
 }
 
 /// @nodoc
-class __$PayloadResponseStoreProductCopyWithImpl<$Res>
+class __$$_PayloadResponseStoreProductCopyWithImpl<$Res>
     extends _$PayloadResponseStoreProductCopyWithImpl<$Res>
-    implements _$PayloadResponseStoreProductCopyWith<$Res> {
-  __$PayloadResponseStoreProductCopyWithImpl(
-      _PayloadResponseStoreProduct _value,
-      $Res Function(_PayloadResponseStoreProduct) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseStoreProduct));
+    implements _$$_PayloadResponseStoreProductCopyWith<$Res> {
+  __$$_PayloadResponseStoreProductCopyWithImpl(
+      _$_PayloadResponseStoreProduct _value,
+      $Res Function(_$_PayloadResponseStoreProduct) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseStoreProduct));
 
   @override
-  _PayloadResponseStoreProduct get _value =>
-      super._value as _PayloadResponseStoreProduct;
+  _$_PayloadResponseStoreProduct get _value =>
+      super._value as _$_PayloadResponseStoreProduct;
 
   @override
   $Res call({
@@ -198,7 +163,7 @@ class __$PayloadResponseStoreProductCopyWithImpl<$Res>
     Object? galleryImage = freezed,
     Object? categoryProduct = freezed,
   }) {
-    return _then(_PayloadResponseStoreProduct(
+    return _then(_$_PayloadResponseStoreProduct(
       storeProdId: storeProdId == freezed
           ? _value.storeProdId
           : storeProdId // ignore: cast_nullable_to_non_nullable
@@ -228,11 +193,11 @@ class __$PayloadResponseStoreProductCopyWithImpl<$Res>
           : store // ignore: cast_nullable_to_non_nullable
               as InfoStore,
       galleryImage: galleryImage == freezed
-          ? _value.galleryImage
+          ? _value._galleryImage
           : galleryImage // ignore: cast_nullable_to_non_nullable
               as List<GalleryImage>,
       categoryProduct: categoryProduct == freezed
-          ? _value.categoryProduct
+          ? _value._categoryProduct
           : categoryProduct // ignore: cast_nullable_to_non_nullable
               as List<CategoryProduct>,
     ));
@@ -250,8 +215,10 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
       required this.deskripsiProduct,
       required this.uriThumbnail,
       required this.store,
-      required this.galleryImage,
-      required this.categoryProduct});
+      required final List<GalleryImage> galleryImage,
+      required final List<CategoryProduct> categoryProduct})
+      : _galleryImage = galleryImage,
+        _categoryProduct = categoryProduct;
 
   factory _$_PayloadResponseStoreProduct.fromJson(Map<String, dynamic> json) =>
       _$$_PayloadResponseStoreProductFromJson(json);
@@ -270,10 +237,19 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
   final String uriThumbnail;
   @override
   final InfoStore store;
+  final List<GalleryImage> _galleryImage;
   @override
-  final List<GalleryImage> galleryImage;
+  List<GalleryImage> get galleryImage {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_galleryImage);
+  }
+
+  final List<CategoryProduct> _categoryProduct;
   @override
-  final List<CategoryProduct> categoryProduct;
+  List<CategoryProduct> get categoryProduct {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categoryProduct);
+  }
 
   @override
   String toString() {
@@ -284,7 +260,7 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseStoreProduct &&
+            other is _$_PayloadResponseStoreProduct &&
             const DeepCollectionEquality()
                 .equals(other.storeProdId, storeProdId) &&
             const DeepCollectionEquality()
@@ -299,11 +275,12 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
                 .equals(other.uriThumbnail, uriThumbnail) &&
             const DeepCollectionEquality().equals(other.store, store) &&
             const DeepCollectionEquality()
-                .equals(other.galleryImage, galleryImage) &&
+                .equals(other._galleryImage, _galleryImage) &&
             const DeepCollectionEquality()
-                .equals(other.categoryProduct, categoryProduct));
+                .equals(other._categoryProduct, _categoryProduct));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -314,14 +291,14 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
       const DeepCollectionEquality().hash(deskripsiProduct),
       const DeepCollectionEquality().hash(uriThumbnail),
       const DeepCollectionEquality().hash(store),
-      const DeepCollectionEquality().hash(galleryImage),
-      const DeepCollectionEquality().hash(categoryProduct));
+      const DeepCollectionEquality().hash(_galleryImage),
+      const DeepCollectionEquality().hash(_categoryProduct));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseStoreProductCopyWith<_PayloadResponseStoreProduct>
-      get copyWith => __$PayloadResponseStoreProductCopyWithImpl<
-          _PayloadResponseStoreProduct>(this, _$identity);
+  _$$_PayloadResponseStoreProductCopyWith<_$_PayloadResponseStoreProduct>
+      get copyWith => __$$_PayloadResponseStoreProductCopyWithImpl<
+          _$_PayloadResponseStoreProduct>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -332,40 +309,41 @@ class _$_PayloadResponseStoreProduct implements _PayloadResponseStoreProduct {
 abstract class _PayloadResponseStoreProduct
     implements PayloadResponseStoreProduct {
   const factory _PayloadResponseStoreProduct(
-          {required int storeProdId,
-          required String nameProduct,
-          required String stockProduct,
-          required String priceProduct,
-          required String deskripsiProduct,
-          required String uriThumbnail,
-          required InfoStore store,
-          required List<GalleryImage> galleryImage,
-          required List<CategoryProduct> categoryProduct}) =
+          {required final int storeProdId,
+          required final String nameProduct,
+          required final String stockProduct,
+          required final String priceProduct,
+          required final String deskripsiProduct,
+          required final String uriThumbnail,
+          required final InfoStore store,
+          required final List<GalleryImage> galleryImage,
+          required final List<CategoryProduct> categoryProduct}) =
       _$_PayloadResponseStoreProduct;
 
   factory _PayloadResponseStoreProduct.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseStoreProduct.fromJson;
 
   @override
-  int get storeProdId;
+  int get storeProdId => throw _privateConstructorUsedError;
   @override
-  String get nameProduct;
+  String get nameProduct => throw _privateConstructorUsedError;
   @override
-  String get stockProduct;
+  String get stockProduct => throw _privateConstructorUsedError;
   @override
-  String get priceProduct;
+  String get priceProduct => throw _privateConstructorUsedError;
   @override
-  String get deskripsiProduct;
+  String get deskripsiProduct => throw _privateConstructorUsedError;
   @override
-  String get uriThumbnail;
+  String get uriThumbnail => throw _privateConstructorUsedError;
   @override
-  InfoStore get store;
+  InfoStore get store => throw _privateConstructorUsedError;
   @override
-  List<GalleryImage> get galleryImage;
+  List<GalleryImage> get galleryImage => throw _privateConstructorUsedError;
   @override
-  List<CategoryProduct> get categoryProduct;
+  List<CategoryProduct> get categoryProduct =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseStoreProductCopyWith<_PayloadResponseStoreProduct>
+  _$$_PayloadResponseStoreProductCopyWith<_$_PayloadResponseStoreProduct>
       get copyWith => throw _privateConstructorUsedError;
 }

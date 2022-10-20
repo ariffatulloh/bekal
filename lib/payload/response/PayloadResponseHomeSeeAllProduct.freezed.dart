@@ -12,35 +12,12 @@ part of 'PayloadResponseHomeSeeAllProduct.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseHomeSeeAllProduct _$PayloadResponseHomeSeeAllProductFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseHomeSeeAllProduct.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseHomeSeeAllProductTearOff {
-  const _$PayloadResponseHomeSeeAllProductTearOff();
-
-  _PayloadResponseHomeSeeAllProduct call(
-      {required String titleTab,
-      required List<PayloadResponseStoreProduct>
-          viewListStoreProductResponse}) {
-    return _PayloadResponseHomeSeeAllProduct(
-      titleTab: titleTab,
-      viewListStoreProductResponse: viewListStoreProductResponse,
-    );
-  }
-
-  PayloadResponseHomeSeeAllProduct fromJson(Map<String, Object?> json) {
-    return PayloadResponseHomeSeeAllProduct.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseHomeSeeAllProduct =
-    _$PayloadResponseHomeSeeAllProductTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseHomeSeeAllProduct {
@@ -93,12 +70,12 @@ class _$PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseHomeSeeAllProductCopyWith<$Res>
+abstract class _$$_PayloadResponseHomeSeeAllProductCopyWith<$Res>
     implements $PayloadResponseHomeSeeAllProductCopyWith<$Res> {
-  factory _$PayloadResponseHomeSeeAllProductCopyWith(
-          _PayloadResponseHomeSeeAllProduct value,
-          $Res Function(_PayloadResponseHomeSeeAllProduct) then) =
-      __$PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseHomeSeeAllProductCopyWith(
+          _$_PayloadResponseHomeSeeAllProduct value,
+          $Res Function(_$_PayloadResponseHomeSeeAllProduct) then) =
+      __$$_PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>;
   @override
   $Res call(
       {String titleTab,
@@ -106,30 +83,30 @@ abstract class _$PayloadResponseHomeSeeAllProductCopyWith<$Res>
 }
 
 /// @nodoc
-class __$PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>
+class __$$_PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>
     extends _$PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>
-    implements _$PayloadResponseHomeSeeAllProductCopyWith<$Res> {
-  __$PayloadResponseHomeSeeAllProductCopyWithImpl(
-      _PayloadResponseHomeSeeAllProduct _value,
-      $Res Function(_PayloadResponseHomeSeeAllProduct) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseHomeSeeAllProduct));
+    implements _$$_PayloadResponseHomeSeeAllProductCopyWith<$Res> {
+  __$$_PayloadResponseHomeSeeAllProductCopyWithImpl(
+      _$_PayloadResponseHomeSeeAllProduct _value,
+      $Res Function(_$_PayloadResponseHomeSeeAllProduct) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseHomeSeeAllProduct));
 
   @override
-  _PayloadResponseHomeSeeAllProduct get _value =>
-      super._value as _PayloadResponseHomeSeeAllProduct;
+  _$_PayloadResponseHomeSeeAllProduct get _value =>
+      super._value as _$_PayloadResponseHomeSeeAllProduct;
 
   @override
   $Res call({
     Object? titleTab = freezed,
     Object? viewListStoreProductResponse = freezed,
   }) {
-    return _then(_PayloadResponseHomeSeeAllProduct(
+    return _then(_$_PayloadResponseHomeSeeAllProduct(
       titleTab: titleTab == freezed
           ? _value.titleTab
           : titleTab // ignore: cast_nullable_to_non_nullable
               as String,
       viewListStoreProductResponse: viewListStoreProductResponse == freezed
-          ? _value.viewListStoreProductResponse
+          ? _value._viewListStoreProductResponse
           : viewListStoreProductResponse // ignore: cast_nullable_to_non_nullable
               as List<PayloadResponseStoreProduct>,
     ));
@@ -141,7 +118,10 @@ class __$PayloadResponseHomeSeeAllProductCopyWithImpl<$Res>
 class _$_PayloadResponseHomeSeeAllProduct
     implements _PayloadResponseHomeSeeAllProduct {
   const _$_PayloadResponseHomeSeeAllProduct(
-      {required this.titleTab, required this.viewListStoreProductResponse});
+      {required this.titleTab,
+      required final List<PayloadResponseStoreProduct>
+          viewListStoreProductResponse})
+      : _viewListStoreProductResponse = viewListStoreProductResponse;
 
   factory _$_PayloadResponseHomeSeeAllProduct.fromJson(
           Map<String, dynamic> json) =>
@@ -149,8 +129,12 @@ class _$_PayloadResponseHomeSeeAllProduct
 
   @override
   final String titleTab;
+  final List<PayloadResponseStoreProduct> _viewListStoreProductResponse;
   @override
-  final List<PayloadResponseStoreProduct> viewListStoreProductResponse;
+  List<PayloadResponseStoreProduct> get viewListStoreProductResponse {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_viewListStoreProductResponse);
+  }
 
   @override
   String toString() {
@@ -161,24 +145,26 @@ class _$_PayloadResponseHomeSeeAllProduct
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseHomeSeeAllProduct &&
+            other is _$_PayloadResponseHomeSeeAllProduct &&
             const DeepCollectionEquality().equals(other.titleTab, titleTab) &&
             const DeepCollectionEquality().equals(
-                other.viewListStoreProductResponse,
-                viewListStoreProductResponse));
+                other._viewListStoreProductResponse,
+                _viewListStoreProductResponse));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(titleTab),
-      const DeepCollectionEquality().hash(viewListStoreProductResponse));
+      const DeepCollectionEquality().hash(_viewListStoreProductResponse));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseHomeSeeAllProductCopyWith<_PayloadResponseHomeSeeAllProduct>
-      get copyWith => __$PayloadResponseHomeSeeAllProductCopyWithImpl<
-          _PayloadResponseHomeSeeAllProduct>(this, _$identity);
+  _$$_PayloadResponseHomeSeeAllProductCopyWith<
+          _$_PayloadResponseHomeSeeAllProduct>
+      get copyWith => __$$_PayloadResponseHomeSeeAllProductCopyWithImpl<
+          _$_PayloadResponseHomeSeeAllProduct>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -189,19 +175,21 @@ class _$_PayloadResponseHomeSeeAllProduct
 abstract class _PayloadResponseHomeSeeAllProduct
     implements PayloadResponseHomeSeeAllProduct {
   const factory _PayloadResponseHomeSeeAllProduct(
-      {required String titleTab,
-      required List<PayloadResponseStoreProduct>
+      {required final String titleTab,
+      required final List<PayloadResponseStoreProduct>
           viewListStoreProductResponse}) = _$_PayloadResponseHomeSeeAllProduct;
 
   factory _PayloadResponseHomeSeeAllProduct.fromJson(
       Map<String, dynamic> json) = _$_PayloadResponseHomeSeeAllProduct.fromJson;
 
   @override
-  String get titleTab;
+  String get titleTab => throw _privateConstructorUsedError;
   @override
-  List<PayloadResponseStoreProduct> get viewListStoreProductResponse;
+  List<PayloadResponseStoreProduct> get viewListStoreProductResponse =>
+      throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseHomeSeeAllProductCopyWith<_PayloadResponseHomeSeeAllProduct>
+  _$$_PayloadResponseHomeSeeAllProductCopyWith<
+          _$_PayloadResponseHomeSeeAllProduct>
       get copyWith => throw _privateConstructorUsedError;
 }

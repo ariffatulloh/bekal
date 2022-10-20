@@ -12,29 +12,11 @@ part of 'PayloadResponseLogin.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseLogin _$PayloadResponseLoginFromJson(Map<String, dynamic> json) {
   return _PayloadResponseLogin.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseLoginTearOff {
-  const _$PayloadResponseLoginTearOff();
-
-  _PayloadResponseLogin call({required String token}) {
-    return _PayloadResponseLogin(
-      token: token,
-    );
-  }
-
-  PayloadResponseLogin fromJson(Map<String, Object?> json) {
-    return PayloadResponseLogin.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseLogin = _$PayloadResponseLoginTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseLogin {
@@ -77,31 +59,31 @@ class _$PayloadResponseLoginCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseLoginCopyWith<$Res>
+abstract class _$$_PayloadResponseLoginCopyWith<$Res>
     implements $PayloadResponseLoginCopyWith<$Res> {
-  factory _$PayloadResponseLoginCopyWith(_PayloadResponseLogin value,
-          $Res Function(_PayloadResponseLogin) then) =
-      __$PayloadResponseLoginCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseLoginCopyWith(_$_PayloadResponseLogin value,
+          $Res Function(_$_PayloadResponseLogin) then) =
+      __$$_PayloadResponseLoginCopyWithImpl<$Res>;
   @override
   $Res call({String token});
 }
 
 /// @nodoc
-class __$PayloadResponseLoginCopyWithImpl<$Res>
+class __$$_PayloadResponseLoginCopyWithImpl<$Res>
     extends _$PayloadResponseLoginCopyWithImpl<$Res>
-    implements _$PayloadResponseLoginCopyWith<$Res> {
-  __$PayloadResponseLoginCopyWithImpl(
-      _PayloadResponseLogin _value, $Res Function(_PayloadResponseLogin) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseLogin));
+    implements _$$_PayloadResponseLoginCopyWith<$Res> {
+  __$$_PayloadResponseLoginCopyWithImpl(_$_PayloadResponseLogin _value,
+      $Res Function(_$_PayloadResponseLogin) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseLogin));
 
   @override
-  _PayloadResponseLogin get _value => super._value as _PayloadResponseLogin;
+  _$_PayloadResponseLogin get _value => super._value as _$_PayloadResponseLogin;
 
   @override
   $Res call({
     Object? token = freezed,
   }) {
-    return _then(_PayloadResponseLogin(
+    return _then(_$_PayloadResponseLogin(
       token: token == freezed
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
@@ -130,18 +112,19 @@ class _$_PayloadResponseLogin implements _PayloadResponseLogin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseLogin &&
+            other is _$_PayloadResponseLogin &&
             const DeepCollectionEquality().equals(other.token, token));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(token));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseLoginCopyWith<_PayloadResponseLogin> get copyWith =>
-      __$PayloadResponseLoginCopyWithImpl<_PayloadResponseLogin>(
+  _$$_PayloadResponseLoginCopyWith<_$_PayloadResponseLogin> get copyWith =>
+      __$$_PayloadResponseLoginCopyWithImpl<_$_PayloadResponseLogin>(
           this, _$identity);
 
   @override
@@ -151,16 +134,16 @@ class _$_PayloadResponseLogin implements _PayloadResponseLogin {
 }
 
 abstract class _PayloadResponseLogin implements PayloadResponseLogin {
-  const factory _PayloadResponseLogin({required String token}) =
+  const factory _PayloadResponseLogin({required final String token}) =
       _$_PayloadResponseLogin;
 
   factory _PayloadResponseLogin.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseLogin.fromJson;
 
   @override
-  String get token;
+  String get token => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseLoginCopyWith<_PayloadResponseLogin> get copyWith =>
+  _$$_PayloadResponseLoginCopyWith<_$_PayloadResponseLogin> get copyWith =>
       throw _privateConstructorUsedError;
 }

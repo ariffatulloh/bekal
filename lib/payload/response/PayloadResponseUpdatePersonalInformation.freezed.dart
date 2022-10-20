@@ -12,37 +12,13 @@ part of 'PayloadResponseUpdatePersonalInformation.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseUpdatePersonalInformation
     _$PayloadResponseUpdatePersonalInformationFromJson(
         Map<String, dynamic> json) {
   return _PayloadResponseUpdatePersonalInformation.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseUpdatePersonalInformationTearOff {
-  const _$PayloadResponseUpdatePersonalInformationTearOff();
-
-  _PayloadResponseUpdatePersonalInformation call(
-      {required String fullName,
-      required String phoneNumber,
-      Address? address}) {
-    return _PayloadResponseUpdatePersonalInformation(
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      address: address,
-    );
-  }
-
-  PayloadResponseUpdatePersonalInformation fromJson(Map<String, Object?> json) {
-    return PayloadResponseUpdatePersonalInformation.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseUpdatePersonalInformation =
-    _$PayloadResponseUpdatePersonalInformationTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseUpdatePersonalInformation {
@@ -100,29 +76,29 @@ class _$PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseUpdatePersonalInformationCopyWith<$Res>
+abstract class _$$_PayloadResponseUpdatePersonalInformationCopyWith<$Res>
     implements $PayloadResponseUpdatePersonalInformationCopyWith<$Res> {
-  factory _$PayloadResponseUpdatePersonalInformationCopyWith(
-          _PayloadResponseUpdatePersonalInformation value,
-          $Res Function(_PayloadResponseUpdatePersonalInformation) then) =
-      __$PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseUpdatePersonalInformationCopyWith(
+          _$_PayloadResponseUpdatePersonalInformation value,
+          $Res Function(_$_PayloadResponseUpdatePersonalInformation) then) =
+      __$$_PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>;
   @override
   $Res call({String fullName, String phoneNumber, Address? address});
 }
 
 /// @nodoc
-class __$PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>
+class __$$_PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>
     extends _$PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>
-    implements _$PayloadResponseUpdatePersonalInformationCopyWith<$Res> {
-  __$PayloadResponseUpdatePersonalInformationCopyWithImpl(
-      _PayloadResponseUpdatePersonalInformation _value,
-      $Res Function(_PayloadResponseUpdatePersonalInformation) _then)
+    implements _$$_PayloadResponseUpdatePersonalInformationCopyWith<$Res> {
+  __$$_PayloadResponseUpdatePersonalInformationCopyWithImpl(
+      _$_PayloadResponseUpdatePersonalInformation _value,
+      $Res Function(_$_PayloadResponseUpdatePersonalInformation) _then)
       : super(_value,
-            (v) => _then(v as _PayloadResponseUpdatePersonalInformation));
+            (v) => _then(v as _$_PayloadResponseUpdatePersonalInformation));
 
   @override
-  _PayloadResponseUpdatePersonalInformation get _value =>
-      super._value as _PayloadResponseUpdatePersonalInformation;
+  _$_PayloadResponseUpdatePersonalInformation get _value =>
+      super._value as _$_PayloadResponseUpdatePersonalInformation;
 
   @override
   $Res call({
@@ -130,7 +106,7 @@ class __$PayloadResponseUpdatePersonalInformationCopyWithImpl<$Res>
     Object? phoneNumber = freezed,
     Object? address = freezed,
   }) {
-    return _then(_PayloadResponseUpdatePersonalInformation(
+    return _then(_$_PayloadResponseUpdatePersonalInformation(
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -174,13 +150,14 @@ class _$_PayloadResponseUpdatePersonalInformation
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseUpdatePersonalInformation &&
+            other is _$_PayloadResponseUpdatePersonalInformation &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality()
                 .equals(other.phoneNumber, phoneNumber) &&
             const DeepCollectionEquality().equals(other.address, address));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -190,10 +167,10 @@ class _$_PayloadResponseUpdatePersonalInformation
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseUpdatePersonalInformationCopyWith<
-          _PayloadResponseUpdatePersonalInformation>
-      get copyWith => __$PayloadResponseUpdatePersonalInformationCopyWithImpl<
-          _PayloadResponseUpdatePersonalInformation>(this, _$identity);
+  _$$_PayloadResponseUpdatePersonalInformationCopyWith<
+          _$_PayloadResponseUpdatePersonalInformation>
+      get copyWith => __$$_PayloadResponseUpdatePersonalInformationCopyWithImpl<
+          _$_PayloadResponseUpdatePersonalInformation>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -204,23 +181,23 @@ class _$_PayloadResponseUpdatePersonalInformation
 abstract class _PayloadResponseUpdatePersonalInformation
     implements PayloadResponseUpdatePersonalInformation {
   const factory _PayloadResponseUpdatePersonalInformation(
-      {required String fullName,
-      required String phoneNumber,
-      Address? address}) = _$_PayloadResponseUpdatePersonalInformation;
+      {required final String fullName,
+      required final String phoneNumber,
+      final Address? address}) = _$_PayloadResponseUpdatePersonalInformation;
 
   factory _PayloadResponseUpdatePersonalInformation.fromJson(
           Map<String, dynamic> json) =
       _$_PayloadResponseUpdatePersonalInformation.fromJson;
 
   @override
-  String get fullName;
+  String get fullName => throw _privateConstructorUsedError;
   @override
-  String get phoneNumber;
+  String get phoneNumber => throw _privateConstructorUsedError;
   @override
-  Address? get address;
+  Address? get address => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseUpdatePersonalInformationCopyWith<
-          _PayloadResponseUpdatePersonalInformation>
+  _$$_PayloadResponseUpdatePersonalInformationCopyWith<
+          _$_PayloadResponseUpdatePersonalInformation>
       get copyWith => throw _privateConstructorUsedError;
 }

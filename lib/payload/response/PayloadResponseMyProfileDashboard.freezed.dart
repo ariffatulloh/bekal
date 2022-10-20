@@ -12,7 +12,7 @@ part of 'PayloadResponseMyProfileDashboard.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseMyProfileDashboard _$PayloadResponseMyProfileDashboardFromJson(
     Map<String, dynamic> json) {
@@ -20,50 +20,16 @@ PayloadResponseMyProfileDashboard _$PayloadResponseMyProfileDashboardFromJson(
 }
 
 /// @nodoc
-class _$PayloadResponseMyProfileDashboardTearOff {
-  const _$PayloadResponseMyProfileDashboardTearOff();
-
-  _PayloadResponseMyProfileDashboard call(
-      {String? image,
-      int? idUser,
-      String? nameUser,
-      String? emailUser,
-      required bool isAdmin,
-      List<MyDashboardProfileOutlets>? myOutlets,
-      Alert? alertUbahDataPribadi,
-      Alert? alertHystoryTransaksi}) {
-    return _PayloadResponseMyProfileDashboard(
-      image: image,
-      idUser: idUser,
-      nameUser: nameUser,
-      isAdmin: isAdmin,
-      emailUser: emailUser,
-      myOutlets: myOutlets,
-      alertUbahDataPribadi: alertUbahDataPribadi,
-      alertHystoryTransaksi: alertHystoryTransaksi,
-    );
-  }
-
-  PayloadResponseMyProfileDashboard fromJson(Map<String, Object?> json) {
-    return PayloadResponseMyProfileDashboard.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseMyProfileDashboard =
-    _$PayloadResponseMyProfileDashboardTearOff();
-
-/// @nodoc
 mixin _$PayloadResponseMyProfileDashboard {
   String? get image => throw _privateConstructorUsedError;
   int? get idUser => throw _privateConstructorUsedError;
   String? get nameUser => throw _privateConstructorUsedError;
-  bool get isAdmin => throw _privateConstructorUsedError;
   String? get emailUser => throw _privateConstructorUsedError;
   List<MyDashboardProfileOutlets>? get myOutlets =>
       throw _privateConstructorUsedError;
   Alert? get alertUbahDataPribadi => throw _privateConstructorUsedError;
   Alert? get alertHystoryTransaksi => throw _privateConstructorUsedError;
+  bool get isAdmin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -81,11 +47,11 @@ abstract class $PayloadResponseMyProfileDashboardCopyWith<$Res> {
       {String? image,
       int? idUser,
       String? nameUser,
-      bool isAdmin,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
-      Alert? alertHystoryTransaksi});
+      Alert? alertHystoryTransaksi,
+      bool isAdmin});
 }
 
 /// @nodoc
@@ -103,10 +69,10 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
     Object? idUser = freezed,
     Object? nameUser = freezed,
     Object? emailUser = freezed,
-    Object? isAdmin = freezed,
     Object? myOutlets = freezed,
     Object? alertUbahDataPribadi = freezed,
     Object? alertHystoryTransaksi = freezed,
+    Object? isAdmin = freezed,
   }) {
     return _then(_value.copyWith(
       image: image == freezed
@@ -117,10 +83,6 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
               as int?,
-      isAdmin: isAdmin == freezed
-          ? _value.isAdmin
-          : isAdmin // ignore: cast_nullable_to_non_nullable
-              as bool,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -141,54 +103,58 @@ class _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.alertHystoryTransaksi
           : alertHystoryTransaksi // ignore: cast_nullable_to_non_nullable
               as Alert?,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$PayloadResponseMyProfileDashboardCopyWith<$Res>
+abstract class _$$_PayloadResponseMyProfileDashboardCopyWith<$Res>
     implements $PayloadResponseMyProfileDashboardCopyWith<$Res> {
-  factory _$PayloadResponseMyProfileDashboardCopyWith(
-          _PayloadResponseMyProfileDashboard value,
-          $Res Function(_PayloadResponseMyProfileDashboard) then) =
-      __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseMyProfileDashboardCopyWith(
+          _$_PayloadResponseMyProfileDashboard value,
+          $Res Function(_$_PayloadResponseMyProfileDashboard) then) =
+      __$$_PayloadResponseMyProfileDashboardCopyWithImpl<$Res>;
   @override
   $Res call(
       {String? image,
       int? idUser,
       String? nameUser,
-      bool isAdmin,
       String? emailUser,
       List<MyDashboardProfileOutlets>? myOutlets,
       Alert? alertUbahDataPribadi,
-      Alert? alertHystoryTransaksi});
+      Alert? alertHystoryTransaksi,
+      bool isAdmin});
 }
 
 /// @nodoc
-class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
+class __$$_PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
     extends _$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
-    implements _$PayloadResponseMyProfileDashboardCopyWith<$Res> {
-  __$PayloadResponseMyProfileDashboardCopyWithImpl(
-      _PayloadResponseMyProfileDashboard _value,
-      $Res Function(_PayloadResponseMyProfileDashboard) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseMyProfileDashboard));
+    implements _$$_PayloadResponseMyProfileDashboardCopyWith<$Res> {
+  __$$_PayloadResponseMyProfileDashboardCopyWithImpl(
+      _$_PayloadResponseMyProfileDashboard _value,
+      $Res Function(_$_PayloadResponseMyProfileDashboard) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseMyProfileDashboard));
 
   @override
-  _PayloadResponseMyProfileDashboard get _value =>
-      super._value as _PayloadResponseMyProfileDashboard;
+  _$_PayloadResponseMyProfileDashboard get _value =>
+      super._value as _$_PayloadResponseMyProfileDashboard;
 
   @override
   $Res call({
     Object? image = freezed,
     Object? idUser = freezed,
     Object? nameUser = freezed,
-    Object? isAdmin = freezed,
     Object? emailUser = freezed,
     Object? myOutlets = freezed,
     Object? alertUbahDataPribadi = freezed,
     Object? alertHystoryTransaksi = freezed,
+    Object? isAdmin = freezed,
   }) {
-    return _then(_PayloadResponseMyProfileDashboard(
+    return _then(_$_PayloadResponseMyProfileDashboard(
       image: image == freezed
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -197,10 +163,6 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.idUser
           : idUser // ignore: cast_nullable_to_non_nullable
               as int?,
-      isAdmin: isAdmin == freezed
-          ? _value.isAdmin
-          : isAdmin // ignore: cast_nullable_to_non_nullable
-              as bool,
       nameUser: nameUser == freezed
           ? _value.nameUser
           : nameUser // ignore: cast_nullable_to_non_nullable
@@ -210,7 +172,7 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           : emailUser // ignore: cast_nullable_to_non_nullable
               as String?,
       myOutlets: myOutlets == freezed
-          ? _value.myOutlets
+          ? _value._myOutlets
           : myOutlets // ignore: cast_nullable_to_non_nullable
               as List<MyDashboardProfileOutlets>?,
       alertUbahDataPribadi: alertUbahDataPribadi == freezed
@@ -221,6 +183,10 @@ class __$PayloadResponseMyProfileDashboardCopyWithImpl<$Res>
           ? _value.alertHystoryTransaksi
           : alertHystoryTransaksi // ignore: cast_nullable_to_non_nullable
               as Alert?,
+      isAdmin: isAdmin == freezed
+          ? _value.isAdmin
+          : isAdmin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -234,10 +200,11 @@ class _$_PayloadResponseMyProfileDashboard
       this.idUser,
       this.nameUser,
       this.emailUser,
-      required this.isAdmin,
-      this.myOutlets,
+      final List<MyDashboardProfileOutlets>? myOutlets,
       this.alertUbahDataPribadi,
-      this.alertHystoryTransaksi});
+      this.alertHystoryTransaksi,
+      required this.isAdmin})
+      : _myOutlets = myOutlets;
 
   factory _$_PayloadResponseMyProfileDashboard.fromJson(
           Map<String, dynamic> json) =>
@@ -251,37 +218,46 @@ class _$_PayloadResponseMyProfileDashboard
   final String? nameUser;
   @override
   final String? emailUser;
+  final List<MyDashboardProfileOutlets>? _myOutlets;
   @override
-  final bool isAdmin;
-  @override
-  final List<MyDashboardProfileOutlets>? myOutlets;
+  List<MyDashboardProfileOutlets>? get myOutlets {
+    final value = _myOutlets;
+    if (value == null) return null;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final Alert? alertUbahDataPribadi;
   @override
   final Alert? alertHystoryTransaksi;
+  @override
+  final bool isAdmin;
 
   @override
   String toString() {
-    return 'PayloadResponseMyProfileDashboard(image: $image, idUser: $idUser, nameUser: $nameUser, emailUser: $emailUser, isAdmin: $isAdmin,myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi)';
+    return 'PayloadResponseMyProfileDashboard(image: $image, idUser: $idUser, nameUser: $nameUser, emailUser: $emailUser, myOutlets: $myOutlets, alertUbahDataPribadi: $alertUbahDataPribadi, alertHystoryTransaksi: $alertHystoryTransaksi, isAdmin: $isAdmin)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseMyProfileDashboard &&
+            other is _$_PayloadResponseMyProfileDashboard &&
             const DeepCollectionEquality().equals(other.image, image) &&
             const DeepCollectionEquality().equals(other.idUser, idUser) &&
             const DeepCollectionEquality().equals(other.nameUser, nameUser) &&
             const DeepCollectionEquality().equals(other.emailUser, emailUser) &&
-            const DeepCollectionEquality().equals(other.isAdmin, isAdmin) &&
-            const DeepCollectionEquality().equals(other.myOutlets, myOutlets) &&
+            const DeepCollectionEquality()
+                .equals(other._myOutlets, _myOutlets) &&
             const DeepCollectionEquality()
                 .equals(other.alertUbahDataPribadi, alertUbahDataPribadi) &&
             const DeepCollectionEquality()
-                .equals(other.alertHystoryTransaksi, alertHystoryTransaksi));
+                .equals(other.alertHystoryTransaksi, alertHystoryTransaksi) &&
+            const DeepCollectionEquality().equals(other.isAdmin, isAdmin));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -289,17 +265,17 @@ class _$_PayloadResponseMyProfileDashboard
       const DeepCollectionEquality().hash(idUser),
       const DeepCollectionEquality().hash(nameUser),
       const DeepCollectionEquality().hash(emailUser),
-      const DeepCollectionEquality().hash(isAdmin),
-      const DeepCollectionEquality().hash(myOutlets),
+      const DeepCollectionEquality().hash(_myOutlets),
       const DeepCollectionEquality().hash(alertUbahDataPribadi),
-      const DeepCollectionEquality().hash(alertHystoryTransaksi));
+      const DeepCollectionEquality().hash(alertHystoryTransaksi),
+      const DeepCollectionEquality().hash(isAdmin));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseMyProfileDashboardCopyWith<
-          _PayloadResponseMyProfileDashboard>
-      get copyWith => __$PayloadResponseMyProfileDashboardCopyWithImpl<
-          _PayloadResponseMyProfileDashboard>(this, _$identity);
+  _$$_PayloadResponseMyProfileDashboardCopyWith<
+          _$_PayloadResponseMyProfileDashboard>
+      get copyWith => __$$_PayloadResponseMyProfileDashboardCopyWithImpl<
+          _$_PayloadResponseMyProfileDashboard>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -310,38 +286,39 @@ class _$_PayloadResponseMyProfileDashboard
 abstract class _PayloadResponseMyProfileDashboard
     implements PayloadResponseMyProfileDashboard {
   const factory _PayloadResponseMyProfileDashboard(
-      {String? image,
-      int? idUser,
-      String? nameUser,
-      String? emailUser,
-      required bool isAdmin,
-      List<MyDashboardProfileOutlets>? myOutlets,
-      Alert? alertUbahDataPribadi,
-      Alert? alertHystoryTransaksi}) = _$_PayloadResponseMyProfileDashboard;
+      {final String? image,
+      final int? idUser,
+      final String? nameUser,
+      final String? emailUser,
+      final List<MyDashboardProfileOutlets>? myOutlets,
+      final Alert? alertUbahDataPribadi,
+      final Alert? alertHystoryTransaksi,
+      required final bool isAdmin}) = _$_PayloadResponseMyProfileDashboard;
 
   factory _PayloadResponseMyProfileDashboard.fromJson(
           Map<String, dynamic> json) =
       _$_PayloadResponseMyProfileDashboard.fromJson;
 
   @override
-  String? get image;
+  String? get image => throw _privateConstructorUsedError;
   @override
-  int? get idUser;
+  int? get idUser => throw _privateConstructorUsedError;
   @override
-  String? get nameUser;
+  String? get nameUser => throw _privateConstructorUsedError;
   @override
-  String? get emailUser;
+  String? get emailUser => throw _privateConstructorUsedError;
   @override
-  bool get isAdmin;
+  List<MyDashboardProfileOutlets>? get myOutlets =>
+      throw _privateConstructorUsedError;
   @override
-  List<MyDashboardProfileOutlets>? get myOutlets;
+  Alert? get alertUbahDataPribadi => throw _privateConstructorUsedError;
   @override
-  Alert? get alertUbahDataPribadi;
+  Alert? get alertHystoryTransaksi => throw _privateConstructorUsedError;
   @override
-  Alert? get alertHystoryTransaksi;
+  bool get isAdmin => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseMyProfileDashboardCopyWith<
-          _PayloadResponseMyProfileDashboard>
+  _$$_PayloadResponseMyProfileDashboardCopyWith<
+          _$_PayloadResponseMyProfileDashboard>
       get copyWith => throw _privateConstructorUsedError;
 }

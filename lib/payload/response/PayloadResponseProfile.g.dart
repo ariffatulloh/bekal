@@ -33,6 +33,8 @@ Address _$AddressFromJson(Map<String, dynamic> json) => Address(
       province_name: json['province_name'] as String?,
       suburb_id: json['suburb_id'] as int? ?? 0,
       suburb_name: json['suburb_name'] as String?,
+      lat: json['lat'] as String? ?? "",
+      lng: json['lng'] as String? ?? "",
     );
 
 Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
@@ -49,6 +51,8 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
       'province_name': instance.province_name,
       'suburb_id': instance.suburb_id,
       'suburb_name': instance.suburb_name,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };
 
 _$_PayloadResponseProfile _$$_PayloadResponseProfileFromJson(

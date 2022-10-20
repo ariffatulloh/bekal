@@ -6,7 +6,7 @@ part of 'db.dart';
 // MoorGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
+// ignore_for_file: type=lint
 class CartEntityData extends DataClass implements Insertable<CartEntityData> {
   final int id;
   final int userId;

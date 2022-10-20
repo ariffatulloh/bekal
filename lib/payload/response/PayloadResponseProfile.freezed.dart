@@ -12,37 +12,12 @@ part of 'PayloadResponseProfile.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseProfile _$PayloadResponseProfileFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseProfile.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseProfileTearOff {
-  const _$PayloadResponseProfileTearOff();
-
-  _PayloadResponseProfile call(
-      {required String fullName,
-      required String email,
-      required bool isVerify,
-      required Profile profile}) {
-    return _PayloadResponseProfile(
-      fullName: fullName,
-      email: email,
-      isVerify: isVerify,
-      profile: profile,
-    );
-  }
-
-  PayloadResponseProfile fromJson(Map<String, Object?> json) {
-    return PayloadResponseProfile.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseProfile = _$PayloadResponseProfileTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseProfile {
@@ -103,25 +78,26 @@ class _$PayloadResponseProfileCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseProfileCopyWith<$Res>
+abstract class _$$_PayloadResponseProfileCopyWith<$Res>
     implements $PayloadResponseProfileCopyWith<$Res> {
-  factory _$PayloadResponseProfileCopyWith(_PayloadResponseProfile value,
-          $Res Function(_PayloadResponseProfile) then) =
-      __$PayloadResponseProfileCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseProfileCopyWith(_$_PayloadResponseProfile value,
+          $Res Function(_$_PayloadResponseProfile) then) =
+      __$$_PayloadResponseProfileCopyWithImpl<$Res>;
   @override
   $Res call({String fullName, String email, bool isVerify, Profile profile});
 }
 
 /// @nodoc
-class __$PayloadResponseProfileCopyWithImpl<$Res>
+class __$$_PayloadResponseProfileCopyWithImpl<$Res>
     extends _$PayloadResponseProfileCopyWithImpl<$Res>
-    implements _$PayloadResponseProfileCopyWith<$Res> {
-  __$PayloadResponseProfileCopyWithImpl(_PayloadResponseProfile _value,
-      $Res Function(_PayloadResponseProfile) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseProfile));
+    implements _$$_PayloadResponseProfileCopyWith<$Res> {
+  __$$_PayloadResponseProfileCopyWithImpl(_$_PayloadResponseProfile _value,
+      $Res Function(_$_PayloadResponseProfile) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseProfile));
 
   @override
-  _PayloadResponseProfile get _value => super._value as _PayloadResponseProfile;
+  _$_PayloadResponseProfile get _value =>
+      super._value as _$_PayloadResponseProfile;
 
   @override
   $Res call({
@@ -130,7 +106,7 @@ class __$PayloadResponseProfileCopyWithImpl<$Res>
     Object? isVerify = freezed,
     Object? profile = freezed,
   }) {
-    return _then(_PayloadResponseProfile(
+    return _then(_$_PayloadResponseProfile(
       fullName: fullName == freezed
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -181,13 +157,14 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseProfile &&
+            other is _$_PayloadResponseProfile &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.isVerify, isVerify) &&
             const DeepCollectionEquality().equals(other.profile, profile));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -198,8 +175,8 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseProfileCopyWith<_PayloadResponseProfile> get copyWith =>
-      __$PayloadResponseProfileCopyWithImpl<_PayloadResponseProfile>(
+  _$$_PayloadResponseProfileCopyWith<_$_PayloadResponseProfile> get copyWith =>
+      __$$_PayloadResponseProfileCopyWithImpl<_$_PayloadResponseProfile>(
           this, _$identity);
 
   @override
@@ -210,24 +187,24 @@ class _$_PayloadResponseProfile implements _PayloadResponseProfile {
 
 abstract class _PayloadResponseProfile implements PayloadResponseProfile {
   const factory _PayloadResponseProfile(
-      {required String fullName,
-      required String email,
-      required bool isVerify,
-      required Profile profile}) = _$_PayloadResponseProfile;
+      {required final String fullName,
+      required final String email,
+      required final bool isVerify,
+      required final Profile profile}) = _$_PayloadResponseProfile;
 
   factory _PayloadResponseProfile.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseProfile.fromJson;
 
   @override
-  String get fullName;
+  String get fullName => throw _privateConstructorUsedError;
   @override
-  String get email;
+  String get email => throw _privateConstructorUsedError;
   @override
-  bool get isVerify;
+  bool get isVerify => throw _privateConstructorUsedError;
   @override
-  Profile get profile;
+  Profile get profile => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseProfileCopyWith<_PayloadResponseProfile> get copyWith =>
+  _$$_PayloadResponseProfileCopyWith<_$_PayloadResponseProfile> get copyWith =>
       throw _privateConstructorUsedError;
 }

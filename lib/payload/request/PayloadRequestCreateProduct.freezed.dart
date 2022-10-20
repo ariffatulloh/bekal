@@ -12,41 +12,12 @@ part of 'PayloadRequestCreateProduct.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadRequestCreateProduct _$PayloadRequestCreateProductFromJson(
     Map<String, dynamic> json) {
   return _PayloadRequestCreateProduct.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadRequestCreateProductTearOff {
-  const _$PayloadRequestCreateProductTearOff();
-
-  _PayloadRequestCreateProduct call(
-      {required String deskripsiProduct,
-      required String priceProduct,
-      required String stockProduct,
-      required String nameProduct,
-      required List<String> storeCatProd,
-      int? idStore}) {
-    return _PayloadRequestCreateProduct(
-      deskripsiProduct: deskripsiProduct,
-      priceProduct: priceProduct,
-      stockProduct: stockProduct,
-      nameProduct: nameProduct,
-      storeCatProd: storeCatProd,
-      idStore: idStore,
-    );
-  }
-
-  PayloadRequestCreateProduct fromJson(Map<String, Object?> json) {
-    return PayloadRequestCreateProduct.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadRequestCreateProduct = _$PayloadRequestCreateProductTearOff();
 
 /// @nodoc
 mixin _$PayloadRequestCreateProduct {
@@ -126,12 +97,12 @@ class _$PayloadRequestCreateProductCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadRequestCreateProductCopyWith<$Res>
+abstract class _$$_PayloadRequestCreateProductCopyWith<$Res>
     implements $PayloadRequestCreateProductCopyWith<$Res> {
-  factory _$PayloadRequestCreateProductCopyWith(
-          _PayloadRequestCreateProduct value,
-          $Res Function(_PayloadRequestCreateProduct) then) =
-      __$PayloadRequestCreateProductCopyWithImpl<$Res>;
+  factory _$$_PayloadRequestCreateProductCopyWith(
+          _$_PayloadRequestCreateProduct value,
+          $Res Function(_$_PayloadRequestCreateProduct) then) =
+      __$$_PayloadRequestCreateProductCopyWithImpl<$Res>;
   @override
   $Res call(
       {String deskripsiProduct,
@@ -143,17 +114,17 @@ abstract class _$PayloadRequestCreateProductCopyWith<$Res>
 }
 
 /// @nodoc
-class __$PayloadRequestCreateProductCopyWithImpl<$Res>
+class __$$_PayloadRequestCreateProductCopyWithImpl<$Res>
     extends _$PayloadRequestCreateProductCopyWithImpl<$Res>
-    implements _$PayloadRequestCreateProductCopyWith<$Res> {
-  __$PayloadRequestCreateProductCopyWithImpl(
-      _PayloadRequestCreateProduct _value,
-      $Res Function(_PayloadRequestCreateProduct) _then)
-      : super(_value, (v) => _then(v as _PayloadRequestCreateProduct));
+    implements _$$_PayloadRequestCreateProductCopyWith<$Res> {
+  __$$_PayloadRequestCreateProductCopyWithImpl(
+      _$_PayloadRequestCreateProduct _value,
+      $Res Function(_$_PayloadRequestCreateProduct) _then)
+      : super(_value, (v) => _then(v as _$_PayloadRequestCreateProduct));
 
   @override
-  _PayloadRequestCreateProduct get _value =>
-      super._value as _PayloadRequestCreateProduct;
+  _$_PayloadRequestCreateProduct get _value =>
+      super._value as _$_PayloadRequestCreateProduct;
 
   @override
   $Res call({
@@ -164,7 +135,7 @@ class __$PayloadRequestCreateProductCopyWithImpl<$Res>
     Object? storeCatProd = freezed,
     Object? idStore = freezed,
   }) {
-    return _then(_PayloadRequestCreateProduct(
+    return _then(_$_PayloadRequestCreateProduct(
       deskripsiProduct: deskripsiProduct == freezed
           ? _value.deskripsiProduct
           : deskripsiProduct // ignore: cast_nullable_to_non_nullable
@@ -182,7 +153,7 @@ class __$PayloadRequestCreateProductCopyWithImpl<$Res>
           : nameProduct // ignore: cast_nullable_to_non_nullable
               as String,
       storeCatProd: storeCatProd == freezed
-          ? _value.storeCatProd
+          ? _value._storeCatProd
           : storeCatProd // ignore: cast_nullable_to_non_nullable
               as List<String>,
       idStore: idStore == freezed
@@ -201,8 +172,9 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
       required this.priceProduct,
       required this.stockProduct,
       required this.nameProduct,
-      required this.storeCatProd,
-      this.idStore});
+      required final List<String> storeCatProd,
+      this.idStore})
+      : _storeCatProd = storeCatProd;
 
   factory _$_PayloadRequestCreateProduct.fromJson(Map<String, dynamic> json) =>
       _$$_PayloadRequestCreateProductFromJson(json);
@@ -215,8 +187,13 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
   final String stockProduct;
   @override
   final String nameProduct;
+  final List<String> _storeCatProd;
   @override
-  final List<String> storeCatProd;
+  List<String> get storeCatProd {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_storeCatProd);
+  }
+
   @override
   final int? idStore;
 
@@ -229,7 +206,7 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadRequestCreateProduct &&
+            other is _$_PayloadRequestCreateProduct &&
             const DeepCollectionEquality()
                 .equals(other.deskripsiProduct, deskripsiProduct) &&
             const DeepCollectionEquality()
@@ -239,10 +216,11 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
             const DeepCollectionEquality()
                 .equals(other.nameProduct, nameProduct) &&
             const DeepCollectionEquality()
-                .equals(other.storeCatProd, storeCatProd) &&
+                .equals(other._storeCatProd, _storeCatProd) &&
             const DeepCollectionEquality().equals(other.idStore, idStore));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -250,14 +228,14 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
       const DeepCollectionEquality().hash(priceProduct),
       const DeepCollectionEquality().hash(stockProduct),
       const DeepCollectionEquality().hash(nameProduct),
-      const DeepCollectionEquality().hash(storeCatProd),
+      const DeepCollectionEquality().hash(_storeCatProd),
       const DeepCollectionEquality().hash(idStore));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadRequestCreateProductCopyWith<_PayloadRequestCreateProduct>
-      get copyWith => __$PayloadRequestCreateProductCopyWithImpl<
-          _PayloadRequestCreateProduct>(this, _$identity);
+  _$$_PayloadRequestCreateProductCopyWith<_$_PayloadRequestCreateProduct>
+      get copyWith => __$$_PayloadRequestCreateProductCopyWithImpl<
+          _$_PayloadRequestCreateProduct>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -268,30 +246,30 @@ class _$_PayloadRequestCreateProduct implements _PayloadRequestCreateProduct {
 abstract class _PayloadRequestCreateProduct
     implements PayloadRequestCreateProduct {
   const factory _PayloadRequestCreateProduct(
-      {required String deskripsiProduct,
-      required String priceProduct,
-      required String stockProduct,
-      required String nameProduct,
-      required List<String> storeCatProd,
-      int? idStore}) = _$_PayloadRequestCreateProduct;
+      {required final String deskripsiProduct,
+      required final String priceProduct,
+      required final String stockProduct,
+      required final String nameProduct,
+      required final List<String> storeCatProd,
+      final int? idStore}) = _$_PayloadRequestCreateProduct;
 
   factory _PayloadRequestCreateProduct.fromJson(Map<String, dynamic> json) =
       _$_PayloadRequestCreateProduct.fromJson;
 
   @override
-  String get deskripsiProduct;
+  String get deskripsiProduct => throw _privateConstructorUsedError;
   @override
-  String get priceProduct;
+  String get priceProduct => throw _privateConstructorUsedError;
   @override
-  String get stockProduct;
+  String get stockProduct => throw _privateConstructorUsedError;
   @override
-  String get nameProduct;
+  String get nameProduct => throw _privateConstructorUsedError;
   @override
-  List<String> get storeCatProd;
+  List<String> get storeCatProd => throw _privateConstructorUsedError;
   @override
-  int? get idStore;
+  int? get idStore => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadRequestCreateProductCopyWith<_PayloadRequestCreateProduct>
+  _$$_PayloadRequestCreateProductCopyWith<_$_PayloadRequestCreateProduct>
       get copyWith => throw _privateConstructorUsedError;
 }

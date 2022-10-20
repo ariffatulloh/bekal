@@ -130,7 +130,7 @@ class ListMenuMyProfile extends StatelessWidget {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: Text('Klik ok untuk keluar'),
+                    title: Text('Klik Ya untuk keluar'),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {

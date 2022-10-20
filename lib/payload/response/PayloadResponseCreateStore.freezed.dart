@@ -12,30 +12,12 @@ part of 'PayloadResponseCreateStore.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseCreateStore _$PayloadResponseCreateStoreFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseCreateStore.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseCreateStoreTearOff {
-  const _$PayloadResponseCreateStoreTearOff();
-
-  _PayloadResponseCreateStore call({required String message}) {
-    return _PayloadResponseCreateStore(
-      message: message,
-    );
-  }
-
-  PayloadResponseCreateStore fromJson(Map<String, Object?> json) {
-    return PayloadResponseCreateStore.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseCreateStore = _$PayloadResponseCreateStoreTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseCreateStore {
@@ -78,33 +60,34 @@ class _$PayloadResponseCreateStoreCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseCreateStoreCopyWith<$Res>
+abstract class _$$_PayloadResponseCreateStoreCopyWith<$Res>
     implements $PayloadResponseCreateStoreCopyWith<$Res> {
-  factory _$PayloadResponseCreateStoreCopyWith(
-          _PayloadResponseCreateStore value,
-          $Res Function(_PayloadResponseCreateStore) then) =
-      __$PayloadResponseCreateStoreCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseCreateStoreCopyWith(
+          _$_PayloadResponseCreateStore value,
+          $Res Function(_$_PayloadResponseCreateStore) then) =
+      __$$_PayloadResponseCreateStoreCopyWithImpl<$Res>;
   @override
   $Res call({String message});
 }
 
 /// @nodoc
-class __$PayloadResponseCreateStoreCopyWithImpl<$Res>
+class __$$_PayloadResponseCreateStoreCopyWithImpl<$Res>
     extends _$PayloadResponseCreateStoreCopyWithImpl<$Res>
-    implements _$PayloadResponseCreateStoreCopyWith<$Res> {
-  __$PayloadResponseCreateStoreCopyWithImpl(_PayloadResponseCreateStore _value,
-      $Res Function(_PayloadResponseCreateStore) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseCreateStore));
+    implements _$$_PayloadResponseCreateStoreCopyWith<$Res> {
+  __$$_PayloadResponseCreateStoreCopyWithImpl(
+      _$_PayloadResponseCreateStore _value,
+      $Res Function(_$_PayloadResponseCreateStore) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseCreateStore));
 
   @override
-  _PayloadResponseCreateStore get _value =>
-      super._value as _PayloadResponseCreateStore;
+  _$_PayloadResponseCreateStore get _value =>
+      super._value as _$_PayloadResponseCreateStore;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(_PayloadResponseCreateStore(
+    return _then(_$_PayloadResponseCreateStore(
       message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -133,19 +116,20 @@ class _$_PayloadResponseCreateStore implements _PayloadResponseCreateStore {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseCreateStore &&
+            other is _$_PayloadResponseCreateStore &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseCreateStoreCopyWith<_PayloadResponseCreateStore>
-      get copyWith => __$PayloadResponseCreateStoreCopyWithImpl<
-          _PayloadResponseCreateStore>(this, _$identity);
+  _$$_PayloadResponseCreateStoreCopyWith<_$_PayloadResponseCreateStore>
+      get copyWith => __$$_PayloadResponseCreateStoreCopyWithImpl<
+          _$_PayloadResponseCreateStore>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -155,16 +139,16 @@ class _$_PayloadResponseCreateStore implements _PayloadResponseCreateStore {
 
 abstract class _PayloadResponseCreateStore
     implements PayloadResponseCreateStore {
-  const factory _PayloadResponseCreateStore({required String message}) =
+  const factory _PayloadResponseCreateStore({required final String message}) =
       _$_PayloadResponseCreateStore;
 
   factory _PayloadResponseCreateStore.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseCreateStore.fromJson;
 
   @override
-  String get message;
+  String get message => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseCreateStoreCopyWith<_PayloadResponseCreateStore>
+  _$$_PayloadResponseCreateStoreCopyWith<_$_PayloadResponseCreateStore>
       get copyWith => throw _privateConstructorUsedError;
 }

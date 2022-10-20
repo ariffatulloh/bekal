@@ -10,7 +10,7 @@ part of 'api_auth_service.dart';
 
 class _ApiAuthService implements ApiAuthService {
   _ApiAuthService(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'http://demo.rifias.live/auth/';
+    baseUrl ??= 'https://api.belanjakalimantanutara.com/auth/';
   }
 
   final Dio _dio;

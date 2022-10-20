@@ -12,35 +12,12 @@ part of 'PayloadResponseStoreCategory.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 PayloadResponseStoreCategory _$PayloadResponseStoreCategoryFromJson(
     Map<String, dynamic> json) {
   return _PayloadResponseStoreCategory.fromJson(json);
 }
-
-/// @nodoc
-class _$PayloadResponseStoreCategoryTearOff {
-  const _$PayloadResponseStoreCategoryTearOff();
-
-  _PayloadResponseStoreCategory call(
-      {required String storeName,
-      required String categoryName,
-      required int categoryId}) {
-    return _PayloadResponseStoreCategory(
-      storeName: storeName,
-      categoryName: categoryName,
-      categoryId: categoryId,
-    );
-  }
-
-  PayloadResponseStoreCategory fromJson(Map<String, Object?> json) {
-    return PayloadResponseStoreCategory.fromJson(json);
-  }
-}
-
-/// @nodoc
-const $PayloadResponseStoreCategory = _$PayloadResponseStoreCategoryTearOff();
 
 /// @nodoc
 mixin _$PayloadResponseStoreCategory {
@@ -96,28 +73,28 @@ class _$PayloadResponseStoreCategoryCopyWithImpl<$Res>
 }
 
 /// @nodoc
-abstract class _$PayloadResponseStoreCategoryCopyWith<$Res>
+abstract class _$$_PayloadResponseStoreCategoryCopyWith<$Res>
     implements $PayloadResponseStoreCategoryCopyWith<$Res> {
-  factory _$PayloadResponseStoreCategoryCopyWith(
-          _PayloadResponseStoreCategory value,
-          $Res Function(_PayloadResponseStoreCategory) then) =
-      __$PayloadResponseStoreCategoryCopyWithImpl<$Res>;
+  factory _$$_PayloadResponseStoreCategoryCopyWith(
+          _$_PayloadResponseStoreCategory value,
+          $Res Function(_$_PayloadResponseStoreCategory) then) =
+      __$$_PayloadResponseStoreCategoryCopyWithImpl<$Res>;
   @override
   $Res call({String storeName, String categoryName, int categoryId});
 }
 
 /// @nodoc
-class __$PayloadResponseStoreCategoryCopyWithImpl<$Res>
+class __$$_PayloadResponseStoreCategoryCopyWithImpl<$Res>
     extends _$PayloadResponseStoreCategoryCopyWithImpl<$Res>
-    implements _$PayloadResponseStoreCategoryCopyWith<$Res> {
-  __$PayloadResponseStoreCategoryCopyWithImpl(
-      _PayloadResponseStoreCategory _value,
-      $Res Function(_PayloadResponseStoreCategory) _then)
-      : super(_value, (v) => _then(v as _PayloadResponseStoreCategory));
+    implements _$$_PayloadResponseStoreCategoryCopyWith<$Res> {
+  __$$_PayloadResponseStoreCategoryCopyWithImpl(
+      _$_PayloadResponseStoreCategory _value,
+      $Res Function(_$_PayloadResponseStoreCategory) _then)
+      : super(_value, (v) => _then(v as _$_PayloadResponseStoreCategory));
 
   @override
-  _PayloadResponseStoreCategory get _value =>
-      super._value as _PayloadResponseStoreCategory;
+  _$_PayloadResponseStoreCategory get _value =>
+      super._value as _$_PayloadResponseStoreCategory;
 
   @override
   $Res call({
@@ -125,7 +102,7 @@ class __$PayloadResponseStoreCategoryCopyWithImpl<$Res>
     Object? categoryName = freezed,
     Object? categoryId = freezed,
   }) {
-    return _then(_PayloadResponseStoreCategory(
+    return _then(_$_PayloadResponseStoreCategory(
       storeName: storeName == freezed
           ? _value.storeName
           : storeName // ignore: cast_nullable_to_non_nullable
@@ -169,7 +146,7 @@ class _$_PayloadResponseStoreCategory implements _PayloadResponseStoreCategory {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _PayloadResponseStoreCategory &&
+            other is _$_PayloadResponseStoreCategory &&
             const DeepCollectionEquality().equals(other.storeName, storeName) &&
             const DeepCollectionEquality()
                 .equals(other.categoryName, categoryName) &&
@@ -177,6 +154,7 @@ class _$_PayloadResponseStoreCategory implements _PayloadResponseStoreCategory {
                 .equals(other.categoryId, categoryId));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -186,9 +164,9 @@ class _$_PayloadResponseStoreCategory implements _PayloadResponseStoreCategory {
 
   @JsonKey(ignore: true)
   @override
-  _$PayloadResponseStoreCategoryCopyWith<_PayloadResponseStoreCategory>
-      get copyWith => __$PayloadResponseStoreCategoryCopyWithImpl<
-          _PayloadResponseStoreCategory>(this, _$identity);
+  _$$_PayloadResponseStoreCategoryCopyWith<_$_PayloadResponseStoreCategory>
+      get copyWith => __$$_PayloadResponseStoreCategoryCopyWithImpl<
+          _$_PayloadResponseStoreCategory>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -199,21 +177,21 @@ class _$_PayloadResponseStoreCategory implements _PayloadResponseStoreCategory {
 abstract class _PayloadResponseStoreCategory
     implements PayloadResponseStoreCategory {
   const factory _PayloadResponseStoreCategory(
-      {required String storeName,
-      required String categoryName,
-      required int categoryId}) = _$_PayloadResponseStoreCategory;
+      {required final String storeName,
+      required final String categoryName,
+      required final int categoryId}) = _$_PayloadResponseStoreCategory;
 
   factory _PayloadResponseStoreCategory.fromJson(Map<String, dynamic> json) =
       _$_PayloadResponseStoreCategory.fromJson;
 
   @override
-  String get storeName;
+  String get storeName => throw _privateConstructorUsedError;
   @override
-  String get categoryName;
+  String get categoryName => throw _privateConstructorUsedError;
   @override
-  int get categoryId;
+  int get categoryId => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  _$PayloadResponseStoreCategoryCopyWith<_PayloadResponseStoreCategory>
+  _$$_PayloadResponseStoreCategoryCopyWith<_$_PayloadResponseStoreCategory>
       get copyWith => throw _privateConstructorUsedError;
 }

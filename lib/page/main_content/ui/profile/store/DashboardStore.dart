@@ -39,8 +39,9 @@ class DashboardStore extends StatefulWidget {
   _DashboardStore createState() => _DashboardStore();
 }
 
-Future<http.Response> getDataStore({required int storeId}) async =>
-    http.get(Uri.parse('http://demo.rifias.live/api/view-outlet/$storeId'),
+Future<http.Response> getDataStore({required int storeId}) async => http.get(
+        Uri.parse(
+            'https://api.belanjakalimantanutara.com/api/view-outlet/$storeId'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
