@@ -41,7 +41,9 @@ class DashboardStore extends StatefulWidget {
 
 Future<http.Response> getDataStore({required int storeId}) async => http.get(
         Uri.parse(
-            'https://api.belanjakalimantanutara.com/api/view-outlet/$storeId'),
+            // 'https://api.belanjakalimantanutara.com/api/view-outlet/$storeId'),
+            'http://10.0.2.2:3000/api/view-outlet/$storeId'),
+
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

@@ -218,16 +218,16 @@ class _CheckoutState extends State<Checkout> {
 
       products.add({
         "store_id": widget.items[i].store_id,
-        "courier_id": selectedShipper[i]!.courierId,
-        "courier_name": selectedShipper[i]!.courierName,
-        "courier_code": selectedShipper[i]!.courierCode,
-        "rate_id": selectedShipper[i]!.rateId,
-        "rate_name": selectedShipper[i]!.rateName,
-        "rate_type": selectedShipper[i]!.rateType,
+        "courier": selectedShipper[i]!.courierId,
+        // "courier_name": selectedShipper[i]!.courierName,
+        // "courier_code": selectedShipper[i]!.courierCode,
+        // "rate_id": selectedShipper[i]!.rateId,
+        "courier_service": selectedShipper[i]!.rateName,
+        // "rate_type": selectedShipper[i]!.rateType,
         "courier_notes": "-",
-        "order_cod": false,
+        "is_cod": false,
         "use_insurance": false,
-        "shipping_price": selectedShipper[i]!.shippingPrice,
+        "price": selectedShipper[i]!.shippingPrice,
         "item": item
       });
     }
@@ -239,7 +239,7 @@ class _CheckoutState extends State<Checkout> {
         isCreatingOrder = true;
       });
 
-      DioResponse res = await _dio.postAsync("/order/create", payload);
+      DioResponse res = await _dio.postAsync("/order/creates", payload);
       print(res.results);
       print(payload);
       if (res.results["code"] == 200) {
@@ -461,21 +461,21 @@ class _CheckoutState extends State<Checkout> {
 }
 
 class Shipping {
-  double courierId;
+  String courierId;
   String courierName;
   String courierCode;
-  double rateId;
+  // double rateId;
   String rateName = "";
-  String rateType = "";
+  // String rateType = "";
   double shippingPrice;
 
   Shipping(
       {required this.courierId,
       this.courierName = "",
       this.courierCode = "",
-      required this.rateId,
+      // required this.rateId,
       this.rateName = "",
-      this.rateType = "",
+      // this.rateType = "",
       this.shippingPrice = 0.0});
 }
 
@@ -574,19 +574,12 @@ class _CourierDialogState extends State<CourierDialog> {
                                       widget.onSelected(
                                         widget.indexShipper,
                                         new Shipping(
-                                            courierId: courier[i]["logistic"]
-                                                ["id"],
-                                            courierName: courier[i]["logistic"]
-                                                ["name"],
-                                            courierCode: courier[i]["logistic"]
-                                                ["code"],
-                                            rateId: courier[i]["rate"]["id"],
-                                            rateName: courier[i]["rate"]
-                                                ["name"],
-                                            rateType: courier[i]["rate"]
-                                                ["type"],
-                                            shippingPrice: courier[i]
-                                                ["final_price"]),
+                                            courierId: courier[i]["courierCode"],
+                                            courierName: courier[i]["courier"],
+                                            courierCode: courier[i]["courierCode"],
+                                            // rateId: courier[i]["service"],
+                                            rateName: courier[i]["service"],
+                                            shippingPrice: courier[i]["price"]),
                                       );
                                       Navigator.of(context).pop();
                                     },
@@ -607,34 +600,34 @@ class _CourierDialogState extends State<CourierDialog> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(3)),
-                                              child: CachedNetworkImage(
-                                                fit: BoxFit.contain,
-                                                imageUrl: courier[i]["logistic"]
-                                                    ["logo_url"],
-                                                placeholder: (context, url) =>
-                                                    Center(
-                                                  child: SizedBox(
-                                                    width: 40.0,
-                                                    height: 40.0,
-                                                    child:
-                                                        new CircularProgressIndicator(
-                                                      color: Colors.orange,
-                                                    ),
-                                                  ),
-                                                ),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        const Icon(Icons.error),
-                                              ),
-                                            ),
-                                          ),
+                                          // Container(
+                                          //   width: 50,
+                                          //   height: 50,
+                                          //   child: ClipRRect(
+                                          //     borderRadius:
+                                          //         const BorderRadius.all(
+                                          //             Radius.circular(3)),
+                                          //     child: CachedNetworkImage(
+                                          //       fit: BoxFit.contain,
+                                          //       imageUrl: courier[i]["logistic"]
+                                          //           ["logo_url"],
+                                          //       placeholder: (context, url) =>
+                                          //           Center(
+                                          //         child: SizedBox(
+                                          //           width: 40.0,
+                                          //           height: 40.0,
+                                          //           child:
+                                          //               new CircularProgressIndicator(
+                                          //             color: Colors.orange,
+                                          //           ),
+                                          //         ),
+                                          //       ),
+                                          //       errorWidget:
+                                          //           (context, url, error) =>
+                                          //               const Icon(Icons.error),
+                                          //     ),
+                                          //   ),
+                                          // ),
                                           SizedBox(width: 3.w),
                                           Container(
                                             child: Column(
@@ -643,7 +636,7 @@ class _CourierDialogState extends State<CourierDialog> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "${courier[i]["logistic"]["name"]} (${courier[i]["rate"]["name"]})",
+                                                    "${courier[i]["courier"]} (${courier[i]["service"]})",
                                                     style: TextStyle(
                                                         fontFamily: 'ghotic',
                                                         fontSize: 11.sp,
@@ -653,11 +646,21 @@ class _CourierDialogState extends State<CourierDialog> {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                   ),
+                                                  SizedBox(height: 2),
+                                                  Text(
+                                                    "${courier[i]["estimation"] ?? '-'}",
+                                                    style: TextStyle(
+                                                        fontFamily: 'ghotic',
+                                                        color:Colors.grey,
+                                                        fontSize: 9.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                   SizedBox(height: 5),
                                                   Text(
                                                     currencyFormatter.format(
                                                         courier[i]
-                                                            ["final_price"]),
+                                                            ["price"]),
                                                     style: TextStyle(
                                                         fontFamily: 'ghotic',
                                                         fontSize: 10.sp,
@@ -731,19 +734,20 @@ class _CourierDialogState extends State<CourierDialog> {
         "page": 1,
         "sort_by": []
       };
-
+ 
       try {
         DioResponse res =
-            await _dio.postAsync("/logistics/pricing/check", payload);
+            await _dio.postAsync("/logistics/courier/pricing", payload);
         if (res.results["code"] == 200) {
-          List pricing = res.results["data"]["pricings"];
+          print(res.results["data"]);
+          List pricing = res.results["data"]["data"];
 
-          List selectedPricing = pricing
-              .where(
-                  (e) => ["J&T", "JNE", "Tiki"].contains(e["logistic"]["name"]))
-              .toList();
+          // List selectedPricing = pricing
+          //     .where(
+          //         (e) => ["J&T", "JNE", "Tiki"].contains(e["logistic"]["name"]))
+          //     .toList();
           setState(() {
-            courier = selectedPricing;
+            courier = pricing;
           });
         }
       } catch (e) {

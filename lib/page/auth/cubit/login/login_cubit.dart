@@ -44,6 +44,7 @@ class LoginCubit extends Cubit<LoginCubitState> {
           }
           SecureStorage().saveTokenOnly(dataValue.token);
         }
+        print("here");
         isVerified(dataValue.token);
         // getProfile(dataValue.token);
         //

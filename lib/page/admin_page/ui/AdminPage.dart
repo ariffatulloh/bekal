@@ -1270,7 +1270,9 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
     List<StoreAdminPage> localListAllStore = [];
     HomeAdmin localResponse = HomeAdmin();
     var getAllStore = await http.get(
-        Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
+        // Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
+        Uri.parse('http://localhost:3000/api/admin/all/store'),
+
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',

@@ -537,6 +537,7 @@ class _FormDataPribadi extends State<FormDataPribadi> {
                                 borderRadius: 20.0,
                                 onItemSelected: (value) {
                                   setState(() {
+                                    print(value);
                                     desa = value;
                                   });
                                 },
@@ -598,11 +599,10 @@ class _FormDataPribadi extends State<FormDataPribadi> {
                                             var payload = Address(
                                                 address: alamat,
                                                 area_id:
-                                                    int.tryParse(desa) ?? 0,
+                                                    desa ,
                                                 area_name: "",
                                                 city_id:
-                                                    int.tryParse(kabupaten) ??
-                                                        0,
+                                                    kabupaten,
                                                 city_name: "",
                                                 country_id: 1,
                                                 country_name: "Indonesia",
@@ -611,11 +611,10 @@ class _FormDataPribadi extends State<FormDataPribadi> {
                                                 // lng: "0.0",
                                                 postcode: kodepos,
                                                 province_id:
-                                                    int.tryParse(provinsi) ?? 0,
+                                                    provinsi,
                                                 province_name: "",
                                                 suburb_id:
-                                                    int.tryParse(kecamatan) ??
-                                                        0,
+                                                    kecamatan,
                                                 suburb_name: "");
                                             // // if (_formKey.currentState!.validate()) {
                                             // _formKey.currentState!.save();
