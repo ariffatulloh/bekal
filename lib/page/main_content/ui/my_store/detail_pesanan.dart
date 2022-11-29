@@ -40,6 +40,7 @@ class _DetailPesananState extends State<DetailPesanan> {
   var invoice;
   dynamic? buyer;
   String noresi = "";
+  String delivery_id = "";
   List products = [];
 
   @override
@@ -288,7 +289,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        "${order?["courier_desc"] ?? "-"} (${order?["rate_name"] ?? "-"})",
+                        "${order?["courier_code"] ?? "-"} (${order?["courier_desc"] ?? "-"})",
                         style: TextStyle(
                             fontFamily: 'ghotic',
                             fontSize: 11.sp,
@@ -358,8 +359,9 @@ class _DetailPesananState extends State<DetailPesanan> {
                                             "Nomor Resi tidak boleh kosong",
                                             gravity: ToastGravity.CENTER);
                                       } else {
-                                        _updateResi();
-                                        // _reqPenjemputan(noresi);
+                                        // _updateResi();
+                                        // _reqPenjemputan(order?["delivery_id"]);
+                                        _reqPickup();
                                       }
                                     },
                                     child: Container(
@@ -378,10 +380,10 @@ class _DetailPesananState extends State<DetailPesanan> {
                                         children: [
                                           Text(
                                             [
-                                              "ORD08A",
+                                              "ORD04",
                                             ].contains(order?["status"]["id"])
                                                 ? "Ubah No.Resi"
-                                                : "Kirimkan No.Resi",
+                                                : "Ajukan Penjemputan",
                                             style: TextStyle(
                                                 fontFamily: 'ghotic',
                                                 fontSize: 10.sp,
@@ -847,7 +849,7 @@ class _DetailPesananState extends State<DetailPesanan> {
 
     var payload = {
       "order_id": widget.orderId,
-      "status": "ORD04A",
+      "status": "ORD04B",
       "delivery_no": "",
       "reason": ""
     };
@@ -912,6 +914,7 @@ class _DetailPesananState extends State<DetailPesanan> {
           invoice = res.results["data"]["invoice"];
           buyer = res.results["data"]["buyer"];
           noresi = res.results["data"]["order"]["delivery_no"] ?? "";
+          delivery_id = res.results["data"]["order"]["delivery_id"] ?? "";
           isGettingData = false;
         });
       }
@@ -920,7 +923,41 @@ class _DetailPesananState extends State<DetailPesanan> {
     }
   }
 
+  _reqPickup() async {
+    print("process pickup request");
+    setState(() {
+        isGettingData = true;
+      });
+
+      var payload = {
+        "delivery_id": delivery_id
+      };
+
+      try {
+        DioResponse res = await _dio.postAsync("/order/pickup", payload);
+        print('result pickup ${res.results ?? ""}');
+        if (res.results["code"] == 200) {
+          print('result pickup ${res.results["data"] ?? ""}');
+          Toaster(context).showSuccessToast("Permintaan Penjemputan Paket Berhasil",
+              gravity: ToastGravity.CENTER);
+          _getData();
+        }else{
+          Toaster(context).showErrorToast(res.results["errorMessage"], gravity: ToastGravity.CENTER);
+          setState(() {
+            isGettingData = false;
+          });
+        }
+      } catch (e) {
+        print(e);
+
+        setState(() {
+          isGettingData = false;
+        });
+      }
+  }
+
   Future<void> _reqPenjemputan(String noresi) async {
+    print(delivery_id);
     String twoDigits(int n) {
       if (n >= 10) return '$n';
       return '0$n';
@@ -1026,6 +1063,8 @@ class _DetailPesananState extends State<DetailPesanan> {
           return TrackingPaket(noResi: noresi);
         });
   }
+
+  
 }
 
 class TrackingPaket extends StatelessWidget {
@@ -1631,3 +1670,5 @@ class _DialogTolakPesananState extends State<DialogTolakPesanan> {
     });
   }
 }
+
+
