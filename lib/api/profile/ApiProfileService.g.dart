@@ -10,9 +10,8 @@ part of 'ApiProfileService.dart';
 
 class _ApiProfileService implements ApiProfileService {
   _ApiProfileService(this._dio, {this.baseUrl}) {
-    // baseUrl ??= 'https://api.belanjakalimantanutara.com/api/my/';
-    baseUrl ??= 'http://10.0.2.2:3000/api/my/';
-
+    baseUrl ??= 'https://api.belanjakalimantanutara.com/api/my/';
+    // baseUrl ??= 'http://10.0.2.2:3000/api/my/';
   }
 
   final Dio _dio;
@@ -112,26 +111,26 @@ class _ApiProfileService implements ApiProfileService {
   Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
       updatePersonalInformation(
           authorization, file, payloadRequestUpdatePersonalInformation) async {
-          const _extra = <String, dynamic>{};
-          final queryParameters = <String, dynamic>{};
-          queryParameters.removeWhere((k, v) => v == null);
-          final _headers = <String, dynamic>{r'Authorization': authorization};
-          _headers.removeWhere((k, v) => v == null);
-          final _data = <String, dynamic>{};
-          _data.addAll(payloadRequestUpdatePersonalInformation.toJson());
-          final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
-                  PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
-              Options(method: 'POST', headers: _headers, extra: _extra)
-                  .compose(_dio.options, 'profile/update/datapribadi',
-                      queryParameters: queryParameters, data: _data)
-                  .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-          final value =
-              PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
-            _result.data!,
-            (json) => PayloadResponseUpdatePersonalInformation.fromJson(
-                json as Map<String, dynamic>),
-          );
-          return value;
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'Authorization': authorization};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    _data.addAll(payloadRequestUpdatePersonalInformation.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(_setStreamType<
+            PayloadResponseApi<PayloadResponseUpdatePersonalInformation>>(
+        Options(method: 'POST', headers: _headers, extra: _extra)
+            .compose(_dio.options, 'profile/update/datapribadi',
+                queryParameters: queryParameters, data: _data)
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value =
+        PayloadResponseApi<PayloadResponseUpdatePersonalInformation>.fromJson(
+      _result.data!,
+      (json) => PayloadResponseUpdatePersonalInformation.fromJson(
+          json as Map<String, dynamic>),
+    );
+    return value;
   }
 
   @override

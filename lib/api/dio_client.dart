@@ -6,10 +6,9 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
-  // static const String ipServer = 'https://api.belanjakalimantanutara.com';
-  static const String ipServer = 'http://10.0.2.2:3000';
+  static const String ipServer = 'https://api.belanjakalimantanutara.com';
+  // static const String ipServer = 'http://10.0.2.2:3000';
 
- 
   final Dio _dio = Dio(
     BaseOptions(
       baseUrl: ipServer,
