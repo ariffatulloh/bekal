@@ -159,10 +159,10 @@ class _TextInputState extends State<TextInput> {
   }
 
   void _clearInput() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _controller.clear());
-    setState(() {
-      touched = false;
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) => _controller.clear());
+    // setState(() {
+    //   touched = false;
+    // });
   }
 
   String? _validateValue(String? value) {

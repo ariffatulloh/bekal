@@ -11,6 +11,7 @@ part of 'api_auth_service.dart';
 class _ApiAuthService implements ApiAuthService {
   _ApiAuthService(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://api.belanjakalimantanutara.com/auth/';
+    // baseUrl ??= 'http://10.0.2.2:3000/auth/';
   }
 
   final Dio _dio;

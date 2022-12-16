@@ -78,12 +78,14 @@ class _MasterDropdownState extends State<MasterDropdown> {
   }
 
   getData() async {
+    print("load province data");
     List dataRes = [];
     try {
       DioResponse res = await _dio.getAsync(widget.url);
 
       if (res.results["code"] == 200) {
-        dataRes = res.results["data"]["rows"];
+        dataRes = res.results["data"];
+        print(res.results["data"]);
       }
     } catch (e) {}
 

@@ -11,6 +11,7 @@ part of 'ApiProfileService.dart';
 class _ApiProfileService implements ApiProfileService {
   _ApiProfileService(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://api.belanjakalimantanutara.com/api/my/';
+    // baseUrl ??= 'http://10.0.2.2:3000/api/my/';
   }
 
   final Dio _dio;

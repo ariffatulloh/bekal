@@ -37,33 +37,33 @@ class Profile {
 @JsonSerializable()
 class Address {
   String? address;
-  int area_id;
+  String? area_id;
   String? area_name;
-  int city_id;
+  String? city_id;
   String? city_name;
   int country_id;
   String? country_name;
   String? direction;
   String? postcode;
-  int province_id;
+  String? province_id;
   String? province_name;
-  int suburb_id;
+  String? suburb_id;
   String? suburb_name;
   String? lat;
   String? lng;
   Address({
     this.address,
-    this.area_id = 0,
+    this.area_id,
     this.area_name,
-    this.city_id = 0,
+    this.city_id,
     this.city_name,
     this.country_id = 0,
     this.country_name,
     this.direction,
     this.postcode,
-    this.province_id = 0,
+    this.province_id,
     this.province_name,
-    this.suburb_id = 0,
+    this.suburb_id,
     this.suburb_name,
     this.lat = "",
     this.lng = "",
