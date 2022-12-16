@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:bekal/main.dart';
+import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/cubit/profile/profile_screen_cubit.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/CardStoreMyProfile.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/ListMenuMyProfile.dart';
@@ -11,8 +12,6 @@ import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -34,8 +33,6 @@ class _ProfileScreen extends State<ProfileScreen> {
 
   PayloadResponseMyProfileDashboard? dataEvent;
   Future<void> getFromApi() async {
-    // streamProfileScreen.sink
-    //     .add(await ProfileRepository().myProfileDashboard("authorization"));
     var event = await ProfileRepository().myProfileDashboard("authorization");
     List<String> dataSubsFirebase = [];
     if (event.data != null) {
@@ -57,8 +54,11 @@ class _ProfileScreen extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    getFromApi();
-    _askPermission();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getFromApi();
+      _askPermission();
+    });
   } // ProfileScreen();
 
   @override
@@ -70,149 +70,27 @@ class _ProfileScreen extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SecureStorage().getToken().then((token) {
+      if (token == null) {
+        context.read<ControllerPageCubit>().goto("LOGIN");
+      }
+    });
+
     return BlocProvider<ProfileScreenCubit>(
       create: (context) => ProfileScreenCubit(),
       child: Scaffold(
-          backgroundColor: const Color(0x26000000),
-          body: dataEvent != null
-              ? ProfileContent(
-                  data: dataEvent!,
-                  context: context,
-                )
-              : Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
-                )
-          // StreamBuilder(
-          //   stream: streamProfileScreen.stream,
-          //   builder: (context,
-          //       AsyncSnapshot<
-          //               PayloadResponseApi<PayloadResponseMyProfileDashboard?>>
-          //           snapshot) {
-          //     print('profile ${snapshot.data}');
-          //     if (snapshot.hasData) {
-          //       if (snapshot.data != null) {
-          //         if (snapshot.data!.data != null) {
-          //           return ProfileContent(
-          //             data: snapshot.data!.data!,
-          //             context: context,
-          //           );
-          //         }
-          //       }
-          //     }
-          //     return Center(
-          //       child: CircularProgressIndicator(),
-          //     );
-          //   },
-          // ),
-
-          ///////////////////////////////////
-          // body: BlocBuilder<ProfileScreenCubit, ProfileScreenCubitState>(
-          //   builder: (cubitContext, cubitState) {
-          //     var container = Container(
-          //       child: null,
-          //     );
-          //     if (cubitState is InitialStateProfileScreenCubitState) {
-          //       cubitContext.read<ProfileScreenCubit>().LoadMyProfileDashboard();
-          //       return LoadingContent(
-          //         child: ProfileContent(
-          //           null,
-          //           cubitState: cubitState,
-          //           cubitContext: cubitContext,
-          //         ),
-          //       );
-          //     } else {
-          //       return Stack(
-          //         children: <Widget>[
-          //           Pinned.fromPins(
-          //             Pin(size: 207.0, end: 0.0),
-          //             Pin(size: 212.0, start: 0.0),
-          //             child: Stack(
-          //               children: <Widget>[
-          //                 Pinned.fromPins(
-          //                   Pin(size: 103.0, end: 0.0),
-          //                   Pin(size: 134.0, start: 0.0),
-          //                   child: SvgPicture.string(
-          //                     _svg_dh7r5a,
-          //                     allowDrawingOutsideViewBox: true,
-          //                     fit: BoxFit.fill,
-          //                   ),
-          //                 ),
-          //                 Pinned.fromPins(
-          //                   Pin(size: 77.0, middle: 0.3),
-          //                   Pin(size: 77.0, middle: 0.7111),
-          //                   child: Container(
-          //                     decoration: const BoxDecoration(
-          //                       borderRadius: BorderRadius.all(
-          //                           Radius.elliptical(9999.0, 9999.0)),
-          //                       color: Color(0xfff39200),
-          //                       boxShadow: [
-          //                         BoxShadow(
-          //                           color: Color(0x29000000),
-          //                           offset: Offset(0, 3),
-          //                           blurRadius: 6,
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //                 Pinned.fromPins(
-          //                   Pin(size: 39.0, start: 0.0),
-          //                   Pin(size: 39.0, end: 0.0),
-          //                   child: Container(
-          //                     decoration: const BoxDecoration(
-          //                       borderRadius: BorderRadius.all(
-          //                           Radius.elliptical(9999.0, 9999.0)),
-          //                       color: Color(0xfff39200),
-          //                       boxShadow: [
-          //                         BoxShadow(
-          //                           color: Color(0x29000000),
-          //                           offset: Offset(0, 3),
-          //                           blurRadius: 6,
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //           Container(
-          //             color: Colors.blue,
-          //             width: 100.w,
-          //             height: 100.h,
-          //             child: cubitState is LoadProfileSukses
-          //                 ? ProfileContent(cubitState.data,
-          //                     cubitState: cubitState, cubitContext: cubitContext)
-          //                 : Container(
-          //                     color: Colors.red,
-          //                     height: 100.h,
-          //                     width: 100.w,
-          //                   ),
-          //           ),
-          //           // Container(
-          //           //   child: cubitState is LoadProfileSukses
-          //           //       ? ProfileContent(cubitState.data,
-          //           //       cubitState: cubitState, cubitContext: cubitContext)
-          //           //       : LoadingContent(
-          //           //     child: ProfileContent(
-          //           //       null,
-          //           //       cubitState: cubitState,
-          //           //       cubitContext: cubitContext,
-          //           //     ),
-          //           //   ),
-          //           // ),
-          //
-          //           // Container(
-          //           //   child: notifikasi != null ? notifikasi : Container(),
-          //           // )
-          //         ],
-          //       );
-          //     }
-          //   },
-          // ),
-          ),
+        backgroundColor: const Color(0x26000000),
+        body: dataEvent != null
+            ? ProfileContent(
+                data: dataEvent!,
+                context: context,
+              )
+            : Center(
+                child: CircularProgressIndicator(
+                  color: Colors.blue,
+                ),
+              ),
+      ),
     );
   }
 

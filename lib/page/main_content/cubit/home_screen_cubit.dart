@@ -9,12 +9,14 @@ class HomeScreenCubit {
   AuthRepository _authRepository = AuthRepository();
   Future<PayloadResponseApi> getHomeSeeAllProduct() async {
     var token = await SecureStorage().getToken();
-    return profileRepository.getHomeSeeAllProduct(token!);
+    return profileRepository.getHomeSeeAllProduct(token ?? "XXX");
   }
 
   Future<PayloadResponseApi> getHomeSeeDetailProduct(
       {required int idProduct, required int idStore}) async {
     var token = await SecureStorage().getToken();
-    return profileRepository.getDetailProduct(token!, idProduct, idStore);
+
+    return profileRepository.getDetailProduct(
+        token ?? "XXX", idProduct, idStore);
   }
 }

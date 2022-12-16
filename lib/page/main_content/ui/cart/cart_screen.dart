@@ -1,8 +1,11 @@
 import 'package:bekal/api/dio_client.dart';
+import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/ui/cart/cart_checkout.dart';
 import 'package:bekal/page/main_content/ui/cart/model/cart.dart';
 import 'package:bekal/page/main_content/ui/cart/widget/cart_item_screen.dart';
+import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -25,7 +28,13 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    SecureStorage().getToken().then((token) {
+      if (token == null) {
+        context.read<ControllerPageCubit>().goto("LOGIN");
+      } else {
+        _getData();
+      }
+    });
   }
 
   @override

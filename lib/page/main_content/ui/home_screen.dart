@@ -16,7 +16,6 @@ import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
@@ -36,8 +35,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    // _index = widget.selectedIndexMenu!;
     super.initState();
     _getAllProduct();
   }
@@ -45,7 +42,6 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // backgroundColor: const Color.fromRGBO(243, 146, 0, .8),
         extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           height: 50,
@@ -401,11 +397,12 @@ class HomeScreenState extends State<HomeScreen> {
                                             children: [
                                               Neumorphic(
                                                 style: NeumorphicStyle(
-                                                    depth: 1.5,
-                                                    intensity: 1,
-                                                    surfaceIntensity: 1,
-                                                    boxShape: NeumorphicBoxShape
-                                                        .circle()),
+                                                  depth: 1.5,
+                                                  intensity: 1,
+                                                  surfaceIntensity: 1,
+                                                  boxShape: NeumorphicBoxShape
+                                                      .circle(),
+                                                ),
                                                 child: Container(
                                                   width: 7.w,
                                                   height: 7.w,
@@ -542,12 +539,16 @@ class ItemHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Neumorphic(
         style: NeumorphicStyle(
-            color: Colors.white,
-            depth: .2.h,
-            surfaceIntensity: .3,
-            intensity: 1,
-            boxShape: NeumorphicBoxShape.roundRect(
-                const BorderRadius.all(Radius.circular(10)))),
+          color: Colors.white,
+          depth: .2.h,
+          surfaceIntensity: .3,
+          intensity: 1,
+          boxShape: NeumorphicBoxShape.roundRect(
+            const BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+        ),
         margin: const EdgeInsets.only(right: 10, bottom: 10),
         child: SizedBox(
           width: 40.w,
@@ -560,7 +561,7 @@ class ItemHome extends StatelessWidget {
                     aspectRatio: 1.w / 1.w,
                     child: Image(
                       image: imageProduk,
-                      fit: BoxFit.fill, // use this
+                      fit: BoxFit.fill,
                     ),
                   ),
                   Positioned(

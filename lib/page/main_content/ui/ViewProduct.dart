@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:bekal/api/dio_client.dart';
+import 'package:bekal/page/auth/ui/login/login.dart';
+import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatScreen.dart';
 import 'package:bekal/page/main_content/ui/profile/store/DashboardStore.dart';
@@ -12,6 +14,7 @@ import 'package:bekal/payload/response/PayloadResponseStoreProduct.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,6 +22,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:quiver/strings.dart';
 import 'package:sizer/sizer.dart';
 
 class ViewProduct extends StatefulWidget {
@@ -46,8 +50,6 @@ class _ViewProduct extends State<ViewProduct> {
 
   @override
   Widget build(BuildContext context) {
-    // PayloadResponseStoreProduct data = widget.dataDetailProduct!;
-    // TODO: implement build
     return StreamBuilder(
         stream: ProfileRepository()
             .getDetailProduct(auth, widget.idProduct, widget.idStore)
@@ -59,8 +61,7 @@ class _ViewProduct extends State<ViewProduct> {
                 snapshot.data as PayloadResponseApi;
             if (dataApiDetailProduct.errorMessage.isEmpty) {
               data = dataApiDetailProduct.data;
-              var dataImage = data.galleryImage;
-              print('dataImage ${dataImage}');
+
               return SafeArea(
                   child: Column(children: [
                 Container(
@@ -344,6 +345,22 @@ class _ViewProduct extends State<ViewProduct> {
                                                   ],
                                                 ),
                                                 onPressed: () async {
+                                                  if (isEmpty(auth)) {
+                                                    Navigator.of(context).pop();
+
+                                                    await Future.delayed(
+                                                      const Duration(
+                                                          seconds: 1),
+                                                    );
+
+                                                    context
+                                                        .read<
+                                                            ControllerPageCubit>()
+                                                        .goto("LOGIN");
+
+                                                    return;
+                                                  }
+
                                                   setState(() {
                                                     isSaving = true;
                                                   });
@@ -423,21 +440,14 @@ class _ViewProduct extends State<ViewProduct> {
                                                                     ToastGravity
                                                                         .CENTER);
                                                           }
-
-                                                          setState(() {
-                                                            isSaving = false;
-                                                          });
                                                         }
-                                                        // provinsi = "${dataAddress.province_id}";
-                                                        // kabupaten = "${dataAddress.city_id}";
-                                                        // kecamatan = "${dataAddress.suburb_id}";
-                                                        // desa = "${dataAddress.area_id}";
-                                                        // kodepos = dataAddress.postcode ?? "";
-                                                        // alamat = dataAddress.address ?? "";
-                                                        // loadData.sink.add(true);
                                                       }
                                                     }
                                                   }
+
+                                                  setState(() {
+                                                    isSaving = false;
+                                                  });
                                                 },
                                               ))
                                         ],

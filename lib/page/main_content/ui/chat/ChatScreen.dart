@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:bekal/api/dio_client.dart';
 import 'package:bekal/main.dart';
+import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/main_content/ui/chat/ChatDetailScreen.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/WidgetTextField.dart';
 import 'package:bekal/payload/PayloadResponseApi.dart';
@@ -12,7 +13,7 @@ import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
 import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -46,33 +47,24 @@ class _ChatScreen extends State<ChatScreen> {
   List<PayloadResponseListConversation> listRecentChats = [];
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
-    searchOn = false;
-    selectedIdLoginAs = 0;
-    getAccount();
-    snapshotListChat.stream.listen((event) {
-      print("listchat ${event}");
-      getListChatFromApi();
+
+    SecureStorage().getToken().then((token) {
+      if (token == null) {
+        context.read<ControllerPageCubit>().goto("LOGIN");
+      } else {
+        searchOn = false;
+        selectedIdLoginAs = 0;
+        getAccount();
+        snapshotListChat.stream.listen((event) {
+          getListChatFromApi();
+        });
+      }
     });
-    // getFromApi();
-
-    // selectedAccount.stream.listen((PopUpList event) {
-    //   setState(() {});
-    // });
   }
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    // PopUpList snapshotAccount = popUpList;
-
     if (isInitializeDone) {
       return Container(
           height: 100.h,

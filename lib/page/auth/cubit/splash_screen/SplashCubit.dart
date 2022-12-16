@@ -68,6 +68,10 @@ class SplashCubit extends Cubit<SplashCubitState> {
     } catch (err, stacktrace) {}
   }
 
+  void goToMainPage() {
+    emit(GoTo("HOME"));
+  }
+
   void isVerified(String token) {
     emit(Loading());
     print(token);

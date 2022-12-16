@@ -7,9 +7,7 @@ import 'package:bekal/page/controll_all_page/cubit/controller_page_cubit.dart';
 import 'package:bekal/page/utility_ui/TextFieldCustom.dart';
 import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/payload/request/PayloadRequestLogin.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -119,13 +117,10 @@ class LoginFormState extends State<LoginForm> {
                 _formKey.currentState!.save();
                 PayloadRequestLogin data = PayloadRequestLogin(
                     email: emailField, password: passwordField);
-                // data.email=emailField
                 if (kDebugMode) {
                   print("email: $emailField,\npassword: $passwordField ");
                 }
                 context.read<LoginCubit>().buttonLogin(data, rememberme);
-                // print("waw");
-
               }
             },
           ),
@@ -320,9 +315,6 @@ class LoginFormState extends State<LoginForm> {
   bool isAnimating = true;
 
   _widgetLoginButton({onPressed}) {
-    // state = ButtonState.init;
-    // final isInit = isAnimating || state == ButtonState.init;
-    // final isDone = state == ButtonState.completed;
     return Column(
       children: [
         Align(
@@ -335,10 +327,7 @@ class LoginFormState extends State<LoginForm> {
                 intensity: 1,
                 shape: NeumorphicShape.flat,
                 shadowLightColor: Colors.white70,
-                // shadowDarkColor: Colors.white60,
                 color: const Color.fromRGBO(243, 146, 0, .8),
-                // shape: NeumorphicShape.convex,
-                // color: Color.fromRGBO(243, 146, 0, 1),
                 boxShape: NeumorphicBoxShape.stadium(),
               ),
               child: Wrap(

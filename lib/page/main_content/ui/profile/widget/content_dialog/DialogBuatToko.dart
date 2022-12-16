@@ -197,30 +197,26 @@ class _FormBuatToko extends State<FormBuatToko> {
 
     // print(emailField);
     _imgFromCamera() async {
-
       var status = await Permission.camera.status;
-      if(status.isGranted)
-        {
-          XFile? image = await ImagePicker()
-              .pickImage(source: ImageSource.camera, imageQuality: 50);
-          double sizeInMb = await image!.length() / (1024 * 1024);
-          print(sizeInMb);
-          setState(() {
-            if (image != null) {
-              if (sizeInMb > 2) {
-                imageError = "Maksimal file 2Mb";
-              } else {
-                _image = File(image.path);
-              }
+      if (status.isGranted) {
+        XFile? image = await ImagePicker()
+            .pickImage(source: ImageSource.camera, imageQuality: 50);
+        double sizeInMb = await image!.length() / (1024 * 1024);
+        print(sizeInMb);
+        setState(() {
+          if (image != null) {
+            if (sizeInMb > 2) {
+              imageError = "Maksimal file 2Mb";
+            } else {
+              _image = File(image.path);
             }
-          });
-        }
-
+          }
+        });
+      }
     }
 
     //
     _imgFromGallery() async {
-
       XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
       double sizeInMb = await image!.length() / (1024 * 1024);
       print(sizeInMb);
@@ -253,7 +249,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "Poto Profil",
+                                    "Foto Profil",
                                     style: TextStyle(
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.bold,
@@ -265,25 +261,25 @@ class _FormBuatToko extends State<FormBuatToko> {
                                   Container(
                                     child: imageError!.isNotEmpty
                                         ? Tooltip(
-                                      preferBelow: false,
-                                      triggerMode: TooltipTriggerMode.tap,
-                                      waitDuration:
-                                      const Duration(seconds: 0),
-                                      showDuration:
-                                      const Duration(seconds: 2),
-                                      textStyle: TextStyle(
-                                          fontSize: 10.sp,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal),
-                                      // decoration: BoxDecoration(
-                                      //     borderRadius: BorderRadius.circular(10), color: Colors.green),
-                                      message: imageError,
-                                      child: Icon(
-                                        Icons.info,
-                                        color: Colors.red,
-                                        size: 3.h,
-                                      ),
-                                    )
+                                            preferBelow: false,
+                                            triggerMode: TooltipTriggerMode.tap,
+                                            waitDuration:
+                                                const Duration(seconds: 0),
+                                            showDuration:
+                                                const Duration(seconds: 2),
+                                            textStyle: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.normal),
+                                            // decoration: BoxDecoration(
+                                            //     borderRadius: BorderRadius.circular(10), color: Colors.green),
+                                            message: imageError,
+                                            child: Icon(
+                                              Icons.info,
+                                              color: Colors.red,
+                                              size: 3.h,
+                                            ),
+                                          )
                                         : null,
                                   ),
                                 ],
@@ -307,7 +303,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                             color: Colors.white,
                                             shape: NeumorphicShape.flat,
                                             boxShape:
-                                            NeumorphicBoxShape.circle(),
+                                                NeumorphicBoxShape.circle(),
                                             depth: -.2.h,
                                             intensity: 1),
                                         child: Container(
@@ -317,23 +313,23 @@ class _FormBuatToko extends State<FormBuatToko> {
                                             aspectRatio: 1.w / 1.w,
                                             child: _image != null
                                                 ? Image(
-                                              image: FileImage(_image!),
-                                              fit: BoxFit
-                                                  .cover, // use this
-                                            )
+                                                    image: FileImage(_image!),
+                                                    fit: BoxFit
+                                                        .cover, // use this
+                                                  )
                                                 : Align(
-                                              alignment: Alignment.center,
-                                              child: NeumorphicIcon(
-                                                Icons.camera_alt_outlined,
-                                                size: 1.w.h,
-                                                style: NeumorphicStyle(
-                                                  depth: .05.w.h,
-                                                  surfaceIntensity: 1,
-                                                  intensity: 1,
-                                                  color: Colors.black54,
-                                                ),
-                                              ),
-                                            ),
+                                                    alignment: Alignment.center,
+                                                    child: NeumorphicIcon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 1.w.h,
+                                                      style: NeumorphicStyle(
+                                                        depth: .05.w.h,
+                                                        surfaceIntensity: 1,
+                                                        intensity: 1,
+                                                        color: Colors.black54,
+                                                      ),
+                                                    ),
+                                                  ),
                                           ),
                                         )),
                                     itemBuilder: (context) {
@@ -344,9 +340,9 @@ class _FormBuatToko extends State<FormBuatToko> {
                                             children: <Widget>[
                                               Padding(
                                                 padding:
-                                                const EdgeInsets.all(5),
+                                                    const EdgeInsets.all(5),
                                                 child:
-                                                Icon(Icons.store_rounded),
+                                                    Icon(Icons.store_rounded),
                                               ),
                                               Text(
                                                 "Ambil Dari Camera",
@@ -364,7 +360,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                             children: <Widget>[
                                               Padding(
                                                 padding:
-                                                const EdgeInsets.all(5),
+                                                    const EdgeInsets.all(5),
                                                 child: Icon(
                                                     Icons.visibility_outlined),
                                               ),
@@ -387,7 +383,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                               Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  " (tekan poto profil untuk ubah)",
+                                  " (tekan foto profil untuk ubah)",
                                   style: TextStyle(
                                       fontSize: 8.sp,
                                       fontWeight: FontWeight.normal,
@@ -445,7 +441,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                   obSecure: false,
                                   icon: Icons.person,
                                   messageError:
-                                  "Silahkan Masukan Nomor Handphone Toko",
+                                      "Silahkan Masukan Nomor Handphone Toko",
                                   isError: phoneNumberField.isEmpty,
                                   // isError: emailField.isEmpty,
                                   onChanged: (String? value) {
@@ -469,7 +465,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                   obSecure: false,
                                   icon: Icons.person,
                                   messageError:
-                                  "Silahkan Masukan Detail Alamat Toko",
+                                      "Silahkan Masukan Detail Alamat Toko",
                                   isError: detailAddressStoreField.isEmpty,
                                   // isError: emailField.isEmpty,
                                   onChanged: (String? value) {
@@ -498,62 +494,62 @@ class _FormBuatToko extends State<FormBuatToko> {
                 height: 1.h,
               ),
               nameStoreField.isNotEmpty &&
-                  addressStoreField.isNotEmpty &&
-                  phoneNumberField.isNotEmpty &&
-                  detailAddressStoreField.isNotEmpty &&
-                  _image != null
+                      addressStoreField.isNotEmpty &&
+                      phoneNumberField.isNotEmpty &&
+                      detailAddressStoreField.isNotEmpty &&
+                      _image != null
                   ? Align(
-                  alignment: Alignment.topRight,
-                  child: NeumorphicButton(
-                    padding: EdgeInsets.only(
-                        top: 6.sp, bottom: 6.sp, left: 12.sp, right: 12.sp),
-                    style: NeumorphicStyle(
-                        shape: NeumorphicShape.convex,
-                        color: Colors.transparent,
-                        boxShape: NeumorphicBoxShape.stadium(),
-                        depth: .2.h,
-                        surfaceIntensity: .3,
-                        intensity: .9),
-                    child: Wrap(children: [
-                      Text(
-                        "Buat",
-                        style:
-                        TextStyle(fontSize: 10.sp, color: Colors.white),
-                      ),
-                    ]),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        var param = PayloadRequestCreateStore(
-                            nameStore: nameStoreField,
-                            addressStore: addressStoreField,
-                            phoneNumber: phoneNumberField,
-                            detailAddressStore: detailAddressStoreField,
-                            status: "true");
-                        print("saved true");
+                      alignment: Alignment.topRight,
+                      child: NeumorphicButton(
+                        padding: EdgeInsets.only(
+                            top: 6.sp, bottom: 6.sp, left: 12.sp, right: 12.sp),
+                        style: NeumorphicStyle(
+                            shape: NeumorphicShape.convex,
+                            color: Colors.transparent,
+                            boxShape: NeumorphicBoxShape.stadium(),
+                            depth: .2.h,
+                            surfaceIntensity: .3,
+                            intensity: .9),
+                        child: Wrap(children: [
+                          Text(
+                            "Buat",
+                            style:
+                                TextStyle(fontSize: 10.sp, color: Colors.white),
+                          ),
+                        ]),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            var param = PayloadRequestCreateStore(
+                                nameStore: nameStoreField,
+                                addressStore: addressStoreField,
+                                phoneNumber: phoneNumberField,
+                                detailAddressStore: detailAddressStoreField,
+                                status: "true");
+                            print("saved true");
 
-                        // var param = PayloadRequestUpdateEmail(
-                        //     existingEmail: data!.email,
-                        //     newEmail: emailField);
+                            // var param = PayloadRequestUpdateEmail(
+                            //     existingEmail: data!.email,
+                            //     newEmail: emailField);
 
-                        // widget.onDismiss!(true);
-                        BlocProvider.of<ProfileScreenDataPribadiCubit>(
-                            context)
-                            .createStore(param: param, file: _image)
-                            .then((value) {
-                          if (value) {
-                            print("sukses");
+                            // widget.onDismiss!(true);
+                            BlocProvider.of<ProfileScreenDataPribadiCubit>(
+                                    context)
+                                .createStore(param: param, file: _image)
+                                .then((value) {
+                              if (value) {
+                                print("sukses");
 
-                            widget.onDismiss!(true);
+                                widget.onDismiss!(true);
+                              }
+                            });
+
+                            // ScaffoldMessenger.of(context)
+                            //     .showSnackBar(snackBar);
+
                           }
-                        });
-
-                        // ScaffoldMessenger.of(context)
-                        //     .showSnackBar(snackBar);
-
-                      }
-                    },
-                  ))
+                        },
+                      ))
                   : Container(),
             ],
           ),
@@ -561,9 +557,7 @@ class _FormBuatToko extends State<FormBuatToko> {
   }
 
   Future<void> reqPermission() async {
-
-    if (await Permission.camera.request()
-        .isGranted) {
+    if (await Permission.camera.request().isGranted) {
       // Either the permission was already granted before or the user just granted it.
     }
   }

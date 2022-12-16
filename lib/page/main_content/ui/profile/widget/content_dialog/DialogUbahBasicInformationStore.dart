@@ -167,7 +167,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "Poto Profil",
+                                    "Foto Profil",
                                     style: TextStyle(
                                         fontSize: 10.sp,
                                         fontWeight: FontWeight.bold,
@@ -312,7 +312,7 @@ class _FormBuatToko extends State<FormBuatToko> {
                               Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  " (tekan poto profil untuk ubah)",
+                                  " (tekan foto profil untuk ubah)",
                                   style: TextStyle(
                                       fontSize: 8.sp,
                                       fontWeight: FontWeight.normal,

@@ -79,11 +79,6 @@ class ListMenuMyProfile extends StatelessWidget {
         icon: Icons.logout,
         widget: Container(),
       ),
-      // ModelItemListMenuMyProfile(
-      //   text: "Alamat\nRumah",
-      //   icon: Icons.maps_home_work,
-      //   widget: DialogUbahAlamat(),
-      // ),
     ];
     if (data.isAdmin) {
       datatitle.add(ModelItemListMenuMyProfile(
@@ -134,42 +129,13 @@ class ListMenuMyProfile extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          // var token = await SecureStorage().getToken();
-                          // var getDataProfile = await ProfileRepository()
-                          //     .myProfileDashboard(token!);
-                          // PayloadResponseMyProfileDashboard data;
-                          // if (getDataProfile != null) {
-                          //   var dataProfile = getDataProfile.data;
-                          //   if (dataProfile != null) {
-                          //     data = dataProfile;
-                          //
-                          //     List<Map<String, dynamic>> idAccount = [];
-                          //     idAccount.add(
-                          //         {"id": data.idUser, "userOrStore": 'user'});
-                          //     if (data.myOutlets != null) {
-                          //       data.myOutlets!.forEach((element) {
-                          //         idAccount.add({
-                          //           "id": element.storeId,
-                          //           "userOrStore": 'store'
-                          //         });
-                          //       });
-                          //     }
-                          //     List<String> subscribeTopics = [];
-                          //     idAccount.forEach((element) async {
-                          //       subscribeTopics.add(
-                          //           '${element['userOrStore']}-${element['id']}');
-                          //     });
-                          //   }
-                          // }
                           await SecureStorage().deleteStorageToken();
-                          var token = await SecureStorage().getToken();
-                          if (token == null) {
-                            print("dismiss dialog");
-                            cubitContext
-                                .read<ControllerPageCubit>()
-                                .goto("LOGIN");
-                            Navigator.of(context).pop();
-                          } else {}
+                          await SecureStorage().getToken();
+
+                          Navigator.of(context).pop();
+                          cubitContext
+                              .read<ControllerPageCubit>()
+                              .goto("LOGIN");
                         },
                         child: const Text('Ya'),
                       ),
@@ -319,8 +285,6 @@ DialogBottomSheet({
                 onPressed: () async {
                   if (whenClosed != null) {
                     whenClosed(true);
-                    // ProfileScreen().myAppState.streamProfileScreen.close();
-                    // ProfileScreen().myAppState.getFromApi();
                     Future.delayed(Duration(milliseconds: 1), () {
                       Navigator.of(context).pop();
                     });
@@ -329,7 +293,8 @@ DialogBottomSheet({
               ),
             ),
             Container(
-              width: 40.w,
+              width: 50.w,
+              padding: EdgeInsets.only(left: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
