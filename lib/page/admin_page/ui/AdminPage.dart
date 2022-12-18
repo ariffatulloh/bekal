@@ -9,8 +9,6 @@ import 'package:bekal/page/utility_ui/Toaster.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -1270,8 +1268,8 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
     List<StoreAdminPage> localListAllStore = [];
     HomeAdmin localResponse = HomeAdmin();
     var getAllStore = await http.get(
-        // Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
-        Uri.parse('http://localhost:3000/api/admin/all/store'),
+        Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
+        // Uri.parse('http://localhost:3000/api/admin/all/store'),
 
         headers: {
           'Content-Type': 'application/json',
