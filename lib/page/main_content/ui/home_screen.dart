@@ -41,59 +41,75 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        extendBody: true,
-        bottomNavigationBar: CurvedNavigationBar(
-          height: 50,
-          items: [
-            itemBottomNavBar(
-              countNotif: 0,
-              icon: Icons.home,
-            ),
-            itemBottomNavBar(
-              countNotif: 0,
-              icon: Icons.search,
-            ),
-            itemBottomNavBar(
-              countNotif: 0,
-              icon: Icons.person,
-            ),
-            StreamBuilder(
-                stream: streamNotifChat.stream,
-                builder: (context, AsyncSnapshot<String?> snapshot) {
-                  if (snapshot.hasData) {
-                    return itemBottomNavBar(
-                      countNotif: 2,
-                      icon: Icons.chat,
-                    );
-                  }
-                  return itemBottomNavBar(
-                    countNotif: 0,
-                    icon: Icons.chat,
-                  );
-                }),
-            itemBottomNavBar(
-              countNotif: 0,
-              icon: Icons.shopping_basket,
-            ),
-          ],
-          color: const Color.fromRGBO(255, 255, 255, 1),
-          buttonBackgroundColor: const Color.fromRGBO(255, 255, 255, 1),
-          backgroundColor: Colors.transparent,
-          animationCurve: Curves.easeInOutCirc,
-          animationDuration: const Duration(milliseconds: 700),
-          index: _index,
-          onTap: (index) {
-            setState(() {
-              _index = index;
-            });
-            if (index == 3) {
-              streamNotifChat.sink.add(null);
-            }
-          },
-          letIndexChange: (index) => true,
-        ),
-        body: showBody(_index, context));
+    return FutureBuilder<String?>(
+        future: SecureStorage().getToken(),
+        builder: (context, snapshot) {
+          if (snapshot.data != null || (snapshot.data?.isNotEmpty ?? false) == true) {
+            return Scaffold(
+                extendBody: true,
+                bottomNavigationBar: CurvedNavigationBar(
+                  height: 50,
+                  items: [
+                    itemBottomNavBar(
+                      countNotif: 0,
+                      icon: Icons.home,
+                    ),
+                    itemBottomNavBar(
+                      countNotif: 0,
+                      icon: Icons.search,
+                    ),
+                    itemBottomNavBar(
+                      countNotif: 0,
+                      icon: Icons.person,
+                    ),
+                    StreamBuilder(
+                        stream: streamNotifChat.stream,
+                        builder: (context, AsyncSnapshot<String?> snapshot) {
+                          if (snapshot.hasData) {
+                            return itemBottomNavBar(
+                              countNotif: 2,
+                              icon: Icons.chat,
+                            );
+                          }
+                          return itemBottomNavBar(
+                            countNotif: 0,
+                            icon: Icons.chat,
+                          );
+                        }),
+                    itemBottomNavBar(
+                      countNotif: 0,
+                      icon: Icons.shopping_basket,
+                    ),
+                  ],
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  buttonBackgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+                  backgroundColor: Colors.transparent,
+                  animationCurve: Curves.easeInOutCirc,
+                  animationDuration: const Duration(milliseconds: 700),
+                  index: _index,
+                  onTap: (index) {
+                    setState(() {
+                      _index = index;
+                    });
+                    if (index == 3) {
+                      streamNotifChat.sink.add(null);
+                    }
+                  },
+                  letIndexChange: (index) => true,
+                ),
+                body: showBody(_index, context));
+          } else if (snapshot.data == null || (snapshot.data?.isEmpty ?? false) == true) {
+            return Scaffold(
+              body: showBody(_index, context),
+            );
+          } else {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        });
   }
 
   Stack itemBottomNavBar({required int countNotif, required IconData icon}) {
@@ -177,79 +193,37 @@ class HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           "${dataObject.titleTab}",
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black45),
+                          style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold, color: Colors.black45),
                         ),
                         SizedBox(
                           height: 3.w,
                         ),
                         SingleChildScrollView(
-                          scrollDirection: dataObject.titleTab
-                                  .toLowerCase()
-                                  .contains("semua")
-                              ? Axis.vertical
-                              : Axis.horizontal,
+                          scrollDirection: dataObject.titleTab.toLowerCase().contains("semua") ? Axis.vertical : Axis.horizontal,
                           child: Wrap(
-                              children: dataObject.viewListStoreProductResponse
-                                  .map((e) {
+                              children: dataObject.viewListStoreProductResponse.map((e) {
                             return Visibility(
-                                visible: e.stockProduct != '0' ||
-                                    listMyOutlets.contains(e.store.storeID),
+                                visible: e.stockProduct != '0' || listMyOutlets.contains(e.store.storeID),
                                 child: NeumorphicButton(
                                   onPressed: () {},
                                   padding: EdgeInsets.all(0),
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: 1.w, vertical: 1.h),
-                                  style: NeumorphicStyle(
-                                      color: Colors.blue.withOpacity(.25),
-                                      depth: 2,
-                                      intensity: 1,
-                                      surfaceIntensity: 1),
+                                  margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
+                                  style: NeumorphicStyle(color: Colors.blue.withOpacity(.25), depth: 2, intensity: 1, surfaceIntensity: 1),
                                   child: Container(
-                                    width: dataObject.titleTab
-                                            .toLowerCase()
-                                            .contains("semua")
-                                        ? 45.w
-                                        : 40.w,
+                                    width: dataObject.titleTab.toLowerCase().contains("semua") ? 45.w : 40.w,
                                     decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            Color(0xfff39200).withOpacity(.1),
-                                            Color(0xfff39200).withOpacity(.4)
-                                          ],
-                                          stops: [
-                                            .1,
-                                            .8
-                                          ]),
+                                      gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xfff39200).withOpacity(.1), Color(0xfff39200).withOpacity(.4)], stops: [.1, .8]),
                                     ),
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 0.w, vertical: 0.h),
+                                    padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                                     child: Column(
                                       children: [
                                         Visibility(
-                                          visible: !dataObject.titleTab
-                                              .toLowerCase()
-                                              .contains("semua"),
+                                          visible: !dataObject.titleTab.toLowerCase().contains("semua"),
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: .5.h,
-                                                horizontal: 2.w),
+                                            padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 2.w),
                                             child: NeumorphicText(
-                                              e.nameProduct.length > 17
-                                                  ? e.nameProduct
-                                                          .substring(0, 15) +
-                                                      "..."
-                                                  : e.nameProduct,
-                                              style: NeumorphicStyle(
-                                                  color: Colors.white,
-                                                  depth: 2,
-                                                  intensity: 1,
-                                                  surfaceIntensity: 1),
+                                              e.nameProduct.length > 17 ? e.nameProduct.substring(0, 15) + "..." : e.nameProduct,
+                                              style: NeumorphicStyle(color: Colors.white, depth: 2, intensity: 1, surfaceIntensity: 1),
                                               textStyle: NeumorphicTextStyle(
                                                 fontSize: 12.sp,
                                                 fontFamily: 'ghotic',
@@ -260,43 +234,22 @@ class HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 0.h,
-                                              horizontal: dataObject.titleTab
-                                                      .toLowerCase()
-                                                      .contains("semua")
-                                                  ? 0
-                                                  : 2.w),
+                                          padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: dataObject.titleTab.toLowerCase().contains("semua") ? 0 : 2.w),
                                           child: Neumorphic(
-                                            style: NeumorphicStyle(
-                                                boxShape: dataObject.titleTab
-                                                        .toLowerCase()
-                                                        .contains("semua")
-                                                    ? NeumorphicBoxShape.rect()
-                                                    : NeumorphicBoxShape
-                                                        .circle(),
-                                                depth: 2,
-                                                intensity: 1,
-                                                surfaceIntensity: 1),
+                                            style: NeumorphicStyle(boxShape: dataObject.titleTab.toLowerCase().contains("semua") ? NeumorphicBoxShape.rect() : NeumorphicBoxShape.circle(), depth: 2, intensity: 1, surfaceIntensity: 1),
                                             child: Container(
                                               width: 100.w,
-                                              height: dataObject.titleTab
-                                                      .toLowerCase()
-                                                      .contains("semua")
-                                                  ? 40.w
-                                                  : 40.w,
+                                              height: dataObject.titleTab.toLowerCase().contains("semua") ? 40.w : 40.w,
                                               child: CachedNetworkImage(
                                                 imageUrl: e.uriThumbnail,
                                                 fit: BoxFit.cover,
-                                                errorWidget:
-                                                    (context, url, error) {
+                                                errorWidget: (context, url, error) {
                                                   return Icon(
                                                     Icons.person,
                                                     color: Colors.black,
                                                   );
                                                 },
-                                                progressIndicatorBuilder:
-                                                    (context, url, error) {
+                                                progressIndicatorBuilder: (context, url, error) {
                                                   return CircularProgressIndicator();
                                                 },
                                               ),
@@ -304,24 +257,12 @@ class HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Visibility(
-                                          visible: dataObject.titleTab
-                                              .toLowerCase()
-                                              .contains("semua"),
+                                          visible: dataObject.titleTab.toLowerCase().contains("semua"),
                                           child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: .5.h,
-                                                horizontal: 2.w),
+                                            padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 2.w),
                                             child: NeumorphicText(
-                                              e.nameProduct.length > 17
-                                                  ? e.nameProduct
-                                                          .substring(0, 15) +
-                                                      "..."
-                                                  : e.nameProduct,
-                                              style: NeumorphicStyle(
-                                                  color: Colors.white,
-                                                  depth: 2,
-                                                  intensity: 1,
-                                                  surfaceIntensity: 1),
+                                              e.nameProduct.length > 17 ? e.nameProduct.substring(0, 15) + "..." : e.nameProduct,
+                                              style: NeumorphicStyle(color: Colors.white, depth: 2, intensity: 1, surfaceIntensity: 1),
                                               textStyle: NeumorphicTextStyle(
                                                 fontSize: 12.sp,
                                                 fontFamily: 'ghotic',
@@ -332,56 +273,23 @@ class HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: .5.h, horizontal: 2.w),
+                                          padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 2.w),
                                           child: Neumorphic(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: .5.h,
-                                                horizontal: 1.h),
-                                            style: NeumorphicStyle(
-                                                color: e.stockProduct == '0'
-                                                    ? Colors.red
-                                                    : Colors.greenAccent,
-                                                boxShape: NeumorphicBoxShape
-                                                    .stadium(),
-                                                depth: -1,
-                                                intensity: 1,
-                                                surfaceIntensity: 1),
+                                            padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 1.h),
+                                            style: NeumorphicStyle(color: e.stockProduct == '0' ? Colors.red : Colors.greenAccent, boxShape: NeumorphicBoxShape.stadium(), depth: -1, intensity: 1, surfaceIntensity: 1),
                                             child: Text(
-                                              e.stockProduct == '0'
-                                                  ? "HABIS"
-                                                  : "Tersedia",
-                                              style: TextStyle(
-                                                  fontSize: 8.sp,
-                                                  color: Colors.white),
+                                              e.stockProduct == '0' ? "HABIS" : "Tersedia",
+                                              style: TextStyle(fontSize: 8.sp, color: Colors.white),
                                             ),
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 2.w, vertical: .5.h),
+                                          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: .5.h),
                                           child: NeumorphicText(
-                                            NumberFormat.currency(locale: 'ID')
-                                                        .format(double.tryParse(e
-                                                                .priceProduct) ??
-                                                            0)
-                                                        .length >
-                                                    17
-                                                ? NumberFormat.currency(locale: 'ID')
-                                                        .format(double.tryParse(e
-                                                                .priceProduct) ??
-                                                            0)
-                                                        .substring(0, 15) +
-                                                    "..."
-                                                : NumberFormat.currency(locale: 'ID')
-                                                    .format(double.tryParse(
-                                                            e.priceProduct) ??
-                                                        0),
-                                            style: NeumorphicStyle(
-                                                color: Colors.red,
-                                                depth: 1,
-                                                intensity: 1,
-                                                surfaceIntensity: 1),
+                                            NumberFormat.currency(locale: 'ID').format(double.tryParse(e.priceProduct) ?? 0).length > 17
+                                                ? NumberFormat.currency(locale: 'ID').format(double.tryParse(e.priceProduct) ?? 0).substring(0, 15) + "..."
+                                                : NumberFormat.currency(locale: 'ID').format(double.tryParse(e.priceProduct) ?? 0),
+                                            style: NeumorphicStyle(color: Colors.red, depth: 1, intensity: 1, surfaceIntensity: 1),
                                             textStyle: NeumorphicTextStyle(
                                               fontSize: 11.sp,
                                               fontFamily: 'ghotic',
@@ -391,8 +299,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 2.w, vertical: .5.h),
+                                          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: .5.h),
                                           child: Row(
                                             children: [
                                               Neumorphic(
@@ -400,36 +307,23 @@ class HomeScreenState extends State<HomeScreen> {
                                                   depth: 1.5,
                                                   intensity: 1,
                                                   surfaceIntensity: 1,
-                                                  boxShape: NeumorphicBoxShape
-                                                      .circle(),
+                                                  boxShape: NeumorphicBoxShape.circle(),
                                                 ),
                                                 child: Container(
                                                   width: 7.w,
                                                   height: 7.w,
                                                   child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        e.store.uriStoreImage,
+                                                    imageUrl: e.store.uriStoreImage,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               ),
                                               Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 1.w),
+                                                padding: EdgeInsets.symmetric(horizontal: 1.w),
                                                 child: NeumorphicText(
-                                                  e.store.storeName.length > 17
-                                                      ? e.store.storeName
-                                                              .substring(
-                                                                  0, 15) +
-                                                          "..."
-                                                      : e.store.storeName,
-                                                  style: NeumorphicStyle(
-                                                      color: Colors.white,
-                                                      depth: 1,
-                                                      intensity: 1,
-                                                      surfaceIntensity: 1),
-                                                  textStyle:
-                                                      NeumorphicTextStyle(
+                                                  e.store.storeName.length > 17 ? e.store.storeName.substring(0, 15) + "..." : e.store.storeName,
+                                                  style: NeumorphicStyle(color: Colors.white, depth: 1, intensity: 1, surfaceIntensity: 1),
+                                                  textStyle: NeumorphicTextStyle(
                                                     fontSize: 9.sp,
                                                     fontFamily: 'ghotic',
                                                     fontWeight: FontWeight.bold,
@@ -478,8 +372,7 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
-    PayloadResponseApi<dynamic> responseApi =
-        await HomeScreenCubit().getHomeSeeAllProduct();
+    PayloadResponseApi<dynamic> responseApi = await HomeScreenCubit().getHomeSeeAllProduct();
     var itemList;
     List<PayloadResponseHomeSeeAllProduct> list = [];
     if (responseApi.errorMessage.isEmpty) {
@@ -490,8 +383,7 @@ class HomeScreenState extends State<HomeScreen> {
     }
     List<int> listMyOutletLocal = [];
     List<String> dataSubsFirebase = [];
-    PayloadResponseApi<PayloadResponseMyProfileDashboard?> myProfile =
-        await ProfileRepository().myProfileDashboard("token");
+    PayloadResponseApi<PayloadResponseMyProfileDashboard?> myProfile = await ProfileRepository().myProfileDashboard("token");
     var dataMyProfile = myProfile.data;
     if (dataMyProfile != null) {
       dataSubsFirebase.add('user-${dataMyProfile.idUser}');
@@ -568,19 +460,12 @@ class ItemHome extends StatelessWidget {
                     top: .5.h,
                     right: .5.w,
                     child: Neumorphic(
-                      padding: const EdgeInsets.only(
-                          top: 2, bottom: 2, left: 5, right: 5),
-                      style: NeumorphicStyle(
-                          depth: .2.h,
-                          intensity: .6,
-                          color: available
-                              ? Colors.greenAccent
-                              : Colors.redAccent),
+                      padding: const EdgeInsets.only(top: 2, bottom: 2, left: 5, right: 5),
+                      style: NeumorphicStyle(depth: .2.h, intensity: .6, color: available ? Colors.greenAccent : Colors.redAccent),
                       child: Center(
                         child: Text(
                           available ? "Tersedia" : "Habis",
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 10.sp),
+                          style: TextStyle(color: Colors.white, fontSize: 10.sp),
                         ),
                       ),
                     ),
@@ -594,11 +479,7 @@ class ItemHome extends StatelessWidget {
                     children: [
                       Text(
                         "Dikunjungi: ${counterViews! > 9999 ? "9999+" : counterViews}/hr",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black38),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 8.sp, fontWeight: FontWeight.normal, color: Colors.black38),
                       ),
                       const SizedBox(
                         height: 2,
@@ -609,11 +490,7 @@ class ItemHome extends StatelessWidget {
                           nameProduk.toUpperCase(),
                           maxLines: 2,
                           softWrap: true,
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
+                          style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.black87),
                         ),
                       ),
                       const SizedBox(
@@ -621,11 +498,7 @@ class ItemHome extends StatelessWidget {
                       ),
                       Text(
                         "${currencyFormatter.format(priceProduk)}",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.red),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 8.sp, fontWeight: FontWeight.normal, color: Colors.red),
                       ),
                       const SizedBox(
                         height: 2,
@@ -644,11 +517,7 @@ class ItemHome extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Text(
                           "TerJual: ${counterSell! > 9999 ? "9999+" : counterSell}",
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black38),
+                          style: TextStyle(fontFamily: 'ghotic', fontSize: 8.sp, fontWeight: FontWeight.normal, color: Colors.black38),
                         ),
                       ),
                       const SizedBox(
