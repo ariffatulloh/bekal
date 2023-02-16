@@ -432,7 +432,7 @@ class HomeViewState extends State<HomeView> {
                 ),
                 if (!listDataHome[index].titleTab.toLowerCase().contains("semua")) ...[
                   Container(
-                    height: 380,
+                    height: 37.h,
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: listDataHome.singleWhere((element) => !element.titleTab.toLowerCase().contains("semua")).viewListStoreProductResponse.length,

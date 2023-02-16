@@ -212,7 +212,12 @@ class HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                     width: dataObject.titleTab.toLowerCase().contains("semua") ? 45.w : 40.w,
                                     decoration: BoxDecoration(
-                                      gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xfff39200).withOpacity(.1), Color(0xfff39200).withOpacity(.4)], stops: [.1, .8]),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [Color(0xfff39200).withOpacity(.1), Color(0xfff39200).withOpacity(.4)],
+                                        stops: [.1, .8],
+                                      ),
                                     ),
                                     padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 0.h),
                                     child: Column(
