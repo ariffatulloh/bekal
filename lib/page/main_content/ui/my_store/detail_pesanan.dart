@@ -22,8 +22,7 @@ class DetailPesanan extends StatefulWidget {
   // final bool _adminCheck = adminCheck??false;
 
   int? complaintId = -1;
-  DetailPesanan({Key? key, required this.orderId, this.complaintId})
-      : super(key: key);
+  DetailPesanan({Key? key, required this.orderId, this.complaintId}) : super(key: key);
 
   @override
   _DetailPesananState createState() => _DetailPesananState();
@@ -58,10 +57,7 @@ class _DetailPesananState extends State<DetailPesanan> {
           centerTitle: false,
           title: Text(
             'Detail Transaksi',
-            style: TextStyle(
-                fontFamily: 'ghotic',
-                color: Colors.black87,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontWeight: FontWeight.bold),
           ),
           leading: BackButton(
             color: Colors.black87,
@@ -79,8 +75,7 @@ class _DetailPesananState extends State<DetailPesanan> {
               children: [
                 Container(
                     margin: EdgeInsets.symmetric(vertical: 4.w),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.w),
+                    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.w),
                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
@@ -94,10 +89,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       children: [
                         Text(
                           status?["status_name"] ?? "",
-                          style: TextStyle(
-                              fontFamily: 'ghotic',
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold),
                         ),
                         if (widget.complaintId == null ? false : true)
                           NeumorphicButton(
@@ -113,19 +105,14 @@ class _DetailPesananState extends State<DetailPesanan> {
                                             onPressed: () async {
                                               var payload = {
                                                 "is_open": 1,
-                                                "complaint_id":
-                                                    widget.complaintId,
+                                                "complaint_id": widget.complaintId,
                                               };
 
                                               try {
-                                                DioResponse res =
-                                                    await _dio.postAsync(
-                                                        "/complaint/create",
-                                                        payload);
+                                                DioResponse res = await _dio.postAsync("/complaint/create", payload);
                                                 print(res.results);
                                                 print(payload);
-                                                if (res.results["code"] ==
-                                                    200) {
+                                                if (res.results["code"] == 200) {
                                                   print(res.results);
                                                   var payload = {
                                                     "order_id": widget.orderId,
@@ -133,23 +120,12 @@ class _DetailPesananState extends State<DetailPesanan> {
                                                   };
 
                                                   try {
-                                                    DioResponse res =
-                                                        await _dio.postAsync(
-                                                            "/order/action",
-                                                            payload);
-                                                    if (res.results["code"] ==
-                                                        200) {
-                                                      Toaster(modalBuilder)
-                                                          .showSuccessToast(
-                                                              "Status Telah Diubah",
-                                                              gravity:
-                                                                  ToastGravity
-                                                                      .CENTER);
+                                                    DioResponse res = await _dio.postAsync("/order/action", payload);
+                                                    if (res.results["code"] == 200) {
+                                                      Toaster(modalBuilder).showSuccessToast("Status Telah Diubah", gravity: ToastGravity.CENTER);
 
-                                                      Navigator.of(modalBuilder)
-                                                          .pop();
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      Navigator.of(modalBuilder).pop();
+                                                      Navigator.of(context).pop();
                                                     }
                                                   } catch (e) {
                                                     print(e);
@@ -163,8 +139,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                                                 print(e);
                                               }
                                             },
-                                            style: NeumorphicStyle(
-                                                color: Colors.white),
+                                            style: NeumorphicStyle(color: Colors.white),
                                             child: Container(
                                               alignment: Alignment.center,
                                               width: 100.w,
@@ -196,12 +171,8 @@ class _DetailPesananState extends State<DetailPesanan> {
                       ),
                       SizedBox(height: 1.h),
                       Text(
-                        formatDate(context, order?["createdAt"],
-                            format: "dd MMMM yyyy, hh:mm aa (WIB)"),
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold),
+                        formatDate(context, order?["createdAt"], format: "dd MMMM yyyy, hh:mm aa (WIB)"),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -217,10 +188,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                     children: [
                       Text(
                         "Detail Produk",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 13.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 1.h),
                       ..._itemProduct(),
@@ -238,10 +206,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                     children: [
                       Text(
                         "Informasi Pembeli",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 13.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 1.5.h),
                       Text(
@@ -251,10 +216,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       SizedBox(height: 1.h),
                       Text(
                         "${buyer?['buyerName'] ?? ""}",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 2.h),
                       Text(
@@ -264,10 +226,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       SizedBox(height: 1.h),
                       Text(
                         "${buyer?['buyerPhone'] ?? "-"}",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 2.h),
                       Text(
@@ -277,10 +236,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       SizedBox(height: 1.h),
                       Text(
                         "${order?["delivery_origin"] ?? "-"}",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 2.h),
                       Text(
@@ -290,10 +246,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       SizedBox(height: 1.h),
                       Text(
                         "${order?["courier_code"] ?? "-"} (${order?["courier_desc"] ?? "-"})",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                       ),
                       // if (_showResi) SizedBox(height: 2.h),
                       // if (_showResi)
@@ -313,8 +266,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       //         fontWeight: FontWeight.bold),
                       //   ),
                       Visibility(
-                        visible: !["ORD01", "ORD02", "ORD03"]
-                            .contains(order?["status"]["id"]),
+                        visible: !["ORD01", "ORD02", "ORD03"].contains(order?["status"]["id"]),
                         child: Container(
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,8 +274,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                             SizedBox(height: 2.h),
                             Text(
                               "Nomor Resi",
-                              style: TextStyle(
-                                  fontFamily: 'ghotic', fontSize: 10.sp),
+                              style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                             ),
                             SizedBox(height: 1.h),
                             Row(
@@ -350,14 +301,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                                       //     [
                                       //   "ORD08A",
                                       // ].contains(order?["status"]["id"]),
-                                      !["ORD08A", "ORD09", "ORD05"]
-                                          .contains(order?["status"]["id"]),
+                                      !["ORD08A", "ORD09", "ORD05"].contains(order?["status"]["id"]),
                                   child: InkWell(
                                     onTap: () async {
                                       if (noresi == "" || noresi.isEmpty) {
-                                        Toaster(context).showErrorToast(
-                                            "Nomor Resi tidak boleh kosong",
-                                            gravity: ToastGravity.CENTER);
+                                        Toaster(context).showErrorToast("Nomor Resi tidak boleh kosong", gravity: ToastGravity.CENTER);
                                       } else {
                                         // _updateResi();
                                         // _reqPenjemputan(order?["delivery_id"]);
@@ -365,45 +313,29 @@ class _DetailPesananState extends State<DetailPesanan> {
                                       }
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 3.w, vertical: 17),
+                                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 17),
                                       alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color: Colors.orange),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Colors.orange),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            [
-                                              "ORD04",
-                                            ].contains(order?["status"]["id"])
-                                                ? "Ubah No.Resi"
-                                                : "Ajukan Penjemputan",
-                                            style: TextStyle(
-                                                fontFamily: 'ghotic',
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          )
+                                          if (["ORD04B"].contains(order?["status"]["id"]))
+                                            Text(
+                                              "Ajukan Penjemputan",
+                                              style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.white),
+                                            )
                                         ],
                                       ),
                                     ),
                                   ),
                                 ),
                                 Visibility(
-                                  visible:
-                                      order?["delivery_pickup_code"] != null,
+                                  visible: order?["delivery_pickup_code"] != null,
                                   child: InkWell(
                                     onTap: () async {
                                       if (noresi == "") {
-                                        Toaster(context).showErrorToast(
-                                            "Nomor Resi tidak boleh kosong",
-                                            gravity: ToastGravity.CENTER);
+                                        Toaster(context).showErrorToast("Nomor Resi tidak boleh kosong", gravity: ToastGravity.CENTER);
                                       } else {
                                         // _updateResi();
                                         // _reqPenjemputan(noresi);
@@ -411,26 +343,16 @@ class _DetailPesananState extends State<DetailPesanan> {
                                       }
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 3.w, vertical: 17),
+                                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 17),
                                       alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)),
-                                          color: Colors.orange),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)), color: Colors.orange),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             "Lacak Barang",
-                                            style: TextStyle(
-                                                fontFamily: 'ghotic',
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
+                                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.white),
                                           )
                                         ],
                                       ),
@@ -457,10 +379,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                     children: [
                       Text(
                         "Rincian Pembayaran",
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 13.sp, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 1.5.h),
                       Row(
@@ -468,13 +387,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                         children: [
                           Text(
                             "Metode Pembayaran",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                           Text(
                             "${invoice?["bank_code"] ?? "-"}",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                         ],
                       ),
@@ -484,13 +401,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                         children: [
                           Text(
                             "Total Harga",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                           Text(
                             "${currencyFormatter.format(order?["order_total"] ?? 0)}",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                         ],
                       ),
@@ -500,13 +415,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                         children: [
                           Text(
                             "Ongkos Kirim",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                           Text(
                             "${currencyFormatter.format(order?["courier_cost"] ?? 0)}",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                         ],
                       ),
@@ -520,17 +433,11 @@ class _DetailPesananState extends State<DetailPesanan> {
                         children: [
                           Text(
                             "Total Pembayaran",
-                            style: TextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "${currencyFormatter.format((order?["order_total"] ?? 0) + (order?["courier_cost"] ?? 0))}",
-                            style: TextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -538,11 +445,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                if (status?["id"] == "ORD08A" &&
-                    DateTime.now()
-                            .difference(DateTime.parse(order?["updatedAt"]))
-                            .inDays >
-                        2)
+                if (status?["id"] == "ORD08A" && DateTime.now().difference(DateTime.parse(order?["updatedAt"])).inDays > 2)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -560,26 +463,15 @@ class _DetailPesananState extends State<DetailPesanan> {
                                   children: [
                                     NeumorphicButton(
                                       onPressed: () async {
-                                        var payload = {
-                                          "is_open": 0,
-                                          "complaint_group": "RESI_COMPLAINT",
-                                          "complaint_ref_id":
-                                              "${widget.orderId}",
-                                          "complaint_desc":
-                                              "Permintaan Pengecekan RESI"
-                                        };
+                                        var payload = {"is_open": 0, "complaint_group": "RESI_COMPLAINT", "complaint_ref_id": "${widget.orderId}", "complaint_desc": "Permintaan Pengecekan RESI"};
 
                                         try {
-                                          DioResponse res =
-                                              await _dio.postAsync(
-                                                  "/complaint/create", payload);
+                                          DioResponse res = await _dio.postAsync("/complaint/create", payload);
                                           print(res.results);
                                           print(payload);
                                           if (res.results["code"] == 200) {
                                             print(res.results);
-                                            Toaster(ctx).showSuccessToast(
-                                                "Bantuan Telah terkirim",
-                                                gravity: ToastGravity.CENTER);
+                                            Toaster(ctx).showSuccessToast("Bantuan Telah terkirim", gravity: ToastGravity.CENTER);
 
                                             Navigator.of(ctx).pop();
                                           }
@@ -617,11 +509,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                             children: [
                               Text(
                                 "Bantuan Admin",
-                                style: TextStyle(
-                                    fontFamily: 'ghotic',
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.white),
                               )
                             ],
                           ),
@@ -660,11 +548,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                             children: [
                               Text(
                                 "Tolak Pesanan",
-                                style: TextStyle(
-                                    fontFamily: 'ghotic',
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.white),
                               )
                             ],
                           ),
@@ -678,8 +562,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text("Konfirmasi"),
-                                content: Text(
-                                    "Apakah Anda akan menerima pesnan ini?"),
+                                content: Text("Apakah Anda akan menerima pesnan ini?"),
                                 actions: [
                                   TextButton(
                                     child: Text("Tutup"),
@@ -713,11 +596,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                             children: [
                               Text(
                                 "Terima Pesanan",
-                                style: TextStyle(
-                                    fontFamily: 'ghotic',
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.white),
                               )
                             ],
                           ),
@@ -753,8 +632,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                       width: 15.w,
                       height: 15.w,
                       child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(3)),
+                        borderRadius: const BorderRadius.all(Radius.circular(3)),
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: item["uriThumbnail"],
@@ -767,8 +645,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                               ),
                             ),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
                       ),
                     ),
@@ -782,18 +659,14 @@ class _DetailPesananState extends State<DetailPesanan> {
                           Expanded(
                             child: Text(
                               item["nameProduct"],
-                              style: TextStyle(
-                                  fontFamily: 'ghotic',
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
                             " ${item["stockProduct"]} x ${currencyFormatter.format((double.parse(item["priceProduct"])).toInt())}",
-                            style: TextStyle(
-                                fontFamily: 'ghotic', fontSize: 10.sp),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp),
                           ),
                         ],
                       ),
@@ -821,10 +694,7 @@ class _DetailPesananState extends State<DetailPesanan> {
                     ),
                     Text(
                       "${currencyFormatter.format((double.parse(item["priceProduct"]) * int.parse(item["stockProduct"])))}",
-                      style: TextStyle(
-                          fontFamily: 'ghotic',
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -847,18 +717,12 @@ class _DetailPesananState extends State<DetailPesanan> {
       isGettingData = true;
     });
 
-    var payload = {
-      "order_id": widget.orderId,
-      "status": "ORD04B",
-      "delivery_no": "",
-      "reason": ""
-    };
+    var payload = {"order_id": widget.orderId, "status": "ORD04B", "delivery_no": "", "reason": ""};
 
     try {
       DioResponse res = await _dio.postAsync("/order/action", payload);
       if (res.results["code"] == 200) {
-        Toaster(context).showSuccessToast("Pesanan berhasil diterima",
-            gravity: ToastGravity.CENTER);
+        Toaster(context).showSuccessToast("Pesanan berhasil diterima", gravity: ToastGravity.CENTER);
         _getData();
       }
     } catch (e) {
@@ -875,18 +739,12 @@ class _DetailPesananState extends State<DetailPesanan> {
       isGettingData = true;
     });
 
-    var payload = {
-      "order_id": widget.orderId,
-      "status": "ORD08A",
-      "delivery_no": noresi,
-      "reason": ""
-    };
+    var payload = {"order_id": widget.orderId, "status": "ORD08A", "delivery_no": noresi, "reason": ""};
 
     try {
       DioResponse res = await _dio.postAsync("/order/action", payload);
       if (res.results["code"] == 200) {
-        Toaster(context).showSuccessToast("Berhasil Update No Resi",
-            gravity: ToastGravity.CENTER);
+        Toaster(context).showSuccessToast("Berhasil Update No Resi", gravity: ToastGravity.CENTER);
         _getData();
       }
     } catch (e) {
@@ -926,34 +784,31 @@ class _DetailPesananState extends State<DetailPesanan> {
   _reqPickup() async {
     print("process pickup request");
     setState(() {
-        isGettingData = true;
-      });
+      isGettingData = true;
+    });
 
-      var payload = {
-        "delivery_id": delivery_id
-      };
+    var payload = {"delivery_id": delivery_id};
 
-      try {
-        DioResponse res = await _dio.postAsync("/order/pickup", payload);
-        print('result pickup ${res.results ?? ""}');
-        if (res.results["code"] == 200) {
-          print('result pickup ${res.results["data"] ?? ""}');
-          Toaster(context).showSuccessToast("Permintaan Penjemputan Paket Berhasil",
-              gravity: ToastGravity.CENTER);
-          _getData();
-        }else{
-          Toaster(context).showErrorToast(res.results["errorMessage"], gravity: ToastGravity.CENTER);
-          setState(() {
-            isGettingData = false;
-          });
-        }
-      } catch (e) {
-        print(e);
-
+    try {
+      DioResponse res = await _dio.postAsync("/order/pickup", payload);
+      print('result pickup ${res.results ?? ""}');
+      if (res.results["code"] == 200) {
+        print('result pickup ${res.results["data"] ?? ""}');
+        Toaster(context).showSuccessToast("Permintaan Penjemputan Paket Berhasil", gravity: ToastGravity.CENTER);
+        _getData();
+      } else {
+        Toaster(context).showErrorToast(res.results["errorMessage"], gravity: ToastGravity.CENTER);
         setState(() {
           isGettingData = false;
         });
       }
+    } catch (e) {
+      print(e);
+
+      setState(() {
+        isGettingData = false;
+      });
+    }
   }
 
   Future<void> _reqPenjemputan(String noresi) async {
@@ -965,21 +820,13 @@ class _DetailPesananState extends State<DetailPesanan> {
 
     var responseGet = await http.get(
       Uri.parse("${DioClient.ipServer}/logistics/order/timeslot/$noresi"),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-      },
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'},
     );
-    List<dynamic> timeslot =
-        jsonDecode(responseGet.body)["data"]["data"]["time_slots"] ?? [];
+    List<dynamic> timeslot = jsonDecode(responseGet.body)["data"]["data"]["time_slots"] ?? [];
     List<Map<String, dynamic>> listAvailableTimeSlot = [];
     timeslot.forEach((element) {
-      DateTime.parse(element["start_time"])
-          .difference(DateTime.parse(element["end_time"]));
-      var differenceMinutes = -DateTime.parse(element["start_time"])
-          .difference(DateTime.parse(element["end_time"]))
-          .inMinutes;
+      DateTime.parse(element["start_time"]).difference(DateTime.parse(element["end_time"]));
+      var differenceMinutes = -DateTime.parse(element["start_time"]).difference(DateTime.parse(element["end_time"])).inMinutes;
       for (int minutes = 0; minutes < differenceMinutes;) {
         minutes++;
         var setHour = 0;
@@ -990,9 +837,7 @@ class _DetailPesananState extends State<DetailPesanan> {
             setHour++;
             setMinutes = 0;
           }
-          var datetime = DateTime.parse(element["start_time"])
-              .toLocal()
-              .add(Duration(minutes: minutes));
+          var datetime = DateTime.parse(element["start_time"]).toLocal().add(Duration(minutes: minutes));
           Map<String, dynamic> availableTimeSlot = Map<String, dynamic>();
           availableTimeSlot["date"] = datetime.day;
           availableTimeSlot["dateTime"] = datetime;
@@ -1003,8 +848,7 @@ class _DetailPesananState extends State<DetailPesanan> {
       }
     });
 
-    var slotAvailableTimesGroupByDate =
-        groupBy(listAvailableTimeSlot, (Map element) {
+    var slotAvailableTimesGroupByDate = groupBy(listAvailableTimeSlot, (Map element) {
       return element["date"];
     }).entries.toList();
 
@@ -1018,28 +862,19 @@ class _DetailPesananState extends State<DetailPesanan> {
             // var getDateNow = DateTime.now().add(Duration(minutes: 10, seconds: 0));
             var payload = {
               "order_id": ['$noresi'],
-              "pickup_time":
-                  "${DateFormat("yyyy-MM-dd'T'HH:mm:ss", 'id').format(selectedDateTime)}${selectedDateTime.timeZoneOffset.isNegative ? '-' : '+'}${twoDigits(selectedDateTime.timeZoneOffset.inHours.abs())}:${twoDigits(selectedDateTime.timeZoneOffset.inMinutes.remainder(60).abs().toInt())}"
+              "pickup_time": "${DateFormat("yyyy-MM-dd'T'HH:mm:ss", 'id').format(selectedDateTime)}${selectedDateTime.timeZoneOffset.isNegative ? '-' : '+'}${twoDigits(selectedDateTime.timeZoneOffset.inHours.abs())}:${twoDigits(selectedDateTime.timeZoneOffset.inMinutes.remainder(60).abs().toInt())}"
             };
             print(payload);
             var response = await http.post(
               Uri.parse("${DioClient.ipServer}/order/pickup"),
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-              },
+              headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'},
               body: jsonEncode(payload),
             );
             //
             // print(jsonDecode(payload.toString()));
-            print(
-                "data response req pickup ::: ${jsonDecode(response.body)["data"]["metadata"]["http_status_code"]}");
-            if (jsonDecode(response.body)["data"]["metadata"]
-                    ["http_status_code"] ==
-                200) {
-              print(
-                  "data response req pickup ::: ${jsonDecode(response.body)["data"]}");
+            print("data response req pickup ::: ${jsonDecode(response.body)["data"]["metadata"]["http_status_code"]}");
+            if (jsonDecode(response.body)["data"]["metadata"]["http_status_code"] == 200) {
+              print("data response req pickup ::: ${jsonDecode(response.body)["data"]}");
               Navigator.pop(context);
             } else {
               Navigator.pop(context);
@@ -1063,8 +898,6 @@ class _DetailPesananState extends State<DetailPesanan> {
           return TrackingPaket(noResi: noresi);
         });
   }
-
-  
 }
 
 class TrackingPaket extends StatelessWidget {
@@ -1089,15 +922,7 @@ class TrackingPaket extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    NeumorphicText("Status Pengiriman",
-                        style: NeumorphicStyle(
-                            color: Colors.black54,
-                            depth: 1,
-                            intensity: 1,
-                            surfaceIntensity: 1),
-                        textAlign: TextAlign.left,
-                        textStyle: NeumorphicTextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12.sp)),
+                    NeumorphicText("Status Pengiriman", style: NeumorphicStyle(color: Colors.black54, depth: 1, intensity: 1, surfaceIntensity: 1), textAlign: TextAlign.left, textStyle: NeumorphicTextStyle(fontWeight: FontWeight.bold, fontSize: 12.sp)),
                     SizedBox(
                       height: 1.h,
                     ),
@@ -1105,10 +930,7 @@ class TrackingPaket extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
-                          children: buildWidgetTracking(
-                                  lisstData: asynSnapshot.data,
-                                  builderContext: builderCtx) ??
-                              [],
+                          children: buildWidgetTracking(lisstData: asynSnapshot.data, builderContext: builderCtx) ?? [],
                         ),
                       ),
                     )
@@ -1132,16 +954,11 @@ class TrackingPaket extends StatelessWidget {
       Uri.parse(
         "${DioClient.ipServer}/logistics/order/detail/$noResi",
       ),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-      },
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'},
     );
     if (jsonEncode(responsse.body) != null) {
       if (jsonDecode(responsse.body)["data"] != null) {
-        List? trackings =
-            jsonDecode(responsse.body)["data"]["data"]["trackings"];
+        List? trackings = jsonDecode(responsse.body)["data"]["data"]["trackings"];
 
         if (trackings != null) {
           return trackings;
@@ -1151,8 +968,7 @@ class TrackingPaket extends StatelessWidget {
     return null;
   }
 
-  List<Widget>? buildWidgetTracking(
-      {List? lisstData, required BuildContext builderContext}) {
+  List<Widget>? buildWidgetTracking({List? lisstData, required BuildContext builderContext}) {
     return lisstData?.reversed.map((e) {
       int index = lisstData.indexOf(e);
       print("$index ${lisstData.length}");
@@ -1162,19 +978,10 @@ class TrackingPaket extends StatelessWidget {
             children: [
               Neumorphic(
                 padding: EdgeInsets.all(1.w),
-                style: NeumorphicStyle(
-                    color: index == (lisstData.length - 1)
-                        ? Colors.white
-                        : Colors.grey,
-                    depth: 1.2,
-                    intensity: 1,
-                    surfaceIntensity: 1,
-                    boxShape: NeumorphicBoxShape.circle()),
+                style: NeumorphicStyle(color: index == (lisstData.length - 1) ? Colors.white : Colors.grey, depth: 1.2, intensity: 1, surfaceIntensity: 1, boxShape: NeumorphicBoxShape.circle()),
                 child: Icon(
                   Icons.location_pin,
-                  color: index == (lisstData.length - 1)
-                      ? Colors.green
-                      : Colors.white,
+                  color: index == (lisstData.length - 1) ? Colors.green : Colors.white,
                   size: 6.5.w,
                 ),
               ),
@@ -1191,8 +998,7 @@ class TrackingPaket extends StatelessWidget {
             padding: EdgeInsets.only(left: 4.4.w),
             child: DottedBorder(
               strokeWidth: .5.w,
-              color:
-                  index == (lisstData.length - 1) ? Colors.green : Colors.grey,
+              color: index == (lisstData.length - 1) ? Colors.green : Colors.grey,
               customPath: (size) {
                 return Path()
                   ..moveTo(0, 0)
@@ -1249,13 +1055,8 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
           children: [
             NeumorphicText(
               "Atur Waktu Penjemputan",
-              style: NeumorphicStyle(
-                  color: Colors.white.withOpacity(.6),
-                  depth: 1.2,
-                  intensity: 1,
-                  surfaceIntensity: 1),
-              textStyle: NeumorphicTextStyle(
-                  fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: NeumorphicStyle(color: Colors.white.withOpacity(.6), depth: 1.2, intensity: 1, surfaceIntensity: 1),
+              textStyle: NeumorphicTextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 2.h,
@@ -1279,8 +1080,7 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                               NeumorphicButton(
                                   onPressed: () {
                                     setState(() {
-                                      if (eParent.key.hashCode ==
-                                          showChildByKey) {
+                                      if (eParent.key.hashCode == showChildByKey) {
                                         selectDateTime = DateTime(2000);
                                         showChildByKey = 0;
                                       } else {
@@ -1288,19 +1088,14 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                                       }
                                     });
                                   },
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: .5.h, horizontal: 4.w),
-                                  style: NeumorphicStyle(
-                                      depth: 1, color: Colors.white),
+                                  padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 4.w),
+                                  style: NeumorphicStyle(depth: 1, color: Colors.white),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
                                         Icons.done_all,
-                                        color: showChildByKey ==
-                                                eParent.key.hashCode
-                                            ? Colors.green
-                                            : Colors.grey,
+                                        color: showChildByKey == eParent.key.hashCode ? Colors.green : Colors.grey,
                                       ),
                                       SizedBox(
                                         width: 2.w,
@@ -1311,15 +1106,11 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                               Container(
                                 width: 100.w,
                                 child: Visibility(
-                                  visible:
-                                      showChildByKey == eParent.key.hashCode,
+                                  visible: showChildByKey == eParent.key.hashCode,
                                   child: Neumorphic(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 2.w),
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 2.w),
-                                    style: NeumorphicStyle(
-                                        depth: -1, color: Colors.white),
+                                    margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
+                                    padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
+                                    style: NeumorphicStyle(depth: -1, color: Colors.white),
                                     child: Container(
                                       child: Wrap(
                                         runSpacing: 1.h,
@@ -1329,41 +1120,26 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                                             return NeumorphicButton(
                                                 onPressed: () {
                                                   setState(() {
-                                                    if (selectDateTime ==
-                                                        eChildren["dateTime"]) {
-                                                      selectDateTime =
-                                                          DateTime(2000);
+                                                    if (selectDateTime == eChildren["dateTime"]) {
+                                                      selectDateTime = DateTime(2000);
                                                     } else {
-                                                      selectDateTime =
-                                                          eChildren["dateTime"];
+                                                      selectDateTime = eChildren["dateTime"];
                                                     }
                                                   });
                                                 },
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: .5.h,
-                                                    horizontal: 4.w),
-                                                style: NeumorphicStyle(
-                                                    depth: 1,
-                                                    color: Colors.white),
+                                                padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 4.w),
+                                                style: NeumorphicStyle(depth: 1, color: Colors.white),
                                                 child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
                                                     Icon(
                                                       Icons.done_all,
-                                                      color: selectDateTime ==
-                                                              eChildren[
-                                                                  "dateTime"]
-                                                          ? Colors.green
-                                                          : Colors.grey,
+                                                      color: selectDateTime == eChildren["dateTime"] ? Colors.green : Colors.grey,
                                                     ),
                                                     SizedBox(
                                                       width: 2.w,
                                                     ),
-                                                    Text(DateFormat(
-                                                            "HH:mm", "id")
-                                                        .format(eChildren[
-                                                            "dateTime"]))
+                                                    Text(DateFormat("HH:mm", "id").format(eChildren["dateTime"]))
                                                   ],
                                                 ));
                                           },
@@ -1394,14 +1170,10 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                       visible: selectDateTime != DateTime(2000),
                       child: NeumorphicButton(
                           onPressed: () {
-                            widget.onSubmit != null
-                                ? widget.onSubmit!(selectDateTime)
-                                : null;
+                            widget.onSubmit != null ? widget.onSubmit!(selectDateTime) : null;
                           },
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.h, horizontal: 4.w),
-                          style:
-                              NeumorphicStyle(depth: 1, color: Colors.orange),
+                          padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 4.w),
+                          style: NeumorphicStyle(depth: 1, color: Colors.orange),
                           child: Row(
                             children: [
                               Icon(
@@ -1413,9 +1185,7 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
                               ),
                               Text(
                                 "Req.Penjemputan",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                               ),
                             ],
                           )))
@@ -1435,9 +1205,7 @@ class ShowSchedulePenjemputanState extends State<ShowSchedulePenjemputan> {
 class DialogTolakPesanan extends StatefulWidget {
   final String orderId;
   final Function onSuccess;
-  const DialogTolakPesanan(
-      {Key? key, required this.orderId, required this.onSuccess})
-      : super(key: key);
+  const DialogTolakPesanan({Key? key, required this.orderId, required this.onSuccess}) : super(key: key);
 
   @override
   _DialogTolakPesananState createState() => new _DialogTolakPesananState();
@@ -1479,155 +1247,125 @@ class _DialogTolakPesananState extends State<DialogTolakPesanan> {
                           Radius.circular(10),
                         ),
                       ),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(
-                              width: double.infinity,
-                              height: 7.h,
-                              decoration: BoxDecoration(
-                                color: Colors.orange,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: <Widget>[
+                        Container(
+                          width: double.infinity,
+                          height: 7.h,
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Alasan Penolakan",
+                                style: TextStyle(color: Colors.white, fontSize: 13.sp, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(5.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Tuliskan Alasan Penolakan Anda",
+                                style: TextStyle(
+                                  fontFamily: 'ghotic',
+                                  fontSize: 11.sp,
                                 ),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Alasan Penolakan",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                              SizedBox(height: 1.h),
+                              TextInput(
+                                  maxLines: 2,
+                                  value: reason,
+                                  keyboardType: TextInputType.text,
+                                  borderRadius: 10.0,
+                                  onChanged: (v) {
+                                    setState(() {
+                                      reason = v ?? "";
+                                    });
+                                  }),
+                            ],
+                          ),
+                        ),
+                        if (!isSaving)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  width: 30.w,
+                                  height: 4.h,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.orange),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Batal",
+                                        style: TextStyle(fontFamily: 'ghotic', fontSize: 9.sp, fontWeight: FontWeight.bold, color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 3.w),
+                              InkWell(
+                                onTap: () {
+                                  if (_formKey.currentState!.validate() && !isSaving) _submitConfirmation();
+                                },
+                                child: Container(
+                                  width: 30.w,
+                                  height: 4.h,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                                    color: Colors.green,
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Submit",
+                                        style: TextStyle(fontFamily: 'ghotic', fontSize: 9.sp, fontWeight: FontWeight.bold, color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        if (isSaving)
+                          Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                            SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.orange,
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(5.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Tuliskan Alasan Penolakan Anda",
-                                    style: TextStyle(
-                                      fontFamily: 'ghotic',
-                                      fontSize: 11.sp,
-                                    ),
-                                  ),
-                                  SizedBox(height: 1.h),
-                                  TextInput(
-                                      maxLines: 2,
-                                      value: reason,
-                                      keyboardType: TextInputType.text,
-                                      borderRadius: 10.0,
-                                      onChanged: (v) {
-                                        setState(() {
-                                          reason = v ?? "";
-                                        });
-                                      }),
-                                ],
-                              ),
+                            SizedBox(width: 2.w),
+                            Text(
+                              "memroses penolakan...",
+                              style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontSize: 11.sp, fontStyle: FontStyle.italic),
                             ),
-                            if (!isSaving)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 4.h,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
-                                          color: Colors.orange),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Batal",
-                                            style: TextStyle(
-                                                fontFamily: 'ghotic',
-                                                fontSize: 9.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 3.w),
-                                  InkWell(
-                                    onTap: () {
-                                      if (_formKey.currentState!.validate() &&
-                                          !isSaving) _submitConfirmation();
-                                    },
-                                    child: Container(
-                                      width: 30.w,
-                                      height: 4.h,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(20)),
-                                        color: Colors.green,
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Submit",
-                                            style: TextStyle(
-                                                fontFamily: 'ghotic',
-                                                fontSize: 9.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            if (isSaving)
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 15,
-                                      height: 15,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.orange,
-                                      ),
-                                    ),
-                                    SizedBox(width: 2.w),
-                                    Text(
-                                      "memroses penolakan...",
-                                      style: TextStyle(
-                                          fontFamily: 'ghotic',
-                                          color: Colors.black87,
-                                          fontSize: 11.sp,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ]),
-                            SizedBox(height: 3.h)
                           ]),
+                        SizedBox(height: 3.h)
+                      ]),
                     ),
                   ),
                 ],
@@ -1644,18 +1382,12 @@ class _DialogTolakPesananState extends State<DialogTolakPesanan> {
       isSaving = true;
     });
 
-    var payload = {
-      "order_id": widget.orderId,
-      "status": "ORD06",
-      "delivery_no": "",
-      "reason": reason
-    };
+    var payload = {"order_id": widget.orderId, "status": "ORD06", "delivery_no": "", "reason": reason};
 
     try {
       DioResponse res = await _dio.postAsync("/order/action", payload);
       if (res.results["code"] == 200) {
-        Toaster(context).showSuccessToast("Pesanan berhasil di tolak",
-            gravity: ToastGravity.CENTER);
+        Toaster(context).showSuccessToast("Pesanan berhasil di tolak", gravity: ToastGravity.CENTER);
 
         Navigator.of(context).pop();
 
@@ -1670,5 +1402,3 @@ class _DialogTolakPesananState extends State<DialogTolakPesanan> {
     });
   }
 }
-
-

@@ -28,13 +28,16 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreen extends State<ProfileScreen> {
   Widget? notifikasi;
-  var streamProfileScreen = StreamController<
-      PayloadResponseApi<PayloadResponseMyProfileDashboard?>>.broadcast();
+  var streamProfileScreen = StreamController<PayloadResponseApi<PayloadResponseMyProfileDashboard?>>.broadcast();
 
   PayloadResponseMyProfileDashboard? dataEvent;
   Future<void> getFromApi() async {
     var event = await ProfileRepository().myProfileDashboard("authorization");
     List<String> dataSubsFirebase = [];
+    //if expired
+    if (event.status == "Token Expired") {
+      context.read<ControllerPageCubit>().goto("LOGIN");
+    }
     if (event.data != null) {
       dataSubsFirebase.add('user-${event.data?.idUser}');
       var myOutlets = event.data?.myOutlets;
@@ -57,7 +60,6 @@ class _ProfileScreen extends State<ProfileScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getFromApi();
-      _askPermission();
     });
   } // ProfileScreen();
 
@@ -110,27 +112,17 @@ class _ProfileScreen extends State<ProfileScreen> {
             Neumorphic(
               padding: EdgeInsets.all(.8.h),
               margin: EdgeInsets.symmetric(horizontal: 5.w),
-              style: NeumorphicStyle(
-                  color: Color((265 * 0xFFFFFF * 100).toInt()).withOpacity(1),
-                  shape: NeumorphicShape.concave,
-                  depth: .2.h,
-                  intensity: 1),
+              style: NeumorphicStyle(color: Color((265 * 0xFFFFFF * 100).toInt()).withOpacity(1), shape: NeumorphicShape.concave, depth: .2.h, intensity: 1),
               child: Column(
                 children: [
                   Neumorphic(
                       padding: EdgeInsets.all(0),
-                      style: NeumorphicStyle(
-                          color: Colors.white,
-                          shape: NeumorphicShape.concave,
-                          boxShape: NeumorphicBoxShape.circle(),
-                          depth: .2.h,
-                          intensity: 1),
+                      style: NeumorphicStyle(color: Colors.white, shape: NeumorphicShape.concave, boxShape: NeumorphicBoxShape.circle(), depth: .2.h, intensity: 1),
                       child: Container(
                         width: 20.w,
                         height: 20.w,
                         child: CachedNetworkImage(
-                          imageUrl:
-                              '${data.image ?? ""}?dummy=${math.Random().nextInt(999)}',
+                          imageUrl: '${data.image ?? ""}?dummy=${math.Random().nextInt(999)}',
                           errorWidget: (context, url, error) {
                             return Icon(
                               Icons.person,
@@ -211,8 +203,7 @@ class _ProfileScreen extends State<ProfileScreen> {
     final Permission location_permission = await Permission.photos;
     bool location_status = false;
 
-    bool ispermanetelydenied =
-        await location_permission.request().isPermanentlyDenied;
+    bool ispermanetelydenied = await location_permission.request().isPermanentlyDenied;
     if (ispermanetelydenied) {
       print("denied");
       await openAppSettings();

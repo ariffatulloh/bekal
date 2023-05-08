@@ -28,8 +28,7 @@ class CreateProduct extends StatefulWidget {
   int? idProduct;
   Function(bool) onDismiss;
 
-  CreateProduct(
-      {required this.idStore, this.idProduct, required this.onDismiss});
+  CreateProduct({required this.idStore, this.idProduct, required this.onDismiss});
 
   @override
   CreateProductState createState() => CreateProductState();
@@ -128,147 +127,95 @@ class CreateProductState extends State<CreateProduct> {
                                       Container(
                                         height: 100.w - 15.w,
                                         child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                                 child: Neumorphic(
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 2),
-                                              style: NeumorphicStyle(
-                                                  color: Colors.white,
-                                                  depth: -2,
-                                                  intensity: 1,
-                                                  surfaceIntensity: 1),
+                                              margin: EdgeInsets.symmetric(horizontal: 2),
+                                              style: NeumorphicStyle(color: Colors.white, depth: -2, intensity: 1, surfaceIntensity: 1),
                                               child: Container(
-                                                child:
-                                                    _listImageGallery.length > 0
-                                                        ? PhotoView(
-                                                            imageProvider:
-                                                                FileImage(
-                                                              _listImageGallery[
-                                                                  imageGallerySelected],
-                                                            ),
-                                                            backgroundDecoration:
-                                                                BoxDecoration(
-                                                                    color: Colors
-                                                                        .white),
-                                                          )
-                                                        : Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(
-                                                                "Silahkan pilih gambar dan pastikan file kurang dari 10Mb",
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center),
-                                                          ),
+                                                child: _listImageGallery.length > 0
+                                                    ? PhotoView(
+                                                        imageProvider: FileImage(
+                                                          _listImageGallery[imageGallerySelected],
+                                                        ),
+                                                        backgroundDecoration: BoxDecoration(color: Colors.white),
+                                                      )
+                                                    : Container(
+                                                        alignment: Alignment.center,
+                                                        child: Text("Silahkan pilih gambar dan pastikan file kurang dari 10Mb", textAlign: TextAlign.center),
+                                                      ),
                                               ),
                                             )),
                                             Column(
                                               children: [
                                                 Neumorphic(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 2),
-                                                  style: NeumorphicStyle(
-                                                      depth: -1.5,
-                                                      intensity: 1,
-                                                      surfaceIntensity: 1),
+                                                  margin: EdgeInsets.symmetric(horizontal: 2),
+                                                  style: NeumorphicStyle(depth: -1.5, intensity: 1, surfaceIntensity: 1),
                                                   child: Container(
                                                     width: 18.w,
                                                     height: 18.w,
                                                     alignment: Alignment.center,
                                                     child: NeumorphicButton(
                                                       onPressed: () {},
-                                                      padding:
-                                                          EdgeInsets.all(0),
+                                                      padding: EdgeInsets.all(0),
                                                       style: NeumorphicStyle(
                                                           // shape: NeumorphicShape.convex,
-                                                          color: Colors
-                                                              .transparent,
-                                                          boxShape:
-                                                              NeumorphicBoxShape
-                                                                  .circle(),
+                                                          color: Colors.transparent,
+                                                          boxShape: NeumorphicBoxShape.circle(),
                                                           depth: 1,
                                                           surfaceIntensity: 1,
                                                           intensity: 1),
                                                       child: PopupMenuButton(
-                                                          onSelected:
-                                                              (String value) {
-                                                            if (value ==
-                                                                'fromCamera') {
-                                                              _imgFromCamera(
-                                                                  isGalleryImmage:
-                                                                      true);
+                                                          onSelected: (String value) {
+                                                            if (value == 'fromCamera') {
+                                                              _imgFromCamera(isGalleryImmage: true);
                                                             } else {
-                                                              _imgFromGallery(
-                                                                  isGalleryImmage:
-                                                                      true);
+                                                              _imgFromGallery(isGalleryImmage: true);
                                                             }
                                                           },
                                                           child: NeumorphicIcon(
                                                             Icons.add,
-                                                            style:
-                                                                NeumorphicStyle(
+                                                            style: NeumorphicStyle(
                                                               depth: 1.5,
-                                                              surfaceIntensity:
-                                                                  1,
+                                                              surfaceIntensity: 1,
                                                               intensity: 1,
                                                             ),
                                                             size: 13.w,
                                                           ),
-                                                          itemBuilder:
-                                                              (context) {
+                                                          itemBuilder: (context) {
                                                             return [
                                                               PopupMenuItem(
-                                                                value:
-                                                                    'fromCamera',
+                                                                value: 'fromCamera',
                                                                 child: Row(
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              5),
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .store_rounded),
+                                                                      padding: const EdgeInsets.all(5),
+                                                                      child: Icon(Icons.store_rounded),
                                                                     ),
                                                                     Text(
                                                                       "Ambil Dari Camera",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontFamily:
-                                                                            'ghotic',
-                                                                        fontSize:
-                                                                            10.sp,
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'ghotic',
+                                                                        fontSize: 10.sp,
                                                                       ),
                                                                     )
                                                                   ],
                                                                 ),
                                                               ),
                                                               PopupMenuItem(
-                                                                value:
-                                                                    'fromGallery',
+                                                                value: 'fromGallery',
                                                                 child: Row(
-                                                                  children: <
-                                                                      Widget>[
+                                                                  children: <Widget>[
                                                                     Padding(
-                                                                      padding:
-                                                                          const EdgeInsets.all(
-                                                                              5),
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .visibility_outlined),
+                                                                      padding: const EdgeInsets.all(5),
+                                                                      child: Icon(Icons.visibility_outlined),
                                                                     ),
                                                                     Text(
                                                                       "Ambil Dari Gallery",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontFamily:
-                                                                            'ghotic',
-                                                                        fontSize:
-                                                                            10.sp,
+                                                                      style: TextStyle(
+                                                                        fontFamily: 'ghotic',
+                                                                        fontSize: 10.sp,
                                                                       ),
                                                                     )
                                                                   ],
@@ -284,72 +231,42 @@ class CreateProductState extends State<CreateProduct> {
                                                 ),
                                                 Expanded(
                                                     child: Neumorphic(
-                                                  style: NeumorphicStyle(
-                                                      depth: -2,
-                                                      intensity: 1,
-                                                      surfaceIntensity: 1),
+                                                  style: NeumorphicStyle(depth: -2, intensity: 1, surfaceIntensity: 1),
                                                   child: Container(
                                                     width: 18.w,
-                                                    padding:
-                                                        EdgeInsets.symmetric(
+                                                    padding: EdgeInsets.symmetric(
                                                       horizontal: 2.w,
                                                     ),
                                                     child: ListView.builder(
-                                                        itemCount:
-                                                            _listImageGallery
-                                                                .length,
-                                                        itemBuilder:
-                                                            (itemBuilder,
-                                                                index) {
+                                                        itemCount: _listImageGallery.length,
+                                                        itemBuilder: (itemBuilder, index) {
                                                           return Container(
                                                             height: 18.w,
-                                                            margin: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        2.w),
+                                                            margin: EdgeInsets.symmetric(vertical: 2.w),
                                                             child: Column(
                                                               children: [
                                                                 NeumorphicButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    setState(
-                                                                        () {
-                                                                      _listImageGallery
-                                                                          .removeAt(
-                                                                              index);
+                                                                  onPressed: () {
+                                                                    setState(() {
+                                                                      _listImageGallery.removeAt(index);
                                                                     });
                                                                   },
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              0),
-                                                                  style:
-                                                                      NeumorphicStyle(
+                                                                  padding: EdgeInsets.all(0),
+                                                                  style: NeumorphicStyle(
                                                                     // shape: NeumorphicShape.convex,
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    boxShape:
-                                                                        NeumorphicBoxShape
-                                                                            .circle(),
+                                                                    color: Colors.transparent,
+                                                                    boxShape: NeumorphicBoxShape.circle(),
                                                                     depth: 1,
                                                                     // surfaceIntensity: .5,
                                                                     // intensity: 1
                                                                   ),
-                                                                  child:
-                                                                      NeumorphicIcon(
-                                                                    Icons
-                                                                        .remove_circle,
-                                                                    style:
-                                                                        NeumorphicStyle(
-                                                                      color: Colors
-                                                                          .red
-                                                                          .withOpacity(
-                                                                              .5),
+                                                                  child: NeumorphicIcon(
+                                                                    Icons.remove_circle,
+                                                                    style: NeumorphicStyle(
+                                                                      color: Colors.red.withOpacity(.5),
                                                                       depth: 1,
-                                                                      surfaceIntensity:
-                                                                          1,
-                                                                      intensity:
-                                                                          1,
+                                                                      surfaceIntensity: 1,
+                                                                      intensity: 1,
                                                                     ),
                                                                     size: 5.w,
                                                                   ),
@@ -358,38 +275,24 @@ class CreateProductState extends State<CreateProduct> {
                                                                   height: 1.w,
                                                                 ),
                                                                 Expanded(
-                                                                  child:
-                                                                      Neumorphic(
-                                                                    style:
-                                                                        NeumorphicStyle(
+                                                                  child: Neumorphic(
+                                                                    style: NeumorphicStyle(
                                                                       depth: -2,
-                                                                      surfaceIntensity:
-                                                                          1,
-                                                                      intensity:
-                                                                          1,
+                                                                      surfaceIntensity: 1,
+                                                                      intensity: 1,
                                                                     ),
-                                                                    child:
-                                                                        GestureDetector(
-                                                                      onTap:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          imageGallerySelected =
-                                                                              index;
+                                                                    child: GestureDetector(
+                                                                      onTap: () {
+                                                                        setState(() {
+                                                                          imageGallerySelected = index;
                                                                         });
                                                                       },
-                                                                      child:
-                                                                          Container(
-                                                                        color: Colors
-                                                                            .black12,
-                                                                        width: 18.w -
-                                                                            6.w,
-                                                                        child:
-                                                                            Image(
-                                                                          image:
-                                                                              FileImage(_listImageGallery.elementAt(index)),
-                                                                          fit: BoxFit
-                                                                              .cover,
+                                                                      child: Container(
+                                                                        color: Colors.black12,
+                                                                        width: 18.w - 6.w,
+                                                                        child: Image(
+                                                                          image: FileImage(_listImageGallery.elementAt(index)),
+                                                                          fit: BoxFit.cover,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -410,23 +313,16 @@ class CreateProductState extends State<CreateProduct> {
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   "Gambar Thumbnail",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black),
+                                                  style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.black),
                                                 ),
                                                 SizedBox(
                                                   width: 1.w,
@@ -435,22 +331,10 @@ class CreateProductState extends State<CreateProduct> {
                                                   child: imageError!.isNotEmpty
                                                       ? Tooltip(
                                                           preferBelow: false,
-                                                          triggerMode:
-                                                              TooltipTriggerMode
-                                                                  .tap,
-                                                          waitDuration:
-                                                              const Duration(
-                                                                  seconds: 0),
-                                                          showDuration:
-                                                              const Duration(
-                                                                  seconds: 2),
-                                                          textStyle: TextStyle(
-                                                              fontSize: 10.sp,
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal),
+                                                          triggerMode: TooltipTriggerMode.tap,
+                                                          waitDuration: const Duration(seconds: 0),
+                                                          showDuration: const Duration(seconds: 2),
+                                                          textStyle: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                           // decoration: BoxDecoration(
                                                           //     borderRadius: BorderRadius.circular(10), color: Colors.green),
                                                           message: imageError,
@@ -470,27 +354,20 @@ class CreateProductState extends State<CreateProduct> {
                                             PopupMenuButton(
                                                 onSelected: (String value) {
                                                   if (value == 'fromCamera') {
-                                                    _imgFromCamera(
-                                                        isThumbnail: true);
+                                                    _imgFromCamera(isThumbnail: true);
                                                   } else {
-                                                    _imgFromGallery(
-                                                        isThumbnail: true);
+                                                    _imgFromGallery(isThumbnail: true);
                                                   }
                                                 },
                                                 child: Neumorphic(
                                                   padding: EdgeInsets.all(0),
                                                   style: NeumorphicStyle(
-                                                    boxShape: NeumorphicBoxShape
-                                                        .roundRect(
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    .3.w.h))),
+                                                    boxShape: NeumorphicBoxShape.roundRect(BorderRadius.all(Radius.circular(.3.w.h))),
                                                     depth: .04.w.h,
                                                   ),
                                                   child: imageThumbnail != null
                                                       ? Image(
-                                                          image: FileImage(
-                                                              imageThumbnail!),
+                                                          image: FileImage(imageThumbnail!),
                                                           fit: BoxFit.fill,
                                                           // use this
                                                           width: 1.5.w.h,
@@ -498,13 +375,10 @@ class CreateProductState extends State<CreateProduct> {
                                                         )
                                                       : NeumorphicIcon(
                                                           Icons.add,
-                                                          style:
-                                                              NeumorphicStyle(
-                                                            color:
-                                                                Colors.black38,
+                                                          style: NeumorphicStyle(
+                                                            color: Colors.black38,
                                                             depth: .3.h,
-                                                            surfaceIntensity:
-                                                                .3,
+                                                            surfaceIntensity: .3,
                                                             intensity: 1,
                                                           ),
                                                           size: 1.5.w.h,
@@ -517,17 +391,13 @@ class CreateProductState extends State<CreateProduct> {
                                                       child: Row(
                                                         children: <Widget>[
                                                           Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            child: Icon(Icons
-                                                                .store_rounded),
+                                                            padding: const EdgeInsets.all(5),
+                                                            child: Icon(Icons.store_rounded),
                                                           ),
                                                           Text(
                                                             "Ambil Dari Camera",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'ghotic',
+                                                              fontFamily: 'ghotic',
                                                               fontSize: 10.sp,
                                                             ),
                                                           )
@@ -539,17 +409,13 @@ class CreateProductState extends State<CreateProduct> {
                                                       child: Row(
                                                         children: <Widget>[
                                                           Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            child: Icon(Icons
-                                                                .visibility_outlined),
+                                                            padding: const EdgeInsets.all(5),
+                                                            child: Icon(Icons.visibility_outlined),
                                                           ),
                                                           Text(
                                                             "Ambil Dari Gallery",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'ghotic',
+                                                              fontFamily: 'ghotic',
                                                               fontSize: 10.sp,
                                                             ),
                                                           )
@@ -562,15 +428,11 @@ class CreateProductState extends State<CreateProduct> {
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: Row(children: [
                                           Text(
                                             "Pilih Category",
-                                            style: TextStyle(
-                                                fontSize: 10.sp,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black),
+                                            style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.bold, color: Colors.black),
                                           ),
                                           SizedBox(
                                             width: 1.w,
@@ -579,23 +441,13 @@ class CreateProductState extends State<CreateProduct> {
                                               ? Row(children: [
                                                   Tooltip(
                                                     preferBelow: false,
-                                                    triggerMode:
-                                                        TooltipTriggerMode.tap,
-                                                    waitDuration:
-                                                        const Duration(
-                                                            seconds: 0),
-                                                    showDuration:
-                                                        const Duration(
-                                                            seconds: 2),
-                                                    textStyle: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.normal),
+                                                    triggerMode: TooltipTriggerMode.tap,
+                                                    waitDuration: const Duration(seconds: 0),
+                                                    showDuration: const Duration(seconds: 2),
+                                                    textStyle: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                                                     // decoration: BoxDecoration(
                                                     //     borderRadius: BorderRadius.circular(10), color: Colors.green),
-                                                    message:
-                                                        "silahkan pilih kategory atau tambah category",
+                                                    message: "silahkan pilih kategory atau tambah category",
                                                     child: Icon(
                                                       Icons.info,
                                                       color: Colors.red,
@@ -613,70 +465,49 @@ class CreateProductState extends State<CreateProduct> {
                                           NeumorphicButton(
                                             onPressed: () {
                                               print(selectedChoices);
-                                              var _formKeyNew =
-                                                  GlobalKey<FormState>();
+                                              var _formKeyNew = GlobalKey<FormState>();
                                               var addNameCategoryField = "";
 
                                               showDialog(
                                                   context: context,
-                                                  builder:
-                                                      (BuildContext context) {
+                                                  builder: (BuildContext context) {
                                                     return AlertDialog(
                                                       title: Form(
                                                         key: _formKeyNew,
                                                         child: Column(
                                                           children: [
                                                             WidgetTextField(
-                                                                textTitleColor:
-                                                                    Colors
-                                                                        .black,
-                                                                title:
-                                                                    "Nama Category",
+                                                                textTitleColor: Colors.black,
+                                                                title: "Nama Category",
                                                                 obSecure: false,
-                                                                icon: Icons
-                                                                    .person,
-                                                                messageError:
-                                                                    "Silahkan Masukan Nama Produk",
+                                                                icon: Icons.person,
+                                                                messageError: "Silahkan Masukan Nama Produk",
                                                                 isError: false,
                                                                 // isError: emailField.isEmpty,
-                                                                onChanged:
-                                                                    (String?
-                                                                        value) {
-                                                                  addNameCategoryField =
-                                                                      value!;
+                                                                onChanged: (String? value) {
+                                                                  addNameCategoryField = value!;
                                                                 },
-                                                                onSaved:
-                                                                    (String?
-                                                                        value) {
-                                                                  addNameCategoryField =
-                                                                      value!;
+                                                                onSaved: (String? value) {
+                                                                  addNameCategoryField = value!;
                                                                 },
-                                                                keyboardtype:
-                                                                    TextInputType
-                                                                        .text),
+                                                                keyboardtype: TextInputType.text),
                                                           ],
                                                         ),
                                                       ),
                                                       actions: <Widget>[
                                                         NeumorphicButton(
                                                           onPressed: () {
-                                                            print(
-                                                                addNameCategoryField);
+                                                            print(addNameCategoryField);
                                                             setState(() {
-                                                              listCategoryState.add(
-                                                                  addNameCategoryField);
+                                                              listCategoryState.add(addNameCategoryField);
                                                             });
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(true);
+                                                            Navigator.of(context).pop(true);
                                                           },
                                                           child: Text('Tambah'),
                                                         ),
                                                         NeumorphicButton(
                                                           onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(true);
+                                                            Navigator.of(context).pop(true);
                                                           },
                                                           child: Text('Batal'),
                                                         ),
@@ -684,66 +515,49 @@ class CreateProductState extends State<CreateProduct> {
                                                     );
                                                   });
                                             },
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: .2.h,
-                                                horizontal: 1.w),
+                                            padding: EdgeInsets.symmetric(vertical: .2.h, horizontal: 1.w),
                                             style: NeumorphicStyle(
                                               color: Colors.transparent,
                                               depth: 2,
                                               intensity: 1,
                                               surfaceIntensity: 1,
-                                              boxShape:
-                                                  NeumorphicBoxShape.circle(),
-                                              border: NeumorphicBorder(
-                                                  color: Colors.grey,
-                                                  isEnabled: true),
+                                              boxShape: NeumorphicBoxShape.circle(),
+                                              border: NeumorphicBorder(color: Colors.grey, isEnabled: true),
                                             ),
                                             child: Icon(Icons.add),
                                           )
                                         ]),
                                       ),
                                       Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 2.w, vertical: 0),
+                                          padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0),
                                           alignment: Alignment.topLeft,
                                           child: Wrap(
                                               spacing: 1.w,
                                               alignment: WrapAlignment.start,
-                                              crossAxisAlignment:
-                                                  WrapCrossAlignment.start,
-                                              children:
-                                                  listCategoryState.map((e) {
+                                              crossAxisAlignment: WrapCrossAlignment.start,
+                                              children: listCategoryState.map((e) {
                                                 return ChoiceChip(
                                                   label: Text(e),
-                                                  selectedColor:
-                                                      Colors.orangeAccent,
-                                                  selected: selectedChoices
-                                                      .contains(e),
+                                                  selectedColor: Colors.orangeAccent,
+                                                  selected: selectedChoices.contains(e),
                                                   onSelected: (select) {
                                                     setState(
                                                       () {
-                                                        selectedChoices
-                                                                .contains(e)
-                                                            ? selectedChoices
-                                                                .remove(e)
-                                                            : selectedChoices
-                                                                .add(e);
+                                                        selectedChoices.contains(e) ? selectedChoices.remove(e) : selectedChoices.add(e);
                                                       },
                                                     );
                                                   },
                                                 );
                                               }).toList())),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Nama Produk",
                                             obSecure: false,
                                             icon: Icons.apps_sharp,
                                             initialValue: nameProductField,
-                                            messageError:
-                                                "Silahkan Masukan Nama Produk",
+                                            messageError: "Silahkan Masukan Nama Produk",
                                             isError: nameProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -761,17 +575,14 @@ class CreateProductState extends State<CreateProduct> {
                                             keyboardtype: TextInputType.text),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Stok Produk",
                                             initialValue: stockProductField,
                                             obSecure: false,
-                                            icon: Icons
-                                                .production_quantity_limits,
-                                            messageError:
-                                                "Silahkan Masukan Stok Produk",
+                                            icon: Icons.production_quantity_limits,
+                                            messageError: "Silahkan Masukan Stok Produk",
                                             isError: stockProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -786,21 +597,17 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false)),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Harga Produk",
                                             obSecure: false,
                                             icon: Icons.price_change_rounded,
                                             initialValue: priceProductField,
-                                            messageError:
-                                                "Silahkan Masukan Harga Produk",
+                                            messageError: "Silahkan Masukan Harga Produk",
                                             isError: priceProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -815,22 +622,18 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false),
                                             typeCurrency: true),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Tinggi Produk (cm)",
                                             obSecure: false,
                                             icon: Icons.straighten,
                                             initialValue: heightProductField,
-                                            messageError:
-                                                "Silahkan Masukan Tinggi Produk",
+                                            messageError: "Silahkan Masukan Tinggi Produk",
                                             isError: heightProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -845,21 +648,17 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false)),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
-                                            title: "Berat Produk (kg)",
+                                            title: "Berat Produk (Gram)",
                                             obSecure: false,
                                             icon: Icons.scale_sharp,
                                             initialValue: weightProductField,
-                                            messageError:
-                                                "Silahkan Masukan Berat Produk",
+                                            messageError: "Silahkan Masukan Berat Produk",
                                             isError: weightProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -874,21 +673,17 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false)),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Lebar Produk (cm)",
                                             obSecure: false,
                                             icon: Icons.widgets_rounded,
                                             initialValue: widthProductField,
-                                            messageError:
-                                                "Silahkan Masukan Lebar Produk",
+                                            messageError: "Silahkan Masukan Lebar Produk",
                                             isError: widthProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -903,21 +698,17 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false)),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             textTitleColor: Colors.black,
                                             title: "Panjang Produk (cm)",
                                             obSecure: false,
                                             icon: Icons.architecture,
                                             initialValue: lengthProductField,
-                                            messageError:
-                                                "Silahkan Masukan Panjang Produk",
+                                            messageError: "Silahkan Masukan Panjang Produk",
                                             isError: lengthProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -932,20 +723,16 @@ class CreateProductState extends State<CreateProduct> {
                                                 buttonSaveVisible = true;
                                               });
                                             },
-                                            keyboardtype:
-                                                TextInputType.numberWithOptions(
-                                                    decimal: false)),
+                                            keyboardtype: TextInputType.numberWithOptions(decimal: false)),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 2.w, vertical: 2.w),
+                                        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                                         child: WidgetTextField(
                                             title: "Deskripsi Produk",
                                             obSecure: false,
                                             icon: Icons.description,
                                             initialValue: descProductField,
-                                            messageError:
-                                                "Silahkan Masukan Deskripsi Produk",
+                                            messageError: "Silahkan Masukan Deskripsi Produk",
                                             isError: descProductField.isEmpty,
                                             // isError: emailField.isEmpty,
                                             onChanged: (String? value) {
@@ -959,8 +746,7 @@ class CreateProductState extends State<CreateProduct> {
                                               });
                                             },
                                             textTitleColor: Colors.black,
-                                            keyboardtype:
-                                                TextInputType.multiline),
+                                            keyboardtype: TextInputType.multiline),
                                       ),
                                     ],
                                   ),
@@ -971,8 +757,7 @@ class CreateProductState extends State<CreateProduct> {
                           Container(
                             width: 100.w,
                             color: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 2.w),
+                            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                             child: nameProductField.isNotEmpty &&
                                     priceProductField.isNotEmpty &&
                                     descProductField.isNotEmpty &&
@@ -989,54 +774,21 @@ class CreateProductState extends State<CreateProduct> {
                                     children: [
                                       widget.idProduct != null
                                           ? NeumorphicButton(
-                                              padding: EdgeInsets.only(
-                                                  top: 6.sp,
-                                                  bottom: 6.sp,
-                                                  left: 12.sp,
-                                                  right: 12.sp),
-                                              style: NeumorphicStyle(
-                                                  shape: NeumorphicShape.convex,
-                                                  color: Color.fromRGBO(
-                                                      243, 174, 0, 1.0),
-                                                  boxShape: NeumorphicBoxShape
-                                                      .stadium(),
-                                                  depth: .2.h,
-                                                  surfaceIntensity: .3,
-                                                  intensity: .9),
+                                              padding: EdgeInsets.only(top: 6.sp, bottom: 6.sp, left: 12.sp, right: 12.sp),
+                                              style: NeumorphicStyle(shape: NeumorphicShape.convex, color: Color.fromRGBO(243, 174, 0, 1.0), boxShape: NeumorphicBoxShape.stadium(), depth: .2.h, surfaceIntensity: .3, intensity: .9),
                                               child: Wrap(children: [
                                                 Text(
                                                   "${isArchived ? 'Tampilkan' : 'Hapus'}",
-                                                  style: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      color: Colors.white),
+                                                  style: TextStyle(fontSize: 10.sp, color: Colors.white),
                                                 ),
                                               ]),
                                               onPressed: () async {
-                                                var getArchiveProduct =
-                                                    await http.get(
-                                                        Uri.parse(
-                                                            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/archive/${!isArchived}/product/${widget.idProduct}"),
-                                                        headers: {
-                                                      'Content-Type':
-                                                          'application/json',
-                                                      'Accept':
-                                                          'application/json',
-                                                      'Authorization':
-                                                          'Bearer ${await SecureStorage().getToken()}'
-                                                    });
-                                                if (getArchiveProduct
-                                                        .statusCode ==
-                                                    200) {
-                                                  var response = json.decode(
-                                                      getArchiveProduct.body);
-                                                  if (response['data'] !=
-                                                      null) {
-                                                    Toaster(context)
-                                                        .showSuccessToast(
-                                                            "Produk berhasil di ${response['data']['isArchived'] ? 'hapus' : 'tampilkan kembali'}",
-                                                            gravity:
-                                                                ToastGravity
-                                                                    .CENTER);
+                                                var getArchiveProduct = await http.get(Uri.parse("${DioClient.ipServer}/api/my/outlet/${widget.idStore}/archive/${!isArchived}/product/${widget.idProduct}"),
+                                                    headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
+                                                if (getArchiveProduct.statusCode == 200) {
+                                                  var response = json.decode(getArchiveProduct.body);
+                                                  if (response['data'] != null) {
+                                                    Toaster(context).showSuccessToast("Produk berhasil di ${response['data']['isArchived'] ? 'hapus' : 'tampilkan kembali'}", gravity: ToastGravity.CENTER);
                                                     widget.onDismiss(true);
                                                     Navigator.pop(context);
                                                   }
@@ -1048,26 +800,12 @@ class CreateProductState extends State<CreateProduct> {
                                         width: 3.w,
                                       ),
                                       NeumorphicButton(
-                                          padding: EdgeInsets.only(
-                                              top: 6.sp,
-                                              bottom: 6.sp,
-                                              left: 12.sp,
-                                              right: 12.sp),
-                                          style: NeumorphicStyle(
-                                              shape: NeumorphicShape.convex,
-                                              color: Color.fromRGBO(
-                                                  243, 174, 0, 1.0),
-                                              boxShape:
-                                                  NeumorphicBoxShape.stadium(),
-                                              depth: .2.h,
-                                              surfaceIntensity: .3,
-                                              intensity: .9),
+                                          padding: EdgeInsets.only(top: 6.sp, bottom: 6.sp, left: 12.sp, right: 12.sp),
+                                          style: NeumorphicStyle(shape: NeumorphicShape.convex, color: Color.fromRGBO(243, 174, 0, 1.0), boxShape: NeumorphicBoxShape.stadium(), depth: .2.h, surfaceIntensity: .3, intensity: .9),
                                           child: Wrap(children: [
                                             Text(
                                               "${widget.idProduct != null ? "Ubah" : "Buat"}",
-                                              style: TextStyle(
-                                                  fontSize: 10.sp,
-                                                  color: Colors.white),
+                                              style: TextStyle(fontSize: 10.sp, color: Colors.white),
                                             ),
                                           ]),
                                           onPressed: () async {
@@ -1078,22 +816,7 @@ class CreateProductState extends State<CreateProduct> {
                                             // print(descProductField);
 
                                             var param =
-                                                PayloadRequestCreateProduct(
-                                                    deskripsiProduct:
-                                                        descProductField,
-                                                    priceProduct:
-                                                        priceProductField
-                                                            .toLowerCase()
-                                                            .replaceAll(
-                                                                'rp', '')
-                                                            .replaceAll(
-                                                                '.', ''),
-                                                    stockProduct:
-                                                        stockProductField,
-                                                    nameProduct:
-                                                        nameProductField,
-                                                    storeCatProd:
-                                                        selectedChoices);
+                                                PayloadRequestCreateProduct(deskripsiProduct: descProductField, priceProduct: priceProductField.toLowerCase().replaceAll('rp', '').replaceAll('.', ''), stockProduct: stockProductField, nameProduct: nameProductField, storeCatProd: selectedChoices);
 
                                             // CreateProductMyStoreCubit()
                                             //     .createProduct(
@@ -1108,72 +831,36 @@ class CreateProductState extends State<CreateProduct> {
                                             // });
                                             try {
                                               var formData = FormData.fromMap({
-                                                'deskripsiProduct':
-                                                    descProductField,
-                                                'priceProduct':
-                                                    priceProductField
-                                                        .toLowerCase()
-                                                        .replaceAll('rp', '')
-                                                        .replaceAll('.', ''),
-                                                'stockProduct':
-                                                    stockProductField,
+                                                'deskripsiProduct': descProductField,
+                                                'priceProduct': priceProductField.toLowerCase().replaceAll('rp', '').replaceAll('.', ''),
+                                                'stockProduct': stockProductField,
                                                 'nameProduct': nameProductField,
-                                                'heightProduct': int.tryParse(
-                                                        heightProductField) ??
-                                                    0,
-                                                'weightProduct': int.tryParse(
-                                                        weightProductField) ??
-                                                    0,
-                                                'widthProduct': int.tryParse(
-                                                        widthProductField) ??
-                                                    0,
-                                                'lengthProduct': int.tryParse(
-                                                        lengthProductField) ??
-                                                    0,
+                                                'heightProduct': int.tryParse(heightProductField) ?? 0,
+                                                'weightProduct': int.tryParse(weightProductField) ?? 0,
+                                                'widthProduct': int.tryParse(widthProductField) ?? 0,
+                                                'lengthProduct': int.tryParse(lengthProductField) ?? 0,
                                                 'storeCatProd': selectedChoices,
                                               });
                                               if (imageThumbnail != null) {
-                                                formData.files.add(MapEntry(
-                                                    'imgThumbnail',
-                                                    MultipartFile.fromFileSync(
-                                                        imageThumbnail!.path,
-                                                        filename: imageThumbnail!
-                                                            .path
-                                                            .split(Platform
-                                                                .pathSeparator)
-                                                            .last)));
+                                                formData.files.add(MapEntry('imgThumbnail', MultipartFile.fromFileSync(imageThumbnail!.path, filename: imageThumbnail!.path.split(Platform.pathSeparator).last)));
                                               }
                                               if (_listImageGallery != null) {
-                                                formData.files.addAll(
-                                                    _listImageGallery.map((i) =>
-                                                        MapEntry(
-                                                            'files',
-                                                            MultipartFile
-                                                                .fromFileSync(
-                                                              i.path,
-                                                              filename: i.path
-                                                                  .split(Platform
-                                                                      .pathSeparator)
-                                                                  .last,
-                                                            ))));
+                                                formData.files.addAll(_listImageGallery.map((i) => MapEntry(
+                                                    'files',
+                                                    MultipartFile.fromFileSync(
+                                                      i.path,
+                                                      filename: i.path.split(Platform.pathSeparator).last,
+                                                    ))));
                                               }
                                               DioClient _dio = new DioClient();
-                                              DioResponse res =
-                                                  await _dio.postAsync(
-                                                      "/api/my/outlet/${widget.idStore}/create/product${widget.idProduct != null ? '/${widget.idProduct}' : ""}",
-                                                      formData);
+                                              DioResponse res = await _dio.postAsync("/api/my/outlet/${widget.idStore}/create/product${widget.idProduct != null ? '/${widget.idProduct}' : ""}", formData);
                                               if (res.results["code"] == 200) {
                                                 widget.onDismiss(true);
-                                                Toaster(context).showSuccessToast(
-                                                    "Produk berhasil di perbaharui",
-                                                    gravity:
-                                                        ToastGravity.CENTER);
+                                                Toaster(context).showSuccessToast("Produk berhasil di perbaharui", gravity: ToastGravity.CENTER);
                                                 Navigator.of(context).pop();
                                               }
                                             } catch (e) {
-                                              Toaster(context).showErrorToast(
-                                                  "Terjadi kesalahan saat menyimpan data",
-                                                  gravity: ToastGravity.CENTER);
+                                              Toaster(context).showErrorToast("Terjadi kesalahan saat menyimpan data", gravity: ToastGravity.CENTER);
                                             }
                                             // print("saved true");
                                             //
@@ -1236,21 +923,15 @@ class CreateProductState extends State<CreateProduct> {
     List<File> imageGalleryProductConvert = [];
     List<String> selectedChoicesConvert = [];
     if (widget.idProduct != null) {
-      var dataProduct = await getDataProduct(
-          storeId: widget.idStore, productId: widget.idProduct ?? 0);
+      var dataProduct = await getDataProduct(storeId: widget.idStore, productId: widget.idProduct ?? 0);
       bodyProductExisting = json.decode(dataProduct.body);
       if (bodyProductExisting['data'] != null) {
         if (bodyProductExisting['data']['thumbnailData'] != null) {
-          imageThumbnailConvert = await bytesTofile(
-              base64.decode(bodyProductExisting['data']['thumbnailData']),
-              bodyProductExisting['data']['thumbnailName']);
+          imageThumbnailConvert = await bytesTofile(base64.decode(bodyProductExisting['data']['thumbnailData']), bodyProductExisting['data']['thumbnailName']);
         }
         if (bodyProductExisting['data']['storeProductImages'] != null) {
-          if ((bodyProductExisting['data']['storeProductImages'] as List)
-              .isNotEmpty) {
-            await Future.forEach(
-                (bodyProductExisting['data']['storeProductImages'] as List),
-                (element) async {
+          if ((bodyProductExisting['data']['storeProductImages'] as List).isNotEmpty) {
+            await Future.forEach((bodyProductExisting['data']['storeProductImages'] as List), (element) async {
               element as Map<String, dynamic>;
               var bytesFile = await bytesTofile(
                     base64.decode(element['propicData']),
@@ -1262,15 +943,10 @@ class CreateProductState extends State<CreateProduct> {
           }
         }
         if (bodyProductExisting['data']['storeCategorys'] != null) {
-          if ((bodyProductExisting['data']['storeCategorys'] as List)
-              .isNotEmpty) {
-            await Future.forEach(
-                (bodyProductExisting['data']['storeCategorys'] as List),
-                (element) async {
+          if ((bodyProductExisting['data']['storeCategorys'] as List).isNotEmpty) {
+            await Future.forEach((bodyProductExisting['data']['storeCategorys'] as List), (element) async {
               element as Map<String, dynamic>;
-              selectedChoicesConvert.contains(element['nameCategory'])
-                  ? selectedChoices.remove(element['nameCategory'])
-                  : selectedChoices.add(element['nameCategory']);
+              selectedChoicesConvert.contains(element['nameCategory']) ? selectedChoices.remove(element['nameCategory']) : selectedChoices.add(element['nameCategory']);
               print('foreach $element}');
             });
           }
@@ -1283,26 +959,20 @@ class CreateProductState extends State<CreateProduct> {
       if (getCategory != null) {
         var getCategoryData = getCategory.data;
         if (getCategoryData != null) {
-          listCategoryState =
-              getCategoryData.map((e) => e.categoryName).toList();
+          listCategoryState = getCategoryData.map((e) => e.categoryName).toList();
         }
       }
       if (bodyProductExisting['data'] != null) {
         dataProductExistingState = bodyProductExisting['data'];
         isArchived = dataProductExistingState['isArchived'];
         nameProductField = dataProductExistingState['nameProduct'];
-        priceProductField =
-            "${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(int.tryParse(dataProductExistingState['priceProduct'] ?? 0) ?? 0).replaceAll(',', '')}";
+        priceProductField = "${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(int.tryParse(dataProductExistingState['priceProduct'] ?? 0) ?? 0).replaceAll(',', '')}";
         stockProductField = "${dataProductExistingState['stockProduct'] ?? 0}";
-        descProductField =
-            "${dataProductExistingState['deskripsiProduct'] ?? ""}";
-        heightProductField =
-            "${dataProductExistingState['heightProduct'] ?? 0}";
-        weightProductField =
-            "${dataProductExistingState['weightProduct'] ?? 0}";
+        descProductField = "${dataProductExistingState['deskripsiProduct'] ?? ""}";
+        heightProductField = "${dataProductExistingState['heightProduct'] ?? 0}";
+        weightProductField = "${dataProductExistingState['weightProduct'] ?? 0}";
         widthProductField = "${dataProductExistingState['widthProduct'] ?? 0}";
-        lengthProductField =
-            "${dataProductExistingState['lengthProduct'] ?? 0}";
+        lengthProductField = "${dataProductExistingState['lengthProduct'] ?? 0}";
         if (dataProductExistingState['thumbnailData'] != null) {
           imageThumbnail = imageThumbnailConvert;
         }
@@ -1340,30 +1010,20 @@ class CreateProductState extends State<CreateProduct> {
     required int storeId,
     required int productId,
   }) async {
-    return http.get(
-        Uri.parse(
-            '${DioClient.ipServer}/api/my/outlet/$storeId/create/product/$productId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    return http.get(Uri.parse('${DioClient.ipServer}/api/my/outlet/$storeId/create/product/$productId'), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
   }
 
-  _imgFromCamera(
-      {bool isThumbnail = false, bool isGalleryImmage = false}) async {
+  _imgFromCamera({bool isThumbnail = false, bool isGalleryImmage = false}) async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     double sizeInMb = await image!.length() / (1024 * 1024);
     print(sizeInMb);
     if (image != null) {
       if (sizeInMb > .5) {
         imageOverSize = "Pastikan file kurang dari 2Mb";
-        Toaster(context)
-            .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
+        Toaster(context).showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
         if (isThumbnail) {
           setState(() {
-            imageError =
-                "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+            imageError = "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
           });
         }
       } else {
@@ -1382,19 +1042,16 @@ class CreateProductState extends State<CreateProduct> {
     }
   }
 
-  _imgFromGallery(
-      {bool isThumbnail = false, bool isGalleryImmage = false}) async {
+  _imgFromGallery({bool isThumbnail = false, bool isGalleryImmage = false}) async {
     if (isThumbnail) {
       ImagePicker().pickImage(source: ImageSource.gallery).then((xFile) async {
         if (xFile != null) {
           double sizeInMb = await xFile.length() / (1024 * 1024);
           if (sizeInMb > .5) {
             imageOverSize = "Pastikan file kurang dari 2Mb";
-            Toaster(context)
-                .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
+            Toaster(context).showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
             setState(() {
-              imageError =
-                  "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+              imageError = "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
             });
           } else {
             setState(() {
@@ -1413,11 +1070,9 @@ class CreateProductState extends State<CreateProduct> {
           double sizeInMb = await element.length() / (1024 * 1024);
           if (sizeInMb > .5) {
             imageOverSize = "Pastikan file kurang dari 2Mb";
-            Toaster(context)
-                .showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
+            Toaster(context).showErrorToast(imageOverSize, gravity: ToastGravity.CENTER);
             setState(() {
-              imageError =
-                  "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
+              imageError = "Silahkan pilih gambar dan pastikan file kurang dari 2Mb";
             });
           } else {
             imageOverSizeLocal = "";

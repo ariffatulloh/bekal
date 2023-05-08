@@ -28,52 +28,25 @@ class ProfileRepository {
     _service = ApiProfileServiceClient().getService();
   }
 
-  Future<PayloadResponseApi<PayloadResponseProfile?>> getProfile(
-          String authorization) async =>
-      _service.getProfile("Bearer ${await SecureStorage().getToken()}");
+  Future<PayloadResponseApi<PayloadResponseProfile?>> getProfile(String authorization) async => _service.getProfile("Bearer ${await SecureStorage().getToken()}");
 
-  Future<PayloadResponseApi<PayloadResponseMyProfileDashboard?>>
-      myProfileDashboard(String authorization) async => _service
-          .myProfileDashboard("Bearer ${await SecureStorage().getToken()}");
+  Future<PayloadResponseApi<PayloadResponseMyProfileDashboard?>> myProfileDashboard(String authorization) async => _service.myProfileDashboard("Bearer ${await SecureStorage().getToken()}");
 
-  Future<PayloadResponseApi<PayloadResponseVerification?>> getResendVerifyCode(
-          String authorization) =>
-      _service.getResendVerifyCode("Bearer $authorization");
+  Future<PayloadResponseApi<PayloadResponseVerification?>> getResendVerifyCode(String authorization) => _service.getResendVerifyCode("Bearer $authorization");
 
-  Future<PayloadResponseApi<PayloadResponseVerification?>> submitVerifyCode(
-          String authorization,
-          PayloadRequestVerificationCode payloadRequestVerificationCode) =>
-      _service.submitVerifiedAccount(
-          "Bearer $authorization", payloadRequestVerificationCode);
+  Future<PayloadResponseApi<PayloadResponseVerification?>> submitVerifyCode(String authorization, PayloadRequestVerificationCode payloadRequestVerificationCode) => _service.submitVerifiedAccount("Bearer $authorization", payloadRequestVerificationCode);
 
-  Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>>
-      updatePersonalInformation(
-              String? authorization,
-              PayloadRequestUpdatePersonalInformation
-                  payloadRequestUpdatePersonalInformation,
-              File? file) =>
-          _service.updatePersonalInformation(
-            "Bearer $authorization",
-            file,
-            payloadRequestUpdatePersonalInformation,
-          );
+  Future<PayloadResponseApi<PayloadResponseUpdatePersonalInformation?>> updatePersonalInformation(String? authorization, PayloadRequestUpdatePersonalInformation payloadRequestUpdatePersonalInformation, File? file) => _service.updatePersonalInformation(
+        "Bearer $authorization",
+        file,
+        payloadRequestUpdatePersonalInformation,
+      );
 
-  Future<PayloadResponseApi<PayloadResponseUpdateEmail?>> updateEmail(
-          String authorization,
-          PayloadRequestUpdateEmail payloadRequestUpdateEmail) =>
-      _service.updateEmail("Bearer $authorization", payloadRequestUpdateEmail);
+  Future<PayloadResponseApi<PayloadResponseUpdateEmail?>> updateEmail(String authorization, PayloadRequestUpdateEmail payloadRequestUpdateEmail) => _service.updateEmail("Bearer $authorization", payloadRequestUpdateEmail);
 
-  Future<PayloadResponseApi<PayloadResponseUpdatePassword?>> updatePassword(
-          String authorization,
-          PayloadRequestUpdatePassword payloadRequestUpdatePassword) =>
-      _service.updatePassword(
-          "Bearer $authorization", payloadRequestUpdatePassword);
+  Future<PayloadResponseApi<PayloadResponseUpdatePassword?>> updatePassword(String authorization, PayloadRequestUpdatePassword payloadRequestUpdatePassword) => _service.updatePassword("Bearer $authorization", payloadRequestUpdatePassword);
 
-  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createStore(
-          String authorization,
-          File? file,
-          PayloadRequestCreateStore payloadRequestCreateStore) =>
-      _service.createStore(
+  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createStore(String authorization, File? file, PayloadRequestCreateStore payloadRequestCreateStore) => _service.createStore(
         "Bearer $authorization",
         file,
         payloadRequestCreateStore.nameStore,
@@ -83,22 +56,8 @@ class ProfileRepository {
         payloadRequestCreateStore.status,
       );
 
-  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createProduct(
-          String authorization,
-          File? imgThumbnail,
-          List<File>? files,
-          int idStore,
-          PayloadRequestCreateProduct payloadRequestCreateProduct) =>
-      _service.createProduct(
-          "Bearer $authorization",
-          imgThumbnail,
-          files,
-          payloadRequestCreateProduct.deskripsiProduct,
-          payloadRequestCreateProduct.priceProduct,
-          payloadRequestCreateProduct.stockProduct,
-          payloadRequestCreateProduct.nameProduct,
-          payloadRequestCreateProduct.storeCatProd,
-          idStore);
+  Future<PayloadResponseApi<PayloadResponseCreateStore?>> createProduct(String authorization, File? imgThumbnail, List<File>? files, int idStore, PayloadRequestCreateProduct payloadRequestCreateProduct) =>
+      _service.createProduct("Bearer $authorization", imgThumbnail, files, payloadRequestCreateProduct.deskripsiProduct, payloadRequestCreateProduct.priceProduct, payloadRequestCreateProduct.stockProduct, payloadRequestCreateProduct.nameProduct, payloadRequestCreateProduct.storeCatProd, idStore);
 
   Future<PayloadResponseApi<PayloadResponseCreateStore?>> updateStore(
     String authorization,
@@ -121,9 +80,7 @@ class ProfileRepository {
     String authorization,
     int idstore,
   ) async =>
-      _service.getCategory(
-          "Bearer ${await SecureStorage().getToken() ?? authorization}",
-          idstore);
+      _service.getCategory("Bearer ${await SecureStorage().getToken() ?? authorization}", idstore);
 
   Future<PayloadResponseApi<List<PayloadResponseStoreProduct>>> getProduct(
     String authorization,
@@ -139,9 +96,15 @@ class ProfileRepository {
   ) =>
       _service.getDetailProduct("Bearer $authorization", idProduct, idStore);
 
-  Future<PayloadResponseApi<List<PayloadResponseHomeSeeAllProduct>>>
-      getHomeSeeAllProduct(
+  Future<PayloadResponseApi<List<PayloadResponseHomeSeeAllProduct>>> getHomeSeeAllProduct(
     String authorization,
   ) =>
-          _service.getHomeSeeAllProduct("Bearer $authorization");
+      _service.getHomeSeeAllProduct("Bearer $authorization");
+
+  Future<PayloadResponseApi<bool>> deleteAkun(
+    String authorization,
+  ) =>
+      _service.deleteAkun(
+        "Bearer $authorization",
+      );
 }

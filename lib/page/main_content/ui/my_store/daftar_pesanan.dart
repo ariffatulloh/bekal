@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
@@ -41,18 +41,11 @@ class _DaftarPesananState extends State<DaftarPesanan> {
   void initState() {
     super.initState();
     List<ItemTabDaftarPesanan> listItemTabLocale = [
-      ItemTabDaftarPesanan(
-          icon: Icons.move_to_inbox, label: "Pesanan", value: "pesanan"),
-      ItemTabDaftarPesanan(
-          icon: Icons.shopping_bag_rounded,
-          label: "Penjemputan",
-          value: "penjemputan"),
-      ItemTabDaftarPesanan(
-          icon: Icons.route, label: "Pengiriman", value: "pengiriman"),
-      ItemTabDaftarPesanan(
-          icon: Icons.flag_rounded, label: "Terkirim", value: "terkirim"),
-      ItemTabDaftarPesanan(
-          icon: Icons.done_all, label: "Diterima", value: "diterima")
+      ItemTabDaftarPesanan(icon: Icons.move_to_inbox, label: "Pesanan", value: "pesanan"),
+      ItemTabDaftarPesanan(icon: Icons.shopping_bag_rounded, label: "Penjemputan", value: "penjemputan"),
+      ItemTabDaftarPesanan(icon: Icons.route, label: "Pengiriman", value: "pengiriman"),
+      ItemTabDaftarPesanan(icon: Icons.flag_rounded, label: "Terkirim", value: "terkirim"),
+      ItemTabDaftarPesanan(icon: Icons.done_all, label: "Diterima", value: "diterima")
     ];
     listItemTab = listItemTabLocale;
     itemTabSelected = listItemTabLocale.first.value ?? "-";
@@ -84,10 +77,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                 child: Center(
               child: Text(
                 'Daftar Pesanan',
-                style: TextStyle(
-                    fontFamily: 'ghotic',
-                    color: Colors.black87,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontWeight: FontWeight.bold),
               ),
             )),
             NeumorphicButton(
@@ -102,12 +92,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                   },
                 );
               },
-              style: NeumorphicStyle(
-                  color: Colors.transparent,
-                  boxShape: NeumorphicBoxShape.circle(),
-                  depth: 1,
-                  intensity: 1,
-                  surfaceIntensity: 1),
+              style: NeumorphicStyle(color: Colors.transparent, boxShape: NeumorphicBoxShape.circle(), depth: 1, intensity: 1, surfaceIntensity: 1),
               child: Icon(
                 Icons.download_rounded,
                 color: Colors.grey,
@@ -138,10 +123,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
             children: [
               Neumorphic(
                 // margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
-                style: NeumorphicStyle(
-                    depth: 1.3,
-                    color: Colors.white,
-                    boxShape: NeumorphicBoxShape.rect()),
+                style: NeumorphicStyle(depth: 1.3, color: Colors.white, boxShape: NeumorphicBoxShape.rect()),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 1.h),
                   width: 100.w,
@@ -159,36 +141,19 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                               itemTabSelected = element.value ?? "-";
                             });
                           },
-                          padding: EdgeInsets.symmetric(
-                              vertical: .5.h, horizontal: 2.w),
+                          padding: EdgeInsets.symmetric(vertical: .5.h, horizontal: 2.w),
                           margin: EdgeInsets.symmetric(horizontal: 2.w),
-                          style: NeumorphicStyle(
-                              depth: -1,
-                              intensity: 1,
-                              surfaceIntensity: 1,
-                              color: Colors.orange.withOpacity(element.value
-                                      .toString()
-                                      .contains(itemTabSelected.toString())
-                                  ? 1
-                                  : 0)),
+                          style: NeumorphicStyle(depth: -1, intensity: 1, surfaceIntensity: 1, color: Colors.orange.withOpacity(element.value.toString().contains(itemTabSelected.toString()) ? 1 : 0)),
                           child: Row(
                             children: [
                               Icon(
                                 element.icon,
-                                color: element.value
-                                        .toString()
-                                        .contains(itemTabSelected.toString())
-                                    ? Colors.white
-                                    : Colors.black87,
+                                color: element.value.toString().contains(itemTabSelected.toString()) ? Colors.white : Colors.black87,
                               ),
                               Text(
                                 "${element.label}",
                                 style: TextStyle(
-                                  color: element.value
-                                          .toString()
-                                          .contains(itemTabSelected.toString())
-                                      ? Colors.white
-                                      : Colors.black87,
+                                  color: element.value.toString().contains(itemTabSelected.toString()) ? Colors.white : Colors.black87,
                                 ),
                               )
                             ],
@@ -270,7 +235,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     }
 
     if (!statusManage.isGranted) {
-      print('notsave');
+      print('notsave status manage');
       await Permission.manageExternalStorage.request();
     }
   }
@@ -297,10 +262,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
       }
     }
 
-    orderList
-        .where((element) =>
-            filterValue().contains(element["order"]["status"]["id"]))
-        .forEach((trans) {
+    orderList.where((element) => filterValue().contains(element["order"]["status"]["id"])).forEach((trans) {
       var order = trans["order"];
       list.add(InkWell(
         onTap: () {
@@ -327,28 +289,19 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                     SizedBox(width: 1.5.w),
                     Expanded(
                       child: Text(
-                        formatDate(context, "${order["createdAt"]}",
-                            format: "dd MMMM yyyy, hh:mm WIB"),
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.bold),
+                        formatDate(context, "${order["createdAt"]}", format: "dd MMMM yyyy, hh:mm WIB"),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
+                      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(4)),
                         color: Colors.orange,
                       ),
                       child: Text(
                         "${order["status"]["status_name"]}",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'ghotic',
-                            fontSize: 8.sp,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: Colors.white, fontFamily: 'ghotic', fontSize: 8.sp, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
@@ -368,13 +321,10 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                           width: 12.w,
                           height: 12.w,
                           child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(3)),
+                            borderRadius: const BorderRadius.all(Radius.circular(3)),
                             child: CachedNetworkImage(
                               fit: BoxFit.cover,
-                              imageUrl: trans["thumbnail_product"]
-                                      ?["product_thumbnail"] ??
-                                  "",
+                              imageUrl: trans["thumbnail_product"]?["product_thumbnail"] ?? "",
                               placeholder: (context, url) => Center(
                                 child: SizedBox(
                                   width: 30.0,
@@ -384,8 +334,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                                   ),
                                 ),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
                             ),
                           ),
                         ),
@@ -397,20 +346,15 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                trans["thumbnail_product"]?["product_name"] ??
-                                    "",
-                                style: TextStyle(
-                                    fontFamily: 'ghotic',
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.bold),
+                                trans["thumbnail_product"]?["product_name"] ?? "",
+                                style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(height: 5),
                               Text(
                                 "Jumlah Barang : ${order["order_qty"] ?? ""}",
-                                style: TextStyle(
-                                    fontFamily: 'ghotic', fontSize: 9.sp),
+                                style: TextStyle(fontFamily: 'ghotic', fontSize: 9.sp),
                               ),
                             ],
                           ),
@@ -427,10 +371,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
                     ),
                     Text(
                       currencyFormatter.format(order["order_total"]),
-                      style: TextStyle(
-                          fontFamily: 'ghotic',
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -474,8 +415,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
       // progressValue += progressValue / orderList.length.toDouble() * 30;
       // print('30=> ${progressValue}');
       print('elementorder=${elementorderList['order']['order_id']} ');
-      DioResponse res = await _dio
-          .getAsync("/order/detail/${elementorderList['order']['order_id']}");
+      DioResponse res = await _dio.getAsync("/order/detail/${elementorderList['order']['order_id']}");
       if (res.results["code"] == 200) {
         var order = res.results["data"]["order"];
         var store = res.results["data"]["store"];
@@ -490,39 +430,24 @@ class _DaftarPesananState extends State<DaftarPesanan> {
           String _buyerPhone = "";
           String _buyerAddress = "";
           String _kurirType = "";
-          data.detailProduct_xlsFormat.nameProduct =
-              elementProducts['nameProduct'];
+          data.detailProduct_xlsFormat.nameProduct = elementProducts['nameProduct'];
 
-          data.detailProduct_xlsFormat.quantity =
-              elementProducts['stockProduct'];
+          data.detailProduct_xlsFormat.quantity = elementProducts['stockProduct'];
 
-          data.detailProduct_xlsFormat.pricePerQty =
-              elementProducts['priceProduct'];
+          data.detailProduct_xlsFormat.pricePerQty = elementProducts['priceProduct'];
 
-          data.detailProduct_xlsFormat.dateOrder =
-              formatDate(context, "${elementorderList['order']['createdAt']}");
+          data.detailProduct_xlsFormat.dateOrder = formatDate(context, "${elementorderList['order']['createdAt']}");
 
-          data.detailProduct_xlsFormat.statusTransaksi =
-              elementorderList['order']['status']['status_name'];
+          data.detailProduct_xlsFormat.statusTransaksi = elementorderList['order']['status']['status_name'];
 
-          data.detailProduct_xlsFormat.priceAllQty =
-              (double.parse(elementProducts["priceProduct"]) *
-                      int.parse(elementProducts["stockProduct"]))
-                  .toString();
+          data.detailProduct_xlsFormat.priceAllQty = (double.parse(elementProducts["priceProduct"]) * int.parse(elementProducts["stockProduct"])).toString();
 
-          data.buyerInformation_xlsFormat.buyerName =
-              elementorderList['buyer']['name'];
-          data.buyerInformation_xlsFormat.buyerPhone =
-              elementorderList['buyer']['phone'];
-          data.buyerInformation_xlsFormat.buyerAddress =
-              elementorderList['order']['delivery_destination'];
-          data.buyerInformation_xlsFormat.kurirType =
-              '${order['courier_desc']} (${order['rate_name']})';
+          data.buyerInformation_xlsFormat.buyerName = elementorderList['buyer']['name'];
+          data.buyerInformation_xlsFormat.buyerPhone = elementorderList['buyer']['phone'];
+          data.buyerInformation_xlsFormat.buyerAddress = elementorderList['order']['delivery_destination'];
+          data.buyerInformation_xlsFormat.kurirType = '${order['courier_desc']} (${order['rate_name']})';
           listDataTransaksiToxlsx.add(data);
-          var valuOfProgress = ((progressValue++) /
-              (listDataTransaksiToxlsx.length +
-                  (products as List).length +
-                  20));
+          var valuOfProgress = ((progressValue++) / (listDataTransaksiToxlsx.length + (products as List).length + 20));
           progress(valuOfProgress);
         });
       }
@@ -530,8 +455,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
     // print('${listDataTransaksiToxlsx.length}');
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
-    var ex = xlsx().createExcelFileDaftarPesanan(
-        dataListTransaksi: listDataTransaksiToxlsx);
+    var ex = xlsx().createExcelFileDaftarPesanan(dataListTransaksi: listDataTransaksiToxlsx);
 
     progress(((progressValue++) / (listDataTransaksiToxlsx.length + 3)));
     // progress(valuOfProgress);
@@ -549,9 +473,7 @@ class _DaftarPesananState extends State<DaftarPesanan> {
   List<Widget> _buildScreens() {
     return [Container(), Container()];
     SingleChildScrollView(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: _buildItem(context)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: _buildItem(context)),
     );
   }
 }

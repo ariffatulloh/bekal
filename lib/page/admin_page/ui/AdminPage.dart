@@ -81,31 +81,24 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                     child: Neumorphic(
-                                  style: NeumorphicStyle(
-                                      color: Colors.transparent),
+                                  style: NeumorphicStyle(color: Colors.transparent),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: 100.w,
                                         alignment: Alignment.center,
                                         color: Color(0xfff39200),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 2.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
                                         child: Text(
                                           "TOTAL TOKO",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 3.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 3.h),
                                         child: Text(
                                           "${_responseFromApi.totalStore}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                                         ),
                                       )
                                     ],
@@ -120,31 +113,24 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                     child: Neumorphic(
-                                  style: NeumorphicStyle(
-                                      color: Colors.transparent),
+                                  style: NeumorphicStyle(color: Colors.transparent),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: 100.w,
                                         alignment: Alignment.center,
                                         color: Color(0xfff39200),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 2.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
                                         child: Text(
                                           "TOTAL USER",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 3.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 3.h),
                                         child: Text(
                                           "${_responseFromApi.totalUser}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                                         ),
                                       )
                                     ],
@@ -155,31 +141,24 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                 ),
                                 Expanded(
                                     child: Neumorphic(
-                                  style: NeumorphicStyle(
-                                      color: Colors.transparent),
+                                  style: NeumorphicStyle(color: Colors.transparent),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: 100.w,
                                         alignment: Alignment.center,
                                         color: Color(0xfff39200),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 2.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
                                         child: Text(
                                           "TOTAL TRANSAKSI",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 3.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 3.h),
                                         child: Text(
                                           "${_responseFromApi.totalTransaksiAll}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                                         ),
                                       )
                                     ],
@@ -194,31 +173,24 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               children: [
                                 Expanded(
                                     child: Neumorphic(
-                                  style: NeumorphicStyle(
-                                      color: Colors.transparent),
+                                  style: NeumorphicStyle(color: Colors.transparent),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: 100.w,
                                         alignment: Alignment.center,
                                         color: Color(0xfff39200),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 2.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
                                         child: Text(
                                           "TOTAL TRANSAKSI DONE",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 3.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 3.h),
                                         child: Text(
                                           "${_responseFromApi.totalTransaksiDone}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                                         ),
                                       )
                                     ],
@@ -229,31 +201,24 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                 ),
                                 Expanded(
                                     child: Neumorphic(
-                                  style: NeumorphicStyle(
-                                      color: Colors.transparent),
+                                  style: NeumorphicStyle(color: Colors.transparent),
                                   child: Column(
                                     children: [
                                       Container(
                                         width: 100.w,
                                         alignment: Alignment.center,
                                         color: Color(0xfff39200),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 2.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
                                         child: Text(
                                           "TOTAL TRANSAKSI PENDING",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 8.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp),
                                         ),
                                       ),
                                       Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 1.w, vertical: 3.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 3.h),
                                         child: Text(
                                           "${_responseFromApi.totalTransaksiPending}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                                         ),
                                       )
                                     ],
@@ -265,161 +230,130 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               height: 2.h,
                             ),
                             Neumorphic(
-                              style: NeumorphicStyle(
-                                  depth: 1, color: Colors.transparent),
+                              style: NeumorphicStyle(depth: 1, color: Colors.transparent),
                               child: Column(
                                 children: [
                                   Container(
                                       width: 100.w,
                                       alignment: Alignment.topLeft,
                                       color: Color(0xfff39200),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 1.w, vertical: 1.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Store yang terdaftar",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontSize: 8.sp),
+                                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 8.sp),
                                           ),
                                           InkWell(
                                             onTap: () {
                                               showMaterialModalBottomSheet(
                                                   context: context,
+                                                  enableDrag: false,
                                                   builder: (builder) {
                                                     return Scaffold(
                                                       body: SafeArea(
                                                           child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                horizontal: 10),
+                                                        padding: EdgeInsets.symmetric(horizontal: 10),
                                                         child: Column(
                                                           children: [
                                                             Row(
                                                               children: [
                                                                 InkWell(
                                                                   onTap: () {
-                                                                    Navigator.pop(
-                                                                        builder);
+                                                                    Navigator.pop(builder);
                                                                   },
-                                                                  child: Icon(Icons
-                                                                      .arrow_back_ios),
+                                                                  child: Icon(Icons.arrow_back_ios),
                                                                 ),
                                                                 Expanded(
-                                                                    child:
-                                                                        Center(
-                                                                  child: Text(
-                                                                      "Semua Toko Yang Terdaftar"),
+                                                                    child: Center(
+                                                                  child: Text("Semua Toko Yang Terdaftar"),
                                                                 ))
                                                               ],
                                                             ),
                                                             Expanded(
-                                                                child: ListView
-                                                                    .builder(
-                                                                        shrinkWrap:
-                                                                            true,
-                                                                        physics:
-                                                                            NeverScrollableScrollPhysics(),
-                                                                        itemCount: _responseFromApi
-                                                                            .listAllStore
-                                                                            .length,
-                                                                        itemBuilder:
-                                                                            (context,
-                                                                                index) {
-                                                                          var dataStore =
-                                                                              _responseFromApi.listAllStore[index];
-                                                                          // print(dataStore);
+                                                                child: ListView.builder(
+                                                                    shrinkWrap: true,
+                                                                    itemCount: _responseFromApi.listAllStore.length,
+                                                                    itemBuilder: (context, index) {
+                                                                      var dataStore = _responseFromApi.listAllStore[index];
+                                                                      // print(dataStore);
 
-                                                                          return NeumorphicButton(
-                                                                            onPressed:
-                                                                                () {
-                                                                              showMaterialModalBottomSheet(
-                                                                                  duration: Duration(milliseconds: 1400),
-                                                                                  animationCurve: Curves.easeInOut,
-                                                                                  enableDrag: true,
-                                                                                  backgroundColor: Colors.transparent,
-                                                                                  context: context,
-                                                                                  builder: (context) {
-                                                                                    return ShowDetailStore(idStore: dataStore.idStore);
-                                                                                  });
-                                                                            },
-                                                                            padding:
-                                                                                EdgeInsets.all(0),
-                                                                            margin:
-                                                                                EdgeInsets.symmetric(vertical: 1.2.h),
-                                                                            style:
-                                                                                NeumorphicStyle(
-                                                                              depth: 2,
-                                                                              color: Colors.white,
-                                                                            ),
-                                                                            child:
-                                                                                Container(
-                                                                              decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                                                  Color(0xfff39200).withOpacity(.2),
-                                                                                  Color(0xfff39200).withOpacity(.4)
-                                                                                ], stops: [
-                                                                                  .2,
-                                                                                  .7
-                                                                                ]),
-                                                                              ),
-                                                                              width: 100.w,
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Container(
-                                                                                    margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.5.w),
-                                                                                    height: 10.w,
-                                                                                    width: 10.w,
-                                                                                    child: Neumorphic(
-                                                                                      style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
-                                                                                      child: CachedNetworkImage(
-                                                                                        imageUrl: dataStore.storeImageUri,
-                                                                                        fit: BoxFit.cover,
-                                                                                        placeholder: (context, url) => Center(
-                                                                                          child: SizedBox(
-                                                                                            width: 40.0,
-                                                                                            height: 40.0,
-                                                                                            child: new CircularProgressIndicator(
-                                                                                              color: Colors.orange,
-                                                                                            ),
-                                                                                          ),
+                                                                      return NeumorphicButton(
+                                                                        onPressed: () {
+                                                                          showMaterialModalBottomSheet(
+                                                                              duration: Duration(milliseconds: 1400),
+                                                                              animationCurve: Curves.easeInOut,
+                                                                              enableDrag: true,
+                                                                              backgroundColor: Colors.transparent,
+                                                                              context: context,
+                                                                              builder: (context) {
+                                                                                return ShowDetailStore(idStore: dataStore.idStore);
+                                                                              });
+                                                                        },
+                                                                        padding: EdgeInsets.all(0),
+                                                                        margin: EdgeInsets.symmetric(vertical: 1.2.h),
+                                                                        style: NeumorphicStyle(
+                                                                          depth: 2,
+                                                                          color: Colors.white,
+                                                                        ),
+                                                                        child: Container(
+                                                                          decoration: BoxDecoration(
+                                                                            gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [Color(0xfff39200).withOpacity(.2), Color(0xfff39200).withOpacity(.4)], stops: [.2, .7]),
+                                                                          ),
+                                                                          width: 100.w,
+                                                                          child: Row(
+                                                                            children: [
+                                                                              Container(
+                                                                                margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.5.w),
+                                                                                height: 10.w,
+                                                                                width: 10.w,
+                                                                                child: Neumorphic(
+                                                                                  style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                                                  child: CachedNetworkImage(
+                                                                                    imageUrl: dataStore.storeImageUri,
+                                                                                    fit: BoxFit.cover,
+                                                                                    placeholder: (context, url) => Center(
+                                                                                      child: SizedBox(
+                                                                                        width: 40.0,
+                                                                                        height: 40.0,
+                                                                                        child: new CircularProgressIndicator(
+                                                                                          color: Colors.orange,
                                                                                         ),
-                                                                                        errorWidget: (context, url, error) => const Icon(Icons.error),
                                                                                       ),
                                                                                     ),
+                                                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                                                                   ),
-                                                                                  Expanded(
-                                                                                    child: Text(
-                                                                                      dataStore.storeName,
-                                                                                      style: TextStyle(
-                                                                                          fontSize: 10.sp,
-                                                                                          // fontWeight: FontWeight.semi,
-                                                                                          fontStyle: FontStyle.normal,
-                                                                                          fontFamily: 'ghotic',
-                                                                                          color: Colors.black87),
-                                                                                    ),
-                                                                                  ),
-                                                                                  // GestureDetector(
-                                                                                  //   onTap: () {},
-                                                                                  //   child: NeumorphicIcon(
-                                                                                  //     Icons.open_in_new,
-                                                                                  //     size: 7.5.w,
-                                                                                  //     style: NeumorphicStyle(
-                                                                                  //         color: Colors.black87, depth: 3),
-                                                                                  //   ),
-                                                                                  // ),
-                                                                                  SizedBox(
-                                                                                    width: 1.5.w,
-                                                                                  )
-                                                                                ],
+                                                                                ),
                                                                               ),
-                                                                            ),
-                                                                          );
-                                                                        }))
+                                                                              Expanded(
+                                                                                child: Text(
+                                                                                  dataStore.storeName,
+                                                                                  style: TextStyle(
+                                                                                      fontSize: 10.sp,
+                                                                                      // fontWeight: FontWeight.semi,
+                                                                                      fontStyle: FontStyle.normal,
+                                                                                      fontFamily: 'ghotic',
+                                                                                      color: Colors.black87),
+                                                                                ),
+                                                                              ),
+                                                                              // GestureDetector(
+                                                                              //   onTap: () {},
+                                                                              //   child: NeumorphicIcon(
+                                                                              //     Icons.open_in_new,
+                                                                              //     size: 7.5.w,
+                                                                              //     style: NeumorphicStyle(
+                                                                              //         color: Colors.black87, depth: 3),
+                                                                              //   ),
+                                                                              // ),
+                                                                              SizedBox(
+                                                                                width: 1.5.w,
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }))
                                                           ],
                                                         ),
                                                       )),
@@ -434,101 +368,59 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                         ],
                                       )),
                                   Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 1.w, vertical: 1.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                                       child: ListView.builder(
                                           shrinkWrap: true,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          itemCount: _responseFromApi
-                                                      .listAllStore.length >
-                                                  5
-                                              ? 5
-                                              : _responseFromApi
-                                                  .listAllStore.length,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: _responseFromApi.listAllStore.length > 5 ? 5 : _responseFromApi.listAllStore.length,
                                           itemBuilder: (context, index) {
-                                            var dataStore = _responseFromApi
-                                                .listAllStore[index];
+                                            var dataStore = _responseFromApi.listAllStore[index];
                                             // print(dataStore);
 
                                             return NeumorphicButton(
                                               onPressed: () {
                                                 showMaterialModalBottomSheet(
-                                                    duration: Duration(
-                                                        milliseconds: 1400),
-                                                    animationCurve:
-                                                        Curves.easeInOut,
+                                                    duration: Duration(milliseconds: 1400),
+                                                    animationCurve: Curves.easeInOut,
                                                     enableDrag: true,
-                                                    backgroundColor:
-                                                        Colors.transparent,
+                                                    backgroundColor: Colors.transparent,
                                                     context: context,
                                                     builder: (context) {
-                                                      return ShowDetailStore(
-                                                          idStore: dataStore
-                                                              .idStore);
+                                                      return ShowDetailStore(idStore: dataStore.idStore);
                                                     });
                                               },
                                               padding: EdgeInsets.all(0),
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: .5.h),
+                                              margin: EdgeInsets.symmetric(vertical: .5.h),
                                               style: NeumorphicStyle(
                                                 depth: 2,
                                                 color: Colors.white,
                                               ),
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin: Alignment.topRight,
-                                                      end: Alignment.bottomLeft,
-                                                      colors: [
-                                                        Color(0xfff39200)
-                                                            .withOpacity(.2),
-                                                        Color(0xfff39200)
-                                                            .withOpacity(.4)
-                                                      ],
-                                                      stops: [
-                                                        .2,
-                                                        .7
-                                                      ]),
+                                                  gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [Color(0xfff39200).withOpacity(.2), Color(0xfff39200).withOpacity(.4)], stops: [.2, .7]),
                                                 ),
                                                 width: 100.w,
                                                 child: Row(
                                                   children: [
                                                     Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 1.w,
-                                                              vertical: 1.5.w),
+                                                      margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.5.w),
                                                       height: 10.w,
                                                       width: 10.w,
                                                       child: Neumorphic(
-                                                        style: NeumorphicStyle(
-                                                            depth: -2,
-                                                            boxShape:
-                                                                NeumorphicBoxShape
-                                                                    .circle()),
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: dataStore
-                                                              .storeImageUri,
+                                                        style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                        child: CachedNetworkImage(
+                                                          imageUrl: dataStore.storeImageUri,
                                                           fit: BoxFit.cover,
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Center(
+                                                          placeholder: (context, url) => Center(
                                                             child: SizedBox(
                                                               width: 40.0,
                                                               height: 40.0,
-                                                              child:
-                                                                  new CircularProgressIndicator(
-                                                                color: Colors
-                                                                    .orange,
+                                                              child: new CircularProgressIndicator(
+                                                                color: Colors.orange,
                                                               ),
                                                             ),
                                                           ),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              const Icon(
-                                                                  Icons.error),
+                                                          errorWidget: (context, url, error) => const Icon(Icons.error),
                                                         ),
                                                       ),
                                                     ),
@@ -538,12 +430,9 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                         style: TextStyle(
                                                             fontSize: 10.sp,
                                                             // fontWeight: FontWeight.semi,
-                                                            fontStyle: FontStyle
-                                                                .normal,
-                                                            fontFamily:
-                                                                'ghotic',
-                                                            color:
-                                                                Colors.black87),
+                                                            fontStyle: FontStyle.normal,
+                                                            fontFamily: 'ghotic',
+                                                            color: Colors.black87),
                                                       ),
                                                     ),
                                                     // GestureDetector(
@@ -567,33 +456,26 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Neumorphic(
-                              style: NeumorphicStyle(
-                                  depth: 1, color: Colors.transparent),
+                              style: NeumorphicStyle(depth: 1, color: Colors.transparent),
                               child: Column(
                                 children: [
                                   Container(
                                       width: 100.w,
                                       alignment: Alignment.topLeft,
                                       color: Color(0xfff39200),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 1.w, vertical: 1.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Store Request Bantuan",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontSize: 8.sp),
+                                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 8.sp),
                                           ),
                                           Row(
                                             children: [
                                               InkWell(
                                                 onTap: () async {
-                                                  complaintBroadCast.add(
-                                                      await checkComplaint());
+                                                  complaintBroadCast.add(await checkComplaint());
                                                 },
                                                 child: Icon(
                                                   Icons.refresh,
@@ -602,120 +484,106 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                               ),
                                               InkWell(
                                                 onTap: () async {
-                                                  complaintBroadCast.add(
-                                                      await checkComplaint());
+                                                  complaintBroadCast.add(await checkComplaint());
                                                   showMaterialModalBottomSheet(
                                                       context: context,
                                                       builder: (builder) {
                                                         return Scaffold(
                                                           body: SafeArea(
                                                               child: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        10),
+                                                            padding: EdgeInsets.symmetric(horizontal: 10),
                                                             child: Column(
                                                               children: [
                                                                 Row(
                                                                   children: [
                                                                     InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            builder);
+                                                                      onTap: () {
+                                                                        Navigator.pop(builder);
                                                                       },
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .arrow_back_ios),
+                                                                      child: Icon(Icons.arrow_back_ios),
                                                                     ),
                                                                     Expanded(
-                                                                        child:
-                                                                            Center(
-                                                                      child: Text(
-                                                                          "Semua Toko Yang Terdaftar"),
+                                                                        child: Center(
+                                                                      child: Text("Semua Toko Yang Terdaftar"),
                                                                     ))
                                                                   ],
                                                                 ),
                                                                 Expanded(
-                                                                  child:
-                                                                      FutureBuilder(
-                                                                          future:
-                                                                              checkComplaint(),
-                                                                          builder:
-                                                                              (context, AsyncSnapshot<dynamic> snapshot) {
-                                                                            // var res = checkComplaint();
-                                                                            // print(res['code']);
-                                                                            var complaintList =
-                                                                                snapshot.requireData["data"] as List;
-                                                                            return ListView.builder(
-                                                                                shrinkWrap: true,
-                                                                                physics: NeverScrollableScrollPhysics(),
-                                                                                itemCount: complaintList.length,
-                                                                                itemBuilder: (context, index) {
-                                                                                  var obj = complaintList[index];
-                                                                                  return Neumorphic(
-                                                                                    margin: EdgeInsets.symmetric(vertical: 4),
-                                                                                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
-                                                                                    style: NeumorphicStyle(depth: 1),
-                                                                                    child: Row(
-                                                                                      children: [
-                                                                                        Expanded(
-                                                                                          child: Row(
-                                                                                            children: [
-                                                                                              Neumorphic(
-                                                                                                style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
-                                                                                                child: Container(
-                                                                                                  width: 42,
-                                                                                                  height: 42,
-                                                                                                  child: FutureBuilder(
-                                                                                                      future: DioClient().getAsync("/order/detail/${obj["complaint_ref_id"]}"),
-                                                                                                      builder: (fBuilder, AsyncSnapshot<DioResponse> snapshotOrder) {
-                                                                                                        var store = snapshotOrder.requireData.results["data"]["store"];
-                                                                                                        return FutureBuilder(
-                                                                                                            future: getDataStore(storeId: store["store_id"]),
-                                                                                                            builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
-                                                                                                              var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
-                                                                                                              return CachedNetworkImage(
-                                                                                                                imageUrl: detailStore["storeImageUri"],
-                                                                                                                fit: BoxFit.cover,
-                                                                                                                placeholder: (context, url) => Center(
-                                                                                                                  child: SizedBox(
-                                                                                                                    width: 40.0,
-                                                                                                                    height: 40.0,
-                                                                                                                    child: new CircularProgressIndicator(
-                                                                                                                      color: Colors.orange,
-                                                                                                                    ),
-                                                                                                                  ),
+                                                                  child: FutureBuilder(
+                                                                      future: checkComplaint(),
+                                                                      builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                                                                        // var res = checkComplaint();
+                                                                        // print(res['code']);
+                                                                        var complaintList = snapshot.requireData["data"] as List;
+                                                                        return ListView.builder(
+                                                                            shrinkWrap: true,
+                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                            itemCount: complaintList.length,
+                                                                            itemBuilder: (context, index) {
+                                                                              var obj = complaintList[index];
+                                                                              return Neumorphic(
+                                                                                margin: EdgeInsets.symmetric(vertical: 4),
+                                                                                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                                                                                style: NeumorphicStyle(depth: 1),
+                                                                                child: Row(
+                                                                                  children: [
+                                                                                    Expanded(
+                                                                                      child: Row(
+                                                                                        children: [
+                                                                                          Neumorphic(
+                                                                                            style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
+                                                                                            child: Container(
+                                                                                              width: 42,
+                                                                                              height: 42,
+                                                                                              child: FutureBuilder(
+                                                                                                  future: DioClient().getAsync("/order/detail/${obj["complaint_ref_id"]}"),
+                                                                                                  builder: (fBuilder, AsyncSnapshot<DioResponse> snapshotOrder) {
+                                                                                                    var store = snapshotOrder.requireData.results["data"]["store"];
+                                                                                                    return FutureBuilder(
+                                                                                                        future: getDataStore(storeId: store["store_id"]),
+                                                                                                        builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
+                                                                                                          var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
+                                                                                                          return CachedNetworkImage(
+                                                                                                            imageUrl: detailStore["storeImageUri"],
+                                                                                                            fit: BoxFit.cover,
+                                                                                                            placeholder: (context, url) => Center(
+                                                                                                              child: SizedBox(
+                                                                                                                width: 40.0,
+                                                                                                                height: 40.0,
+                                                                                                                child: new CircularProgressIndicator(
+                                                                                                                  color: Colors.orange,
                                                                                                                 ),
-                                                                                                                errorWidget: (context, url, error) => const Icon(Icons.error),
-                                                                                                              );
-                                                                                                            });
-                                                                                                      }),
-                                                                                                ),
-                                                                                              ),
-                                                                                              Text(obj["complaint_desc"])
-                                                                                            ],
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                                          );
+                                                                                                        });
+                                                                                                  }),
+                                                                                            ),
                                                                                           ),
-                                                                                        ),
-                                                                                        InkWell(
-                                                                                          onTap: () {
-                                                                                            Navigator.push(
-                                                                                              context,
-                                                                                              MaterialPageRoute(
-                                                                                                builder: (context) => DetailPesanan(
-                                                                                                  orderId: obj["complaint_ref_id"],
-                                                                                                  complaintId: obj["complaint_id"],
-                                                                                                ),
-                                                                                              ),
-                                                                                            ).then((Object? obj) {});
-                                                                                          },
-                                                                                          child: Icon(Icons.open_in_new),
-                                                                                        )
-                                                                                      ],
+                                                                                          Text(obj["complaint_desc"])
+                                                                                        ],
+                                                                                      ),
                                                                                     ),
-                                                                                  );
-                                                                                });
-                                                                          }),
+                                                                                    InkWell(
+                                                                                      onTap: () {
+                                                                                        Navigator.push(
+                                                                                          context,
+                                                                                          MaterialPageRoute(
+                                                                                            builder: (context) => DetailPesanan(
+                                                                                              orderId: obj["complaint_ref_id"],
+                                                                                              complaintId: obj["complaint_id"],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ).then((Object? obj) {});
+                                                                                      },
+                                                                                      child: Icon(Icons.open_in_new),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              );
+                                                                            });
+                                                                      }),
                                                                 )
                                                               ],
                                                             ),
@@ -733,82 +601,60 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                         ],
                                       )),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 1.w, vertical: 1.h),
+                                    padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                                     child: StreamBuilder(
                                         stream: complaintBroadCast.stream,
-                                        builder: (context,
-                                            AsyncSnapshot<dynamic> snapshot) {
+                                        builder: (context, AsyncSnapshot<dynamic> snapshot) {
                                           // var res = checkComplaint();
                                           // print(res['code']);
-                                          var complaintList = snapshot
-                                              .requireData["data"] as List;
+                                          var complaintList = snapshot.requireData["data"] as List;
                                           return ListView.builder(
                                               shrinkWrap: true,
-                                              physics:
-                                                  NeverScrollableScrollPhysics(),
-                                              itemCount:
-                                                  complaintList.length > 2
-                                                      ? 3
-                                                      : complaintList.length,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              itemCount: complaintList.length > 2 ? 3 : complaintList.length,
                                               itemBuilder: (context, index) {
                                                 var obj = complaintList[index];
                                                 return Neumorphic(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 4),
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 2,
-                                                      horizontal: 2),
-                                                  style:
-                                                      NeumorphicStyle(depth: 1),
+                                                  margin: EdgeInsets.symmetric(vertical: 4),
+                                                  padding: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                                                  style: NeumorphicStyle(depth: 1),
                                                   child: Row(
                                                     children: [
                                                       Expanded(
                                                         child: Row(
                                                           children: [
                                                             Neumorphic(
-                                                              style: NeumorphicStyle(
-                                                                  depth: -2,
-                                                                  boxShape:
-                                                                      NeumorphicBoxShape
-                                                                          .circle()),
+                                                              style: NeumorphicStyle(depth: -2, boxShape: NeumorphicBoxShape.circle()),
                                                               child: Container(
                                                                 width: 42,
                                                                 height: 42,
-                                                                child:
-                                                                    FutureBuilder(
-                                                                        future: DioClient().getAsync(
-                                                                            "/order/detail/${obj["complaint_ref_id"]}"),
-                                                                        builder:
-                                                                            (fBuilder,
-                                                                                AsyncSnapshot<DioResponse> snapshotOrder) {
-                                                                          var store = snapshotOrder
-                                                                              .requireData
-                                                                              .results["data"]["store"];
-                                                                          return FutureBuilder(
-                                                                              future: getDataStore(storeId: store["store_id"]),
-                                                                              builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
-                                                                                var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
-                                                                                return CachedNetworkImage(
-                                                                                  imageUrl: detailStore["storeImageUri"],
-                                                                                  fit: BoxFit.cover,
-                                                                                  placeholder: (context, url) => Center(
-                                                                                    child: SizedBox(
-                                                                                      width: 40.0,
-                                                                                      height: 40.0,
-                                                                                      child: new CircularProgressIndicator(
-                                                                                        color: Colors.orange,
-                                                                                      ),
-                                                                                    ),
+                                                                child: FutureBuilder(
+                                                                    future: DioClient().getAsync("/order/detail/${obj["complaint_ref_id"]}"),
+                                                                    builder: (fBuilder, AsyncSnapshot<DioResponse> snapshotOrder) {
+                                                                      var store = snapshotOrder.requireData.results["data"]["store"];
+                                                                      return FutureBuilder(
+                                                                          future: getDataStore(storeId: store["store_id"]),
+                                                                          builder: (fBuilder, AsyncSnapshot<http.Response> snapshotOrder) {
+                                                                            var detailStore = jsonDecode(snapshotOrder.requireData.body)['data'];
+                                                                            return CachedNetworkImage(
+                                                                              imageUrl: detailStore["storeImageUri"],
+                                                                              fit: BoxFit.cover,
+                                                                              placeholder: (context, url) => Center(
+                                                                                child: SizedBox(
+                                                                                  width: 40.0,
+                                                                                  height: 40.0,
+                                                                                  child: new CircularProgressIndicator(
+                                                                                    color: Colors.orange,
                                                                                   ),
-                                                                                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                                                                                );
-                                                                              });
-                                                                        }),
+                                                                                ),
+                                                                              ),
+                                                                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                            );
+                                                                          });
+                                                                    }),
                                                               ),
                                                             ),
-                                                            Text(obj[
-                                                                "complaint_desc"])
+                                                            Text(obj["complaint_desc"])
                                                           ],
                                                         ),
                                                       ),
@@ -817,23 +663,13 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  DetailPesanan(
-                                                                      orderId: obj[
-                                                                          "complaint_ref_id"],
-                                                                      complaintId:
-                                                                          obj["complaint_id"]),
+                                                              builder: (context) => DetailPesanan(orderId: obj["complaint_ref_id"], complaintId: obj["complaint_id"]),
                                                             ),
-                                                          ).then((Object?
-                                                              obj) async {
-                                                            complaintBroadCast
-                                                                .sink
-                                                                .add(
-                                                                    await checkComplaint());
+                                                          ).then((Object? obj) async {
+                                                            complaintBroadCast.sink.add(await checkComplaint());
                                                           });
                                                         },
-                                                        child: Icon(
-                                                            Icons.open_in_new),
+                                                        child: Icon(Icons.open_in_new),
                                                       )
                                                     ],
                                                   ),
@@ -845,26 +681,20 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               ),
                             ),
                             Neumorphic(
-                              style: NeumorphicStyle(
-                                  depth: 1, color: Colors.transparent),
+                              style: NeumorphicStyle(depth: 1, color: Colors.transparent),
                               child: Column(
                                 children: [
                                   Container(
                                       width: 100.w,
                                       alignment: Alignment.topLeft,
                                       color: Color(0xfff39200),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 1.w, vertical: 1.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Request Penarikan Dana",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                fontSize: 8.sp),
+                                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 8.sp),
                                           ),
                                           Row(
                                             children: [
@@ -885,29 +715,20 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                         return Scaffold(
                                                           body: SafeArea(
                                                               child: Padding(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        10),
+                                                            padding: EdgeInsets.symmetric(horizontal: 10),
                                                             child: Column(
                                                               children: [
                                                                 Row(
                                                                   children: [
                                                                     InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            builder);
+                                                                      onTap: () {
+                                                                        Navigator.pop(builder);
                                                                       },
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .arrow_back_ios),
+                                                                      child: Icon(Icons.arrow_back_ios),
                                                                     ),
                                                                     Expanded(
-                                                                        child:
-                                                                            Center(
-                                                                      child: Text(
-                                                                          "Semua Toko Yang Terdaftar"),
+                                                                        child: Center(
+                                                                      child: Text("Semua Toko Yang Terdaftar"),
                                                                     ))
                                                                   ],
                                                                 ),
@@ -917,13 +738,11 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                                         physics: NeverScrollableScrollPhysics(),
                                                                         itemCount: _responseFromApi.listAllStore.length,
                                                                         itemBuilder: (context, index) {
-                                                                          var dataStore =
-                                                                              _responseFromApi.listAllStore[index];
+                                                                          var dataStore = _responseFromApi.listAllStore[index];
                                                                           // print(dataStore);
 
                                                                           return NeumorphicButton(
-                                                                            onPressed:
-                                                                                () {
+                                                                            onPressed: () {
                                                                               showMaterialModalBottomSheet(
                                                                                   duration: Duration(milliseconds: 1400),
                                                                                   animationCurve: Curves.easeInOut,
@@ -934,25 +753,15 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                                                     return ShowDetailStore(idStore: dataStore.idStore);
                                                                                   });
                                                                             },
-                                                                            padding:
-                                                                                EdgeInsets.all(0),
-                                                                            margin:
-                                                                                EdgeInsets.symmetric(vertical: 1.2.h),
-                                                                            style:
-                                                                                NeumorphicStyle(
+                                                                            padding: EdgeInsets.all(0),
+                                                                            margin: EdgeInsets.symmetric(vertical: 1.2.h),
+                                                                            style: NeumorphicStyle(
                                                                               depth: 2,
                                                                               color: Colors.white,
                                                                             ),
-                                                                            child:
-                                                                                Container(
+                                                                            child: Container(
                                                                               decoration: BoxDecoration(
-                                                                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [
-                                                                                  Color(0xfff39200).withOpacity(.2),
-                                                                                  Color(0xfff39200).withOpacity(.4)
-                                                                                ], stops: [
-                                                                                  .2,
-                                                                                  .7
-                                                                                ]),
+                                                                                gradient: LinearGradient(begin: Alignment.topRight, end: Alignment.bottomLeft, colors: [Color(0xfff39200).withOpacity(.2), Color(0xfff39200).withOpacity(.4)], stops: [.2, .7]),
                                                                               ),
                                                                               width: 100.w,
                                                                               child: Row(
@@ -1054,8 +863,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 260),
     );
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
     var _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     return FloatingActionBubble(
       items: [
@@ -1091,9 +899,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
       iconColor: Colors.white,
       backGroundColor: Colors.blue,
       animation: _animation,
-      onPress: () => _animationController.isCompleted
-          ? _animationController.reverse()
-          : _animationController.forward(),
+      onPress: () => _animationController.isCompleted ? _animationController.reverse() : _animationController.forward(),
     );
   }
 
@@ -1130,14 +936,8 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                 width: 100.w,
                 margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
                 child: Neumorphic(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
-                  style: NeumorphicStyle(
-                      boxShape: NeumorphicBoxShape.rect(),
-                      color: Colors.deepOrangeAccent.withOpacity(.2),
-                      depth: 2,
-                      intensity: 1,
-                      surfaceIntensity: 1),
+                  padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                  style: NeumorphicStyle(boxShape: NeumorphicBoxShape.rect(), color: Colors.deepOrangeAccent.withOpacity(.2), depth: 2, intensity: 1, surfaceIntensity: 1),
                   child: Row(
                     children: [
                       // Container(
@@ -1157,31 +957,21 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                           children: [
                             Text(
                               '${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(listStoreHistoryDisbursement[index]['amount'] ?? 0)}',
-                              style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.sp),
+                              style: TextStyle(color: Colors.redAccent, fontSize: 12.sp, fontWeight: FontWeight.bold, letterSpacing: 1.sp),
                             ),
                             SizedBox(
                               height: 1.h,
                             ),
                             Text(
-                              maskCardNumber(
-                                  "${listStoreHistoryDisbursement[index]['accountNumber']}",
-                                  '#'),
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.sp),
+                              maskCardNumber("${listStoreHistoryDisbursement[index]['accountNumber']}", '#'),
+                              style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, letterSpacing: 1.sp),
                             ),
                             SizedBox(
                               height: 1.h,
                             ),
                             Text(
                               'A/N: ${listStoreHistoryDisbursement[index]['accountHolderName']}',
-                              style: TextStyle(
-                                  fontSize: 10.sp, letterSpacing: 1.sp),
+                              style: TextStyle(fontSize: 10.sp, letterSpacing: 1.sp),
                             ),
                             SizedBox(
                               height: 1.h,
@@ -1197,8 +987,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                             ),
                             Text(
                               'Status: (${listStoreHistoryDisbursement[index]['status']})',
-                              style: TextStyle(
-                                  fontSize: 10.sp, color: Colors.purple),
+                              style: TextStyle(fontSize: 10.sp, color: Colors.purple),
                             )
                           ],
                         ),
@@ -1208,12 +997,10 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                             showDialog(
                               context: this.context,
                               builder: (context) => AlertDialog(
-                                title: const Text(
-                                    'Apakah Anda Yakin Menyetujui Penarikan Dana?'),
+                                title: const Text('Apakah Anda Yakin Menyetujui Penarikan Dana?'),
                                 actions: <Widget>[
                                   TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(false),
+                                    onPressed: () => Navigator.of(context).pop(false),
                                     child: const Text('No'),
                                   ),
                                   TextButton(
@@ -1221,14 +1008,9 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                       setState(() {
                                         isLoadingGetRequestPayout = true;
                                       });
-                                      var idReqDisbursement =
-                                          listStoreHistoryDisbursement[index]
-                                                  ['id'] ??
-                                              -1;
+                                      var idReqDisbursement = listStoreHistoryDisbursement[index]['id'] ?? -1;
 
-                                      if (await adminApproved(
-                                          idRequestDisbursement:
-                                              idReqDisbursement)) {
+                                      if (await adminApproved(idRequestDisbursement: idReqDisbursement)) {
                                         getRequestPayout();
                                         Navigator.of(context).pop(true);
                                       }
@@ -1244,11 +1026,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                               NeumorphicIcon(
                                 Icons.check,
                                 size: 7.5.w,
-                                style: NeumorphicStyle(
-                                    color: Colors.green,
-                                    depth: 2,
-                                    intensity: 1,
-                                    surfaceIntensity: 1),
+                                style: NeumorphicStyle(color: Colors.green, depth: 2, intensity: 1, surfaceIntensity: 1),
                               ),
                               Text(
                                 'Setujui\nPermintaan',
@@ -1267,15 +1045,10 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   Future<void> getFromApi() async {
     List<StoreAdminPage> localListAllStore = [];
     HomeAdmin localResponse = HomeAdmin();
-    var getAllStore = await http.get(
-        Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
+    var getAllStore = await http.get(Uri.parse('https://api.belanjakalimantanutara.com/api/admin/all/store'),
         // Uri.parse('http://localhost:3000/api/admin/all/store'),
 
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     if (getAllStore.statusCode == 200) {
       var bodyResponse = json.decode(getAllStore.body);
       if (bodyResponse['data'] != null) {
@@ -1292,19 +1065,12 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   }
 
   Future<void> getRequestPayout() async {
-    var getBankAccounts = await http.get(
-        Uri.parse("${DioClient.ipServer}/api/admin/get-all/request-payout"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var getBankAccounts = await http.get(Uri.parse("${DioClient.ipServer}/api/admin/get-all/request-payout"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     print(jsonDecode(getBankAccounts.body));
     var localListStoreHistoryDisbursement = [];
     if (getBankAccounts.statusCode == 200) {
       if (jsonDecode(getBankAccounts.body)['data'] != null) {
-        localListStoreHistoryDisbursement =
-            jsonDecode(getBankAccounts.body)['data'];
+        localListStoreHistoryDisbursement = jsonDecode(getBankAccounts.body)['data'];
       }
     }
 
@@ -1316,25 +1082,14 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   }
 
   Future<bool> adminApproved({int? idRequestDisbursement}) async {
-    var idReqDisbursement =
-        idRequestDisbursement != null ? idRequestDisbursement : -1;
-    http.Response adminApprovedResponse = await http.get(
-        Uri.parse(
-            "${DioClient.ipServer}/api/admin/aprove/request-payout/${idReqDisbursement}"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var idReqDisbursement = idRequestDisbursement != null ? idRequestDisbursement : -1;
+    http.Response adminApprovedResponse = await http.get(Uri.parse("${DioClient.ipServer}/api/admin/aprove/request-payout/${idReqDisbursement}"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     var result = false;
     // print('xnd:::: ${adminApprovedResponse.request}');
     if (adminApprovedResponse.statusCode == 200) {
       if (jsonDecode(adminApprovedResponse.body)['data'] != null) {
         if (jsonDecode(adminApprovedResponse.body)['data']['isSukses']) {
-          Toaster(context).showSuccessToast(
-              jsonDecode(adminApprovedResponse.body)['data']['message']
-                  .toString(),
-              gravity: ToastGravity.CENTER);
+          Toaster(context).showSuccessToast(jsonDecode(adminApprovedResponse.body)['data']['message'].toString(), gravity: ToastGravity.CENTER);
           result = true;
         }
       }
@@ -1364,9 +1119,7 @@ class HomeAdmin {
     FromJson.totalTransaksiAll = json['totalTransaksiAll'] as int;
     FromJson.totalStore = json['totalStore'] as int;
     FromJson.totalUser = json['totalUser'] as int;
-    FromJson.listAllStore = (json['listAllStore'] as List<dynamic>)
-        .map((e) => StoreAdminPage.fromJson(e as Map<String, dynamic>))
-        .toList();
+    FromJson.listAllStore = (json['listAllStore'] as List<dynamic>).map((e) => StoreAdminPage.fromJson(e as Map<String, dynamic>)).toList();
 
     return FromJson;
   }

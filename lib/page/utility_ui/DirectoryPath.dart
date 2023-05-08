@@ -13,11 +13,10 @@ class DirectoryPath {
     String parentPath = "";
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd kk_mm_ss').format(now);
-    String fileName = 'reporting_$formattedDate.xlsx';
+    String fileName = 'reporting_$formattedDate.csv';
     if (!kIsWeb) {
       if (Platform.isAndroid || Platform.isIOS || Platform.isMacOS) {
-        final Directory directory =
-            await path_provider.getApplicationSupportDirectory();
+        final Directory directory = await path_provider.getApplicationSupportDirectory();
         parentPath = directory.path;
         final File file = File('$parentPath/$fileName');
         return file.writeAsBytes(documents, flush: true).then((value) {

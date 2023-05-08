@@ -46,10 +46,7 @@ class _CheckoutState extends State<Checkout> {
         centerTitle: false,
         title: Text(
           'Konfirmasi Pesanan',
-          style: TextStyle(
-              fontFamily: 'ghotic',
-              color: Colors.black87,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontWeight: FontWeight.bold),
         ),
         leading: BackButton(color: Colors.black87),
         backgroundColor: Colors.white,
@@ -69,30 +66,19 @@ class _CheckoutState extends State<Checkout> {
                 SizedBox(height: 8),
                 Text(
                   "Metode Pembayaran",
-                  style: TextStyle(
-                      fontFamily: 'ghotic',
-                      color: Colors.black87,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 8),
                 ..._itemPembayaran(),
                 SizedBox(height: 5.h),
                 Text(
                   "Total Pembayaran",
-                  style: TextStyle(
-                      fontFamily: 'ghotic',
-                      color: Colors.black87,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 5),
                 Text(
                   currencyFormatter.format(_calculateGrandPrice()),
-                  style: TextStyle(
-                      fontFamily: 'ghotic',
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontFamily: 'ghotic', fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 32),
                 Center(
@@ -100,19 +86,14 @@ class _CheckoutState extends State<Checkout> {
                     onTap: () {
                       if (isCreatingOrder) return;
 
-                      List checkShipper =
-                          selectedShipper.where((e) => e == null).toList();
+                      List checkShipper = selectedShipper.where((e) => e == null).toList();
 
                       if (checkShipper.length > 0) {
-                        return Toaster(context).showErrorToast(
-                            "Pengiriman belum dipilih",
-                            gravity: ToastGravity.CENTER);
+                        return Toaster(context).showErrorToast("Pengiriman belum dipilih", gravity: ToastGravity.CENTER);
                       }
 
                       if (selectedBank == "") {
-                        return Toaster(context).showErrorToast(
-                            "Metode Pembayaran belum dipilih",
-                            gravity: ToastGravity.CENTER);
+                        return Toaster(context).showErrorToast("Metode Pembayaran belum dipilih", gravity: ToastGravity.CENTER);
                       }
 
                       _submitOrder();
@@ -143,11 +124,7 @@ class _CheckoutState extends State<Checkout> {
                             ),
                           Text(
                             "Submit Pesanan",
-                            style: TextStyle(
-                                fontFamily: 'ghotic',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                            style: TextStyle(fontFamily: 'ghotic', fontSize: 12.sp, fontWeight: FontWeight.bold, color: Colors.white),
                           )
                         ],
                       ),
@@ -168,8 +145,7 @@ class _CheckoutState extends State<Checkout> {
 
     widget.items.forEach((element) {
       element.item.forEach((item) {
-        calGrandPrice +=
-            item.cart_qty * double.parse(item.product.priceProduct ?? "0");
+        calGrandPrice += item.cart_qty * double.parse(item.product.priceProduct ?? "0");
       });
     });
 
@@ -192,8 +168,7 @@ class _CheckoutState extends State<Checkout> {
       if (res.results["code"] == 200) {
         List banks = res.results["data"];
 
-        List selectedBank =
-            banks.where((e) => ["MANDIRI", "BRI"].contains(e["code"])).toList();
+        List selectedBank = banks.where((e) => ["MANDIRI", "BRI"].contains(e["code"])).toList();
         setState(() {
           availableBanks = selectedBank;
         });
@@ -243,24 +218,18 @@ class _CheckoutState extends State<Checkout> {
       print(res.results);
       print(payload);
       if (res.results["code"] == 200) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
-            (Route<dynamic> route) => false);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                PaymentScreen(invoiceId: res.results["data"]["invoice_id"]),
+            builder: (context) => PaymentScreen(invoiceId: res.results["data"]["invoice_id"]),
           ),
         );
       } else {
-        Toaster(context).showErrorToast(res.results["errorMessage"],
-            gravity: ToastGravity.CENTER);
+        Toaster(context).showErrorToast(res.results["errorMessage"], gravity: ToastGravity.CENTER);
       }
     } catch (e) {
-      Toaster(context).showErrorToast("Terjadi masalah pada koneksi internet",
-          gravity: ToastGravity.CENTER);
+      Toaster(context).showErrorToast("Terjadi masalah pada koneksi internet", gravity: ToastGravity.CENTER);
     }
 
     setState(() {
@@ -298,21 +267,13 @@ class _CheckoutState extends State<Checkout> {
           selectedTileColor: Colors.grey[200],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
-            side: BorderSide(
-                color: selectedBank == bank["code"]
-                    ? Colors.orange
-                    : Colors.transparent,
-                width: 2),
+            side: BorderSide(color: selectedBank == bank["code"] ? Colors.orange : Colors.transparent, width: 2),
           ),
           title: Text(
             "${bank["code"]} Virtual Account",
-            style: TextStyle(
-                fontFamily: 'ghotic',
-                fontSize: 11.sp,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
           ),
-          trailing: Icon(Icons.check_circle,
-              color: selectedBank == bank["code"] ? Colors.blue : Colors.grey),
+          trailing: Icon(Icons.check_circle, color: selectedBank == bank["code"] ? Colors.blue : Colors.grey),
         ),
       ));
     });
@@ -328,11 +289,7 @@ class _CheckoutState extends State<Checkout> {
       list.add(
         Text(
           cart.store_name,
-          style: TextStyle(
-              fontFamily: 'ghotic',
-              color: Colors.black87,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontSize: 13.sp, fontWeight: FontWeight.bold),
         ),
       );
       list.add(SizedBox(height: 2.h));
@@ -362,8 +319,7 @@ class _CheckoutState extends State<Checkout> {
                           ),
                         ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
                 ),
@@ -376,10 +332,7 @@ class _CheckoutState extends State<Checkout> {
                     children: [
                       Text(
                         item.product.nameProduct,
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 15, fontWeight: FontWeight.bold),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -390,12 +343,8 @@ class _CheckoutState extends State<Checkout> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        currencyFormatter.format(
-                            int.parse(item.product.priceProduct ?? "0")),
-                        style: TextStyle(
-                            fontFamily: 'ghotic',
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        currencyFormatter.format(int.parse(item.product.priceProduct ?? "0")),
+                        style: TextStyle(fontFamily: 'ghotic', fontSize: 15, fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -413,11 +362,7 @@ class _CheckoutState extends State<Checkout> {
             SizedBox(height: 8),
             Text(
               "Pengiriman",
-              style: TextStyle(
-                  fontFamily: 'ghotic',
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(fontFamily: 'ghotic', color: Colors.black87, fontSize: 16, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             ListTile(
@@ -425,23 +370,16 @@ class _CheckoutState extends State<Checkout> {
                 showDialog(
                     context: context,
                     builder: (_) {
-                      return CourierDialog(
-                          items: cart,
-                          indexShipper: i,
-                          onSelected: _onSelectedCourier);
+                      return CourierDialog(items: cart, indexShipper: i, onSelected: _onSelectedCourier);
                     });
               },
               dense: false,
               selected: true,
               selectedTileColor: Colors.grey[200],
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
               title: Text(
                 buildShipInfo(selectedShipper[i]),
-                style: TextStyle(
-                    fontFamily: 'ghotic',
-                    fontSize: 11.sp,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
               ),
               trailing: Icon(
                 Icons.arrow_right,
@@ -483,12 +421,7 @@ class CourierDialog extends StatefulWidget {
   final CartStore items;
   final indexShipper;
   final Function(int index, Shipping shipping) onSelected;
-  const CourierDialog(
-      {Key? key,
-      required this.items,
-      required this.indexShipper,
-      required this.onSelected})
-      : super(key: key);
+  const CourierDialog({Key? key, required this.items, required this.indexShipper, required this.onSelected}) : super(key: key);
 
   @override
   _CourierDialogState createState() => new _CourierDialogState();
@@ -527,8 +460,7 @@ class _CourierDialogState extends State<CourierDialog> {
                       Radius.circular(10),
                     ),
                   ),
-                  child:
-                      Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                  child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
                     Container(
                       width: double.infinity,
                       height: 7.5.h,
@@ -545,10 +477,7 @@ class _CourierDialogState extends State<CourierDialog> {
                         children: [
                           Text(
                             "Pilihan Pengiriman",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.bold),
+                            style: TextStyle(color: Colors.white, fontSize: 13.sp, fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
@@ -563,8 +492,7 @@ class _CourierDialogState extends State<CourierDialog> {
                           ),
                         if (!isGettingCourier)
                           Column(
-                            children:
-                                List<Widget>.generate(courier.length, (i) {
+                            children: List<Widget>.generate(courier.length, (i) {
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -592,13 +520,10 @@ class _CourierDialogState extends State<CourierDialog> {
                                           ),
                                         ),
                                       ),
-                                      padding: EdgeInsets.only(
-                                          left: 5.w, right: 5.w, top: 2.5.w),
+                                      padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 2.5.w),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           // Container(
                                           //   width: 50,
@@ -630,44 +555,24 @@ class _CourierDialogState extends State<CourierDialog> {
                                           // ),
                                           SizedBox(width: 3.w),
                                           Container(
-                                            child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "${courier[i]["courier"]} (${courier[i]["service"]})",
-                                                    style: TextStyle(
-                                                        fontFamily: 'ghotic',
-                                                        fontSize: 11.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  SizedBox(height: 2),
-                                                  Text(
-                                                    "${courier[i]["estimation"] ?? '-'}",
-                                                    style: TextStyle(
-                                                        fontFamily: 'ghotic',
-                                                        color:Colors.grey,
-                                                        fontSize: 9.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    currencyFormatter.format(
-                                                        courier[i]
-                                                            ["price"]),
-                                                    style: TextStyle(
-                                                        fontFamily: 'ghotic',
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  )
-                                                ]),
+                                            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                              Text(
+                                                "${courier[i]["courier"]} (${courier[i]["service"]})",
+                                                style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              SizedBox(height: 2),
+                                              Text(
+                                                "${courier[i]["estimation"] ?? '-'}",
+                                                style: TextStyle(fontFamily: 'ghotic', color: Colors.grey, fontSize: 9.sp, fontWeight: FontWeight.bold),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                currencyFormatter.format(courier[i]["price"]),
+                                                style: TextStyle(fontFamily: 'ghotic', fontSize: 10.sp, fontWeight: FontWeight.bold),
+                                              )
+                                            ]),
                                           ),
                                         ],
                                       ),
@@ -682,14 +587,10 @@ class _CourierDialogState extends State<CourierDialog> {
                           child: InkWell(
                             onTap: () => {Navigator.of(context).pop()},
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5.w, vertical: 3.h),
+                              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
                               child: Text(
                                 "Tutup",
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red),
+                                style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, color: Colors.red),
                               ),
                             ),
                           ),
@@ -716,28 +617,14 @@ class _CourierDialogState extends State<CourierDialog> {
       double weight = 0;
 
       widget.items.item.forEach((element) {
-        price += element.cart_qty *
-            double.parse(element.product.priceProduct ?? "0");
-        weight += element.cart_qty * element.product.weightProduct;
+        price += element.cart_qty * double.parse(element.product.priceProduct ?? "0");
+        weight += element.cart_qty * (element.product.weightProduct);
       });
 
-      var payload = {
-        "height": 1.0,
-        "length": 1.0,
-        "width": 1.0,
-        "item_value": price,
-        "weight": weight,
-        "cod": false,
-        "store_id": widget.items.store_id,
-        "for_order": false,
-        "limit": 30,
-        "page": 1,
-        "sort_by": []
-      };
- 
+      var payload = {"height": 1.0, "length": 1.0, "width": 1.0, "item_value": price, "weight": weight, "cod": false, "store_id": widget.items.store_id, "for_order": false, "limit": 30, "page": 1, "sort_by": []};
+      print("weight: ${payload['weight']}");
       try {
-        DioResponse res =
-            await _dio.postAsync("/logistics/courier/pricing", payload);
+        DioResponse res = await _dio.postAsync("/logistics/courier/pricing", payload);
         if (res.results["code"] == 200) {
           print(res.results["data"]);
           List pricing = res.results["data"]["data"];

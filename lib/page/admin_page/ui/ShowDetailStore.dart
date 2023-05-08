@@ -12,7 +12,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_file_safe/open_file_safe.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:sizer/sizer.dart';
 
@@ -27,8 +27,7 @@ class ShowDetailStore extends StatefulWidget {
   }
 }
 
-class ShowDetailStoreState extends State<ShowDetailStore>
-    with TickerProviderStateMixin {
+class ShowDetailStoreState extends State<ShowDetailStore> with TickerProviderStateMixin {
   String title = "1 Minggu";
   var dummyImageVersion = '?dummy=${math.Random().nextInt(999)}';
   var listData = [];
@@ -250,12 +249,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
                             },
                           );
                         },
-                        style: NeumorphicStyle(
-                            color: Colors.transparent,
-                            boxShape: NeumorphicBoxShape.circle(),
-                            depth: 1,
-                            intensity: 1,
-                            surfaceIntensity: 1),
+                        style: NeumorphicStyle(color: Colors.transparent, boxShape: NeumorphicBoxShape.circle(), depth: 1, intensity: 1, surfaceIntensity: 1),
                         child: Icon(
                           Icons.download_rounded,
                           color: Colors.grey,
@@ -393,33 +387,22 @@ class ShowDetailStoreState extends State<ShowDetailStore>
       (element["listProduct"] as List<dynamic>).forEach((listProduct) {
         // indexRow++;
         int indexColumn = 1;
-        print(
-            '[Row:${indexRow += 1} - Column:${indexColumn}] ${listProduct["productName"]}');
+        print('[Row:${indexRow += 1} - Column:${indexColumn}] ${listProduct["productName"]}');
 
         print('[Row:${indexRow += 1} - Column:${indexColumn}] detail info');
         // print(listProduct["detailInformationOrder"]);
-        (listProduct["detailInformationOrder"] as List<dynamic>)
-            .forEach((detailInformationOrder) {
+        (listProduct["detailInformationOrder"] as List<dynamic>).forEach((detailInformationOrder) {
           // indexRow++;
           indexRow += 1;
-          print(
-              '[Row:${indexRow} - Column:1] ${detailInformationOrder["tanggalPemesanan"]}');
-          print(
-              '[Row:${indexRow} - Column:2] ${detailInformationOrder["customerName"]}');
-          print(
-              '[Row:${indexRow} - Column:3] ${detailInformationOrder["customerDestination"]}');
-          print(
-              '[Row:${indexRow} - Column:4] ${detailInformationOrder["qtyItem"]}');
-          print(
-              '[Row:${indexRow} - Column:5] ${detailInformationOrder["totalPrice"]}');
-          print(
-              '[Row:${indexRow} - Column:6] ${detailInformationOrder["courierCost"]}');
-          print(
-              '[Row:${indexRow} - Column:7] ${detailInformationOrder["customerPaymentMethod"]}');
-          print(
-              '[Row:${indexRow} - Column:8] ${detailInformationOrder["courierType"]}');
-          print(
-              '[Row:${indexRow} - Column:9] ${detailInformationOrder["statusPemesanan"]}');
+          print('[Row:${indexRow} - Column:1] ${detailInformationOrder["tanggalPemesanan"]}');
+          print('[Row:${indexRow} - Column:2] ${detailInformationOrder["customerName"]}');
+          print('[Row:${indexRow} - Column:3] ${detailInformationOrder["customerDestination"]}');
+          print('[Row:${indexRow} - Column:4] ${detailInformationOrder["qtyItem"]}');
+          print('[Row:${indexRow} - Column:5] ${detailInformationOrder["totalPrice"]}');
+          print('[Row:${indexRow} - Column:6] ${detailInformationOrder["courierCost"]}');
+          print('[Row:${indexRow} - Column:7] ${detailInformationOrder["customerPaymentMethod"]}');
+          print('[Row:${indexRow} - Column:8] ${detailInformationOrder["courierType"]}');
+          print('[Row:${indexRow} - Column:9] ${detailInformationOrder["statusPemesanan"]}');
         });
       });
       // sheet1.getRangeByIndex(1, 2).text = '${element["time"]}';
@@ -427,6 +410,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
     // progress(0.0);
     var ex = xlsx().createExcelFileAdminReporting(data: listData);
     var doc = await DirectoryPath().saveDoc(documents: ex);
+    print("doc file path $doc");
     print((ex.length + doc.length));
 
     var timers = Timer.periodic(Duration(milliseconds: 1), (timer) async {
@@ -439,8 +423,12 @@ class ShowDetailStoreState extends State<ShowDetailStore>
         timer.cancel();
         print(timer.isActive);
         if (!timer.isActive) {
-          await OpenFile.open(doc);
+          print("open doc file");
+          var resul = await OpenFile.open(
+            doc,
+          );
           //     .then((value) => null);
+          print(resul.message);
         }
       }
     });
@@ -476,8 +464,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
       vsync: this,
       duration: Duration(milliseconds: 260),
     );
-    final curvedAnimation =
-        CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
     var _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
     return FloatingActionBubble(
       items: [
@@ -502,9 +489,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
       iconColor: Colors.white,
       backGroundColor: Colors.blue,
       animation: _animation,
-      onPress: () => _animationController.isCompleted
-          ? _animationController.reverse()
-          : _animationController.forward(),
+      onPress: () => _animationController.isCompleted ? _animationController.reverse() : _animationController.forward(),
     );
   }
 
@@ -512,14 +497,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
     setState(() {
       listData = [];
     });
-    var response = await http.get(
-        Uri.parse(
-            "${DioClient.ipServer}/api/admin/store/${widget.idStore}/getProducts/${paramDuration}"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var response = await http.get(Uri.parse("${DioClient.ipServer}/api/admin/store/${widget.idStore}/getProducts/${paramDuration}"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     // print(jsonDecode(response.body));
     var body = jsonDecode(response.body);
     var data = body["data"];
@@ -554,25 +532,11 @@ class ShowDetailStoreState extends State<ShowDetailStore>
           ...e["listProduct"].map((e) {
             return Neumorphic(
               margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.w),
-              style: NeumorphicStyle(
-                  color: Colors.greenAccent,
-                  depth: 2,
-                  intensity: 1,
-                  surfaceIntensity: 1),
+              style: NeumorphicStyle(color: Colors.greenAccent, depth: 2, intensity: 1, surfaceIntensity: 1),
               child: Container(
                   padding: EdgeInsets.symmetric(vertical: 3.w, horizontal: 3.w),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xfff39200).withOpacity(.1),
-                          Color(0xfff39200).withOpacity(.7)
-                        ],
-                        stops: [
-                          .1,
-                          .5
-                        ]),
+                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xfff39200).withOpacity(.1), Color(0xfff39200).withOpacity(.7)], stops: [.1, .5]),
                   ),
                   width: 100.w,
                   child: Column(
@@ -586,8 +550,7 @@ class ShowDetailStoreState extends State<ShowDetailStore>
                             height: 10.w,
                             child: CachedNetworkImage(
                                 fit: BoxFit.cover,
-                                imageUrl: e["productImage"].toString() +
-                                    dummyImageVersion,
+                                imageUrl: e["productImage"].toString() + dummyImageVersion,
                                 placeholder: (context, url) => Center(
                                       child: SizedBox(
                                         width: 40.0,
@@ -652,19 +615,14 @@ class ShowDetailStoreState extends State<ShowDetailStore>
                                   ),
                                   Text(
                                     e["totalQty"].toString(),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
                                     height: .5.w,
                                   ),
                                   Text(
                                     "Terjual",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),
@@ -678,22 +636,15 @@ class ShowDetailStoreState extends State<ShowDetailStore>
                                     height: .5.w,
                                   ),
                                   Text(
-                                    NumberFormat.simpleCurrency(
-                                            locale: "IDR", decimalDigits: 0)
-                                        .format(e["totalMoney"] ?? 0),
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+                                    NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(e["totalMoney"] ?? 0),
+                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
                                     height: .5.w,
                                   ),
                                   Text(
                                     "Pendapatan",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: Colors.white, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold),
                                   )
                                 ],
                               ),

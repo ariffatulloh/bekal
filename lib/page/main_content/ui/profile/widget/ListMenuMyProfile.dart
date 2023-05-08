@@ -8,7 +8,9 @@ import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogH
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahDataPribadi.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahEmail.dart';
 import 'package:bekal/page/main_content/ui/profile/widget/content_dialog/DialogUbahPassword.dart';
+import 'package:bekal/payload/PayloadResponseApi.dart';
 import 'package:bekal/payload/response/PayloadResponseMyProfileDashboard.dart';
+import 'package:bekal/repository/profile_repository.dart';
 import 'package:bekal/secure_storage/SecureStorage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,6 +76,13 @@ class ListMenuMyProfile extends StatelessWidget {
         icon: Icons.library_books_rounded,
         widget: DialogHistoryTransaksi(),
       ),
+      if (!data.isAdmin) ...[
+        ModelItemListMenuMyProfile(
+          text: "Hapus Akun",
+          icon: Icons.delete,
+          widget: Container(),
+        )
+      ],
       ModelItemListMenuMyProfile(
         text: "Keluar",
         icon: Icons.logout,
@@ -97,8 +106,7 @@ class ListMenuMyProfile extends StatelessWidget {
       itemBuilder: (context, index) {
         return NeumorphicButton(
             onPressed: () {
-              if (datatitle.elementAt(index).text.toLowerCase() ==
-                  "histori transaksi") {
+              if (datatitle.elementAt(index).text.toLowerCase() == "histori transaksi") {
                 showMaterialModalBottomSheet(
                     duration: Duration(milliseconds: 1400),
                     animationCurve: Curves.easeInOut,
@@ -110,8 +118,7 @@ class ListMenuMyProfile extends StatelessWidget {
                         title: datatitle.elementAt(index).text,
                       );
                     });
-              } else if (datatitle.elementAt(index).text.toLowerCase() ==
-                  "fitur admin") {
+              } else if (datatitle.elementAt(index).text.toLowerCase() == "fitur admin") {
                 showMaterialModalBottomSheet(
                     duration: Duration(milliseconds: 1400),
                     animationCurve: Curves.easeInOut,
@@ -133,9 +140,36 @@ class ListMenuMyProfile extends StatelessWidget {
                           await SecureStorage().getToken();
 
                           Navigator.of(context).pop();
-                          cubitContext
-                              .read<ControllerPageCubit>()
-                              .goto("LOGIN");
+                          cubitContext.read<ControllerPageCubit>().goto("LOGIN");
+                        },
+                        child: const Text('Ya'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Tidak'),
+                      ),
+                    ],
+                  ),
+                );
+              } else if (datatitle.elementAt(index).text == "Hapus Akun") {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('Apakah yakin menghapus akun'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          String auth = await SecureStorage().getToken() ?? "";
+                          PayloadResponseApi<bool> result = await ProfileRepository().deleteAkun(auth);
+                          if (result.status == "OK" && result.data == true) {
+                            await SecureStorage().deleteStorageToken();
+                            await SecureStorage().getToken();
+
+                            Navigator.of(context).pop();
+                            cubitContext.read<ControllerPageCubit>().goto("LOGIN");
+                          }
                         },
                         child: const Text('Ya'),
                       ),
@@ -159,12 +193,7 @@ class ListMenuMyProfile extends StatelessWidget {
               }
             },
             margin: EdgeInsets.all(.6.h),
-            style: NeumorphicStyle(
-                color: Color(
-                    (math.Random().nextDouble() * 0xFFF444 * 120).toInt()),
-                shape: NeumorphicShape.concave,
-                depth: .2.h,
-                intensity: 1),
+            style: NeumorphicStyle(color: Color((math.Random().nextDouble() * 0xFFF444 * 120).toInt()), shape: NeumorphicShape.concave, depth: .2.h, intensity: 1),
             child: Stack(
               children: [
                 Container(
@@ -208,10 +237,7 @@ class ListMenuMyProfile extends StatelessWidget {
                           triggerMode: TooltipTriggerMode.tap,
                           waitDuration: const Duration(seconds: 0),
                           showDuration: const Duration(seconds: 2),
-                          textStyle: TextStyle(
-                              fontSize: 10.sp,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal),
+                          textStyle: TextStyle(fontSize: 10.sp, color: Colors.white, fontWeight: FontWeight.normal),
                           // decoration: BoxDecoration(
                           //     borderRadius: BorderRadius.circular(10), color: Colors.green),
                           message: "${datatitle[index].alert!.message ?? ""}",
@@ -264,13 +290,7 @@ DialogBottomSheet({
               margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
               child: NeumorphicButton(
                 padding: EdgeInsets.all(.25.w.h),
-                style: NeumorphicStyle(
-                    shape: NeumorphicShape.convex,
-                    color: Colors.transparent,
-                    boxShape: NeumorphicBoxShape.stadium(),
-                    depth: .2.h,
-                    surfaceIntensity: .5,
-                    intensity: 1),
+                style: NeumorphicStyle(shape: NeumorphicShape.convex, color: Colors.transparent, boxShape: NeumorphicBoxShape.stadium(), depth: .2.h, surfaceIntensity: .5, intensity: 1),
                 child: Wrap(children: [
                   NeumorphicIcon(
                     Icons.arrow_back_ios_rounded,

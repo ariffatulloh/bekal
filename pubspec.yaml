@@ -3,7 +3,7 @@ description: MarketPlace BelanjaKalimantan
 
 publish_to: 'none'
 
-version: 1.0.13+13
+version: 1.0.15+18
 
 environment:
   sdk: ">=2.12.0 <3.0.2"
@@ -64,7 +64,6 @@ dependencies:
   flutter_cache_manager:
   http:
   excel: ^2.0.0-null-safety-3
-  open_file: ^3.2.1
   syncfusion_flutter_xlsio: ^20.1.55-beta
   percent_indicator: ^4.0.0
   flutter_background_service: ^2.0.0
@@ -72,6 +71,7 @@ dependencies:
   date_time_picker: ^2.1.0
   dotted_border: ^2.0.0+2
   quiver: ^3.1.0
+  open_file_safe: ^3.2.3
 
 dev_dependencies:
   flutter_test:
