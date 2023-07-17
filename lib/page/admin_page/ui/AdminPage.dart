@@ -486,6 +486,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                 onTap: () async {
                                                   complaintBroadCast.add(await checkComplaint());
                                                   showMaterialModalBottomSheet(
+                                                      enableDrag: false,
                                                       context: context,
                                                       builder: (builder) {
                                                         return Scaffold(
@@ -504,7 +505,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                                     ),
                                                                     Expanded(
                                                                         child: Center(
-                                                                      child: Text("Semua Toko Yang Terdaftar"),
+                                                                      child: Text("Store Request Bantuan"),
                                                                     ))
                                                                   ],
                                                                 ),
@@ -516,8 +517,8 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                                         // print(res['code']);
                                                                         var complaintList = snapshot.requireData["data"] as List;
                                                                         return ListView.builder(
-                                                                            shrinkWrap: true,
-                                                                            physics: NeverScrollableScrollPhysics(),
+                                                                            shrinkWrap: false,
+                                                                            // physics: NeverScrollableScrollPhysics(),
                                                                             itemCount: complaintList.length,
                                                                             itemBuilder: (context, index) {
                                                                               var obj = complaintList[index];
@@ -710,6 +711,7 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                               InkWell(
                                                 onTap: () {
                                                   showMaterialModalBottomSheet(
+                                                      enableDrag: false,
                                                       context: context,
                                                       builder: (builder) {
                                                         return Scaffold(
@@ -728,14 +730,14 @@ class AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
                                                                     ),
                                                                     Expanded(
                                                                         child: Center(
-                                                                      child: Text("Semua Toko Yang Terdaftar"),
+                                                                      child: Text("Request Penarikan Dana"),
                                                                     ))
                                                                   ],
                                                                 ),
                                                                 Expanded(
                                                                     child: ListView.builder(
-                                                                        shrinkWrap: true,
-                                                                        physics: NeverScrollableScrollPhysics(),
+                                                                        shrinkWrap: false,
+                                                                        // physics: NeverScrollableScrollPhysics(),
                                                                         itemCount: _responseFromApi.listAllStore.length,
                                                                         itemBuilder: (context, index) {
                                                                           var dataStore = _responseFromApi.listAllStore[index];

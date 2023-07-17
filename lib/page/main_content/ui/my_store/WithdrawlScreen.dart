@@ -74,22 +74,10 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                         child: WaveWidget(
                           config: CustomConfig(
                             gradients: [
-                              [
-                                const Color.fromRGBO(63, 142, 252, .4),
-                                const Color.fromRGBO(63, 142, 252, .1)
-                              ],
-                              [
-                                const Color.fromRGBO(243, 146, 0, .5),
-                                const Color.fromRGBO(243, 146, 0, .1)
-                              ],
-                              [
-                                const Color.fromRGBO(233, 78, 27, .5),
-                                const Color.fromRGBO(233, 78, 27, .1)
-                              ],
-                              [
-                                const Color.fromRGBO(231, 48, 42, .5),
-                                const Color.fromRGBO(231, 48, 42, .1)
-                              ]
+                              [const Color.fromRGBO(63, 142, 252, .4), const Color.fromRGBO(63, 142, 252, .1)],
+                              [const Color.fromRGBO(243, 146, 0, .5), const Color.fromRGBO(243, 146, 0, .1)],
+                              [const Color.fromRGBO(233, 78, 27, .5), const Color.fromRGBO(233, 78, 27, .1)],
+                              [const Color.fromRGBO(231, 48, 42, .5), const Color.fromRGBO(231, 48, 42, .1)]
                             ],
                             durations: [18000, 9440, 10800, 6000],
                             heightPercentages: [-0.20, -0.23, -.1, -.22],
@@ -109,8 +97,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                     child: Container(
                       height: 15.h,
                       width: 100.w,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 3.h, horizontal: 2.h),
+                      padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 2.h),
                       child: isLoadingGetBalanceStore
                           ? Center(
                               child: CircularProgressIndicator(
@@ -129,20 +116,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                           itemBuilder: (context, index) {
                                             return Container(
                                               child: Neumorphic(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 1.h,
-                                                    horizontal: 3.w),
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 2.w,
-                                                    vertical: 1.h),
-                                                style: NeumorphicStyle(
-                                                    color: Colors.white,
-                                                    depth: 2,
-                                                    intensity: 1,
-                                                    surfaceIntensity: 1),
+                                                margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+                                                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                                                style: NeumorphicStyle(color: Colors.white, depth: 2, intensity: 1, surfaceIntensity: 1),
                                                 child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
                                                     Row(
                                                       children: [
@@ -152,43 +130,16 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                                         ),
                                                         Expanded(
                                                           child: Text(
-                                                            formatDate(
-                                                                context,
-                                                                storeHistoryBalance[
-                                                                        index]?[
-                                                                    "createdAt"],
-                                                                format:
-                                                                    "dd MMMM yyyy, hh:mm WIB"),
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'ghotic',
-                                                                fontSize: 11.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
+                                                            formatDate(context, storeHistoryBalance[index]?["createdAt"], format: "dd MMMM yyyy, hh:mm WIB"),
+                                                            style: TextStyle(fontFamily: 'ghotic', fontSize: 11.sp, fontWeight: FontWeight.bold),
                                                           ),
                                                         )
                                                       ],
                                                     ),
                                                     Devider(),
                                                     Text(
-                                                      storeHistoryBalance[index]
-                                                              ?["message"] ??
-                                                          "-",
-                                                      style: TextStyle(
-                                                          fontFamily: 'ghotic',
-                                                          fontSize: 8.sp,
-                                                          color: storeHistoryBalance[
-                                                                          index]
-                                                                      ?[
-                                                                      "amount"] >
-                                                                  0
-                                                              ? Colors
-                                                                  .lightGreen
-                                                              : Colors
-                                                                  .redAccent,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                      storeHistoryBalance[index]?["message"] ?? "-",
+                                                      style: TextStyle(fontFamily: 'ghotic', fontSize: 8.sp, color: storeHistoryBalance[index]?["amount"] > 0 ? Colors.lightGreen : Colors.redAccent, fontWeight: FontWeight.bold),
                                                     ),
                                                   ],
                                                 ),
@@ -202,11 +153,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                 children: [
                                   NeumorphicText(
                                     'Total Uang',
-                                    style: NeumorphicStyle(
-                                        color: Colors.white,
-                                        depth: 1.2,
-                                        intensity: 1,
-                                        surfaceIntensity: 1),
+                                    style: NeumorphicStyle(color: Colors.white, depth: 1.2, intensity: 1, surfaceIntensity: 1),
                                     textStyle: NeumorphicTextStyle(
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.bold,
@@ -215,16 +162,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                   SizedBox(height: 1.sp),
                                   Center(
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         NeumorphicIcon(
                                           Icons.history_rounded,
-                                          style: NeumorphicStyle(
-                                              color: Colors.white,
-                                              depth: 1,
-                                              intensity: 1,
-                                              surfaceIntensity: 1),
+                                          style: NeumorphicStyle(color: Colors.white, depth: 1, intensity: 1, surfaceIntensity: 1),
                                           size: 17.sp,
                                         ),
                                         SizedBox(
@@ -232,11 +174,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                         ),
                                         NeumorphicText(
                                           '$balanceStore',
-                                          style: NeumorphicStyle(
-                                              color: Colors.white,
-                                              depth: 1.2,
-                                              intensity: 1,
-                                              surfaceIntensity: 1),
+                                          style: NeumorphicStyle(color: Colors.white, depth: 1.2, intensity: 1, surfaceIntensity: 1),
                                           textStyle: NeumorphicTextStyle(
                                             fontSize: 24.sp,
                                             fontWeight: FontWeight.bold,
@@ -258,15 +196,9 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                       child: Column(
                         children: [
                           Neumorphic(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 2.w),
+                            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.w),
                             margin: EdgeInsets.only(bottom: 1.h),
-                            style: NeumorphicStyle(
-                                boxShape: NeumorphicBoxShape.rect(),
-                                depth: 3,
-                                intensity: 1,
-                                surfaceIntensity: 1,
-                                color: Colors.white70),
+                            style: NeumorphicStyle(boxShape: NeumorphicBoxShape.rect(), depth: 3, intensity: 1, surfaceIntensity: 1, color: Colors.white70),
                             child: Row(
                               children: [
                                 Expanded(
@@ -281,23 +213,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                       vertical: 1.h,
                                       horizontal: 1.w,
                                     ),
-                                    style: NeumorphicStyle(
-                                        depth: tabReqPayout ? -2 : 1,
-                                        intensity: 1,
-                                        surfaceIntensity: 1,
-                                        color: tabReqPayout
-                                            ? Colors.deepOrangeAccent
-                                                .withOpacity(.2)
-                                            : Colors.white70),
+                                    style: NeumorphicStyle(depth: tabReqPayout ? -2 : 1, intensity: 1, surfaceIntensity: 1, color: tabReqPayout ? Colors.deepOrangeAccent.withOpacity(.2) : Colors.white70),
                                     child: Center(
                                       child: Text(
                                         "Penarikan Dana",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 8.sp,
-                                            color: tabReqPayout
-                                                ? Colors.blueAccent
-                                                : Colors.black87),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp, color: tabReqPayout ? Colors.blueAccent : Colors.black87),
                                       ),
                                     ),
                                   ),
@@ -317,23 +237,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                       vertical: 1.h,
                                       horizontal: 1.w,
                                     ),
-                                    style: NeumorphicStyle(
-                                        depth: !tabReqPayout ? -2 : 1,
-                                        intensity: 1,
-                                        surfaceIntensity: 1,
-                                        color: !tabReqPayout
-                                            ? Colors.deepOrangeAccent
-                                                .withOpacity(.2)
-                                            : Colors.white70),
+                                    style: NeumorphicStyle(depth: !tabReqPayout ? -2 : 1, intensity: 1, surfaceIntensity: 1, color: !tabReqPayout ? Colors.deepOrangeAccent.withOpacity(.2) : Colors.white70),
                                     child: Center(
                                       child: Text(
                                         "Riwayat Penarikan Dana",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 8.sp,
-                                            color: !tabReqPayout
-                                                ? Colors.blueAccent
-                                                : Colors.black87),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 8.sp, color: !tabReqPayout ? Colors.blueAccent : Colors.black87),
                                       ),
                                     ),
                                   ),
@@ -342,9 +250,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                             ),
                           ),
                           Expanded(
-                            child: tabReqPayout
-                                ? ContainerRequestPayout()
-                                : ContainerHistoryRequestPayout(),
+                            child: tabReqPayout ? ContainerRequestPayout() : ContainerHistoryRequestPayout(),
                           )
                         ],
                       ),
@@ -384,17 +290,10 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                 itemBuilder: (context, index) {
                   return Container(
                     width: 100.w,
-                    margin:
-                        EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                    margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
                     child: Neumorphic(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 1.h, horizontal: 1.2.w),
-                      style: NeumorphicStyle(
-                          boxShape: NeumorphicBoxShape.rect(),
-                          color: Colors.deepOrangeAccent.withOpacity(.2),
-                          depth: 2,
-                          intensity: 1,
-                          surfaceIntensity: 1),
+                      padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                      style: NeumorphicStyle(boxShape: NeumorphicBoxShape.rect(), color: Colors.deepOrangeAccent.withOpacity(.2), depth: 2, intensity: 1, surfaceIntensity: 1),
                       child: Row(
                         children: [
                           // Container(
@@ -414,31 +313,21 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                               children: [
                                 Text(
                                   '${NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(listStoreHistoryDisbursement[index]['amount'] ?? 0)}',
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.sp),
+                                  style: TextStyle(color: Colors.redAccent, fontSize: 12.sp, fontWeight: FontWeight.bold, letterSpacing: 1.sp),
                                 ),
                                 SizedBox(
                                   height: 1.h,
                                 ),
                                 Text(
-                                  maskCardNumber(
-                                      "${listStoreHistoryDisbursement[index]['accountNumber']}",
-                                      '#'),
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1.sp),
+                                  maskCardNumber("${listStoreHistoryDisbursement[index]['accountNumber']}", '#'),
+                                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, letterSpacing: 1.sp),
                                 ),
                                 SizedBox(
                                   height: 1.h,
                                 ),
                                 Text(
                                   'A/N: ${listStoreHistoryDisbursement[index]['accountHolderName']}',
-                                  style: TextStyle(
-                                      fontSize: 10.sp, letterSpacing: 1.sp),
+                                  style: TextStyle(fontSize: 10.sp, letterSpacing: 1.sp),
                                 ),
                                 SizedBox(
                                   height: 1.h,
@@ -454,8 +343,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                 ),
                                 Text(
                                   'Status: (${listStoreHistoryDisbursement[index]['status']})',
-                                  style: TextStyle(
-                                      fontSize: 10.sp, color: Colors.purple),
+                                  style: TextStyle(fontSize: 10.sp, color: Colors.purple),
                                 )
                               ],
                             ),
@@ -466,13 +354,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                   context: context,
                                   builder: (builder) {
                                     return DialogRequestDisbursement(
-                                        idBankAccounts:
-                                            listStoreBankAccounts[index]['id'],
+                                        idBankAccounts: listStoreBankAccounts[index]['id'],
                                         idStore: widget.idStore,
                                         onDismiss: (isDismiss) async {
                                           setState(() {
-                                            isLoadingGetlistStoreBankAccounts =
-                                                true;
+                                            isLoadingGetlistStoreBankAccounts = true;
                                           });
                                           await getBankAccounts();
                                           print('wawa');
@@ -482,8 +368,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                             child: NeumorphicIcon(
                               Icons.open_in_new,
                               size: 7.5.w,
-                              style: NeumorphicStyle(
-                                  color: Colors.black87, depth: 3),
+                              style: NeumorphicStyle(color: Colors.black87, depth: 3),
                             ),
                           ),
                         ],
@@ -528,10 +413,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
               child: Column(
                 children: [
                   Neumorphic(
-                    style: NeumorphicStyle(
-                        color: Colors.transparent,
-                        depth: -2,
-                        boxShape: NeumorphicBoxShape.circle()),
+                    style: NeumorphicStyle(color: Colors.transparent, depth: -2, boxShape: NeumorphicBoxShape.circle()),
                     child: NeumorphicIcon(
                       Icons.add,
                       style: NeumorphicStyle(color: Colors.black54, depth: 3),
@@ -565,18 +447,10 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                         itemBuilder: (context, index) {
                           return Container(
                             width: 100.w,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 1.h, horizontal: 1.2.w),
+                            margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
                             child: Neumorphic(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 1.h, horizontal: 1.2.w),
-                              style: NeumorphicStyle(
-                                  boxShape: NeumorphicBoxShape.rect(),
-                                  color:
-                                      Colors.deepOrangeAccent.withOpacity(.2),
-                                  depth: 2,
-                                  intensity: 1,
-                                  surfaceIntensity: 1),
+                              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.2.w),
+                              style: NeumorphicStyle(boxShape: NeumorphicBoxShape.rect(), color: Colors.deepOrangeAccent.withOpacity(.2), depth: 2, intensity: 1, surfaceIntensity: 1),
                               child: Row(
                                 children: [
                                   // Container(
@@ -592,26 +466,18 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                   // ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          maskCardNumber(
-                                              "${listStoreBankAccounts[index]['accountNumber']}",
-                                              '#'),
-                                          style: TextStyle(
-                                              fontSize: 12.sp,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 1.sp),
+                                          maskCardNumber("${listStoreBankAccounts[index]['accountNumber']}", '#'),
+                                          style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold, letterSpacing: 1.sp),
                                         ),
                                         SizedBox(
                                           height: 1.h,
                                         ),
                                         Text(
                                           'A/N: ${listStoreBankAccounts[index]['accountHolderName']}',
-                                          style: TextStyle(
-                                              fontSize: 10.sp,
-                                              letterSpacing: 1.sp),
+                                          style: TextStyle(fontSize: 10.sp, letterSpacing: 1.sp),
                                         ),
                                         SizedBox(
                                           height: 1.h,
@@ -631,14 +497,11 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                           context: context,
                                           builder: (builder) {
                                             return DialogRequestDisbursement(
-                                                idBankAccounts:
-                                                    listStoreBankAccounts[index]
-                                                        ['id'],
+                                                idBankAccounts: listStoreBankAccounts[index]['id'],
                                                 idStore: widget.idStore,
                                                 onDismiss: (isDismiss) async {
                                                   setState(() {
-                                                    isLoadingGetlistStoreBankAccounts =
-                                                        true;
+                                                    isLoadingGetlistStoreBankAccounts = true;
                                                   });
                                                   await getBankAccounts();
                                                   print('wawa');
@@ -648,8 +511,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
                                     child: NeumorphicIcon(
                                       Icons.open_in_new,
                                       size: 7.5.w,
-                                      style: NeumorphicStyle(
-                                          color: Colors.black87, depth: 3),
+                                      style: NeumorphicStyle(color: Colors.black87, depth: 3),
                                     ),
                                   ),
                                 ],
@@ -690,14 +552,7 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
   }
 
   Future<void> getBankAccounts() async {
-    var getBankAccounts = await http.get(
-        Uri.parse(
-            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/bank-accounts"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var getBankAccounts = await http.get(Uri.parse("${DioClient.ipServer}/api/my/outlet/${widget.idStore}/bank-accounts"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     print(jsonDecode(getBankAccounts.body));
     var localListStoreBankAccounts = [];
     if (getBankAccounts.statusCode == 200) {
@@ -716,44 +571,25 @@ class WithdrawlScreenState extends State<WithdrawlScreen> {
     setState(() {
       isLoadingGetBalanceStore = true;
     });
-    var getBalanceStoreResponse = await http.get(
-        Uri.parse(
-            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/balance"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var getBalanceStoreResponse = await http.get(Uri.parse("${DioClient.ipServer}/api/my/outlet/${widget.idStore}/balance"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     if (getBalanceStoreResponse.statusCode == 200) {
       if (jsonDecode(getBalanceStoreResponse.body)['data'] != null) {
         setState(() {
           isLoadingGetBalanceStore = false;
-          balanceStore = NumberFormat.simpleCurrency(
-                  locale: "IDR", decimalDigits: 0)
-              .format(
-                  jsonDecode(getBalanceStoreResponse.body)['data']['balance']);
-          storeHistoryBalance =
-              jsonDecode(getBalanceStoreResponse.body)['data']['history'];
+          balanceStore = NumberFormat.simpleCurrency(locale: "IDR", decimalDigits: 0).format(jsonDecode(getBalanceStoreResponse.body)['data']['balance']);
+          storeHistoryBalance = jsonDecode(getBalanceStoreResponse.body)['data']['history'];
         });
       }
     }
   }
 
   Future<void> getHistoryDisbursement() async {
-    var getBankAccounts = await http.get(
-        Uri.parse(
-            "${DioClient.ipServer}/api/my/outlet/${widget.idStore}/history/request-disbursement"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var getBankAccounts = await http.get(Uri.parse("${DioClient.ipServer}/api/my/outlet/${widget.idStore}/history/request-disbursement"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     print(jsonDecode(getBankAccounts.body));
     var localListStoreHistoryDisbursement = [];
     if (getBankAccounts.statusCode == 200) {
       if (jsonDecode(getBankAccounts.body)['data'] != null) {
-        localListStoreHistoryDisbursement =
-            jsonDecode(getBankAccounts.body)['data'];
+        localListStoreHistoryDisbursement = jsonDecode(getBankAccounts.body)['data'];
       }
     }
     listStoreHistoryDisbursement.clear();
@@ -827,11 +663,7 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
               height: 1.h,
             ),
             Neumorphic(
-              style: NeumorphicStyle(
-                  color: Colors.transparent,
-                  depth: 1.5,
-                  intensity: 1,
-                  surfaceIntensity: 1),
+              style: NeumorphicStyle(color: Colors.transparent, depth: 1.5, intensity: 1, surfaceIntensity: 1),
               child: Container(
                 color: Colors.blue.withOpacity(.5),
                 width: 80.w,
@@ -841,13 +673,7 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
                   children: [
                     dropDownButtonCustom(
                       title: "Pilih Bank:",
-                      items: listBankDisbursements
-                          .map((Map<String, dynamic> item) =>
-                              DropdownMenuItem<Map<String, dynamic>>(
-                                  value: item,
-                                  child: Text(item['name'],
-                                      overflow: TextOverflow.ellipsis)))
-                          .toList(),
+                      items: listBankDisbursements.map((Map<String, dynamic> item) => DropdownMenuItem<Map<String, dynamic>>(value: item, child: Text(item['name'], overflow: TextOverflow.ellipsis))).toList(),
                       onChanged: (Map<String, dynamic>? newValue) {
                         setState(() {
                           selectedDisbursementBank = newValue!;
@@ -864,8 +690,7 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
                               WidgetTextField(
                                   controller: accountNumberController,
                                   icon: Icons.credit_card,
-                                  title:
-                                      '${isEwallet(selectedDisbursementBank!['code']) ? "No Handphone" : "No Rekening"} :',
+                                  title: '${isEwallet(selectedDisbursementBank!['code']) ? "No Handphone" : "No Rekening"} :',
                                   isError: false,
                                   messageError: "",
                                   onChanged: (value) {
@@ -895,40 +720,21 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
                                         color: Colors.blue,
                                       ),
                                     )
-                                  : accountHolderNameController
-                                              .text.isNotEmpty &&
-                                          accountNumberController
-                                              .text.isNotEmpty
+                                  : accountHolderNameController.text.isNotEmpty && accountNumberController.text.isNotEmpty
                                       ? Column(
                                           children: [
                                             SizedBox(
                                               height: 2.h,
                                             ),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                              mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 NeumorphicButton(
                                                   onPressed: () {
-                                                    var payload = {
-                                                      "bankCode":
-                                                          selectedDisbursementBank![
-                                                              'code'],
-                                                      "accountNumber":
-                                                          accountNumberController
-                                                              .text,
-                                                      "accountHolderName":
-                                                          accountHolderNameController
-                                                              .text
-                                                    };
-                                                    createBankAccounts(
-                                                        payload: payload);
+                                                    var payload = {"bankCode": selectedDisbursementBank!['code'], "accountNumber": accountNumberController.text, "accountHolderName": accountHolderNameController.text};
+                                                    createBankAccounts(payload: payload);
                                                   },
-                                                  style: NeumorphicStyle(
-                                                      color: Colors.white,
-                                                      depth: 1.2,
-                                                      intensity: 1,
-                                                      surfaceIntensity: 1),
+                                                  style: NeumorphicStyle(color: Colors.white, depth: 1.2, intensity: 1, surfaceIntensity: 1),
                                                   child: Text('Simpan'),
                                                 )
                                               ],
@@ -966,13 +772,7 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
   }
 
   Future<void> getDataFromApi() async {
-    var getBankAccounts = await http.get(
-        Uri.parse("${DioClient.ipServer}/payment/disbursement/bank/list"),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        });
+    var getBankAccounts = await http.get(Uri.parse("${DioClient.ipServer}/payment/disbursement/bank/list"), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'});
     // print(dataListDisbursementBank);
     List<Map<String, dynamic>> localListBankDisbursement = [];
     if (jsonDecode(getBankAccounts.body)['data'] != null) {
@@ -995,15 +795,8 @@ class DialogAddBankAccountstate extends State<DialogAddBankAccounts> {
     setState(() {
       isSavingProcess = true;
     });
-    var createBankAccounts = await http.post(
-        Uri.parse(
-            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/create/bank-accounts'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        },
-        body: jsonEncode(payload));
+    var createBankAccounts =
+        await http.post(Uri.parse('${DioClient.ipServer}/api/my/outlet/${widget.idStore}/create/bank-accounts'), headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'}, body: jsonEncode(payload));
     print(createBankAccounts.body);
     if (createBankAccounts.statusCode == 200) {
       if (jsonDecode(createBankAccounts.body)['data'] != null) {
@@ -1029,10 +822,7 @@ class DialogRequestDisbursement extends StatefulWidget {
   Function(bool) onDismiss;
 
   int idBankAccounts;
-  DialogRequestDisbursement(
-      {required this.idStore,
-      required this.onDismiss,
-      required this.idBankAccounts});
+  DialogRequestDisbursement({required this.idStore, required this.onDismiss, required this.idBankAccounts});
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -1082,11 +872,7 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
               height: 1.h,
             ),
             Neumorphic(
-              style: NeumorphicStyle(
-                  color: Colors.transparent,
-                  depth: 1.5,
-                  intensity: 1,
-                  surfaceIntensity: 1),
+              style: NeumorphicStyle(color: Colors.transparent, depth: 1.5, intensity: 1, surfaceIntensity: 1),
               child: Container(
                 color: Colors.blue.withOpacity(.5),
                 width: 80.w,
@@ -1098,7 +884,8 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
                         controller: amountController,
                         icon: Icons.money,
                         title: 'Jumlah Penarikan',
-                        isError: false,
+                        isError: //is amountcontroller empty and is amount < 10000 or amount > 1000000
+                            amountController.text.isNotEmpty && int.parse(amountController.text.toLowerCase().replaceAll('rp', '').replaceAll('.', '')) < 10000 ? true : false,
                         messageError: "",
                         onChanged: (value) {
                           setState(() {
@@ -1106,10 +893,9 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
                           });
                         },
                         obSecure: false,
-                        keyboardtype:
-                            TextInputType.numberWithOptions(decimal: false),
+                        keyboardtype: TextInputType.numberWithOptions(decimal: false),
                         typeCurrency: true),
-                    amountController.text.isNotEmpty
+                    amountController.text.isNotEmpty && (int.parse(amountController.text.toLowerCase().replaceAll('rp', '').replaceAll('.', '')) < 10000 ? false : true)
                         ? Column(
                             children: [
                               SizedBox(
@@ -1121,18 +907,11 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
                                   NeumorphicButton(
                                     onPressed: () {
                                       var payload = {
-                                        "amount": amountController.text
-                                            .toLowerCase()
-                                            .replaceAll('rp', '')
-                                            .replaceAll('.', ''),
+                                        "amount": amountController.text.toLowerCase().replaceAll('rp', '').replaceAll('.', ''),
                                       };
                                       reqDisbursement(payload: payload);
                                     },
-                                    style: NeumorphicStyle(
-                                        color: Colors.white,
-                                        depth: 1.2,
-                                        intensity: 1,
-                                        surfaceIntensity: 1),
+                                    style: NeumorphicStyle(color: Colors.white, depth: 1.2, intensity: 1, surfaceIntensity: 1),
                                     child: Text('Simpan'),
                                   )
                                 ],
@@ -1159,28 +938,19 @@ class DialogRequestDisbursementState extends State<DialogRequestDisbursement> {
   }
 
   Future<void> reqDisbursement({required Object payload}) async {
-    var createBankAccounts = await http.post(
-        Uri.parse(
-            '${DioClient.ipServer}/api/my/outlet/${widget.idStore}/request-disbursement/${widget.idBankAccounts}'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${await SecureStorage().getToken()}'
-        },
-        body: jsonEncode(payload));
+    var createBankAccounts = await http.post(Uri.parse('${DioClient.ipServer}/api/my/outlet/${widget.idStore}/request-disbursement/${widget.idBankAccounts}'),
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json', 'Authorization': 'Bearer ${await SecureStorage().getToken()}'}, body: jsonEncode(payload));
     print(createBankAccounts.body);
     if (createBankAccounts.statusCode == 200) {
       if (jsonDecode(createBankAccounts.body)['data'] != null) {
         var data = jsonDecode(createBankAccounts.body)['data'];
         if (data['message'] != null) {
           if (data['message'].toString() == "request terkirim") {
-            Toaster(context).showSuccessToast(data['message'].toString(),
-                gravity: ToastGravity.CENTER);
+            Toaster(context).showSuccessToast(data['message'].toString(), gravity: ToastGravity.CENTER);
             widget.onDismiss(true);
             Navigator.pop(context);
           } else {
-            Toaster(context).showErrorToast(data['message'].toString(),
-                gravity: ToastGravity.CENTER);
+            Toaster(context).showErrorToast(data['message'].toString(), gravity: ToastGravity.CENTER);
           }
         }
       }
